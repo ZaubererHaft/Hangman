@@ -16,7 +16,7 @@
     <string name="label_register_username">Username</string>
     <string name="label_mail">E-Mail</string>
     <string name="label_register_hint">All fields are required.</string>
-    <string name="label_register_hint_second">Only Letters/digits allowed</string>
+    <string name="label_register_hint_second">Only letters/digits allowed</string>
 
     <string name="info_register_succeed">Successfully registered!</string>
     <string name="info_login_succeed">Successfully logged in!</string>
