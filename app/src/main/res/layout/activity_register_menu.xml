@@ -18,20 +18,19 @@
         android:layout_alignParentStart="true"
         android:textColor="#ffffff"
         android:textIsSelectable="false"
-        android:textSize="25sp" />
+        android:textSize="@dimen/textSizeBig" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/button_back"
         android:id="@+id/button_back"
-        android:minWidth="180dp"
-        android:minHeight="60dp"
+        android:minHeight="@dimen/button_height"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:textSize="20sp" />
+        android:textSize="@dimen/textSizeMedium" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -46,7 +45,7 @@
         android:layout_alignRight="@+id/textField_register_username"
         android:layout_alignLeft="@+id/textField_register_username"
         android:textColor="#ffffff"
-        android:textSize="20sp" />
+        android:textSize="@dimen/textSizeMedium" />
 
     <EditText
         android:layout_width="match_parent"
@@ -57,8 +56,9 @@
         android:layout_below="@+id/label_register_username"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:textSize="20sp"
-        android:autoText="false" />
+        android:textSize="@dimen/textSizeMedium"
+        android:autoText="false"
+        android:maxLength="@integer/maxUsernameValue" />
 
     <EditText
         android:layout_width="match_parent"
@@ -70,7 +70,8 @@
         android:layout_below="@+id/label_register_password"
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
-        android:textSize="20sp" />
+        android:textSize="@dimen/textSizeMedium"
+        android:maxLength="@integer/maxPasswordLength" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -81,7 +82,7 @@
         android:layout_below="@+id/textField_register_mail"
         android:layout_alignParentStart="true"
         android:textColor="#ffffff"
-        android:textSize="20sp" />
+        android:textSize="@dimen/textSizeMedium" />
 
     <EditText
         android:layout_width="match_parent"
@@ -92,7 +93,8 @@
         android:layout_below="@+id/label_mail"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:textSize="20sp" />
+        android:textSize="@dimen/textSizeMedium"
+        android:maxLength="@integer/maxMailLength" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -103,22 +105,21 @@
         android:layout_below="@+id/textField_register_username"
         android:layout_alignParentStart="true"
         android:textColor="#ffffff"
-        android:textSize="20sp" />
+        android:textSize="@dimen/textSizeMedium" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/button_register"
         android:id="@+id/button_register"
-        android:minWidth="180dp"
-        android:minHeight="60dp"
+        android:minHeight="@dimen/button_height"
         android:layout_above="@+id/button_back"
         android:layout_alignStart="@+id/button_back"
         android:layout_alignLeft="@+id/button_back"
         android:layout_centerInParent="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:textSize="20sp"
+        android:textSize="@dimen/textSizeMedium"
         />
 
     <TextView
@@ -128,7 +129,7 @@
         android:text="@string/label_register_hint"
         android:id="@+id/label_register_hint"
         android:textColor="#ffffff"
-        android:textSize="15sp"
+        android:textSize="@dimen/textSizeSmall"
         android:layout_below="@+id/textField_register_repeat_password"
         android:layout_alignParentLeft="true" />
 
@@ -139,7 +140,7 @@
         android:text="@string/label_repeat_password"
         android:id="@+id/textView"
         android:textColor="#ffffff"
-        android:textSize="20sp"
+        android:textSize="@dimen/textSizeMedium"
         android:layout_below="@+id/textField_register_password"
         android:layout_alignParentLeft="true" />
 
@@ -149,8 +150,9 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/textField_register_repeat_password"
-        android:textSize="20sp"
+        android:textSize="@dimen/textSizeMedium"
         android:layout_below="@+id/textView"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true"
+        android:maxLength="@integer/maxPasswordLength" />
 
 </RelativeLayout>

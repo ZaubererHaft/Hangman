@@ -17,7 +17,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginTop="20dp"
         android:textColor="#ffffff"
-        android:textSize="20sp" />
+        android:textSize="@dimen/textSizeMedium" />
 
     <EditText
         android:layout_width="match_parent"
@@ -29,9 +29,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:textSize="20sp"
+        android:textSize="@dimen/textSizeMedium"
         android:imeOptions="actionNext"
-        />
+        android:maxLength="@integer/maxUsernameValue" />
 
     <EditText
         android:layout_width="match_parent"
@@ -43,9 +43,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:textSize="20sp"
+        android:textSize="@dimen/textSizeMedium"
         android:imeOptions="actionDone"
-        />
+        android:maxLength="@integer/maxPasswordLength" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -56,7 +56,7 @@
         android:layout_below="@+id/textField_welcome_username"
         android:layout_alignParentLeft="true"
         android:textColor="#ffffff"
-        android:textSize="20sp" />
+        android:textSize="@dimen/textSizeMedium" />
 
 
 
@@ -65,13 +65,12 @@
         android:layout_height="wrap_content"
         android:text="@string/button_login"
         android:id="@+id/button_login"
-        android:minWidth="180dp"
-        android:minHeight="60dp"
+        android:minHeight="@dimen/button_height"
         android:layout_above="@+id/button_register"
         android:layout_centerHorizontal="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:textSize="20sp" />
+        android:textSize="@dimen/textSizeMedium" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -82,32 +81,30 @@
         android:layout_alignParentTop="true"
         android:foreground="#ffffff"
         android:textColor="#ffffff"
-        android:textSize="25sp" />
+        android:textSize="@dimen/textSizeBig" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/button_not_registered"
         android:id="@+id/button_register"
-        android:minWidth="180dp"
-        android:minHeight="60dp"
+        android:minHeight="@dimen/button_height"
         android:layout_above="@+id/button_exit"
         android:layout_centerHorizontal="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:textSize="20sp" />
+        android:textSize="@dimen/textSizeMedium" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/button_exit"
         android:id="@+id/button_exit"
-        android:minWidth="180dp"
-        android:minHeight="60dp"
+        android:minHeight="@dimen/button_height"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:textSize="20sp" />
+        android:textSize="@dimen/textSizeMedium" />
 
 </RelativeLayout>
