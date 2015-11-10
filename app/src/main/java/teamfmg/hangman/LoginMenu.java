@@ -18,8 +18,8 @@ import android.widget.EditText;
 public class LoginMenu extends Activity implements View.OnClickListener
 {
 
-    //TODO: (1) Fix max Length of the textfields
-    //TODO: (2) Only allow letters and numbers in username
+    //DONE: (1) Fix max Length of the text fields
+    //DONE: (2) Only allow letters and numbers in username
     //DONE: (3) Continue Button Needs to work
     /**
      * Buttons.
@@ -64,12 +64,12 @@ public class LoginMenu extends Activity implements View.OnClickListener
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        //int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        //if (id == R.id.action_settings) {
+        //    return true;
+        //}
 
         return super.onOptionsItemSelected(item);
     }

@@ -16,6 +16,7 @@
     <string name="label_register_username">Username</string>
     <string name="label_mail">E-Mail</string>
     <string name="label_register_hint">All fields are required.</string>
+    <string name="label_register_hint_second">Only Letters/digits allowed</string>
 
     <string name="info_register_succeed">Successfully registered!</string>
     <string name="info_login_succeed">Successfully logged in!</string>
@@ -31,5 +32,9 @@
     <string name="error_register_wrongRepeatedPassword">The passwords do not match!</string>
     <string name="button_not_registered">Not registered?</string>
     <string name="label_repeat_password">Repeat password</string>
+    <string name="label_register_hint_mail">yourmail@example.com</string>
+    <string name="label_hint_register_password">At least 8 signs</string>
+    <string name="label_register_hint_repeatpassword">Repeat your password</string>
+
 
 </resources>

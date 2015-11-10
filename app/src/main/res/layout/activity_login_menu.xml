@@ -31,7 +31,8 @@
         android:layout_alignParentStart="true"
         android:textSize="@dimen/textSizeMedium"
         android:imeOptions="actionNext"
-        android:maxLength="@integer/maxUsernameValue" />
+        android:maxLength="@integer/maxUsernameValue"
+        android:hint="@string/label_register_username" />
 
     <EditText
         android:layout_width="match_parent"
@@ -45,7 +46,8 @@
         android:layout_alignParentStart="true"
         android:textSize="@dimen/textSizeMedium"
         android:imeOptions="actionDone"
-        android:maxLength="@integer/maxPasswordLength" />
+        android:maxLength="@integer/maxPasswordLength"
+        android:hint="@string/label_password" />
 
     <TextView
         android:layout_width="wrap_content"
