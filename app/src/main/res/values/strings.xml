@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">FMG Hangman</string>
+    <string name="action_settings">Settings</string>
+    <string name="label_username">Username</string>
+    <string name="label_password">Password</string>
+    <string name="testfield_username">Username</string>
+    <string name="button_login">Login</string>
+    <string name="label_welcome">Hangman - Welcome</string>
+    <string name="button_register">Register</string>
+    <string name="button_exit">Exit</string>
+    <string name="title_activity_register_menu">RegisterMenu</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="label_register">Hangman - Register</string>
+    <string name="button_back">Back</string>
+    <string name="label_register_username">Username</string>
+    <string name="label_mail">E-Mail</string>
+    <string name="label_register_hint">All fields are required.</string>
+
+    <string name="info_register_succeed">Successfully registered!</string>
+    <string name="info_login_succeed">Successfully logged in!</string>
+
+    <string name="error_general_sqlite">Error while reading database!</string>
+
+    <string name="error_register_emptyUsername">Please enter a username!</string>
+    <string name="error_register_userAlreadyExists">User already exists!</string>
+    <string name="error_register_invalidEmail">Please enter a valid e-mail!</string>
+    <string name="error_register_passwordShort">Your password needs at least 8 characters!</string>
+    <string name="error_login_wrongUsername">Username does not exists!</string>
+    <string name="error_login_wrongPassword">Wrong Password!</string>
+    <string name="error_register_wrongRepeatedPassword">The passwords do not match!</string>
+    <string name="button_not_registered">Not registered?</string>
+    <string name="label_repeat_password">Repeat password</string>
+
+</resources>
