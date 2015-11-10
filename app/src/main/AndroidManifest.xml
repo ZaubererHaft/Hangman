@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="teamfmg.myapplication" >
+    package="teamfmg.hangman" >
 
     <application
         android:allowBackup="true"
@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Light.NoTitleBar" >
         <activity
-            android:name=".LoginMenu"
+            android:name="teamfmg.hangman.LoginMenu"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegisterMenu"
+            android:name="teamfmg.hangman.RegisterMenu"
             android:label="@string/title_activity_register_menu" >
         </activity>
     </application>
