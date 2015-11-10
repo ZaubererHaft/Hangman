@@ -61,7 +61,7 @@ public class RegisterMenu extends Activity implements View.OnClickListener {
         //Hide the hint field if the min screen size is too low
         if(p.y <= Settings.minScreenRes.y)
         {
-            ((TextView)this.findViewById(R.id.label_register_hint)).setVisibility(View.INVISIBLE);
+            this.findViewById(R.id.label_register_hint).setVisibility(View.INVISIBLE);
         }
 
     }

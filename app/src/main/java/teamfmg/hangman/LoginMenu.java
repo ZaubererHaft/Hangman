@@ -109,7 +109,7 @@ public class LoginMenu extends Activity implements View.OnClickListener
 
                 if(user.getPassword().equals(enteredPassword))
                 {
-                    //TODO: Add actitvity
+                    //TODO: Add activity
                     Logger.write(this.getResources().getString(R.string.info_login_succeed)
                             ,this, offset);
                 }
