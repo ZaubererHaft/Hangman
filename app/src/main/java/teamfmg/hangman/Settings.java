@@ -5,7 +5,7 @@ import android.graphics.Point;
 import android.view.Display;
 
 /**
- * Public settigns class.
+ * Public settings class.
  * Created by Ludwig on 10.11.2015.
  * @since 0.2
  */
