@@ -20,6 +20,7 @@ public class LoginMenu extends Activity implements View.OnClickListener
 
     //TODO: (1) Fix max Length of the textfields
     //TODO: (2) Only allow letters and numbers in username
+    //DONE: (3) Continue Button Needs to work
     /**
      * Buttons.
      */
