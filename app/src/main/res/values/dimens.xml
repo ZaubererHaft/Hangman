@@ -6,4 +6,5 @@
     <dimen name="textSizeBig">25dp</dimen>
     <dimen name="textSizeSmall">15dp</dimen>
     <dimen name="button_height">60dp</dimen>
+    <dimen name="marginToHeader">20dp</dimen>
 </resources>

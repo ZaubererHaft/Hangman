@@ -40,7 +40,7 @@
         android:id="@+id/label_register_username"
         android:layout_below="@+id/label_register"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/marginToHeader"
         android:layout_alignParentEnd="false"
         android:layout_alignRight="@+id/textField_register_username"
         android:layout_alignLeft="@+id/textField_register_username"

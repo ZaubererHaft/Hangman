@@ -15,7 +15,7 @@
         android:id="@+id/label_username"
         android:layout_below="@+id/label_welcome"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/marginToHeader"
         android:textColor="#ffffff"
         android:textSize="@dimen/textSizeMedium" />
 
