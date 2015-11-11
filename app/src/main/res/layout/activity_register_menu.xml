@@ -60,8 +60,8 @@
         android:autoText="false"
         android:maxLength="@integer/maxUsernameValue"
         android:inputType="text"
-        android:digits="0,1,2,3,4,5,6,7,8,9,*,qwertzuiopasdfghjklyxcvbnmäöüß,_,-"
-        android:hint="@string/label_register_hint_second"
+        android:digits="0,1,2,3,4,5,6,7,8,9,qwertzuiopasdfghjklyxcvbnmäöüß,
+                        QWERTZUIOPÜASDFGHJKLÖÄYXCVBNM"
         android:imeOptions="actionNext"/>
 
     <EditText
@@ -76,7 +76,7 @@
         android:layout_alignParentEnd="true"
         android:textSize="@dimen/textSizeMedium"
         android:maxLength="@integer/maxPasswordLength"
-        android:hint="@string/label_hint_register_password" />
+ />
 
     <TextView
         android:layout_width="wrap_content"
@@ -99,9 +99,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:textSize="@dimen/textSizeMedium"
-        android:maxLength="@integer/maxMailLength"
-        android:hint="@string/label_register_hint_mail" />
-
+/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -160,6 +158,6 @@
         android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
         android:maxLength="@integer/maxPasswordLength"
-        android:hint="@string/label_register_hint_repeatpassword" />
+        />
 
 </RelativeLayout>

@@ -19,7 +19,8 @@
         </activity>
         <activity
             android:name="teamfmg.hangman.RegisterMenu"
-            android:label="@string/title_activity_register_menu" >
+            android:label="@string/title_activity_register_menu"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
