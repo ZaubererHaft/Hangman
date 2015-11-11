@@ -90,7 +90,6 @@ public class LoginMenu extends Activity implements View.OnClickListener
         {
             //start register menu and closes this app
             Intent i = new Intent(this,RegisterMenu.class);
-            this.finish();
             this.startActivity(i);
         }
 
@@ -104,14 +103,17 @@ public class LoginMenu extends Activity implements View.OnClickListener
             try
             {
                 DatabaseManager db = new DatabaseManager(this);
-                //get user an compare passwords...
+                //get user and compare passwords...
                 User user = db.getUser(enteredName);
 
                 if(user.getPassword().equals(enteredPassword))
                 {
-                    //TODO: Add activity
+                    //Open Main Menu
                     Logger.write(this.getResources().getString(R.string.info_login_succeed)
                             ,this, offset);
+                    Intent i = new Intent(this,MainMenu.class);
+                    this.finish();
+                    this.startActivity(i);
                 }
                 //Password wrong
                 else

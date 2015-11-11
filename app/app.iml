@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id=":app" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="Hangman" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+<module external.linked.project.id=":app" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="HangmanGIT" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="android-gradle" name="Android-Gradle">
       <configuration>
@@ -8,15 +8,15 @@
     </facet>
     <facet type="android" name="Android">
       <configuration>
-        <option name="SELECTED_BUILD_VARIANT" value="Android2Debug" />
+        <option name="SELECTED_BUILD_VARIANT" value="Android5Debug" />
         <option name="SELECTED_TEST_ARTIFACT" value="_android_test_" />
-        <option name="ASSEMBLE_TASK_NAME" value="assembleAndroid2Debug" />
-        <option name="COMPILE_JAVA_TASK_NAME" value="compileAndroid2DebugSources" />
-        <option name="ASSEMBLE_TEST_TASK_NAME" value="assembleAndroid2DebugAndroidTest" />
-        <option name="COMPILE_JAVA_TEST_TASK_NAME" value="compileAndroid2DebugAndroidTestSources" />
+        <option name="ASSEMBLE_TASK_NAME" value="assembleAndroid5Debug" />
+        <option name="COMPILE_JAVA_TASK_NAME" value="compileAndroid5DebugSources" />
+        <option name="ASSEMBLE_TEST_TASK_NAME" value="assembleAndroid5DebugAndroidTest" />
+        <option name="COMPILE_JAVA_TEST_TASK_NAME" value="compileAndroid5DebugAndroidTestSources" />
         <afterSyncTasks>
-          <task>generateAndroid2DebugAndroidTestSources</task>
-          <task>generateAndroid2DebugSources</task>
+          <task>generateAndroid5DebugAndroidTestSources</task>
+          <task>generateAndroid5DebugSources</task>
         </afterSyncTasks>
         <option name="ALLOW_USER_CONFIGURATION" value="false" />
         <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
@@ -27,43 +27,43 @@
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="false">
-    <output url="file://$MODULE_DIR$/build/intermediates/classes/Android2/debug" />
-    <output-test url="file://$MODULE_DIR$/build/intermediates/classes/androidTest/Android2/debug" />
+    <output url="file://$MODULE_DIR$/build/intermediates/classes/Android5/debug" />
+    <output-test url="file://$MODULE_DIR$/build/intermediates/classes/androidTest/Android5/debug" />
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/Android2/debug" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/Android2/debug" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/Android2/debug" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/Android2/debug" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/Android2/debug" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/generated/Android2/debug" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Android2Debug/res" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Android2Debug/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Android2Debug/assets" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Android2Debug/aidl" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Android2Debug/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Android2Debug/jni" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Android2Debug/rs" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/Android2/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/Android2/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/Android2/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/Android2/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/Android2/debug" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/generated/androidTest/Android2/debug" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Android2/res" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Android2/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Android2/assets" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Android2/aidl" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Android2/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Android2/jni" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Android2/rs" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestAndroid2/res" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestAndroid2/resources" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestAndroid2/assets" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestAndroid2/aidl" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestAndroid2/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestAndroid2/jni" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestAndroid2/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/Android5/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/Android5/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/Android5/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/Android5/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/Android5/debug" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/generated/Android5/debug" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Android5Debug/res" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Android5Debug/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Android5Debug/assets" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Android5Debug/aidl" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Android5Debug/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Android5Debug/jni" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Android5Debug/rs" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/Android5/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/Android5/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/Android5/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/Android5/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/Android5/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/generated/androidTest/Android5/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Android5/res" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Android5/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Android5/assets" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Android5/aidl" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Android5/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Android5/jni" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Android5/rs" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestAndroid5/res" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestAndroid5/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestAndroid5/assets" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestAndroid5/aidl" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestAndroid5/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestAndroid5/jni" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestAndroid5/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/assets" type="java-resource" />
@@ -107,7 +107,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
-    <orderEntry type="jdk" jdkName="Android API 22 Platform" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

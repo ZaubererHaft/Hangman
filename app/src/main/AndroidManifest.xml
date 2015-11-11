@@ -8,9 +8,9 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Light.NoTitleBar" >
         <activity
-            android:name="teamfmg.hangman.LoginMenu"
+            android:name=".LoginMenu"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,9 +18,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="teamfmg.hangman.RegisterMenu"
+            android:name=".RegisterMenu"
             android:label="@string/title_activity_register_menu"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".MainMenu"
+            android:label="@string/title_activity_main_menu" >
+        </activity>
+        <activity
+            android:name=".Options"
+            android:label="@string/title_activity_options" >
         </activity>
     </application>
 

@@ -99,9 +99,9 @@ public class RegisterMenu extends Activity implements View.OnClickListener {
         //Back button
         if(id == this.back.getId())
         {
-            Intent i = new Intent(this, LoginMenu.class);
+            //Intent i = new Intent(this, LoginMenu.class);
             this.finish();
-            this.startActivity(i);
+            //this.startActivity(i);
         }
         //register button
         else if(id == this.register.getId())
@@ -113,9 +113,9 @@ public class RegisterMenu extends Activity implements View.OnClickListener {
             if(errorCode == null)
             {
                 //return to Login
-                Intent i = new Intent(this,LoginMenu.class);
+                //Intent i = new Intent(this,LoginMenu.class);
                 this.finish();
-                this.startActivity(i);
+                //this.startActivity(i);
             }
             else
             {

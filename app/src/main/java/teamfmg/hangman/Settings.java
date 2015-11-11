@@ -27,6 +27,6 @@ public class Settings
         int height = display.getHeight();
 
         return new Point(width,height);
-
     }
+
 }
