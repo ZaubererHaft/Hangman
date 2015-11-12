@@ -1,8 +1,8 @@
 package teamfmg.hangman;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -15,11 +15,13 @@ public class MainMenu extends Activity implements View.OnClickListener
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
         //init Buttons
         Button exit = (Button) findViewById(R.id.button_exit);
         Button options = (Button) findViewById(R.id.button_options);
         Button play = (Button) findViewById(R.id.button_play);
         Button multiplayer = (Button) findViewById(R.id.button_multiplayer);
+
         //add ClickListener
         exit.setOnClickListener(this);
         options.setOnClickListener(this);
@@ -47,11 +49,11 @@ public class MainMenu extends Activity implements View.OnClickListener
         }
     }
 
+    //this is needed to see the changes in the options menu
     @Override
     protected void onResume() {
         super.onResume();
-
-        RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_mainMenu);
+        RelativeLayout rl = (RelativeLayout)this.findViewById(R.id.relLayout_mainMenu);
         Settings.setColor(rl);
     }
 }
