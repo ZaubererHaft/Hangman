@@ -52,4 +52,6 @@
     <string name="title_activity_main_menu">MainMenu</string>
     <string name="title_activity_options">Options</string>
     <string name="text_chooseColor">Choose Color</string>
+    <string name="allowedDigits">
+        0123456789qwertzuiopasdfghjklyxcvbnmQWERTZUIOPÜASDFGHJKLYXCVBN</string>
 </resources>
