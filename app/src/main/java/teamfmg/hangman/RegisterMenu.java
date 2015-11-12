@@ -17,7 +17,7 @@ import android.widget.EditText;
 public class RegisterMenu extends Activity implements View.OnClickListener {
 
     /**
-     * Buttons.
+     * Buttons are cool.
      */
     private Button back, register;
     /**
