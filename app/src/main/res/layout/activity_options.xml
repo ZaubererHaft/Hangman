@@ -5,92 +5,88 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@drawable/orange"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context="teamfmg.hangman.Options">
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context="teamfmg.hangman.Options"
+    android:id="@+id/relLayout_options">
 
-    <RelativeLayout
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/text_header_options"
+        android:id="@+id/text_header_options"
+        android:textSize="@dimen/textSizeBig"
+        android:layout_alignParentTop="true"
+        android:textColor="#ffffff" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/text_chooseColor"
+        android:id="@+id/text_chooseColor"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/text_header_options"
+        android:layout_marginTop="@dimen/marginToHeader"
+        android:textSize="@dimen/textSizeMedium"
+        android:textColor="#ffffff" />
+
+    <Spinner
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_chooseColor"
+        android:spinnerMode="dropdown"
+        android:layout_below="@+id/text_chooseColor"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:minHeight="60dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/text_header_options"
-            android:id="@+id/text_header_options"
-            android:textSize="@dimen/textSizeBig"
-            android:layout_alignParentTop="true"
-            android:textColor="#ffffff" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_ownWords"
+        android:id="@+id/button_ownWords"
+        android:textSize="20sp"
+        android:layout_below="@+id/spinner_chooseColor"
+        android:layout_toEndOf="@+id/button_about"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:minHeight="@dimen/button_height" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/text_chooseColor"
-            android:id="@+id/text_chooseColor"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/text_header_options"
-            android:layout_marginTop="@dimen/marginToHeader"
-            android:textSize="@dimen/textSizeMedium"
-            android:textColor="#ffffff" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/buttons_about"
+        android:id="@+id/button_about"
+        android:textSize="20sp"
+        android:layout_below="@+id/button_ownWords"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:minHeight="@dimen/button_height" />
 
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner_chooseColor"
-            android:spinnerMode="dropdown"
-            android:layout_below="@+id/text_chooseColor"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:minHeight="60dp" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_back"
+        android:id="@+id/button_back"
+        android:textSize="20sp"
+        android:layout_toEndOf="@+id/text_chooseColor"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:minHeight="@dimen/button_height" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/text_ownWords"
-            android:id="@+id/button_ownWords"
-            android:textSize="20sp"
-            android:layout_below="@+id/spinner_chooseColor"
-            android:layout_toEndOf="@+id/button_about"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:minHeight="@dimen/button_height" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/buttons_about"
-            android:id="@+id/button_about"
-            android:textSize="20sp"
-            android:layout_below="@+id/button_ownWords"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
-            android:minHeight="@dimen/button_height" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/button_back"
-            android:id="@+id/button_back"
-            android:textSize="20sp"
-            android:layout_toEndOf="@+id/text_chooseColor"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:minHeight="@dimen/button_height" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/button_apply"
-            android:id="@+id/button_apply"
-            android:textSize="20sp"
-            android:layout_above="@+id/button_back"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
-            android:minHeight="@dimen/button_height" />
-    </RelativeLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_apply"
+        android:id="@+id/button_apply"
+        android:textSize="20sp"
+        android:layout_above="@+id/button_back"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:minHeight="@dimen/button_height" />
 </RelativeLayout>

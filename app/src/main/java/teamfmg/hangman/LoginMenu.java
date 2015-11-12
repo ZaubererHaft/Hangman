@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 /**
  * The Login menu for Hangman.<br />
@@ -21,6 +22,7 @@ public class LoginMenu extends Activity implements View.OnClickListener
     //DONE: (1) Fix max Length of the text fields
     //DONE: (2) Only allow letters and numbers in username
     //DONE: (3) Continue Button Needs to work
+    //TODO: implement color choosed from settings
     /**
      * Buttons.
      */
@@ -29,6 +31,7 @@ public class LoginMenu extends Activity implements View.OnClickListener
      * Text fields.
      */
     private EditText username, password;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,6 +52,9 @@ public class LoginMenu extends Activity implements View.OnClickListener
 
         this.username.setOnClickListener(this);
         this.password.setOnClickListener(this);
+
+        RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_login);
+        Settings.setColor(rl);
     }
 
     @Override

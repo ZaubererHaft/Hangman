@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 /**
  * Hangman register menu.<br />
@@ -61,6 +62,9 @@ public class RegisterMenu extends Activity implements View.OnClickListener {
         {
             this.findViewById(R.id.label_register_hint).setVisibility(View.INVISIBLE);
         }
+
+        RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_register);
+        Settings.setColor(rl);
 
     }
 

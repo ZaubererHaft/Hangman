@@ -30,6 +30,11 @@ public class DatabaseManager extends SQLiteOpenHelper
     public DatabaseManager(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+
+        if(this.getUser("Admin") == null)
+        {
+            this.addUser(new User("Admin","a","admin@hangman.com"));
+        }
     }
 
     @Override
@@ -144,6 +149,7 @@ public class DatabaseManager extends SQLiteOpenHelper
             finally
             {
                 cursor.close();
+                db.close();
             }
         }
         else

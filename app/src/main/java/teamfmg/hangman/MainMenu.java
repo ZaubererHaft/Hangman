@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 public class MainMenu extends Activity implements View.OnClickListener
 {
@@ -24,6 +25,9 @@ public class MainMenu extends Activity implements View.OnClickListener
         options.setOnClickListener(this);
         play.setOnClickListener(this);
         multiplayer.setOnClickListener(this);
+
+        RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_mainMenu);
+        Settings.setColor(rl);
     }
 
     @Override
@@ -41,5 +45,13 @@ public class MainMenu extends Activity implements View.OnClickListener
             default:
                 Logger.write("Currently no function", this);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_mainMenu);
+        Settings.setColor(rl);
     }
 }
