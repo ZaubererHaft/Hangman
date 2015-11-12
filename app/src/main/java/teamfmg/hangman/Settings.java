@@ -2,8 +2,6 @@ package teamfmg.hangman;
 
 import android.app.Activity;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
-import android.text.Layout;
 import android.view.Display;
 import android.widget.RelativeLayout;
 
@@ -17,7 +15,7 @@ public class Settings
 
     //TODO: Save settings (Color)
 
-    public static enum Theme {BLUE, GREEN, ORANGE, PURPLE};
+    public enum Theme {BLUE, GREEN, ORANGE, PURPLE}
     public static Theme theme = Theme.GREEN;
 
     public static final Point minScreenRes = new Point(600,800);
