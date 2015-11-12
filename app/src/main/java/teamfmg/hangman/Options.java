@@ -7,8 +7,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-
-public class Options extends Activity implements View.OnClickListener{
+/**
+ * The Options menu for Hangman.<br />
+ * Created by Vincent 12.11.2015.
+ * @since 0.3
+ */
+public class Options extends Activity implements View.OnClickListener
+{
 
     private String[] colorList;
 
@@ -21,10 +26,10 @@ public class Options extends Activity implements View.OnClickListener{
         setContentView(R.layout.activity_options);
 
         //init Buttons
-        Button ownWords = (Button) findViewById(R.id.button_ownWords);
-        Button back = (Button) findViewById(R.id.button_back);
-        Button about = (Button) findViewById(R.id.button_about);
-        Button apply = (Button) findViewById(R.id.button_apply);
+        Button ownWords     = (Button) findViewById(R.id.button_ownWords);
+        Button back         = (Button) findViewById(R.id.button_back);
+        Button about        = (Button) findViewById(R.id.button_about);
+        Button apply        = (Button) findViewById(R.id.button_apply);
 
         //add ClickListener
         ownWords.setOnClickListener(this);
@@ -36,11 +41,12 @@ public class Options extends Activity implements View.OnClickListener{
         //TODO: Design vom Dropdown ändern
         colorSpinner = (Spinner) findViewById(R.id.spinner_chooseColor);
 
-        colorList = new String[]{
-                this.getString(R.string.color_blue),
-                getString(R.string.color_green),
-                getString(R.string.color_orange),
-                getString(R.string.color_purple)
+        colorList = new String[]
+        {
+            this.getString(R.string.color_blue),
+            getString(R.string.color_green),
+            getString(R.string.color_orange),
+            getString(R.string.color_purple)
         };
 
         //add values to Spinner

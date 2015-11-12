@@ -7,6 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+/**
+ * The Main menu for Hangman.<br />
+ * Created by Vincent 12.11.2015.
+ * @since 0.3
+ */
 public class MainMenu extends Activity implements View.OnClickListener
 {
 
