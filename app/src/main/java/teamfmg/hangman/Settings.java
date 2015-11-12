@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
  * Created by Ludwig on 10.11.2015.
  * @since 0.2
  */
-public class Settings
+public final class Settings
 {
 
     //TODO: Save settings (Color)
@@ -38,6 +38,7 @@ public class Settings
     /**
      * Sets the color depending on the settings.
      * @param rl Layout to set.
+     * @since 0.3
      */
     public static void setColor(RelativeLayout rl)
     {
@@ -56,6 +57,24 @@ public class Settings
                 rl.setBackgroundResource(R.drawable.purple);
                 break;
         }
+    }
+
+    /**
+     * Saves the settings to a file.
+     * @since 0.3
+     */
+    public static void save()
+    {
+        //TODO: implement
+    }
+
+    /**
+     * Loads the settings if they were already saved.
+     * @since 0.3
+     */
+    public static void load()
+    {
+        //TODO: implement
     }
 
 }

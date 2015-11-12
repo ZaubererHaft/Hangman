@@ -39,6 +39,9 @@ public class LoginMenu extends Activity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_menu);
 
+        //load user settings
+        Settings.load();
+
         this.login      = (Button)this.findViewById(R.id.button_login);
         this.register   = (Button)this.findViewById(R.id.button_register);
         this.exit       = (Button)this.findViewById(R.id.button_exit);
@@ -58,7 +61,8 @@ public class LoginMenu extends Activity implements View.OnClickListener
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login_menu, menu);
         return true;

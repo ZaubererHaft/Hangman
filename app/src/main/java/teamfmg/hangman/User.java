@@ -1,7 +1,7 @@
 package teamfmg.hangman;
 
 /**
- *  User Object.
+ *  User Object.<br />
  *  Created by Ludwig 09.11.2015.
  */
 public class User

@@ -54,8 +54,10 @@ public class Options extends Activity implements View.OnClickListener{
 
     //TODO: implement about, apply
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.button_back:
                 this.finish();
                 break;
@@ -84,6 +86,7 @@ public class Options extends Activity implements View.OnClickListener{
                 RelativeLayout rl   = (RelativeLayout)this.findViewById(R.id.relLayout_options);
                 Settings.setColor(rl);
 
+                Settings.save();
 
                 break;
             default:

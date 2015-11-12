@@ -17,10 +17,10 @@ public class MainMenu extends Activity implements View.OnClickListener
         setContentView(R.layout.activity_main_menu);
 
         //init Buttons
-        Button exit = (Button) findViewById(R.id.button_exit);
-        Button options = (Button) findViewById(R.id.button_options);
-        Button play = (Button) findViewById(R.id.button_play);
-        Button multiplayer = (Button) findViewById(R.id.button_multiplayer);
+        Button exit         =       (Button) findViewById(R.id.button_exit);
+        Button options      =       (Button) findViewById(R.id.button_options);
+        Button play         =       (Button) findViewById(R.id.button_play);
+        Button multiplayer  =       (Button) findViewById(R.id.button_multiplayer);
 
         //add ClickListener
         exit.setOnClickListener(this);
@@ -51,7 +51,8 @@ public class MainMenu extends Activity implements View.OnClickListener
 
     //this is needed to see the changes in the options menu
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
         RelativeLayout rl = (RelativeLayout)this.findViewById(R.id.relLayout_mainMenu);
         Settings.setColor(rl);
