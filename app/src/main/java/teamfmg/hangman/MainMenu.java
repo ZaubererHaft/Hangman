@@ -33,6 +33,8 @@ public class MainMenu extends Activity implements View.OnClickListener
         play.setOnClickListener(this);
         multiplayer.setOnClickListener(this);
 
+        Settings.load(this);
+
         RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_mainMenu);
         Settings.setColor(rl);
     }

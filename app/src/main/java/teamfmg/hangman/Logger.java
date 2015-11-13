@@ -33,6 +33,15 @@ public class Logger
     }
 
     /**
+     * Only writing to logcat.
+     * @param obj Object.
+     */
+    public static void logOnly(Object obj)
+    {
+        Log.i("MESSAGE:",obj.toString());
+    }
+
+    /**
      * Logs a info text to the console and opens a toast at the device.
      * @param text The text to show.
      * @param frame The activity to show the toast.

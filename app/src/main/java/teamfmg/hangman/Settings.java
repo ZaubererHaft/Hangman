@@ -5,8 +5,16 @@ import android.graphics.Point;
 import android.view.Display;
 import android.widget.RelativeLayout;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 /**
- * Public settings class.
+ * Public settings class.<br />
  * Created by Ludwig on 10.11.2015.
  * @since 0.2
  */
@@ -61,20 +69,94 @@ public final class Settings
 
     /**
      * Saves the settings to a file.
+     * @param a Context to ave the file.
      * @since 0.3
      */
-    public static void save()
+    public static void save(Activity a)
     {
         //TODO: implement
+        File file = new File(Settings.getPath(a) + "/settings.ini");
+        PrintWriter pWriter = null;
+        try
+        {
+            pWriter = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+            pWriter.println(theme.toString());
+            Logger.logOnly("Settings saved!");
+        }
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
+        finally
+        {
+            if (pWriter != null)
+            {
+                pWriter.flush();
+                pWriter.close();
+            }
+        }
     }
 
     /**
      * Loads the settings if they were already saved.
+     * @param a Context to load the file.
      * @since 0.3
      */
-    public static void load()
+    public static void load(Activity a)
     {
-        //TODO: implement
+        try
+        {
+            FileReader fr;
+            fr =  new FileReader(Settings.getPath(a)+"/settings.ini");
+            BufferedReader br = new BufferedReader(fr);
+            //TODO: implement
+            String line = br.readLine();
+            Settings.stringToColor(line);
+
+            Logger.logOnly("Settings loaded!");
+            fr.close();
+            br.close();
+        }
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void stringToColor(String s)
+    {
+        switch (s)
+        {
+            case "BLUE":
+                theme = Theme.BLUE;
+                break;
+            case "GREEN":
+                theme = Theme.GREEN;
+                break;
+            case "ORANGE":
+                theme = Theme.ORANGE;
+                break;
+            case "PURPLE":
+                theme = Theme.PURPLE;
+                break;
+        }
+    }
+
+    /**
+     * Gets the path of an activity.
+     * @param a activity
+     * @return string
+     */
+    private static String getPath(Activity a)
+    {
+        if(a != null)
+        {
+            return a.getFilesDir().getPath();
+        }
+        else
+        {
+            return null;
+        }
     }
 
 }

@@ -40,7 +40,7 @@ public class LoginMenu extends Activity implements View.OnClickListener
         setContentView(R.layout.activity_login_menu);
 
         //load user settings
-        Settings.load();
+        Settings.load(this);
 
         this.login      = (Button)this.findViewById(R.id.button_login);
         this.register   = (Button)this.findViewById(R.id.button_register);

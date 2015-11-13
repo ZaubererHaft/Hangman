@@ -56,6 +56,24 @@ public class Options extends Activity implements View.OnClickListener
 
         RelativeLayout rl = (RelativeLayout)this.findViewById(R.id.relLayout_options);
         Settings.setColor(rl);
+
+        //Select the active element from the spinner
+        switch (Settings.theme)
+        {
+            case BLUE:
+                this.colorSpinner.setSelection(0);
+                break;
+            case GREEN:
+                this.colorSpinner.setSelection(1);
+                break;
+            case ORANGE:
+                this.colorSpinner.setSelection(2);
+                break;
+            case PURPLE:
+                this.colorSpinner.setSelection(3);
+                break;
+        }
+
     }
 
     //TODO: implement about, apply
@@ -68,31 +86,17 @@ public class Options extends Activity implements View.OnClickListener
                 this.finish();
                 break;
             case R.id.button_apply:
-                colorSpinner.getSelectedItem();
+                String s = this.colorSpinner.getSelectedItem().toString();
 
-                String id = colorSpinner.getSelectedItem().toString();
+               //chooses color from string
+                Settings.stringToColor(s.toUpperCase());
 
-                if(id.equals(colorList[0]))
-                {
-                    Settings.theme = Settings.Theme.BLUE;
-                }
-                if(id.equals(colorList[1]))
-                {
-                    Settings.theme = Settings.Theme.GREEN;
-                }
-                if(id.equals(colorList[2]))
-                {
-                    Settings.theme = Settings.Theme.ORANGE;
-                }
-                if(id.equals(colorList[3]))
-                {
-                    Settings.theme = Settings.Theme.PURPLE;
-                }
-
+                //apply color on layout
                 RelativeLayout rl   = (RelativeLayout)this.findViewById(R.id.relLayout_options);
                 Settings.setColor(rl);
 
-                Settings.save();
+                //save settings
+                Settings.save(this);
 
                 break;
             default:
