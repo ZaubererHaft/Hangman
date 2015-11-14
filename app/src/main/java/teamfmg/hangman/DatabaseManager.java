@@ -7,6 +7,7 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
 public class DatabaseManager extends SQLiteOpenHelper
 {
 
-    private static final int DATABASE_VERSION       = 5;
+    private static final int DATABASE_VERSION       = 7;
     private static final String DATABASE_NAME       = "database.db";
     private static final String TABLE_USERS_NAME    = "users";
 
@@ -33,7 +34,8 @@ public class DatabaseManager extends SQLiteOpenHelper
 
         if(this.getUser("Admin") == null)
         {
-            this.addUser(new User("Admin","a","admin@hangman.com"));
+            this.addUser(new User("Admin",Caeser.encrypt("a",Settings.encryptOffset),
+                    "admin@hangman.com"));
         }
     }
 

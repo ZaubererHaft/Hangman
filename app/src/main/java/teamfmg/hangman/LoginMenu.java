@@ -22,7 +22,7 @@ public class LoginMenu extends Activity implements View.OnClickListener
     //DONE: (1) Fix max Length of the text fields
     //DONE: (2) Only allow letters and numbers in username
     //DONE: (3) Continue Button Needs to work
-    //TODO: implement color choosed from settings
+    //DONE: (4) implement color choosed from settings
     /**
      * Buttons.
      */
@@ -58,6 +58,7 @@ public class LoginMenu extends Activity implements View.OnClickListener
 
         RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_login);
         Settings.setColor(rl);
+
     }
 
     @Override
@@ -108,7 +109,11 @@ public class LoginMenu extends Activity implements View.OnClickListener
         {
             //gets the entered data
             String enteredName = this.username.getText().toString();
-            String enteredPassword = this.password.getText().toString();
+            String enteredPassword = Caeser.encrypt
+            (
+                this.password.getText().toString(),
+               Settings.encryptOffset
+            );
 
             try
             {

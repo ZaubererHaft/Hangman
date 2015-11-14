@@ -21,12 +21,10 @@ import java.io.PrintWriter;
 public final class Settings
 {
 
-    //TODO: Save settings (Color)
-
     public enum Theme {BLUE, GREEN, ORANGE, PURPLE}
     public static Theme theme = Theme.GREEN;
-
     public static final Point minScreenRes = new Point(600,800);
+    public static final int encryptOffset = 6;
 
     /**
      * Returns the screenSize of an activity.
@@ -74,7 +72,6 @@ public final class Settings
      */
     public static void save(Activity a)
     {
-        //TODO: implement
         File file = new File(Settings.getPath(a) + "/settings.ini");
         PrintWriter pWriter = null;
         try
@@ -109,7 +106,6 @@ public final class Settings
             FileReader fr;
             fr =  new FileReader(Settings.getPath(a)+"/settings.ini");
             BufferedReader br = new BufferedReader(fr);
-            //TODO: implement
             String line = br.readLine();
             Settings.stringToColor(line);
 

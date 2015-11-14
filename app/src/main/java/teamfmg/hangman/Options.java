@@ -76,7 +76,7 @@ public class Options extends Activity implements View.OnClickListener
 
     }
 
-    //TODO: implement about, apply
+    //TODO: implement about
     @Override
     public void onClick(View v)
     {

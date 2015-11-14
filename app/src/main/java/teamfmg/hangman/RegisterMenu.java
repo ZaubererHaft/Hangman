@@ -170,8 +170,16 @@ public class RegisterMenu extends Activity implements View.OnClickListener {
             return this.getResources().getString(R.string.error_register_wrongRepeatedPassword);
         }
 
-        this.db.addUser(new User(enteredUsername,enteredPassword,enteredMail));
-        Logger.write(this.getResources().getString(R.string.info_register_succeed),this,offset);
+        this.db.addUser
+        (
+            new User
+            (
+                enteredUsername,
+                Caeser.encrypt(enteredPassword,Settings.encryptOffset),
+                enteredMail
+            )
+        );
+        Logger.write(this.getResources().getString(R.string.info_register_succeed), this, offset);
         return null;
     }
 }
