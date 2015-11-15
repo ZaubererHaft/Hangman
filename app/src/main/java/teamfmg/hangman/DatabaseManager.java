@@ -68,7 +68,6 @@ public class DatabaseManager extends SQLiteOpenHelper
         SQLiteDatabase db = this.getWritableDatabase();
         String statement = "DROP TABLE IF EXISTS" + TABLE_USERS_NAME+";";
         db.execSQL(statement);
-
     }
 
     /**
@@ -86,9 +85,7 @@ public class DatabaseManager extends SQLiteOpenHelper
         val.put("password", u.getPassword());
         val.put("mail",u.getMail());
 
-
         db.insert(TABLE_USERS_NAME, null, val);
-
         db.close();
     }
 
@@ -119,7 +116,6 @@ public class DatabaseManager extends SQLiteOpenHelper
 
             cursor.close();
         }
-
         return users;
     }
 

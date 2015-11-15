@@ -3,6 +3,7 @@ package teamfmg.hangman;
 /**
  * Class to encrypt strings.
  * Created by Ludwig on 14.11.2015.
+ * @since 0.4
  */
 public class Caeser
 {
@@ -33,6 +34,5 @@ public class Caeser
         }
 
         return String.copyValueOf(cryptArray);
-
     }
 }
