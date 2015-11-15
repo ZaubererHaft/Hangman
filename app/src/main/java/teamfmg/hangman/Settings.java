@@ -44,6 +44,10 @@ public final class Settings
      * The last entered username(use this to fill up the text field in login)
      */
     private static String lastUsername;
+    /**
+     * Gets the latest password
+     */
+    private static String lastPassword;
 
     /**
      * Gets the color theme of the game.
@@ -62,6 +66,16 @@ public final class Settings
     {
         return currentUser;
     }
+
+    /**
+     * Gets the latest password
+     * @return user
+     */
+    public static String getLastPassword()
+    {
+        return lastPassword;
+    }
+
     /**
      * Sets the current user.
      * @param currentUser user
@@ -124,6 +138,7 @@ public final class Settings
             pWriter = new PrintWriter(new BufferedWriter(new FileWriter(file)));
             pWriter.println(theme.toString());
             pWriter.println(getCurrentUser().getName());
+            pWriter.println(getCurrentUser().getPassword());
             Logger.logOnly("Settings saved!");
         }
         catch (IOException ex)
@@ -168,6 +183,8 @@ public final class Settings
 
             //Gets the last logged in user
             lastUsername =  br.readLine();
+            String pw = br.readLine();
+            lastPassword =  Caeser.encrypt(pw,128 - Settings.encryptOffset);
 
             Logger.logOnly("Settings loaded!");
             fr.close();

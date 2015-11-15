@@ -57,4 +57,5 @@
     <string name="allowedDigits">
         0123456789qwertzuiopasdfghjklyxcvbnmQWERTZUIOPÜASDFGHJKLYXCVBN</string>
     <string name="options_hint_restart">Please restart the app to apply changes!</string>
+    <string name="login_save_login">Save login data</string>
 </resources>

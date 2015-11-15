@@ -16,7 +16,7 @@
         android:id="@+id/label_register"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:textColor="#ffffff"
+        android:textColor="@color/color_white"
         android:textIsSelectable="false"
         android:textSize="@dimen/textSizeBig" />
 
@@ -44,7 +44,7 @@
         android:layout_alignParentEnd="false"
         android:layout_alignRight="@+id/textField_register_username"
         android:layout_alignLeft="@+id/textField_register_username"
-        android:textColor="#ffffff"
+        android:textColor="@color/color_white"
         android:textSize="@dimen/textSizeMedium" />
 
     <EditText
@@ -85,7 +85,7 @@
         android:id="@+id/label_register_password"
         android:layout_below="@+id/textField_register_mail"
         android:layout_alignParentStart="true"
-        android:textColor="#ffffff"
+        android:textColor="@color/color_white"
         android:textSize="@dimen/textSizeMedium" />
 
     <EditText
@@ -107,7 +107,7 @@
         android:id="@+id/label_mail"
         android:layout_below="@+id/textField_register_username"
         android:layout_alignParentStart="true"
-        android:textColor="#ffffff"
+        android:textColor="@color/color_white"
         android:textSize="@dimen/textSizeMedium" />
 
     <Button
@@ -131,7 +131,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/label_register_hint"
         android:id="@+id/label_register_hint"
-        android:textColor="#ffffff"
+        android:textColor="@color/color_white"
         android:textSize="@dimen/textSizeSmall"
         android:layout_below="@+id/textField_register_repeat_password"
         android:layout_alignParentLeft="true" />
@@ -142,7 +142,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/label_repeat_password"
         android:id="@+id/textView"
-        android:textColor="#ffffff"
+        android:textColor="@color/color_white"
         android:textSize="@dimen/textSizeMedium"
         android:layout_below="@+id/textField_register_password"
         android:layout_alignParentLeft="true" />

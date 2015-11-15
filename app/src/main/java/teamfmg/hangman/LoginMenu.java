@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
@@ -52,11 +53,10 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
         this.password.setOnClickListener(this);
 
         this.changeBackground();
-        if(Settings.getLastUsername() != null && Settings.getLastUsername().length() > 0)
-        {
-            this.username.setText(Settings.getLastUsername());
-            this.password.requestFocus();
-        }
+
+        this.username.setText(Settings.getLastUsername());
+        this.password.setText(Settings.getLastPassword());
+        this.password.requestFocus();
 
     }
 
@@ -100,8 +100,14 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
 
                 if(user.getPassword().equals(enteredPassword))
                 {
+                    CheckBox c = (CheckBox)this.findViewById(R.id.login_saveLoginData);
                     Settings.setCurrentUser(user);
-                    Settings.save(this);
+
+                    if(c.isChecked())
+                    {
+                        Settings.save(this);
+                    }
+
                     //Open Main Menu
                     Logger.write(this.getResources().getString(R.string.info_login_succeed)
                             ,this, offset);

@@ -16,7 +16,7 @@
         android:layout_below="@+id/label_welcome"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="@dimen/marginToHeader"
-        android:textColor="#ffffff"
+        android:textColor="@color/color_white"
         android:textSize="@dimen/textSizeMedium" />
 
     <EditText
@@ -58,7 +58,7 @@
         android:id="@+id/label_password"
         android:layout_below="@+id/textField_welcome_username"
         android:layout_alignParentLeft="true"
-        android:textColor="#ffffff"
+        android:textColor="@color/color_white"
         android:textSize="@dimen/textSizeMedium" />
 
 
@@ -83,7 +83,7 @@
         android:id="@+id/label_welcome"
         android:layout_alignParentTop="true"
         android:foreground="#ffffff"
-        android:textColor="#ffffff"
+        android:textColor="@color/color_white"
         android:textSize="@dimen/textSizeBig" />
 
     <Button
@@ -109,5 +109,18 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:textSize="@dimen/textSizeMedium" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_save_login"
+        android:id="@+id/login_saveLoginData"
+        android:layout_above="@+id/button_login"
+        android:layout_alignParentLeft="true"
+        android:checked="true"
+        android:textSize="@dimen/textSizeMedium"
+        android:textColor="@color/color_white"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

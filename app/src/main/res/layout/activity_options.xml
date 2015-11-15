@@ -16,7 +16,7 @@
         android:id="@+id/text_header_options"
         android:textSize="@dimen/textSizeBig"
         android:layout_alignParentTop="true"
-        android:textColor="#ffffff" />
+        android:textColor="@color/color_white" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -28,7 +28,7 @@
         android:layout_below="@+id/text_header_options"
         android:layout_marginTop="@dimen/marginToHeader"
         android:textSize="@dimen/textSizeMedium"
-        android:textColor="#ffffff" />
+        android:textColor="@color/color_white" />
 
     <Spinner
         android:layout_width="match_parent"
