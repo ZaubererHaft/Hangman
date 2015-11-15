@@ -50,6 +50,10 @@ public class MainMenu extends Activity implements View.OnClickListener, IApplyab
                 Intent i = new Intent(this, Options.class);
                 this.startActivity(i);
                 break;
+            case R.id.button_play:
+                Intent j = new Intent(this, Singleplayer.class);
+                this.startActivity(j);
+                break;
             default:
                 Logger.write("Currently no function", this);
         }
