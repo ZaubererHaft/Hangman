@@ -15,6 +15,9 @@ import android.widget.Spinner;
 public class Options extends Activity implements View.OnClickListener, IApplyableSettings
 {
 
+    /**
+     * GUI objects.
+     */
     private Spinner colorSpinner;
 
     @Override

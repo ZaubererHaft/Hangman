@@ -20,10 +20,21 @@ import java.io.PrintWriter;
  */
 public final class Settings
 {
-
+    /**
+     * Enum to define color theme.
+     */
     public enum Theme {BLUE, GREEN, ORANGE, PURPLE}
-    public static Theme theme = Theme.GREEN;
+    /**
+     * Color theme of the game.
+     */
+    private static Theme theme = Theme.GREEN;
+    /**
+     * The min. supported screen size.
+     */
     public static final Point minScreenRes = new Point(600,800);
+    /**
+     * The key for encryption.
+     */
     public static final int encryptOffset = 6;
 
     /**
@@ -119,6 +130,10 @@ public final class Settings
         }
     }
 
+    /**
+     * Sets the color of the settings by a string.
+     * @param s String.
+     */
     public static void stringToColor(String s)
     {
         switch (s)
@@ -135,13 +150,15 @@ public final class Settings
             case "PURPLE":
                 theme = Theme.PURPLE;
                 break;
+            default:
+                Logger.logOnly("Couldn't string to color!");
         }
     }
 
     /**
      * Gets the path of an activity.
-     * @param a activity
-     * @return string
+     * @param a The activity.
+     * @return The path as string.
      */
     private static String getPath(Activity a)
     {

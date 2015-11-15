@@ -37,8 +37,10 @@ public class MainMenu extends Activity implements View.OnClickListener, IApplyab
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             //Stop the App
             case R.id.button_exit:
                 System.exit(0);

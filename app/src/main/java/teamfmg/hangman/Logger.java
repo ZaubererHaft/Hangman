@@ -35,6 +35,7 @@ public class Logger
     /**
      * Only writing to logcat.
      * @param obj Object.
+     * @since 0.3
      */
     public static void logOnly(Object obj)
     {

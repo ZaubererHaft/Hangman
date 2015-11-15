@@ -15,9 +15,8 @@ import android.widget.RelativeLayout;
  */
 public class RegisterMenu extends Activity implements View.OnClickListener, IApplyableSettings
 {
-
     /**
-     * Buttons are cool.
+     * Buttons
      */
     private Button back, register;
     /**
