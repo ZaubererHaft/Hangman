@@ -19,8 +19,17 @@ import java.util.List;
 public class DatabaseManager extends SQLiteOpenHelper
 {
 
+    /**
+     * Version of the database.
+     */
     private static final int DATABASE_VERSION       = 7;
+    /**
+     * Name of the database
+     */
     private static final String DATABASE_NAME       = "database.db";
+    /**
+     * Name of the table users.
+     */
     private static final String TABLE_USERS_NAME    = "users";
 
     /**

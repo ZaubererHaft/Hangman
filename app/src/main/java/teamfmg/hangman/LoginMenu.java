@@ -37,9 +37,6 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_menu);
 
-        //load user settings
-        Settings.load(this);
-
         this.login      = (Button)this.findViewById(R.id.button_login);
         this.register   = (Button)this.findViewById(R.id.button_register);
         this.exit       = (Button)this.findViewById(R.id.button_exit);
@@ -55,6 +52,10 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
         this.password.setOnClickListener(this);
 
         this.changeBackground();
+        if(Settings.getLastUsername() != null && Settings.getLastUsername().length() > 0)
+        {
+            this.username.setText(Settings.getLastUsername());
+        }
 
     }
 
@@ -98,6 +99,8 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
 
                 if(user.getPassword().equals(enteredPassword))
                 {
+                    Settings.setCurrentUser(user);
+                    Settings.save(this);
                     //Open Main Menu
                     Logger.write(this.getResources().getString(R.string.info_login_succeed)
                             ,this, offset);

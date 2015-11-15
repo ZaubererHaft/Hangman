@@ -36,6 +36,14 @@ public final class Settings
      * The key for encryption.
      */
     public static final int encryptOffset = 6;
+    /**
+     * The user the player has logged in with.
+     */
+    private static User currentUser;
+    /**
+     * The last entered username(use this to fill up the text field in login)
+     */
+    private static String lastUsername;
 
     /**
      * Gets the color theme of the game.
@@ -44,6 +52,23 @@ public final class Settings
     public static Theme getTheme()
     {
         return theme;
+    }
+
+    /**
+     * Gets the current user.
+     * @return user
+     */
+    public static User getCurrentUser()
+    {
+        return currentUser;
+    }
+    /**
+     * Sets the current user.
+     * @param currentUser user
+     */
+    public static void setCurrentUser(User currentUser)
+    {
+        Settings.currentUser = currentUser;
     }
 
     /**
@@ -98,6 +123,7 @@ public final class Settings
         {
             pWriter = new PrintWriter(new BufferedWriter(new FileWriter(file)));
             pWriter.println(theme.toString());
+            pWriter.println(getCurrentUser().getName());
             Logger.logOnly("Settings saved!");
         }
         catch (IOException ex)
@@ -115,6 +141,15 @@ public final class Settings
     }
 
     /**
+     * Gets the name of the latest logged in user.
+     * @return string.
+     */
+    public static String getLastUsername()
+    {
+        return lastUsername;
+    }
+
+    /**
      * Loads the settings if they were already saved.
      * @param a Context to load the file.
      * @since 0.3
@@ -126,8 +161,12 @@ public final class Settings
             FileReader fr;
             fr =  new FileReader(Settings.getPath(a)+"/settings.ini");
             BufferedReader br = new BufferedReader(fr);
-            String line = br.readLine();
-            Settings.stringToColor(line);
+            //Gets the color theme
+            String color = br.readLine();
+            Settings.stringToColor(color);
+
+            //Gets the last logged in user
+            lastUsername =  br.readLine();
 
             Logger.logOnly("Settings loaded!");
             fr.close();
