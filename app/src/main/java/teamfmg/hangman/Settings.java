@@ -192,7 +192,7 @@ public final class Settings
         }
         catch (IOException ex)
         {
-            ex.printStackTrace();
+            Logger.logOnly(ex.getMessage());
         }
     }
 

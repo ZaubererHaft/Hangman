@@ -54,9 +54,16 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
 
         this.changeBackground();
 
-        this.username.setText(Settings.getLastUsername());
-        this.password.setText(Settings.getLastPassword());
-        this.password.requestFocus();
+        try
+        {
+            this.username.setText(Settings.getLastUsername());
+            this.password.setText(Settings.getLastPassword());
+            this.password.requestFocus();
+        }
+        catch(NullPointerException ex)
+        {
+            Logger.logOnly("No userdata entered yet!");
+        }
 
     }
 
