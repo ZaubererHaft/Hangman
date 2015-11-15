@@ -141,7 +141,8 @@ public final class Settings
     }
 
     /**
-     * Gets the name of the latest logged in user.
+     * Gets the name of the latest logged in user. <br />
+     * Use this to fill in the username in the login mask.
      * @return string.
      */
     public static String getLastUsername()
