@@ -60,7 +60,7 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
         this.changeBackground();
 
         //Select the active element from the spinner
-        switch (Settings.theme)
+        switch (Settings.getTheme())
         {
             case BLUE:
                 this.colorSpinner.setSelection(0);
@@ -75,7 +75,6 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
                 this.colorSpinner.setSelection(3);
                 break;
         }
-
     }
 
     //TODO: implement about

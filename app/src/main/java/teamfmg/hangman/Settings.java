@@ -38,6 +38,15 @@ public final class Settings
     public static final int encryptOffset = 6;
 
     /**
+     * Gets the color theme of the game.
+     * @return Theme (enum).
+     */
+    public static Theme getTheme()
+    {
+        return theme;
+    }
+
+    /**
      * Returns the screenSize of an activity.
      * @param a the activity.
      * @return Point.
