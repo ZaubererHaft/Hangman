@@ -12,6 +12,7 @@ public class Caeser
      * @param text string to encrypt.
      * @param offset Offset.
      * @return encrypted/decrypted string
+     * @since 0.4
      */
     public static String encrypt(String text, int offset)
     {

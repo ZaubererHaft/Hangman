@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
  * Created by Vincent 12.11.2015.
  * @since 0.3
  */
-public class MainMenu extends Activity implements View.OnClickListener
+public class MainMenu extends Activity implements View.OnClickListener, IApplyableSettings
 {
 
     @Override
@@ -33,10 +33,7 @@ public class MainMenu extends Activity implements View.OnClickListener
         play.setOnClickListener(this);
         multiplayer.setOnClickListener(this);
 
-        Settings.load(this);
-
-        RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_mainMenu);
-        Settings.setColor(rl);
+        this.changeBackground();
     }
 
     @Override
@@ -61,7 +58,14 @@ public class MainMenu extends Activity implements View.OnClickListener
     protected void onResume()
     {
         super.onResume();
-        RelativeLayout rl = (RelativeLayout)this.findViewById(R.id.relLayout_mainMenu);
+        this.changeBackground();
+    }
+
+    @Override
+    public void changeBackground()
+    {
+        Settings.load(this);
+        RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_mainMenu);
         Settings.setColor(rl);
     }
 }

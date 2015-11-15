@@ -12,7 +12,7 @@ import android.widget.Spinner;
  * Created by Vincent 12.11.2015.
  * @since 0.3
  */
-public class Options extends Activity implements View.OnClickListener
+public class Options extends Activity implements View.OnClickListener, IApplyableSettings
 {
 
     private Spinner colorSpinner;
@@ -54,8 +54,7 @@ public class Options extends Activity implements View.OnClickListener
                 android.R.layout.simple_spinner_item, colorList);
         colorSpinner.setAdapter(adapter);
 
-        RelativeLayout rl = (RelativeLayout)this.findViewById(R.id.relLayout_options);
-        Settings.setColor(rl);
+        this.changeBackground();
 
         //Select the active element from the spinner
         switch (Settings.theme)
@@ -92,8 +91,7 @@ public class Options extends Activity implements View.OnClickListener
                 Settings.stringToColor(s.toUpperCase());
 
                 //apply color on layout
-                RelativeLayout rl   = (RelativeLayout)this.findViewById(R.id.relLayout_options);
-                Settings.setColor(rl);
+                this.changeBackground();
 
                 //save settings
                 Settings.save(this);
@@ -102,5 +100,12 @@ public class Options extends Activity implements View.OnClickListener
             default:
                 Logger.write("Currently no function", this);
         }
+    }
+
+    @Override
+    public void changeBackground()
+    {
+        RelativeLayout rl   = (RelativeLayout)this.findViewById(R.id.relLayout_options);
+        Settings.setColor(rl);
     }
 }

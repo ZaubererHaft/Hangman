@@ -13,7 +13,8 @@ import android.widget.RelativeLayout;
  * Created by Ludwig 09.11.2015.
  * @since 0.1
  */
-public class RegisterMenu extends Activity implements View.OnClickListener {
+public class RegisterMenu extends Activity implements View.OnClickListener, IApplyableSettings
+{
 
     /**
      * Buttons are cool.
@@ -61,8 +62,7 @@ public class RegisterMenu extends Activity implements View.OnClickListener {
             this.findViewById(R.id.label_register_hint).setVisibility(View.INVISIBLE);
         }
 
-        RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_register);
-        Settings.setColor(rl);
+        this.changeBackground();
 
     }
 
@@ -156,5 +156,13 @@ public class RegisterMenu extends Activity implements View.OnClickListener {
         );
         Logger.write(this.getResources().getString(R.string.info_register_succeed), this, offset);
         return null;
+    }
+
+    @Override
+    public void changeBackground()
+    {
+        Settings.load(this);
+        RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_register);
+        Settings.setColor(rl);
     }
 }

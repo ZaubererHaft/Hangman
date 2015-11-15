@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
  * Created by Ludwig 09.11.2015.
  * @since 0.1
  */
-public class LoginMenu extends Activity implements View.OnClickListener
+public class LoginMenu extends Activity implements View.OnClickListener, IApplyableSettings
 {
 
     //DONE: (1) Fix max Length of the text fields
@@ -54,8 +54,7 @@ public class LoginMenu extends Activity implements View.OnClickListener
         this.username.setOnClickListener(this);
         this.password.setOnClickListener(this);
 
-        RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_login);
-        Settings.setColor(rl);
+        this.changeBackground();
 
     }
 
@@ -126,5 +125,13 @@ public class LoginMenu extends Activity implements View.OnClickListener
                         this, offset);
             }
         }
+    }
+
+    @Override
+    public void changeBackground()
+    {
+        Settings.load(this);
+        RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_login);
+        Settings.setColor(rl);
     }
 }
