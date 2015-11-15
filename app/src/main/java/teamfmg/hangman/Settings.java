@@ -39,7 +39,7 @@ public final class Settings
     /**
      * The user the player has logged in with.
      */
-    private static User currentUser;
+    private static User currentUser = new User("","","");
     /**
      * The last entered username(use this to fill up the text field in login)
      */
@@ -143,7 +143,7 @@ public final class Settings
         }
         catch (IOException ex)
         {
-            ex.printStackTrace();
+            Logger.logOnly(ex.getMessage());
         }
         finally
         {
@@ -174,6 +174,15 @@ public final class Settings
     {
         try
         {
+            File file = new File(Settings.getPath(a) + "/settings.ini");
+
+            //if the file doesn't exits, just create one.
+            if(!file.exists())
+            {
+                Settings.save(a);
+                return;
+            }
+
             FileReader fr;
             fr =  new FileReader(Settings.getPath(a)+"/settings.ini");
             BufferedReader br = new BufferedReader(fr);
@@ -195,6 +204,7 @@ public final class Settings
             Logger.logOnly(ex.getMessage());
         }
     }
+
 
     /**
      * Sets the color of the settings by a string.
