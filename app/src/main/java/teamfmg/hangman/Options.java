@@ -15,13 +15,13 @@ import android.widget.Spinner;
 public class Options extends Activity implements View.OnClickListener
 {
 
-    private String[] colorList;
-
     private Spinner colorSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        String[] colorList;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
 

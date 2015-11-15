@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,7 +20,7 @@ public class LoginMenu extends Activity implements View.OnClickListener
     //DONE: (1) Fix max Length of the text fields
     //DONE: (2) Only allow letters and numbers in username
     //DONE: (3) Continue Button Needs to work
-    //DONE: (4) implement color choosed from settings
+    //DONE: (4) implement color chosen from settings
     /**
      * Buttons.
      */
@@ -62,30 +60,6 @@ public class LoginMenu extends Activity implements View.OnClickListener
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        //int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        //if (id == R.id.action_settings) {
-        //    return true;
-        //}
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onClick(View v)
     {
         int id = v.getId();
@@ -109,6 +83,8 @@ public class LoginMenu extends Activity implements View.OnClickListener
         {
             //gets the entered data
             String enteredName = this.username.getText().toString();
+
+            //encrypts the entered password to compare it with the password in the db
             String enteredPassword = Caeser.encrypt
             (
                 this.password.getText().toString(),
