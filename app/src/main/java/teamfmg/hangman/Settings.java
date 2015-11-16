@@ -135,7 +135,7 @@ public final class Settings
         PrintWriter pWriter = null;
         try
         {
-            pWriter = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+            pWriter = new PrintWriter(new BufferedWriter(new FileWriter(file),8192));
             pWriter.println(theme.toString());
             pWriter.println(getCurrentUser().getName());
             pWriter.println(getCurrentUser().getPassword());
@@ -185,7 +185,7 @@ public final class Settings
 
             FileReader fr;
             fr =  new FileReader(Settings.getPath(a)+"/settings.ini");
-            BufferedReader br = new BufferedReader(fr);
+            BufferedReader br = new BufferedReader(fr,8192);
             //Gets the color theme
             String color = br.readLine();
             Settings.stringToColor(color);
