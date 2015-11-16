@@ -1,6 +1,7 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -98,6 +99,10 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
                 //save settings
                 Settings.save(this);
 
+                break;
+            case R.id.button_about:
+                Intent i = new Intent(this,About.class);
+                this.startActivity(i);
                 break;
             default:
                 Logger.write("Currently no function", this);
