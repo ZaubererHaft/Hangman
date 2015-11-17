@@ -6,6 +6,7 @@ import android.opengl.GLSurfaceView;
 /**
  * Creates a new openGL scene.
  * Created by Ludwig on 16.11.2015.
+ * @since 0.5
  */
 public class Scene extends GLSurfaceView
 {

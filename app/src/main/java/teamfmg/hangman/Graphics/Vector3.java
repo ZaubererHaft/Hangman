@@ -1,15 +1,25 @@
 package teamfmg.hangman.Graphics;
 
 /**
- * Created by consult on 17.11.2015.
+ * Created by Ludwig on 17.11.2015.
+ * @since 0.5
  */
 public class Vector3
 {
+
+    /**
+     * Global translate factor.
+     */
+    public static final float TRANSLATE_FACTOR = 100;
+
     /**
      * Variables.
      */
     private float x,y,z;
 
+    /**
+     * Default constructor.
+     */
     public Vector3()
     {
         

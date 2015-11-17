@@ -5,6 +5,7 @@ import teamfmg.hangman.Logger;
 /**
  * Sets a mesh color.
  * Created by Ludwig on 17.11.2015.
+ * @since 0.5
  */
 public class MeshColor
 {
@@ -36,7 +37,7 @@ public class MeshColor
         float[] f =
         {
             this.getR(),
-            this.getB(),
+                this.getG(),
             this.getB(),
             this.getA()
         };
@@ -114,7 +115,7 @@ public class MeshColor
 
     public static MeshColor BLACK  = new MeshColor(0,0,0,1);
     public static MeshColor RED    = new MeshColor(1,0,0,1);
-    public static MeshColor GREEN  = new MeshColor(0,1,0,1);
+    public static MeshColor GREEN  = new MeshColor(0,1f,0,1);
     public static MeshColor BLUE   = new MeshColor(0,0,1,1);
     public static MeshColor WHITE  = new MeshColor(1,1,1,1);
 }
