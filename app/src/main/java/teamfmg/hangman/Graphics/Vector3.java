@@ -18,7 +18,7 @@ public class Vector3
     public Vector3(float x, float y, float z)
     {
         this.setX(x);
-        this.setY(x);
+        this.setY(y);
         this.setZ(z);
     }
 
