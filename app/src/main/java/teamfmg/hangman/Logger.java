@@ -32,6 +32,11 @@ public class Logger
         }
     }
 
+    public static void logOnlyError(Object obj)
+    {
+        Log.e("ERROR",obj.toString());
+    }
+
     /**
      * Only writing to logcat.
      * @param obj Object.

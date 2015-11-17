@@ -7,17 +7,15 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.ArrayList;
 
 /**
  * Created by Ludwig on 17.11.2015.
  * @since 0.5
  */
-public abstract class Mesh implements IDrawable
+public abstract class Mesh extends Component implements IDrawable
 {
-    /**
-     * Color of the Sape
-     */
-    private float color[] = { 1f, 0.0f, 0.0f, 1.0f };
+
 
     private int positionHandle;
     private int colorHandle;
@@ -34,29 +32,33 @@ public abstract class Mesh implements IDrawable
 
     private float[] coordinates = null;
 
-    protected abstract void setVertexCoordinates();
 
     /**
      * Sets the coordinates of the vertices.
      * @param coords
      */
-    public void setCoordinates(float[] coords)
+    public void setVertices(Vector3[] coords)
     {
-       this.coordinates = coords;
-    }
+        //we need to split vector into a row of floats
+        ArrayList<Float> al = new ArrayList<>();
 
-    public float[] getColor() {
-        return color;
-    }
+        for (int i = 0; i < coords.length; i++)
+        {
+            al.add(coords[i].getX());
+            al.add(coords[i].getY());
+            al.add(coords[i].getZ());
+        }
 
-    public void setColor(float r, float g, float b, float a) {
+        float[] array = new float[al.size()];
 
-        this.color = new float[4];
+        //add values into array
+        for (int i = 0; i < array.length; i++)
+        {
+            array[i] = al.get(i);
+        }
 
-        this.color[0] = r;
-        this.color[1] = g;
-        this.color[2] = b;
-        this.color[3] = a;
+        //add
+        this.coordinates = array;
     }
 
     /**
@@ -69,7 +71,6 @@ public abstract class Mesh implements IDrawable
 
     public void generate()
     {
-        this.setVertexCoordinates();
 
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer bb = ByteBuffer.allocateDirect(
@@ -127,7 +128,7 @@ public abstract class Mesh implements IDrawable
         this.colorHandle = GLES20.glGetUniformLocation(this.program, "vColor");
 
         // Set color for drawing the triangle
-        GLES20.glUniform4fv(this.colorHandle, 1, color, 0);
+        GLES20.glUniform4fv(this.colorHandle, 1, this.color.getColorArray(), 0);
 
         // Draw the triangle
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, vertexCount);

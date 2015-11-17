@@ -22,7 +22,7 @@ public class Render implements GLSurfaceView.Renderer
     public void onSurfaceCreated(GL10 gl, EGLConfig config)
     {
         t = new Triangle();
-        s = new Square();
+        //s = new Square();
     }
 
     //when the sze of he renderer is changing
@@ -43,7 +43,7 @@ public class Render implements GLSurfaceView.Renderer
          * Draw shapes
          */
         t.draw();
-        s.draw();
+        //s.draw();
     }
 
     /**

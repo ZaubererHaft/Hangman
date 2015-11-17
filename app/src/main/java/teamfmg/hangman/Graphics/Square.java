@@ -6,13 +6,10 @@ package teamfmg.hangman.Graphics;
 public class Square extends Mesh
 {
 
-    private short drawOrder[] = { 0, 1, 2, 0, 2, 3 };
-
     public Square()
     {
         super();
-        this.setVertexCoordinates();
-        this.setColor(0,1,0,0.5f);
+        //this.setVertices();
         this.generate();
     }
 
@@ -23,12 +20,6 @@ public class Square extends Mesh
             -0.5f,  0.5f,  0.0f,  // 2. left-top
             0.5f,  0.5f,  0.0f   // 3. right-top
     };
-
-    @Override
-    protected void setVertexCoordinates()
-    {
-        this.setCoordinates(this.squareCoords);
-    }
 
 
 }
