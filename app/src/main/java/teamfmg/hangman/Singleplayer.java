@@ -26,6 +26,18 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     private String currentWord;
     private TextView label;
     private String[] wordPieces;
+    String[] wordList = {
+            "Clown","Elefantenohren","Quitscheentchen","Wanderrucksack","Siebenschlaefer",
+            "Fachinformatiker","Aspirin","Shotgun","Deutschland","Projektmanagement",
+            "Feldsalat","Eisenbarren","Geschichtenerzaeler","Ausland","Arbeit", "Angestellter",
+            "Angel", "Amsel", "Brot", "Bosheit", "Bedarf", "Belag", "Chemie", "Christ", "Dose",
+            "Diesel", "Esel", "Elend", "Familie", "Fenster", "Gesicht", "Guthaben", "Haus", "Hund",
+            "Igel", "Internet", "Jahrmarkt", "Jahr", "Justiz", "Kasten", "Kern", "Licht", "Lampe",
+            "Luxus", "Maus", "Magen", "Mager", "Nuss", "Nutzen", "Oper", "Opa", "Pause", "Pension",
+            "Qualle", "Quaternion", "Richtung", "Recht", "Sumpf", "Sand", "Sonne", "Strand",
+            "Totenkopf", "Topf", "Topfpflanze", "Unsinn", "Urwald", "Verweis", "Verwaltung",
+            "Wissenschaft", "Weisheit", "Xylophon", "Yacht", "Yeti", "Ypsilon", "Zoo", "Zentrum"
+    };
 
 
 
@@ -38,11 +50,6 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         initButtons();
         label = (TextView) findViewById(R.id.text_askedWord);
 
-        String[] wordList = {
-          "Clown","Elefantenohren","Quitscheentchen","Wanderrucksack","Siebenschlaefer",
-                "Fachinformatiker","Aspirin","Shotgun","Deutschland","Projektmanagement",
-                "Feldsalat","Eisenbarren","Geschichtenerzaeler"
-        };
 
         int random = (int)(Math.random() * wordList.length);
         currentWord = wordList[random];
@@ -77,6 +84,8 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         for (int i = 0; i < wordPieces.length; i++){
             wordPieces[i] = "_ ";
         }
+        resetHangman();
+        resetButtons();
         updateLabel();
     }
 
@@ -86,6 +95,51 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
             s = s + wordPieces[i];
         }
         label.setText(s);
+        if (s.equals(currentWord)){
+            Logger.write("Gewonnen! Das Wort war: " + currentWord, this);
+
+            //Kann später wieder entfernt werden
+            //TODO: Muss Ordentlicher gemacht werden.
+            int random = (int)(Math.random() * wordList.length);
+            currentWord = wordList[random];
+            currentWord = currentWord.toUpperCase();
+            newWord(currentWord);
+        }
+    }
+
+    /**
+     * Resets all buttons to Enabled(true)
+     */
+    private void resetButtons(){
+        //Reset Buttons in row one
+        LinearLayout layoutRowOne = (LinearLayout) this.findViewById(R.id.linLayout_rowOne);
+        for (int i = 0; i < layoutRowOne.getChildCount(); i++){
+            View v = layoutRowOne.getChildAt(i);
+            if (v instanceof Button) {
+                Button b = (Button) v;
+                b.setEnabled(true);
+            }
+        }
+
+        //Reset Buttons in row two
+        LinearLayout layoutRowTwo = (LinearLayout) this.findViewById(R.id.linLayout_rowTwo);
+        for (int i = 0; i < layoutRowTwo.getChildCount(); i++){
+            View v = layoutRowTwo.getChildAt(i);
+            if (v instanceof Button) {
+                Button b = (Button) v;
+                b.setEnabled(true);
+            }
+        }
+
+        //Reset Buttons in row three
+        LinearLayout layoutRowThree = (LinearLayout) this.findViewById(R.id.linLayout_rowThree);
+        for (int i = 0; i < layoutRowThree.getChildCount(); i++){
+            View v = layoutRowThree.getChildAt(i);
+            if (v instanceof Button) {
+                Button b = (Button) v;
+                b.setEnabled(true);
+            }
+        }
     }
 
     /**
@@ -160,6 +214,16 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
             ImageView iv = (ImageView) findViewById(R.id.image_hangman);
             int id = this.getResources().getIdentifier("hm_"+currentBuildOfHangman, "drawable", this.getPackageName());
             iv.setImageResource(id);
+        }
+        else if (currentBuildOfHangman == 12){
+            Logger.write("Verloren! Das Wort war: " + currentWord, this);
+
+            //Kann später wieder entfernt werden
+            //TODO: Muss Ordentlicher gemacht werden.
+            int random = (int)(Math.random() * wordList.length);
+            currentWord = wordList[random];
+            currentWord = currentWord.toUpperCase();
+            newWord(currentWord);
         }
     }
 
