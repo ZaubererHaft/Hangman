@@ -96,7 +96,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         }
         label.setText(s);
         if (s.equals(currentWord)){
-            Logger.write("Gewonnen! Das Wort war: " + currentWord, this);
+            Logger.write("Gewonnen! Das Wort war: " + currentWord, this, -200);
 
             //Kann später wieder entfernt werden
             //TODO: Muss Ordentlicher gemacht werden.
@@ -216,7 +216,8 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
             iv.setImageResource(id);
         }
         else if (currentBuildOfHangman == 12){
-            Logger.write("Verloren! Das Wort war: " + currentWord, this);
+            //TODO: Offset bearbeiten
+            Logger.write("Verloren! Das Wort war: " + currentWord, this, -200);
 
             //Kann später wieder entfernt werden
             //TODO: Muss Ordentlicher gemacht werden.
