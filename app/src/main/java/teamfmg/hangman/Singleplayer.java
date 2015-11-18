@@ -38,7 +38,14 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         initButtons();
         label = (TextView) findViewById(R.id.text_askedWord);
 
-        currentWord = "Dampfschiffskapitaen";
+        String[] wordList = {
+          "Clown","Elefantenohren","Quitscheentchen","Wanderrucksack","Siebenschlaefer",
+                "Fachinformatiker","Aspirin","Shotgun","Deutschland","Projektmanagement",
+                "Feldsalat","Eisenbarren","Geschichtenerzaeler"
+        };
+
+        int random = (int)(Math.random() * wordList.length);
+        currentWord = wordList[random];
         currentWord = currentWord.toUpperCase();
         newWord(currentWord);
     }
