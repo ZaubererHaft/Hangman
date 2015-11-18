@@ -17,10 +17,10 @@ public class Square extends Mesh
 
         final Vector3[] vertices = new Vector3[4];
 
-        vertices[0] = new Vector3 (-1f,-1f,0.0f); // 0. left-bottom
-        vertices[1] = new Vector3 ( 0f,-1f,0.0f); // 1. right-bottom
-        vertices[2] = new Vector3 (-1f, 0f,0.0f); // 2. left-top
-        vertices[3] = new Vector3 ( 0f, 0f,0.0f); // 3. right-top
+        vertices[0] = new Vector3 ( 1f, -1f, 0.0f); // 0. left-bottom
+        vertices[1] = new Vector3 ( 0f, -1f, 0.0f); // 1. right-bottom
+        vertices[2] = new Vector3 ( 1f,  0f, 0.0f); // 2. left-top
+        vertices[3] = new Vector3 ( 0f,  0f, 0.0f); // 3. right-top
 
         this.setVertices(vertices);
         this.generate();

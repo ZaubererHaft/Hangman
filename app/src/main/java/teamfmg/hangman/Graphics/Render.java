@@ -23,6 +23,7 @@ public class Render implements GLSurfaceView.Renderer
     //shapes to draw
     private Triangle t;
     private Square s;
+    Cube c;
 
     //when the renderer is created.
     @Override
@@ -33,9 +34,9 @@ public class Render implements GLSurfaceView.Renderer
         t.position = new Vector3(0,0,0);
 
         s = new Square();
-        s.scale.setY(0.5f);
         s.color = MeshColor.RED;
-        s.position = new Vector3(50,50,50);
+        s.position = new Vector3(0,0,0);
+        
     }
 
     //when the sze of he renderer is changing
@@ -69,6 +70,7 @@ public class Render implements GLSurfaceView.Renderer
          */
         t.draw(mMVPMatrix);
         s.draw(mMVPMatrix);
+
     }
 
     /**

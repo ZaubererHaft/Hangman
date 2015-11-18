@@ -40,6 +40,10 @@ public abstract class Mesh extends Component implements IDrawable
         this.updateVertices();
     }
 
+    public void setVertices(float[] f){
+        this.coordinates = f;
+    }
+
     public void updateVertices()
     {
         //we need to split vector into a row of floats
@@ -117,8 +121,8 @@ public abstract class Mesh extends Component implements IDrawable
     @Override
     public void draw(float[] mvpMatrix)
     {
+        //update vertices on draw
         this.updateVertices();
-
 
         //amount of vertices
         final int vertexCount = coordinates.length / COORDS_PER_VERTEX;
@@ -128,7 +132,6 @@ public abstract class Mesh extends Component implements IDrawable
 
         // get handle to vertex shader's vPosition member
         this.positionHandle = GLES20.glGetAttribLocation(this.program, "vPosition");
-
         // Enable a handle to the triangle vertices
         GLES20.glEnableVertexAttribArray(this.positionHandle);
 
@@ -137,20 +140,17 @@ public abstract class Mesh extends Component implements IDrawable
                 GLES20.GL_FLOAT, false,
                 vertexStride, vertexBuffer);
 
-        // get handle to fragment shader's vColor member
-        this.colorHandle = GLES20.glGetUniformLocation(this.program, "vColor");
-
         // get handle to shape's transformation matrix
         this.MVPMatrixHandle = GLES20.glGetUniformLocation(this.program, "uMVPMatrix");
 
         // Pass the projection and view transformation to the shader
         GLES20.glUniformMatrix4fv(this.MVPMatrixHandle, 1, false, mvpMatrix, 0);
 
-
-        // Set color for drawing the triangle
+        //setting color
+        this.colorHandle = GLES20.glGetUniformLocation(this.program, "vColor");
         GLES20.glUniform4fv(this.colorHandle, 1, this.color.getColorArray(), 0);
 
-        // Draw the triangle
+        // Draw the vertices
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, vertexCount);
 
         // Disable vertex array
