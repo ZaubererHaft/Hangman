@@ -39,8 +39,6 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
             "Wissenschaft", "Weisheit", "Xylophon", "Yacht", "Yeti", "Ypsilon", "Zoo", "Zentrum"
     };
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +55,10 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         newWord(currentWord);
     }
 
-
+    /**
+     * Check the word for the pressed letter
+     * @param letter which is clicked
+     */
     private void checkLetter(String letter) {
         String s;
         boolean isFalse = true;
@@ -89,6 +90,9 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         updateLabel();
     }
 
+    /**
+     * Update the label under the Hangman
+     */
     private void updateLabel(){
         String s = "";
         for (int i = 0; i < wordPieces.length; i++){
@@ -97,13 +101,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         label.setText(s);
         if (s.equals(currentWord)){
             Logger.write("Gewonnen! Das Wort war: " + currentWord, this, -200);
-
-            //Kann später wieder entfernt werden
-            //TODO: Muss Ordentlicher gemacht werden.
-            int random = (int)(Math.random() * wordList.length);
-            currentWord = wordList[random];
-            currentWord = currentWord.toUpperCase();
-            newWord(currentWord);
+            resetGame();
         }
     }
 
@@ -209,23 +207,32 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * Builds the next Part of the Hangman
      */
     private void buildHangman(){
-        if(currentBuildOfHangman <= 11){
+        currentBuildOfHangman++;
+        //Makes that arms and legs appears together
+        if (currentBuildOfHangman == 9 || currentBuildOfHangman == 11){
             currentBuildOfHangman++;
+        }
+        if(currentBuildOfHangman <= 12){
             ImageView iv = (ImageView) findViewById(R.id.image_hangman);
             int id = this.getResources().getIdentifier("hm_"+currentBuildOfHangman, "drawable", this.getPackageName());
             iv.setImageResource(id);
         }
-        else if (currentBuildOfHangman == 12){
-            //TODO: Offset bearbeiten
+        if (currentBuildOfHangman == 12){
+            //TODO: Offset bearbeiten bzw. Gewinnanzeige ändern
             Logger.write("Verloren! Das Wort war: " + currentWord, this, -200);
-
-            //Kann später wieder entfernt werden
-            //TODO: Muss Ordentlicher gemacht werden.
-            int random = (int)(Math.random() * wordList.length);
-            currentWord = wordList[random];
-            currentWord = currentWord.toUpperCase();
-            newWord(currentWord);
+            resetGame();
         }
+    }
+
+    /**
+     * Resets the Round
+     */
+    private void resetGame(){
+        //TODO: Muss Ordentlicher gemacht werden.
+        int random = (int)(Math.random() * wordList.length);
+        currentWord = wordList[random];
+        currentWord = currentWord.toUpperCase();
+        newWord(currentWord);
     }
 
     /**
