@@ -10,6 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Singleplayer extends Activity implements View.OnClickListener, IApplyableSettings{
 
     private Button  button_a, button_b, button_c, button_d, button_e,
@@ -23,21 +26,16 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * the current shown picture of Hangman
      */
     private int currentBuildOfHangman;
+    /**
+     * This handles the database connection.
+     */
+    private DatabaseManager db;
+    private List <String> categorys = new ArrayList<>();
     private String currentWord;
     private TextView label;
     private String[] wordPieces;
-    String[] wordList = {
-            "Clown","Elefantenohren","Quitscheentchen","Wanderrucksack","Siebenschlaefer",
-            "Fachinformatiker","Aspirin","Shotgun","Deutschland","Projektmanagement",
-            "Feldsalat","Eisenbarren","Geschichtenerzaeler","Ausland","Arbeit", "Angestellter",
-            "Angel", "Amsel", "Brot", "Bosheit", "Bedarf", "Belag", "Chemie", "Christ", "Dose",
-            "Diesel", "Esel", "Elend", "Familie", "Fenster", "Gesicht", "Guthaben", "Haus", "Hund",
-            "Igel", "Internet", "Jahrmarkt", "Jahr", "Justiz", "Kasten", "Kern", "Licht", "Lampe",
-            "Luxus", "Maus", "Magen", "Mager", "Nuss", "Nutzen", "Oper", "Opa", "Pause", "Pension",
-            "Qualle", "Quaternion", "Richtung", "Recht", "Sumpf", "Sand", "Sonne", "Strand",
-            "Totenkopf", "Topf", "Topfpflanze", "Unsinn", "Urwald", "Verweis", "Verwaltung",
-            "Wissenschaft", "Weisheit", "Xylophon", "Yacht", "Yeti", "Ypsilon", "Zoo", "Zentrum"
-    };
+    private ArrayList <String> wordList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +44,14 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         this.changeBackground();
         this.resetHangman();
         initButtons();
+
+        db = new DatabaseManager(this);
         label = (TextView) findViewById(R.id.text_askedWord);
+        categorys.add(db.CAPS);
 
+        wordList = db.getWords(categorys);
 
-        int random = (int)(Math.random() * wordList.length);
-        currentWord = wordList[random];
-        currentWord = currentWord.toUpperCase();
-        newWord(currentWord);
+        resetGame();
     }
 
     /**
@@ -83,8 +82,20 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
         //add underlines for every letter in the asked word
         for (int i = 0; i < wordPieces.length; i++){
-            wordPieces[i] = "_ ";
+            if (word.charAt(i) == ' '){
+                wordPieces[i] = " ";
+            }
+            else if (word.charAt(i) == '-'){
+                wordPieces[i] = "-";
+            }
+            else if (word.charAt(i) == '.'){
+                wordPieces[i] = ".";
+            }
+            else {
+                wordPieces[i] = "_ ";
+            }
         }
+
         resetHangman();
         resetButtons();
         updateLabel();
@@ -228,9 +239,8 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * Resets the Round
      */
     private void resetGame(){
-        //TODO: Muss Ordentlicher gemacht werden.
-        int random = (int)(Math.random() * wordList.length);
-        currentWord = wordList[random];
+        int random = (int)(Math.random() * wordList.size());
+        currentWord = wordList.get(random);
         currentWord = currentWord.toUpperCase();
         newWord(currentWord);
     }

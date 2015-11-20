@@ -25,7 +25,7 @@ public class RegisterMenu extends Activity implements View.OnClickListener, IApp
     private EditText password, username, mail, repeatedPassword;
     /**
      * This handles the database connection.
-     */
+    */
     private DatabaseManager db;
     /**
      * y Offset for toast

@@ -134,12 +134,14 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
             {
                 Logger.write(this.getResources().getString(R.string.error_login_wrongUsername)
                         ,this, offset);
+                ex.printStackTrace();
             }
             //Error with the Database
             catch (SQLiteException ex)
             {
                 Logger.write(this.getResources().getString(R.string.error_general_sqlite),
                         this, offset);
+                ex.printStackTrace();
             }
         }
     }
