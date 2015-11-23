@@ -1,6 +1,5 @@
 package teamfmg.hangman;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
@@ -13,14 +12,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO: Comments
+//TODO: Sonderzeichen Bugs
 public class Singleplayer extends Activity implements View.OnClickListener, IApplyableSettings{
-
-    private Button  button_a, button_b, button_c, button_d, button_e,
-                    button_f, button_g, button_h, button_i, button_j,
-                    button_k, button_l, button_m, button_n, button_o,
-                    button_p, button_q, button_r, button_s, button_t,
-                    button_u, button_v, button_w, button_x, button_y,
-                    button_z;
 
     /**
      * the current shown picture of Hangman
@@ -104,10 +98,12 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     /**
      * Update the label under the Hangman
      */
-    private void updateLabel(){
+    private void updateLabel()
+    {
         String s = "";
-        for (int i = 0; i < wordPieces.length; i++){
-            s = s + wordPieces[i];
+        for (String wordPiece : wordPieces)
+        {
+            s = s + wordPiece;
         }
         label.setText(s);
         if (s.equals(currentWord)){
@@ -154,35 +150,8 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     /**
      * Inits all Buttons in the Keyboard
      */
-    private void initButtons(){
-        // inits all Buttons
-        Button button_a         =       (Button) findViewById(R.id.button_A);
-        Button button_b         =       (Button) findViewById(R.id.button_B);
-        Button button_c         =       (Button) findViewById(R.id.button_C);
-        Button button_d         =       (Button) findViewById(R.id.button_D);
-        Button button_e         =       (Button) findViewById(R.id.button_E);
-        Button button_f         =       (Button) findViewById(R.id.button_F);
-        Button button_g         =       (Button) findViewById(R.id.button_G);
-        Button button_h         =       (Button) findViewById(R.id.button_H);
-        Button button_i         =       (Button) findViewById(R.id.button_I);
-        Button button_j         =       (Button) findViewById(R.id.button_J);
-        Button button_k         =       (Button) findViewById(R.id.button_K);
-        Button button_l         =       (Button) findViewById(R.id.button_L);
-        Button button_m         =       (Button) findViewById(R.id.button_M);
-        Button button_n         =       (Button) findViewById(R.id.button_N);
-        Button button_o         =       (Button) findViewById(R.id.button_O);
-        Button button_p         =       (Button) findViewById(R.id.button_P);
-        Button button_q         =       (Button) findViewById(R.id.button_Q);
-        Button button_r         =       (Button) findViewById(R.id.button_R);
-        Button button_s         =       (Button) findViewById(R.id.button_S);
-        Button button_t         =       (Button) findViewById(R.id.button_T);
-        Button button_u         =       (Button) findViewById(R.id.button_U);
-        Button button_v         =       (Button) findViewById(R.id.button_V);
-        Button button_w         =       (Button) findViewById(R.id.button_W);
-        Button button_x         =       (Button) findViewById(R.id.button_X);
-        Button button_y         =       (Button) findViewById(R.id.button_Y);
-        Button button_z         =       (Button) findViewById(R.id.button_Z);
-
+    private void initButtons()
+    {
         //Add OnClickListener for Buttons in row one
         LinearLayout layoutRowOne = (LinearLayout) this.findViewById(R.id.linLayout_rowOne);
         for (int i = 0; i < layoutRowOne.getChildCount(); i++){
@@ -217,7 +186,8 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     /**
      * Builds the next Part of the Hangman
      */
-    private void buildHangman(){
+    private void buildHangman()
+    {
         currentBuildOfHangman++;
         //Makes that arms and legs appears together
         if (currentBuildOfHangman == 9 || currentBuildOfHangman == 11){
@@ -238,7 +208,8 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     /**
      * Resets the Round
      */
-    private void resetGame(){
+    private void resetGame()
+    {
         int random = (int)(Math.random() * wordList.size());
         currentWord = wordList.get(random);
         currentWord = currentWord.toUpperCase();
@@ -248,7 +219,8 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     /**
      * resets the Hangman. No Part is build
      */
-    private void resetHangman(){
+    private void resetHangman()
+    {
         ImageView iv = (ImageView) findViewById(R.id.image_hangman);
         iv.setImageResource(R.drawable.hm_0);
         currentBuildOfHangman = 0;

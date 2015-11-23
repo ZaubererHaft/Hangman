@@ -30,7 +30,7 @@ public class DatabaseManager extends SQLiteOpenHelper
     /**
      * Version of the database.
      */
-    private static final int DATABASE_VERSION       = 14;
+    private static final int DATABASE_VERSION       = 16;
     /**
      * Name of the database
      */
@@ -44,6 +44,7 @@ public class DatabaseManager extends SQLiteOpenHelper
      */
     private static final String TABLE_WORDS    = "words";
 
+    //TODO: auslagern
     public static final String OTHERS = "others";
     public static final String CAPS = "capitals";
 
@@ -66,11 +67,10 @@ public class DatabaseManager extends SQLiteOpenHelper
         }
     }
 
+    //TODO: comment and redesign
     public void loadWords(SQLiteDatabase db)
     {
         InputStream in = c.getResources().openRawResource(R.raw.capitals);
-
-        //FileReader file = new FileReader("/capitals.csv");
         BufferedReader buffer = new BufferedReader(new InputStreamReader(in));
 
         while (true)
@@ -89,6 +89,7 @@ public class DatabaseManager extends SQLiteOpenHelper
             }
             catch (Exception e)
             {
+                Logger.logOnly("Database loaded!");
                 break;
             }
         }
@@ -99,21 +100,27 @@ public class DatabaseManager extends SQLiteOpenHelper
     {
         //Create user table
         String createTableStatement =
-                "CREATE TABLE " + TABLE_USERS_NAME + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "username VARCHAR(20) NOT NULL, " +
+                "CREATE TABLE " + TABLE_USERS_NAME + " ( " +
+                        "_id          INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        "username     VARCHAR(20) NOT NULL, " +
                         "password     VARCHAR(30) NOT NULL, " +
-                        "mail VARCHAR(20) NOT NULL);";
+                        "mail         VARCHAR(20) NOT NULL);";
         db.execSQL(createTableStatement);
 
-        //Create words table
-        createTableStatement =
-                "CREATE TABLE " + TABLE_WORDS + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "word        VARCHAR NOT NULL, " +
-                        "category     VARCHAR NOT NULL); ";
-        db.execSQL(createTableStatement);
-
-        this.loadWords(db);
-
+        try
+        {
+            //Create words table
+            createTableStatement =
+                    "CREATE TABLE " + TABLE_WORDS + " (" +
+                            "word         VARCHAR PRIMARY KEY, " +
+                            "category     VARCHAR NOT NULL); ";
+            db.execSQL(createTableStatement);
+            this.loadWords(db);
+        }
+        catch (SQLiteException ex)
+        {
+            Logger.logOnlyError(ex.getMessage());
+        }
     }
 
     @Override
