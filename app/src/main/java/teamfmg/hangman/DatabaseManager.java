@@ -44,10 +44,6 @@ public class DatabaseManager extends SQLiteOpenHelper
      */
     private static final String TABLE_WORDS    = "words";
 
-    //TODO: auslagern
-    public static final String OTHERS = "others";
-    public static final String CAPS = "capitals";
-
     private Context c;
     /**
      * Creates a new instance of the database handler.

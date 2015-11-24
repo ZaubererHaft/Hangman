@@ -4,7 +4,11 @@ package teamfmg.hangman;
  * TODO: Comment, categories
  * Created by Vincent on 19.11.2015.
  */
-public class Word {
+public class Word
+{
+
+    public static final String OTHERS = "others";
+    public static final String CAPS = "capitals";
 
     /**
      * Variables (Strings).

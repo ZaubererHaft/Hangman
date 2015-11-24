@@ -41,7 +41,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
         db = new DatabaseManager(this);
         label = (TextView) findViewById(R.id.text_askedWord);
-        categorys.add(db.CAPS);
+        categorys.add(Word.CAPS);
 
         wordList = db.getWords(categorys);
 
