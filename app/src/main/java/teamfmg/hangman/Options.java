@@ -101,7 +101,7 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
 
                 break;
             case R.id.button_about:
-                Intent i = new Intent(this,About.class);
+                Intent i = new Intent(this,Category.class);
                 this.startActivity(i);
                 break;
             default:
