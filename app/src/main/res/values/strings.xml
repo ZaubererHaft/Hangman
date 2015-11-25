@@ -63,6 +63,10 @@
     <string name="label_about">About the developers</string>
     <string name="label_x">╳</string>
     <string name="text_header_categorys">Hangman - Categorys</string>
-    <string name="switch_category_all">All</string>
     <string name="checkbox_cat_all">All</string>
+    <string name="categoryName_capitals">Capitals</string>
+    <string name="categoryName_citys_de">German Citys</string>
+    <string name="categoryName_countries">Countries</string>
+    <string name="categoryName_test">Test Data</string>
+
 </resources>

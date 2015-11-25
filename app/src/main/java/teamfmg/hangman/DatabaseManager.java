@@ -8,13 +8,16 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Switch;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -66,28 +69,34 @@ public class DatabaseManager extends SQLiteOpenHelper
     //TODO: comment and redesign
     public void loadWords(SQLiteDatabase db)
     {
-        InputStream in = c.getResources().openRawResource(R.raw.capitals);
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(in));
 
-        while (true)
-        {
-            try
-            {
+        Field[] fields=R.raw.class.getFields();
+        Logger.logOnlyError(fields[0].getName());
 
-                String line = buffer.readLine();
-                String[] list = line.split(";");
+        for (Field field : fields) {
 
-                String createTableStatement =
-                        "INSERT INTO " + TABLE_WORDS + " (word,category) " +
-                                " VALUES(\""+ list[0] + "\", \"" + list[1] + "\");";
-                db.execSQL(createTableStatement);
+            int id = c.getResources().getIdentifier(field.getName(), "raw", c.getPackageName());
+            InputStream in = c.getResources().openRawResource(id);
 
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(in));
+
+            while (true) {
+
+                try {
+
+                    String line = buffer.readLine();
+                    String[] list = line.split(";");
+
+                    String createTableStatement =
+                            "INSERT INTO " + TABLE_WORDS + " (word,category,description) " +
+                                    " VALUES(\"" + list[0] + "\", \"" + list[1] + "\",\"" + list[2] + "\");";
+                    db.execSQL(createTableStatement);
+                } catch (Exception e) {
+                    Logger.logOnly("Database loaded!");
+                    break;
+                }
             }
-            catch (Exception e)
-            {
-                Logger.logOnly("Database loaded!");
-                break;
-            }
+
         }
     }
 
@@ -109,7 +118,8 @@ public class DatabaseManager extends SQLiteOpenHelper
             createTableStatement =
                     "CREATE TABLE " + TABLE_WORDS + " (" +
                             "word         VARCHAR PRIMARY KEY, " +
-                            "category     VARCHAR NOT NULL); ";
+                            "category     VARCHAR NOT NULL," +
+                            "description  VARCHAR); ";
             db.execSQL(createTableStatement);
             this.loadWords(db);
         }
@@ -229,7 +239,7 @@ public class DatabaseManager extends SQLiteOpenHelper
         {
             do
             {
-                String w = cursor.getString(1);
+                String w = cursor.getString(0);
                 // Add word
                 words.add(w);
             }
@@ -238,6 +248,34 @@ public class DatabaseManager extends SQLiteOpenHelper
             cursor.close();
         }
         return words;
+    }
+
+    /**
+     * Return a List of Categorys (no duplicates)
+     * @return List of Categorys
+     */
+    public ArrayList <String> getCategorys()
+    {
+        ArrayList <String> categorys = new ArrayList<>();
+
+        String query = "SELECT  DISTINCT category FROM " + TABLE_WORDS + ";";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor != null && cursor.moveToFirst())
+        {
+            do
+            {
+                String c = cursor.getString(0);
+                // Add category
+                categorys.add(c);
+            }
+            while (cursor.moveToNext());
+
+            cursor.close();
+        }
+        return categorys;
     }
 
     /**

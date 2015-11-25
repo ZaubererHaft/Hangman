@@ -20,11 +20,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * the current shown picture of Hangman
      */
     private int currentBuildOfHangman;
-    /**
-     * This handles the database connection.
-     */
-    private DatabaseManager db;
-    private List <String> categorys = new ArrayList<>();
+    private static List<String> categorys = new ArrayList<>();
     private String currentWord;
     private TextView label;
     private String[] wordPieces;
@@ -39,9 +35,11 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         this.resetHangman();
         initButtons();
 
-        db = new DatabaseManager(this);
+        /*
+      This handles the database connection.
+     */
+        DatabaseManager db = new DatabaseManager(this);
         label = (TextView) findViewById(R.id.text_askedWord);
-        categorys.add(Word.CAPS);
 
         wordList = db.getWords(categorys);
 
@@ -53,7 +51,6 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * @param letter which is clicked
      */
     private void checkLetter(String letter) {
-        String s;
         boolean isFalse = true;
         for (int i = 0; i < currentWord.length(); i++){
             if (currentWord.charAt(i) == letter.charAt(0)){
@@ -224,6 +221,11 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         ImageView iv = (ImageView) findViewById(R.id.image_hangman);
         iv.setImageResource(R.drawable.hm_0);
         currentBuildOfHangman = 0;
+    }
+
+
+    public void setCategorys(List<String> categorys) {
+        Singleplayer.categorys = categorys;
     }
 
     @Override
