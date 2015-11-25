@@ -61,7 +61,7 @@
     <string name="title_activity_aout">Aout</string>
     <string name="title_activity_about">About</string>
     <string name="label_about">About the developers</string>
-    <string name="label_x">×</string>
+    <string name="label_x">╳</string>
     <string name="text_header_categorys">Hangman - Categorys</string>
     <string name="switch_category_all">All</string>
     <string name="checkbox_cat_all">All</string>

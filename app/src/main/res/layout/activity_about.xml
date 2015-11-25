@@ -19,13 +19,22 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true" />
 
-    <ImageView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/label_x"
         android:id="@+id/about_close"
-        android:src="@drawable/cross"
-        android:cropToPadding="false"
-        android:layout_alignTop="@+id/label_about_header"
-        android:layout_alignParentRight="true" />
+        android:textStyle="bold"
+        android:textColor="@color/color_white"
+        android:onClick="onClick"
+        android:capitalize="characters"
+        android:background="@null"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical|center_horizontal"
+        android:minWidth="@dimen/textSizeDouble"
+        android:textSize="@dimen/textSizeBig"
+        android:layout_alignParentLeft="false"
+        android:minHeight="@dimen/textSizeDouble" />
 
 </RelativeLayout>

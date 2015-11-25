@@ -3,14 +3,14 @@ package teamfmg.hangman;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class About extends Activity implements IApplyableSettings, View.OnClickListener
 {
 
-    private ImageView closeButton;
+    private Button closeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -18,7 +18,7 @@ public class About extends Activity implements IApplyableSettings, View.OnClickL
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_about);
 
-        closeButton = (ImageView) findViewById(R.id.about_close);
+        this.closeButton = (Button) findViewById(R.id.about_close);
         this.closeButton.setOnClickListener(this);
 
         this.changeBackground();

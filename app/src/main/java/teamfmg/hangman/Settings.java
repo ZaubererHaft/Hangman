@@ -186,6 +186,7 @@ public final class Settings
             FileReader fr;
             fr =  new FileReader(Settings.getPath(a)+"/settings.ini");
             BufferedReader br = new BufferedReader(fr,8192);
+
             //Gets the color theme
             String color = br.readLine();
             Settings.stringToColor(color);
