@@ -34,12 +34,14 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
         Button back         = (Button) findViewById(R.id.button_back);
         Button about        = (Button) findViewById(R.id.button_about);
         Button apply        = (Button) findViewById(R.id.button_apply);
+        Button music        = (Button) findViewById(R.id.button_music);
 
         //add ClickListener
         ownWords.setOnClickListener(this);
         back.setOnClickListener(this);
         apply.setOnClickListener(this);
         about.setOnClickListener(this);
+        music.setOnClickListener(this);
 
 
         //TODO: Design vom Dropdown ändern
@@ -107,6 +109,10 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
             case R.id.button_ownWords:
                 Intent j = new Intent(this,Category.class);
                 this.startActivity(j);
+                break;
+            case R.id.button_music:
+                Intent k = new Intent(this,MusicMenu.class);
+                this.startActivity(k);  
                 break;
             default:
                 Logger.write("Currently no function", this);

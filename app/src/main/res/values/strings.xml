@@ -68,5 +68,9 @@
     <string name="categoryName_citys_de">German Citys</string>
     <string name="categoryName_countries">Countries</string>
     <string name="categoryName_test">Test Data</string>
+    <string name="title_activity_music_menu">MusicMenu</string>
+    <string name="options_music_header">Hangman - Music</string>
+    <string name="options_music_mute">Mute</string>
+    <string name="options_music_volume">Volume</string>
 
 </resources>
