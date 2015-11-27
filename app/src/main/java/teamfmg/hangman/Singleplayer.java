@@ -8,116 +8,166 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
 
 //TODO: Comments
 //TODO: Sonderzeichen Bugs
+
+/**
+ * The Hangman single player.
+ * @since 0.5
+ * @author Vincent
+ */
 public class Singleplayer extends Activity implements View.OnClickListener, IApplyableSettings{
 
     /**
      * the current shown picture of Hangman
      */
     private int currentBuildOfHangman;
-    private static List<String> categorys = new ArrayList<>();
+    /**
+     * Word categories.
+     */
+    private static List<String> categories = new ArrayList<>();
+    /**
+     * Current word to guess.
+     */
     private String currentWord;
+    /**
+     * Label to show the text.
+     */
     private TextView label;
+    /**
+     * The current word in String pieces.
+     */
     private String[] wordPieces;
+    /**
+     * All words which can appear.
+     */
     private ArrayList <String> wordList;
 
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_singleplayer);
         this.changeBackground();
-        this.resetHangman();
-        initButtons();
+        //this.resetHangman();
+        this.initButtons();
 
         /*
-      This handles the database connection.
-     */
+            This handles the database connection.
+        */
         DatabaseManager db = new DatabaseManager(this);
-        label = (TextView) findViewById(R.id.text_askedWord);
+        this.label = (TextView) findViewById(R.id.text_askedWord);
 
-        wordList = db.getWords(categorys);
+        this.wordList = db.getWords(Singleplayer.categories);
 
-        resetGame();
+        this.resetGame();
     }
 
     /**
      * Check the word for the pressed letter
+     * TODO: Umlaute
      * @param letter which is clicked
      */
-    private void checkLetter(String letter) {
-        boolean isFalse = true;
-        for (int i = 0; i < currentWord.length(); i++){
-            if (currentWord.charAt(i) == letter.charAt(0)){
-                wordPieces[i] = letter;
-                isFalse = false;
+    private void checkLetter(String letter)
+    {
+        boolean isFalseWord = true;
+        for (int i = 0; i < currentWord.length(); i++)
+        {
+            if (this.currentWord.charAt(i) == letter.charAt(0))
+            {
+                this.wordPieces[i] = letter;
+                isFalseWord = false;
             }
         }
-        if (isFalse){
-            buildHangman();
+        if (isFalseWord)
+        {
+            this.buildHangman();
         }
-        updateLabel();
+        this.updateLabel();
     }
 
     /**
      * loads a new word
      * @param word asked word
+     * @since 0.5
      */
-    private void newWord(String word){
-        wordPieces = new String[word.length()];
+    private void newWord(String word)
+    {
+        this.wordPieces = new String[word.length()];
 
         //add underlines for every letter in the asked word
-        for (int i = 0; i < wordPieces.length; i++){
-            if (word.charAt(i) == ' '){
-                wordPieces[i] = " ";
+        for (int i = 0; i < this.wordPieces.length; i++)
+        {
+            if (word.charAt(i) == ' ')
+            {
+                this.wordPieces[i] = " ";
             }
-            else if (word.charAt(i) == '-'){
-                wordPieces[i] = "-";
+            else if (word.charAt(i) == '-')
+            {
+                this.wordPieces[i] = "-";
             }
-            else if (word.charAt(i) == '.'){
-                wordPieces[i] = ".";
+            else if (word.charAt(i) == '.')
+            {
+                this.wordPieces[i] = ".";
             }
-            else {
-                wordPieces[i] = "_ ";
+            else
+            {
+                this.wordPieces[i] = "_ ";
             }
         }
 
-        resetHangman();
-        resetButtons();
-        updateLabel();
+        this.updateLabel();
     }
 
     /**
-     * Update the label under the Hangman
+     * Updates the label under the Hangman.
+     * @since 0.5
      */
     private void updateLabel()
     {
         String s = "";
-        for (String wordPiece : wordPieces)
+        for (String wordPiece : this.wordPieces)
         {
             s = s + wordPiece;
         }
-        label.setText(s);
-        if (s.equals(currentWord)){
-            Logger.write("Gewonnen! Das Wort war: " + currentWord, this, -200);
-            resetGame();
+
+        this.label.setText(s);
+
+        //win the game
+        if (s.equals(this.currentWord))
+        {
+            this.win();
         }
     }
 
     /**
-     * Resets all buttons to Enabled(true)
+     * Win the game.
      */
-    private void resetButtons(){
+    private void win ()
+    {
+        //TODO: No hardcoded string
+        Logger.write("Gewonnen! Das Wort war: " +  this.currentWord, this, -200);
+        this.resetGame();
+    }
+
+    /**
+     * Resets all buttons to Enabled(true)
+     * @since 0.5
+     */
+    private void resetButtons()
+    {
         //Reset Buttons in row one
         LinearLayout layoutRowOne = (LinearLayout) this.findViewById(R.id.linLayout_rowOne);
-        for (int i = 0; i < layoutRowOne.getChildCount(); i++){
+        for (int i = 0; i < layoutRowOne.getChildCount(); i++)
+        {
             View v = layoutRowOne.getChildAt(i);
-            if (v instanceof Button) {
+            if (v instanceof Button) 
+            {
                 Button b = (Button) v;
                 b.setEnabled(true);
             }
@@ -135,9 +185,11 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
         //Reset Buttons in row three
         LinearLayout layoutRowThree = (LinearLayout) this.findViewById(R.id.linLayout_rowThree);
-        for (int i = 0; i < layoutRowThree.getChildCount(); i++){
+        for (int i = 0; i < layoutRowThree.getChildCount(); i++)
+        {
             View v = layoutRowThree.getChildAt(i);
-            if (v instanceof Button) {
+            if (v instanceof Button)
+            {
                 Button b = (Button) v;
                 b.setEnabled(true);
             }
@@ -145,15 +197,18 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     }
 
     /**
-     * Inits all Buttons in the Keyboard
+     * Inits all Buttons on the Keyboard.
+     * @since 0.5
      */
     private void initButtons()
     {
         //Add OnClickListener for Buttons in row one
         LinearLayout layoutRowOne = (LinearLayout) this.findViewById(R.id.linLayout_rowOne);
-        for (int i = 0; i < layoutRowOne.getChildCount(); i++){
+        for (int i = 0; i < layoutRowOne.getChildCount(); i++)
+        {
             View v = layoutRowOne.getChildAt(i);
-            if (v instanceof Button) {
+            if (v instanceof Button)
+            {
                 Button b = (Button) v;
                 b.setOnClickListener(this);
             }
@@ -161,9 +216,11 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
         //Add OnClickListener for Buttons in row two
         LinearLayout layoutRowTwo = (LinearLayout) this.findViewById(R.id.linLayout_rowTwo);
-        for (int i = 0; i < layoutRowTwo.getChildCount(); i++){
+        for (int i = 0; i < layoutRowTwo.getChildCount(); i++)
+        {
             View v = layoutRowTwo.getChildAt(i);
-            if (v instanceof Button) {
+            if (v instanceof Button)
+            {
                 Button b = (Button) v;
                 b.setOnClickListener(this);
             }
@@ -173,70 +230,101 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         LinearLayout layoutRowThree = (LinearLayout) this.findViewById(R.id.linLayout_rowThree);
         for (int i = 0; i < layoutRowThree.getChildCount(); i++){
             View v = layoutRowThree.getChildAt(i);
-            if (v instanceof Button) {
+            if (v instanceof Button)
+            {
                 Button b = (Button) v;
                 b.setOnClickListener(this);
             }
         }
-}
+    }
 
     /**
-     * Builds the next Part of the Hangman
+     * Builds the next Part of the Hangman.
+     * @since 0.5
      */
     private void buildHangman()
     {
-        currentBuildOfHangman++;
+        final int fullHangman = 12;
+        final int arms = 9;
+        final int legs = 11;
+
+
+        this.currentBuildOfHangman++;
         //Makes that arms and legs appears together
-        if (currentBuildOfHangman == 9 || currentBuildOfHangman == 11){
-            currentBuildOfHangman++;
+        if (this.currentBuildOfHangman == arms || this.currentBuildOfHangman == legs)
+        {
+            this.currentBuildOfHangman++;
         }
-        if(currentBuildOfHangman <= 12){
+        if(this.currentBuildOfHangman <= fullHangman)
+        {
             ImageView iv = (ImageView) findViewById(R.id.image_hangman);
-            int id = this.getResources().getIdentifier("hm_"+currentBuildOfHangman, "drawable", this.getPackageName());
+            int id = this.getResources().getIdentifier
+                    ("hm_"+this.currentBuildOfHangman, "drawable", this.getPackageName());
             iv.setImageResource(id);
         }
-        if (currentBuildOfHangman == 12){
-            //TODO: Offset bearbeiten bzw. Gewinnanzeige ändern
-            Logger.write("Verloren! Das Wort war: " + currentWord, this, -200);
-            resetGame();
+        if (this.currentBuildOfHangman == fullHangman)
+        {
+            this.loose();
         }
+    }
+
+    /**
+     * Looses the game.
+     * @since 0.5
+     */
+    private void loose()
+    {
+        //TODO: Offset bearbeiten bzw. Gewinnanzeige ändern
+        Logger.write("Verloren! Das Wort war: " + this.currentWord, this, -200);
+        resetGame();
     }
 
     /**
      * Resets the Round
+     * @since 0.5
      */
     private void resetGame()
     {
-        int random = (int)(Math.random() * wordList.size());
-        currentWord = wordList.get(random);
-        currentWord = currentWord.toUpperCase();
-        newWord(currentWord);
+        this.resetHangman();
+        int random = (int)(Math.random() * this.wordList.size());
+        this.currentWord = this.wordList.get(random);
+        this.currentWord = this.currentWord.toUpperCase();
+        this.resetButtons();
+        this.newWord(this.currentWord);
     }
 
     /**
      * resets the Hangman. No Part is build
+     * @since 0.5
      */
     private void resetHangman()
     {
         ImageView iv = (ImageView) findViewById(R.id.image_hangman);
         iv.setImageResource(R.drawable.hm_0);
-        currentBuildOfHangman = 0;
+        this.currentBuildOfHangman = 0;
     }
 
-
-    public void setCategorys(List<String> categorys) {
-        Singleplayer.categorys = categorys;
+    /**
+     * Sets the possible categories.
+     * @param categories all categories as list.
+     * @since 0.5
+     */
+    public static void setCategories(List<String> categories)
+    {
+        Singleplayer.categories = categories;
     }
 
     @Override
-    public void changeBackground() {
+    public void changeBackground() 
+    {
         Settings.load(this);
         RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_singleplayer);
         Settings.setColor(rl);
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v) 
+    {
         Button b = (Button) v;
         b.setEnabled(false);
         checkLetter(b.getText().toString());

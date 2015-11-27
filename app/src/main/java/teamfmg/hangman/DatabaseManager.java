@@ -1,6 +1,5 @@
 package teamfmg.hangman;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -8,13 +7,7 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Switch;
-
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
@@ -33,7 +26,7 @@ public class DatabaseManager extends SQLiteOpenHelper
     /**
      * Version of the database.
      */
-    private static final int DATABASE_VERSION       = 16;
+    private static final int DATABASE_VERSION       = 22;
     /**
      * Name of the database
      */
@@ -46,8 +39,12 @@ public class DatabaseManager extends SQLiteOpenHelper
      * Name of the table words
      */
     private static final String TABLE_WORDS    = "words";
+    /**
+     * Context representing the activity.
+     */
+    private Context context;
 
-    private Context c;
+
     /**
      * Creates a new instance of the database handler.
      * @param context Context class.
@@ -57,8 +54,9 @@ public class DatabaseManager extends SQLiteOpenHelper
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
-        c = context;
+        this.context = context;
 
+        //Test user TODO: Remove
         if(this.getUser("Admin") == null)
         {
             this.addUser(new User("Admin",Caeser.encrypt("a",Settings.encryptOffset),
@@ -67,36 +65,45 @@ public class DatabaseManager extends SQLiteOpenHelper
     }
 
     //TODO: comment and redesign
+
+    /**
+     * Loads all words from the *.csv to the data base.
+     * @param db Database to load.
+     */
     public void loadWords(SQLiteDatabase db)
     {
 
-        Field[] fields=R.raw.class.getFields();
-        Logger.logOnlyError(fields[0].getName());
+        //Get all files in raw directory
+        Field[] fields = R.raw.class.getFields();
 
-        for (Field field : fields) {
+        for (Field field : fields)
+        {
+            int id = this.context.getResources().getIdentifier(
+                    field.getName(), "raw", this.context.getPackageName());
 
-            int id = c.getResources().getIdentifier(field.getName(), "raw", c.getPackageName());
-            InputStream in = c.getResources().openRawResource(id);
+            InputStream in = this.context.getResources().openRawResource(id);
 
             BufferedReader buffer = new BufferedReader(new InputStreamReader(in));
 
-            while (true) {
+            String line = "";
 
-                try {
-
-                    String line = buffer.readLine();
+            while(line != null)
+            {
+                try
+                {
+                    line = buffer.readLine();
                     String[] list = line.split(";");
 
                     String createTableStatement =
                             "INSERT INTO " + TABLE_WORDS + " (word,category,description) " +
                                     " VALUES(\"" + list[0] + "\", \"" + list[1] + "\",\"" + list[2] + "\");";
                     db.execSQL(createTableStatement);
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     Logger.logOnly("Database loaded!");
-                    break;
                 }
             }
-
         }
     }
 
@@ -171,7 +178,8 @@ public class DatabaseManager extends SQLiteOpenHelper
      * Add a word to the database
      * @param w Word to add
      */
-    public void addWord (Word w){
+    public void addWord (Word w)
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues val = new ContentValues();
         val.put("word", w.getWord());

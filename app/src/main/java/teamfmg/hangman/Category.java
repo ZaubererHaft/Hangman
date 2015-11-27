@@ -82,8 +82,8 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
             }
         }
         if (choosenCategorys.size() > 0){
-            Singleplayer s = new Singleplayer();
-            s.setCategorys(choosenCategorys);
+
+            Singleplayer.setCategories(choosenCategorys);
             Logger.write("Categorys saved!", this);
         }
         else{
