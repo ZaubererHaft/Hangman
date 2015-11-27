@@ -88,6 +88,7 @@ public final class Settings
     /**
      * Returns the screenSize of an activity.
      * @param a the activity.
+     * @deprecated
      * @return Point.
      * @since 0.2
      */

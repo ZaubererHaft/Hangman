@@ -55,6 +55,10 @@
             android:name=".MusicMenu"
             android:label="@string/title_activity_music_menu" >
         </activity>
+        <activity
+            android:name=".LayoutMenu"
+            android:label="@string/title_activity_layout_menu" >
+        </activity>
     </application>
 
 </manifest>

@@ -1,7 +1,6 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -38,7 +37,7 @@ public class RegisterMenu extends Activity implements View.OnClickListener, IApp
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_menu);
 
-        this.back       = (Button)this.findViewById(R.id.button_back);
+        this.back       = (Button)this.findViewById(R.id.register_close);
         this.register   = (Button)this.findViewById(R.id.button_register);
 
         this.mail       = (EditText)this.findViewById(R.id.textField_register_mail);
@@ -52,14 +51,6 @@ public class RegisterMenu extends Activity implements View.OnClickListener, IApp
         this.register.setOnClickListener(this);
 
         db = new DatabaseManager(this);
-
-        Point p = Settings.getScreenSize(this);
-
-        //Hide the hint field if the min screen size is too low
-        if(p.y <= Settings.minScreenRes.y)
-        {
-            this.findViewById(R.id.label_register_hint).setVisibility(View.INVISIBLE);
-        }
 
         this.changeBackground();
 

@@ -72,5 +72,11 @@
     <string name="options_music_header">Hangman - Music</string>
     <string name="options_music_mute">Mute</string>
     <string name="options_music_volume">Volume</string>
+    <string name="title_activity_layout_menu">LayoutMenu</string>
+    <string name="options_layout_header">Hangman - Video</string>
+    <string name="label_options_video">Video</string>
+    <string name="button_video">Video</string>
+    <string name="button_options_music">Music</string>
+    <string name="button_options_categories">Categories</string>
 
 </resources>

@@ -20,18 +20,6 @@
         android:textIsSelectable="false"
         android:textSize="@dimen/textSizeBig" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_back"
-        android:id="@+id/button_back"
-        android:minHeight="@dimen/button_height"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:textSize="@dimen/textSizeMedium" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -116,14 +104,9 @@
         android:text="@string/button_register"
         android:id="@+id/button_register"
         android:minHeight="@dimen/button_height"
-        android:layout_above="@+id/button_back"
-        android:layout_alignStart="@+id/button_back"
-        android:layout_alignLeft="@+id/button_back"
-        android:layout_centerInParent="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
         android:textSize="@dimen/textSizeMedium"
-        />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -160,5 +143,22 @@
         android:singleLine="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_x"
+        android:id="@+id/register_close"
+        android:textStyle="bold"
+        android:textColor="@color/color_white"
+        android:onClick="onClick"
+        android:capitalize="characters"
+        android:background="@null"
+        android:gravity="center_vertical|center_horizontal"
+        android:minWidth="@dimen/textSizeDouble"
+        android:textSize="@dimen/textSizeBig"
+        android:minHeight="@dimen/textSizeDouble"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/label_register_username" />
 
 </RelativeLayout>

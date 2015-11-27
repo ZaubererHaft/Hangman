@@ -2,7 +2,8 @@ package teamfmg.hangman;
 
 /**
  * TODO: Comment, categories
- * Created by Vincent on 19.11.2015.
+ * Created by Vincent on 23.11.2015.
+ * @since 0.6
  */
 public class Word
 {

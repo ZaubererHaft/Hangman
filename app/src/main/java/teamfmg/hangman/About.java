@@ -5,8 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
+/**
+ * About menu.
+ * Created by Ludwig on 23.11.2015.
+ * @since 0.6
+ */
 public class About extends Activity implements IApplyableSettings, View.OnClickListener
 {
 

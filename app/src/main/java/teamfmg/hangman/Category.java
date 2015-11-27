@@ -12,7 +12,10 @@ import android.widget.ScrollView;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Created by Vincent on 23.11.2015.
+ * @since 0.6
+ */
 public class Category extends Activity implements IApplyableSettings, View.OnClickListener{
 
     /**

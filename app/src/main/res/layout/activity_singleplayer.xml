@@ -15,7 +15,8 @@
         android:src="@drawable/hm_12"
         android:adjustViewBounds="true"
         android:scaleType="fitStart"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/marginToHeader" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -293,5 +294,22 @@
                 android:minWidth="@dimen/button_keybord_width" />
         </LinearLayout>
     </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_x"
+        android:id="@+id/singleplayer_back"
+        android:textStyle="bold"
+        android:textColor="@color/color_white"
+        android:onClick="onClick"
+        android:capitalize="characters"
+        android:background="@null"
+        android:gravity="center_vertical|center_horizontal"
+        android:minWidth="@dimen/textSizeDouble"
+        android:textSize="@dimen/textSizeBig"
+        android:minHeight="@dimen/textSizeDouble"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true" />
 
 </RelativeLayout>

@@ -4,10 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
+
 /**
  * The Options menu for Hangman.<br />
  * Created by Vincent 12.11.2015.
@@ -16,112 +15,75 @@ import android.widget.Spinner;
 public class Options extends Activity implements View.OnClickListener, IApplyableSettings
 {
 
-    /**
-     * GUI objects.
-     */
-    private Spinner colorSpinner;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        String[] colorList;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
 
         //init Buttons
         Button ownWords     = (Button) findViewById(R.id.button_ownWords);
-        Button back         = (Button) findViewById(R.id.button_back);
         Button about        = (Button) findViewById(R.id.button_about);
-        Button apply        = (Button) findViewById(R.id.button_apply);
-        Button music        = (Button) findViewById(R.id.button_music);
+        Button music        = (Button) findViewById(R.id.button_options_music);
+        Button closeButton  = (Button) findViewById(R.id.options_close);
+        Button video        = (Button) findViewById(R.id.button_video);
 
         //add ClickListener
+        closeButton.setOnClickListener(this);
         ownWords.setOnClickListener(this);
-        back.setOnClickListener(this);
-        apply.setOnClickListener(this);
         about.setOnClickListener(this);
         music.setOnClickListener(this);
-
-
-        //TODO: Design vom Dropdown ändern
-        colorSpinner = (Spinner) findViewById(R.id.spinner_chooseColor);
-
-        colorList = new String[]
-        {
-            this.getString(R.string.color_blue),
-            getString(R.string.color_green),
-            getString(R.string.color_orange),
-            getString(R.string.color_purple)
-        };
-
-        //add values to Spinner
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, colorList);
-        colorSpinner.setAdapter(adapter);
+        video.setOnClickListener(this);
 
         this.changeBackground();
 
-        //Select the active element from the spinner
-        switch (Settings.getTheme())
-        {
-            case BLUE:
-                this.colorSpinner.setSelection(0);
-                break;
-            case GREEN:
-                this.colorSpinner.setSelection(1);
-                break;
-            case ORANGE:
-                this.colorSpinner.setSelection(2);
-                break;
-            case PURPLE:
-                this.colorSpinner.setSelection(3);
-                break;
-        }
     }
 
     //TODO: implement about
     @Override
     public void onClick(View v)
     {
+        Intent i;
+
         switch (v.getId())
         {
-            case R.id.button_back:
-                this.finish();
-                break;
-            case R.id.button_apply:
-                String s = this.colorSpinner.getSelectedItem().toString();
-
-               //chooses color from string
-                Settings.stringToColor(s.toUpperCase());
-
-                //apply color on layout
-                this.changeBackground();
-
-                //save settings
-                Settings.save(this);
-
-                break;
             case R.id.button_about:
-                Intent i = new Intent(this,About.class);
+                 i = new Intent(this,About.class);
                 this.startActivity(i);
                 break;
             case R.id.button_ownWords:
-                Intent j = new Intent(this,Category.class);
-                this.startActivity(j);
+                i = new Intent(this,Category.class);
+                this.startActivity(i);
                 break;
-            case R.id.button_music:
-                Intent k = new Intent(this,MusicMenu.class);
-                this.startActivity(k);  
+            case R.id.button_options_music:
+                i = new Intent(this,MusicMenu.class);
+                this.startActivity(i);
+                break;
+            case R.id.button_video:
+                i = new Intent(this,LayoutMenu.class);
+                this.startActivity(i);
+                break;
+            case R.id.options_close:
+                this.finish();
                 break;
             default:
                 Logger.write("Currently no function", this);
         }
     }
 
+    //this is needed to see the changes in the options menu
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        this.changeBackground();
+    }
+
     @Override
     public void changeBackground()
     {
+        Settings.load(this);
         RelativeLayout rl   = (RelativeLayout)this.findViewById(R.id.relLayout_options);
         Settings.setColor(rl);
     }

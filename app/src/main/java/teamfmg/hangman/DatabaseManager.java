@@ -255,6 +255,8 @@ public class DatabaseManager extends SQLiteOpenHelper
 
             cursor.close();
         }
+
+        db.close();
         return words;
     }
 
@@ -282,7 +284,9 @@ public class DatabaseManager extends SQLiteOpenHelper
             while (cursor.moveToNext());
 
             cursor.close();
+
         }
+        db.close();
         return categorys;
     }
 
@@ -326,6 +330,6 @@ public class DatabaseManager extends SQLiteOpenHelper
     @Override
     public void close()
     {
-        //this.getWritableDatabase().close();
+        this.getWritableDatabase().close();
     }
 }

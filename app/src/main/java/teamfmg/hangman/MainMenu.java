@@ -45,11 +45,14 @@ public class MainMenu extends Activity implements View.OnClickListener, IApplyab
             case R.id.button_exit:
                 System.exit(0);
                 break;
+
             //Open Options Activity
             case R.id.button_options:
                 Intent i = new Intent(this, Options.class);
                 this.startActivity(i);
                 break;
+
+            //Single player
             case R.id.button_play:
                 Intent j = new Intent(this, Singleplayer.class);
                 this.startActivity(j);

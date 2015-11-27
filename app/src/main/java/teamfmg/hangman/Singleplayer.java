@@ -53,19 +53,22 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_singleplayer);
-        this.changeBackground();
-        //this.resetHangman();
+
+        Button back = (Button)this.findViewById(R.id.singleplayer_back);
+        back.setOnClickListener(this);
+
         this.initButtons();
 
         /*
             This handles the database connection.
         */
         DatabaseManager db = new DatabaseManager(this);
-        this.label = (TextView) findViewById(R.id.text_askedWord);
 
+        this.label = (TextView) findViewById(R.id.text_askedWord);
         this.wordList = db.getWords(Singleplayer.categories);
 
         this.resetGame();
+        this.changeBackground();
     }
 
     /**
@@ -325,6 +328,13 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     @Override
     public void onClick(View v) 
     {
+
+        if(v.getId() == this.findViewById(R.id.singleplayer_back).getId())
+        {
+            this.finish();
+            return;
+        }
+
         Button b = (Button) v;
         b.setEnabled(false);
         checkLetter(b.getText().toString());
