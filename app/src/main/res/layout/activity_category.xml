@@ -45,4 +45,21 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="false" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_x"
+        android:id="@+id/category_close"
+        android:textStyle="bold"
+        android:textColor="@color/color_white"
+        android:onClick="onClick"
+        android:capitalize="characters"
+        android:background="@null"
+        android:gravity="center_vertical|center_horizontal"
+        android:minWidth="@dimen/textSizeDouble"
+        android:textSize="@dimen/textSizeBig"
+        android:minHeight="@dimen/textSizeDouble"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true" />
+
 </RelativeLayout>

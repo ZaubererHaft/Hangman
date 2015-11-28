@@ -52,6 +52,7 @@ public final class Settings
     /**
      * Gets the color theme of the game.
      * @return Theme (enum).
+     * @since 0.3
      */
     public static Theme getTheme()
     {
@@ -61,6 +62,7 @@ public final class Settings
     /**
      * Gets the current user.
      * @return user
+     * @since 0.3
      */
     public static User getCurrentUser()
     {
@@ -70,6 +72,7 @@ public final class Settings
     /**
      * Gets the latest password
      * @return user
+     * @since 0.3
      */
     public static String getLastPassword()
     {
@@ -79,6 +82,7 @@ public final class Settings
     /**
      * Sets the current user.
      * @param currentUser user
+     * @since 0.3
      */
     public static void setCurrentUser(User currentUser)
     {
@@ -160,6 +164,7 @@ public final class Settings
      * Gets the name of the latest logged in user. <br />
      * Use this to fill in the username in the login mask.
      * @return string.
+     * @since 0.3
      */
     public static String getLastUsername()
     {

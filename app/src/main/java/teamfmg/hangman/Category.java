@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,62 +36,76 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
     private List<CheckBox> checkBoxes;
 
     /**
-     * List of avaible Categorys in DataBase
+     * List of available Categorys in DataBase
      */
     private List<String> avaibleCategorys;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_category);
 
         //Init
-        checkBox_all                = (CheckBox)    findViewById(R.id.checkBox_cat_all);
-        ScrollView scrollView       = (ScrollView)  findViewById(R.id.scrollView_cats);
+        this.checkBox_all           = (CheckBox)    this.findViewById(R.id.checkBox_cat_all);
+        ScrollView scrollView       = (ScrollView)  this.findViewById(R.id.scrollView_cats);
+
+        Button close                = (Button)      this.findViewById(R.id.category_close);
+        close.setOnClickListener(this);
+
         LinearLayout linearLayout   = new           LinearLayout(this);
-        checkBoxes                  = new           ArrayList<>();
+        this.checkBoxes             = new           ArrayList<>();
         DatabaseManager db          = new           DatabaseManager(this);
-        avaibleCategorys            = new           ArrayList<>();
+        this.avaibleCategorys       = new           ArrayList<>();
 
         //Adding OnClickListener
-        checkBox_all.setOnClickListener(this);
+        this.checkBox_all.setOnClickListener(this);
 
         //Additional GUI Settings
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         scrollView.addView(linearLayout);
         this.changeBackground();
 
-        //read DISTINCT Categorys from DataBase
-        avaibleCategorys =  db.getCategorys();
+        //read DISTINCT Categories from DataBase
+        this.avaibleCategorys =  db.getCategories();
 
         //Add one Checkbox for each Button (+ GUI Settings)
-        for (int i = 0; i < avaibleCategorys.size(); i++)
+        for (int i = 0; i < this.avaibleCategorys.size(); i++)
         {
             CheckBox c = new CheckBox(this);
             c.setId(++viewsCount);
             linearLayout.addView(c);
-            c.setText(convertCategoryName(avaibleCategorys.get(i)));
+            c.setText(convertCategoryName(this.avaibleCategorys.get(i)));
             c.setTextColor(Color.WHITE);
             c.setOnClickListener(this);
-            checkBoxes.add(c);
+            this.checkBoxes.add(c);
         }
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
         super.onPause();
+
+        //Save categories automatically if the user leaves the window
         List<String> choosenCategorys = new ArrayList<>();
-        for (int i = 0; i < checkBoxes.size(); i++) {
+
+        for (int i = 0; i < checkBoxes.size(); i++)
+        {
             if (checkBoxes.get(i).isChecked()){
                 choosenCategorys.add(avaibleCategorys.get(i));
             }
         }
-        if (choosenCategorys.size() > 0){
 
+
+        if (choosenCategorys.size() > 0)
+        {
             Singleplayer.setCategories(choosenCategorys);
             Logger.write("Categorys saved!", this);
         }
-        else{
+        //if no checkbox is selected, do not save
+        else
+        {
             Logger.write("Categorys NOT saved!", this);
         }
     }
@@ -98,8 +114,10 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
      * Converting the tag in the Database to an Correct Description
      * @param nameInDatabase attribute in column category
      * @return a nice looking Description (String)
+     * @since 0.6
      */
-    public String convertCategoryName(String nameInDatabase){
+    public String convertCategoryName(String nameInDatabase)
+    {
         String newName;
         switch (nameInDatabase){
             case "capitals":
@@ -119,20 +137,24 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
     }
 
     @Override
-    public void changeBackground() {
+    public void changeBackground()
+    {
         Settings.load(this);
         RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_categorys);
         Settings.setColor(rl);
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
         switch (v.getId())
         {
             //All buttons set checked/unchecked
             case R.id.checkBox_cat_all:
-                try{
-                    if (checkBox_all.isChecked()){
+                try
+                {
+                    if (checkBox_all.isChecked())
+                    {
                         for (int i = 0; i < viewsCount; i++){
                             checkBoxes.get(i).setChecked(true);
                         }
@@ -143,10 +165,16 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
                         }
                     }
                 }
-                catch (Exception ex){
+                catch (Exception ex)
+                {
                     Logger.logOnlyError(ex.getMessage());
                 }
                 break;
+
+            case R.id.category_close:
+                this.finish();
+                break;
+
             default:
                 Logger.write("Currently no function", this);
         }

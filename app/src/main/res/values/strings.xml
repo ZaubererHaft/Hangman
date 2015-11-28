@@ -77,6 +77,7 @@
     <string name="label_options_video">Video</string>
     <string name="button_video">Video</string>
     <string name="button_options_music">Music</string>
-    <string name="button_options_categories">Categories</string>
+    <string name="button_options_categories">Categories</string>,
+    <string name="hint_loading">Loading databases...</string>
 
 </resources>

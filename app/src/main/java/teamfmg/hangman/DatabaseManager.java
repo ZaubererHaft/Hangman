@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
@@ -26,7 +27,7 @@ public class DatabaseManager extends SQLiteOpenHelper
     /**
      * Version of the database.
      */
-    private static final int DATABASE_VERSION       = 22;
+    private static final int DATABASE_VERSION       = 58;
     /**
      * Name of the database
      */
@@ -64,14 +65,14 @@ public class DatabaseManager extends SQLiteOpenHelper
         }
     }
 
-    //TODO: comment and redesign
-
     /**
      * Loads all words from the *.csv to the data base.
      * @param db Database to load.
      */
     public void loadWords(SQLiteDatabase db)
     {
+
+        Logger.logOnly(R.string.hint_loading);
 
         //Get all files in raw directory
         Field[] fields = R.raw.class.getFields();
@@ -83,15 +84,24 @@ public class DatabaseManager extends SQLiteOpenHelper
 
             InputStream in = this.context.getResources().openRawResource(id);
 
-            BufferedReader buffer = new BufferedReader(new InputStreamReader(in));
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(in),8192);
 
             String line = "";
 
-            while(line != null)
+            int amount = 0;
+
+            while(true)
             {
                 try
                 {
                     line = buffer.readLine();
+
+                    if(line == null)
+                    {
+                        Logger.logOnly(field.toString()+": Data loaded: " +amount);
+                        break;
+                    }
+                    ++amount;
                     String[] list = line.split(";");
 
                     String createTableStatement =
@@ -99,9 +109,9 @@ public class DatabaseManager extends SQLiteOpenHelper
                                     " VALUES(\"" + list[0] + "\", \"" + list[1] + "\",\"" + list[2] + "\");";
                     db.execSQL(createTableStatement);
                 }
-                catch (Exception e)
+                catch (IOException ex)
                 {
-                    Logger.logOnly("Database loaded!");
+                    Logger.logOnly(ex.getMessage());
                 }
             }
         }
@@ -123,10 +133,13 @@ public class DatabaseManager extends SQLiteOpenHelper
         {
             //Create words table
             createTableStatement =
-                    "CREATE TABLE " + TABLE_WORDS + " (" +
-                            "word         VARCHAR PRIMARY KEY, " +
+                    "CREATE TABLE " + TABLE_WORDS +
+                            " (" +
+                            "word         VARCHAR NOT NULL, " +
                             "category     VARCHAR NOT NULL," +
-                            "description  VARCHAR); ";
+                            "description  VARCHAR," +
+                            "PRIMARY KEY (word, category)"+
+                            "); ";
             db.execSQL(createTableStatement);
             this.loadWords(db);
         }
@@ -137,9 +150,10 @@ public class DatabaseManager extends SQLiteOpenHelper
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
+    {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS_NAME);
-        db.execSQL("DROP TABLE IF EXISTS "+ TABLE_WORDS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_WORDS);
         this.onCreate(db);
     }
 
@@ -153,6 +167,7 @@ public class DatabaseManager extends SQLiteOpenHelper
         SQLiteDatabase db = this.getWritableDatabase();
         String statement = "DROP TABLE IF EXISTS" + TABLE_USERS_NAME+";";
         db.execSQL(statement);
+        db.close();
     }
 
     /**
@@ -168,7 +183,7 @@ public class DatabaseManager extends SQLiteOpenHelper
         ContentValues val = new ContentValues();
         val.put("username",u.getName());
         val.put("password", u.getPassword());
-        val.put("mail",u.getMail());
+        val.put("mail", u.getMail());
 
         db.insert(TABLE_USERS_NAME, null, val);
         db.close();
@@ -214,6 +229,7 @@ public class DatabaseManager extends SQLiteOpenHelper
             }
             while (cursor.moveToNext());
 
+            db.close();
             cursor.close();
         }
         return users;
@@ -221,21 +237,23 @@ public class DatabaseManager extends SQLiteOpenHelper
 
     /**
      * Return a List of Words
-     * @param categorys Categorys witch get selected
+     * @param categories Categories witch get selected
      * @return List of Words
      */
-    public ArrayList <String> getWords(List <String> categorys)
+    public ArrayList <String> getWords(List <String> categories)
     {
         ArrayList <String> words = new ArrayList<>();
 
-        String query = "SELECT  * FROM " + TABLE_WORDS;
+        String query = "SELECT * FROM " + TABLE_WORDS;
 
-        for (int i = 0; i < categorys.size(); i++){
-            if (i == 0) {
-                query = query + " WHERE category LIKE \"" + categorys.get(i) + "\"";
+        for (int i = 0; i < categories.size(); i++)
+        {
+            if (i == 0)
+            {
+                query = query + " WHERE category LIKE \"" + categories.get(i) + "\"";
                 continue;
             }
-            query = query + " OR category LIKE \"" + categorys.get(i) + "\"";
+            query = query + " OR category LIKE \"" + categories.get(i) + "\"";
         }
 
         query = query + ";";
@@ -253,10 +271,10 @@ public class DatabaseManager extends SQLiteOpenHelper
             }
             while (cursor.moveToNext());
 
+            db.close();
             cursor.close();
         }
 
-        db.close();
         return words;
     }
 
@@ -264,11 +282,11 @@ public class DatabaseManager extends SQLiteOpenHelper
      * Return a List of Categorys (no duplicates)
      * @return List of Categorys
      */
-    public ArrayList <String> getCategorys()
+    public ArrayList <String> getCategories()
     {
-        ArrayList <String> categorys = new ArrayList<>();
+        ArrayList <String> categories = new ArrayList<>();
 
-        String query = "SELECT  DISTINCT category FROM " + TABLE_WORDS + ";";
+        String query = "SELECT DISTINCT category FROM " + TABLE_WORDS + ";";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -279,15 +297,15 @@ public class DatabaseManager extends SQLiteOpenHelper
             {
                 String c = cursor.getString(0);
                 // Add category
-                categorys.add(c);
+                categories.add(c);
             }
             while (cursor.moveToNext());
 
             cursor.close();
+            db.close();
 
         }
-        db.close();
-        return categorys;
+        return categories;
     }
 
     /**
@@ -299,7 +317,7 @@ public class DatabaseManager extends SQLiteOpenHelper
      */
     public User getUser(String name) throws NullPointerException
     {
-        String query = "SELECT  * FROM " + TABLE_USERS_NAME +
+        String query = "SELECT * FROM " + TABLE_USERS_NAME +
                 " WHERE username LIKE '" + name + "';";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -330,6 +348,6 @@ public class DatabaseManager extends SQLiteOpenHelper
     @Override
     public void close()
     {
-        this.getWritableDatabase().close();
+        //this.getWritableDatabase().close();
     }
 }

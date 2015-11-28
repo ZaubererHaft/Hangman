@@ -28,6 +28,7 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
         Button music        = (Button) findViewById(R.id.button_options_music);
         Button closeButton  = (Button) findViewById(R.id.options_close);
         Button video        = (Button) findViewById(R.id.button_video);
+        Button category     = (Button) findViewById(R.id.button_options_categories);
 
         //add ClickListener
         closeButton.setOnClickListener(this);
@@ -35,6 +36,7 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
         about.setOnClickListener(this);
         music.setOnClickListener(this);
         video.setOnClickListener(this);
+        category.setOnClickListener(this);
 
         this.changeBackground();
 
@@ -52,7 +54,7 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
                  i = new Intent(this,About.class);
                 this.startActivity(i);
                 break;
-            case R.id.button_ownWords:
+            case R.id.button_options_categories:
                 i = new Intent(this,Category.class);
                 this.startActivity(i);
                 break;
