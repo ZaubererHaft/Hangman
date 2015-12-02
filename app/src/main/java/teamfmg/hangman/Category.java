@@ -46,6 +46,8 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_category);
 
+        this.changeBackground();
+
         //Init
         CheckBox checkBox_all           = (CheckBox)    this.findViewById(R.id.checkBox_cat_all);
         ScrollView scrollView       = (ScrollView)  this.findViewById(R.id.scrollView_cats);
@@ -65,7 +67,7 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
         //Additional GUI Settings
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         scrollView.addView(linearLayout);
-        this.changeBackground();
+
 
         //read DISTINCT Categories from DataBase
         this.avaibleCategories =  db.getCategories();
@@ -81,6 +83,11 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
             c.setTextColor(Color.WHITE);
             c.setOnClickListener(this);
             this.checkBoxes.add(c);
+
+            if(Settings.getCategories().contains(this.avaibleCategories.get(i)))
+            {
+                c.setChecked(true);
+            }
         }
     }
 
@@ -104,7 +111,7 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
         if (chosenCategories.size() > 0)
         {
             Settings.setCategories(chosenCategories);
-            Logger.write("Categories saved!", this);
+            Settings.save(this);
         }
         //if no checkbox is selected, do not save
         else
@@ -167,9 +174,6 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
             case R.id.category_close:
                 this.finish();
                 break;
-
-            default:
-                Logger.write("Currently no function", this);
         }
     }
 }

@@ -169,6 +169,12 @@ public final class Settings
             pWriter.println(theme.toString());
             pWriter.println(getCurrentUser().getName());
             pWriter.println(getCurrentUser().getPassword());
+
+            for (int i = 0; i < categories.size(); i++)
+            {
+                pWriter.println(categories.get(i));
+            }
+
             Logger.logOnly("Settings saved!");
         }
         catch (IOException ex)
@@ -206,6 +212,7 @@ public final class Settings
         try
         {
             File file = new File(Settings.getPath(a) + "/settings.ini");
+            categories = new ArrayList<>();
 
             //if the file doesn't exits, just create one.
             if(!file.exists())
@@ -226,6 +233,19 @@ public final class Settings
             lastUsername =  br.readLine();
             String pw = br.readLine();
             lastPassword =  Caeser.encrypt(pw,128 - Settings.encryptOffset);
+
+            String cat;
+
+            while(true)
+            {
+                cat = br.readLine();
+
+                if(cat == null)
+                {
+                    break;
+                }
+                categories.add(cat);
+            }
 
             Logger.logOnly("Settings loaded!");
             fr.close();
