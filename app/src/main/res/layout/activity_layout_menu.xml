@@ -68,4 +68,29 @@
         android:minHeight="@dimen/textSizeDouble"
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/options_menu_spinner" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/options_video_label_quality"
+        android:id="@+id/options_video_label_quality"
+        android:textSize="@dimen/textSizeMedium"
+        android:textColor="@color/color_white"
+        android:layout_below="@+id/options_menu_spinner"
+        android:layout_alignParentLeft="true" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/video_seekbar"
+        android:layout_below="@+id/options_video_label_quality"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:max="@integer/maxQuality"
+        android:indeterminate="false"
+        android:progress="7"
+        android:layout_toRightOf="@+id/options_menu_spinner"
+        android:layout_alignLeft="@+id/options_menu_spinner" />
 </RelativeLayout>

@@ -1,6 +1,10 @@
 package teamfmg.hangman;
 
-import android.media.Image;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
@@ -10,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import java.util.ArrayList;
-import java.util.List;
 
 //TODO: Comments
 //TODO: Sonderzeichen Bugs
@@ -43,42 +46,93 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * All words which can appear.
      */
     private ArrayList <String> wordList;
-
+    /**
+     * How many parts there are of the hangman.
+     */
+    private static final int fullHangman = 12;
+    /**
+     * The ids of the hangman parts.
+     */
+    private static ArrayList<Integer> hangmanParts = new ArrayList<>(fullHangman);
+    /**
+     * The hangman pictures.
+     */
+    private static ArrayList<Drawable> pics = new ArrayList<>(fullHangman);
+    /**
+     * The main imageview.
+     */
+    private ImageView hangmanDrawable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_singleplayer);
+        this.setContentView(R.layout.activity_singleplayer);
 
         Button back = (Button)this.findViewById(R.id.singleplayer_back);
         back.setOnClickListener(this);
 
-        this.initButtons();
+        this.hangmanDrawable  = (ImageView) findViewById(R.id.image_hangman);
+        this.label            = (TextView) findViewById(R.id.text_askedWord);
 
-        /*
-            This handles the database connection.
-        */
+        //This handles the database connection.
         DatabaseManager db = new DatabaseManager(this);
 
-        this.label = (TextView) findViewById(R.id.text_askedWord);
 
         //gets the categories of the settings.
         this.wordList = db.getWords();
 
-        this.resetGame();
         this.changeBackground();
+        this.initButtons();
+        this.loadHangmanData(Settings.getQuality());
+        this.resetGame();
+    }
+
+    /**
+     * Loads all hangman images as bitmap.
+     * @param quality The quality to decode the samples.<br/>
+     *                <b>A value from 2 to 4 is recommended!</b>
+     * @since 0.7
+     */
+    private void loadHangmanData(int quality)
+    {
+        if(Singleplayer.hangmanParts.size() == 0)
+        {
+            Logger.logOnly("Loading images...");
+
+            Resources res = this.getResources();
+
+            for (int i = 0; i < Singleplayer.fullHangman; i++)
+            {
+                //adds the IDs of the images
+                Singleplayer.hangmanParts.add(this.getResources().getIdentifier
+                        ("hm_" + i, "drawable", this.getPackageName()));
+
+                //decodes drawables as bitmap
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = quality;
+
+                Bitmap b =
+                        BitmapFactory.decodeResource(res, Singleplayer.hangmanParts.get(i), options);
+                Drawable d = new BitmapDrawable(res, b);
+
+                //add them to a saved list
+                Singleplayer.pics.add(d);
+            }
+
+            Logger.logOnly("Images successfully loaded!");
+        }
+
     }
 
     /**
      * Check the word for the pressed letter
-     * TODO: Umlaute
      * @param letter which is clicked
      */
     private void checkLetter(String letter)
     {
         boolean isFalseWord = true;
-        for (int i = 0; i < currentWord.length(); i++)
+        for (int i = 0; i < this.currentWord.length(); i++)
         {
             char sign = this.currentWord.charAt(i);
 
@@ -101,10 +155,8 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
             {
                 this.wordPieces[i] = letter;
                 isFalseWord = false;
-                break;
             }
         }
-
 
         if (isFalseWord)
         {
@@ -267,9 +319,8 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      */
     private void buildHangman()
     {
-        final int fullHangman = 12;
-        final int arms = 9;
-        final int legs = 11;
+        final int arms = 8;
+        final int legs = 10;
 
 
         this.currentBuildOfHangman++;
@@ -278,14 +329,13 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         {
             this.currentBuildOfHangman++;
         }
-        if(this.currentBuildOfHangman <= fullHangman)
+        if(this.currentBuildOfHangman < fullHangman)
         {
-            ImageView iv = (ImageView) findViewById(R.id.image_hangman);
-            int id = this.getResources().getIdentifier
-                    ("hm_"+this.currentBuildOfHangman, "drawable", this.getPackageName());
-            iv.setImageResource(id);
+            //this.hangmanDrawable = pics.get(this.currentBuildOfHangman);
+            Drawable d = pics.get(currentBuildOfHangman);
+            this.hangmanDrawable.setImageDrawable(d);
         }
-        if (this.currentBuildOfHangman == fullHangman)
+        else
         {
             this.loose();
         }
@@ -322,8 +372,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      */
     private void resetHangman()
     {
-        ImageView iv = (ImageView) findViewById(R.id.image_hangman);
-        iv.setImageResource(R.drawable.hm_0);
+        this.hangmanDrawable.setImageDrawable(pics.get(0));
         this.currentBuildOfHangman = 0;
     }
 

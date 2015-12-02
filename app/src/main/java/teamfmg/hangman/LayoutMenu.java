@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 
 /**
@@ -19,6 +20,8 @@ public class LayoutMenu extends Activity implements View.OnClickListener,IApplya
      * GUI objects.
      */
     private Spinner colorSpinner;
+    private SeekBar seekbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -29,12 +32,17 @@ public class LayoutMenu extends Activity implements View.OnClickListener,IApplya
         Button closeButton  = (Button) this.findViewById(R.id.layout_close);
         Button applyButton  = (Button) this.findViewById(R.id.button_video_apply);
 
+        seekbar = (SeekBar) this.findViewById(R.id.video_seekbar);
+        seekbar.setOnClickListener(this);
+
         closeButton.setOnClickListener(this);
         applyButton.setOnClickListener(this);
 
         this.createSpinner();
         this.chooseActiveElementFromSettings();
         this.changeBackground();
+
+        seekbar.setProgress(Settings.qualityCodec - Settings.getQuality());
     }
 
     /**
@@ -91,10 +99,14 @@ public class LayoutMenu extends Activity implements View.OnClickListener,IApplya
     {
         if (v.getId() == R.id.button_video_apply)
         {
+            int value;
+
             String s = this.colorSpinner.getSelectedItem().toString();
+            value = this.seekbar.getProgress();
 
             //chooses color from string
             Settings.stringToColor(s.toUpperCase());
+            Settings.setQuality(Settings.qualityCodec - value);
 
             //apply color on layout
             this.changeBackground();
@@ -102,6 +114,8 @@ public class LayoutMenu extends Activity implements View.OnClickListener,IApplya
             //save settings
             Settings.save(this);
         }
+
+
         //close activity
         else if (v.getId() == R.id.layout_close)
         {

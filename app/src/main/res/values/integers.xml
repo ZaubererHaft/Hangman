@@ -3,4 +3,5 @@
     <integer name="maxPasswordLength">20</integer>
     <integer name="maxUsernameValue">20</integer>
     <integer name="maxMailLength">35</integer>
+    <integer name="maxQuality">7</integer>
 </resources>

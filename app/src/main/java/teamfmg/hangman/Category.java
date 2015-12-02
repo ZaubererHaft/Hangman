@@ -72,9 +72,10 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
         //read DISTINCT Categories from DataBase
         this.avaibleCategories =  db.getCategories();
 
+        int cats = 0;
+
         //Add one Checkbox for each Button (+ GUI Settings)
-        for (int i = 0; i < this.avaibleCategories.size(); i++)
-        {
+        for (int i = 0; i < this.avaibleCategories.size(); i++) {
             CheckBox c = new CheckBox(this);
             c.setId(this.viewsCount);
             this.viewsCount++;
@@ -84,11 +85,19 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
             c.setOnClickListener(this);
             this.checkBoxes.add(c);
 
-            if(Settings.getCategories().contains(this.avaibleCategories.get(i)))
+            if (Settings.getCategories().contains(this.avaibleCategories.get(i)))
             {
                 c.setChecked(true);
+                cats += 1;
             }
         }
+
+        //if no category was found, select them all
+        if(cats == 0)
+        {
+            this.selectAllBoxes(true);
+        }
+
     }
 
     @Override
@@ -154,6 +163,14 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
         Settings.setColor(rl);
     }
 
+    private void selectAllBoxes(Boolean b)
+    {
+        for (int i = 0; i < this.viewsCount; i++)
+        {
+            this.checkBoxes.get(i).setChecked(b);
+        }
+    }
+
     @Override
     public void onClick(View v)
     {
@@ -163,12 +180,7 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
             case R.id.checkBox_cat_all:
 
                 this.checked = !this.checked;
-
-                for (int i = 0; i < this.viewsCount; i++)
-                {
-                    this.checkBoxes.get(i).setChecked(checked);
-                }
-
+                this.selectAllBoxes(checked);
             break;
 
             case R.id.category_close:

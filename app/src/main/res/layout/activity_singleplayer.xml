@@ -12,14 +12,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/image_hangman"
-        android:src="@drawable/hm_12"
+        android:src="@drawable/hm_11"
         android:adjustViewBounds="true"
         android:scaleType="fitStart"
         android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/marginToHeader" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="B_ _ SP_ _ LWO_ T"
