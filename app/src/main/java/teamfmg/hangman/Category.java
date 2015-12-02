@@ -9,26 +9,21 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Menu to choose the categories.
  * Created by Vincent on 23.11.2015.
  * @since 0.6
  */
-public class Category extends Activity implements IApplyableSettings, View.OnClickListener{
-
-    /**
-     * GUI objects.
-     */
-    private CheckBox checkBox_all;
+public class Category extends Activity implements IApplyableSettings, View.OnClickListener
+{
 
     /**
      * Amount of created Checkboxes
      */
-    private static int viewsCount = 0;
+    private int viewsCount = 0;
 
     /**
      * List of all Checkboxes (without the "ALL"-CheckBox)
@@ -38,7 +33,12 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
     /**
      * List of available Categorys in DataBase
      */
-    private List<String> avaibleCategorys;
+    private List<String> avaibleCategories;
+
+    /**
+     * Is the checkbox checked.
+     */
+    private boolean checked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -47,7 +47,7 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
         this.setContentView(R.layout.activity_category);
 
         //Init
-        this.checkBox_all           = (CheckBox)    this.findViewById(R.id.checkBox_cat_all);
+        CheckBox checkBox_all           = (CheckBox)    this.findViewById(R.id.checkBox_cat_all);
         ScrollView scrollView       = (ScrollView)  this.findViewById(R.id.scrollView_cats);
 
         Button close                = (Button)      this.findViewById(R.id.category_close);
@@ -56,10 +56,11 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
         LinearLayout linearLayout   = new           LinearLayout(this);
         this.checkBoxes             = new           ArrayList<>();
         DatabaseManager db          = new           DatabaseManager(this);
-        this.avaibleCategorys       = new           ArrayList<>();
+        this.avaibleCategories      = new           ArrayList<>();
 
         //Adding OnClickListener
-        this.checkBox_all.setOnClickListener(this);
+        checkBox_all.setOnClickListener(this);
+        this.checked = checkBox_all.isChecked();
 
         //Additional GUI Settings
         linearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -67,15 +68,16 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
         this.changeBackground();
 
         //read DISTINCT Categories from DataBase
-        this.avaibleCategorys =  db.getCategories();
+        this.avaibleCategories =  db.getCategories();
 
         //Add one Checkbox for each Button (+ GUI Settings)
-        for (int i = 0; i < this.avaibleCategorys.size(); i++)
+        for (int i = 0; i < this.avaibleCategories.size(); i++)
         {
             CheckBox c = new CheckBox(this);
-            c.setId(++viewsCount);
+            c.setId(this.viewsCount);
+            this.viewsCount++;
             linearLayout.addView(c);
-            c.setText(convertCategoryName(this.avaibleCategorys.get(i)));
+            c.setText(convertCategoryName(this.avaibleCategories.get(i)));
             c.setTextColor(Color.WHITE);
             c.setOnClickListener(this);
             this.checkBoxes.add(c);
@@ -88,25 +90,26 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
         super.onPause();
 
         //Save categories automatically if the user leaves the window
-        List<String> choosenCategorys = new ArrayList<>();
+        ArrayList<String> chosenCategories = new ArrayList<>();
 
-        for (int i = 0; i < checkBoxes.size(); i++)
+        for (int i = 0; i < this.checkBoxes.size(); i++)
         {
-            if (checkBoxes.get(i).isChecked()){
-                choosenCategorys.add(avaibleCategorys.get(i));
+            if (this.checkBoxes.get(i).isChecked())
+            {
+                chosenCategories.add(this.avaibleCategories.get(i));
             }
         }
 
 
-        if (choosenCategorys.size() > 0)
+        if (chosenCategories.size() > 0)
         {
-            Singleplayer.setCategories(choosenCategorys);
-            Logger.write("Categorys saved!", this);
+            Singleplayer.setCategories(chosenCategories);
+            Logger.write("Categories saved!", this);
         }
         //if no checkbox is selected, do not save
         else
         {
-            Logger.write("Categorys NOT saved!", this);
+            Logger.write("Categories NOT saved!", this);
         }
     }
 
@@ -151,25 +154,15 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
         {
             //All buttons set checked/unchecked
             case R.id.checkBox_cat_all:
-                try
+
+                this.checked = !this.checked;
+
+                for (int i = 0; i < this.viewsCount; i++)
                 {
-                    if (checkBox_all.isChecked())
-                    {
-                        for (int i = 0; i < viewsCount; i++){
-                            checkBoxes.get(i).setChecked(true);
-                        }
-                    }
-                    else {
-                        for (int i = 0; i < viewsCount; i++){
-                            checkBoxes.get(i).setChecked(false);
-                        }
-                    }
+                    this.checkBoxes.get(i).setChecked(checked);
                 }
-                catch (Exception ex)
-                {
-                    Logger.logOnlyError(ex.getMessage());
-                }
-                break;
+
+            break;
 
             case R.id.category_close:
                 this.finish();

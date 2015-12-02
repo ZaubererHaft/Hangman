@@ -1,5 +1,6 @@
 package teamfmg.hangman;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
@@ -247,6 +248,15 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      */
     private void buildHangman()
     {
+        //TODO: Threading?
+        Thread t = new Thread(new Runnable()
+        {
+            @Override
+            public void run() {
+
+            }
+        });
+
         final int fullHangman = 12;
         final int arms = 9;
         final int legs = 11;
@@ -262,7 +272,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         {
             ImageView iv = (ImageView) findViewById(R.id.image_hangman);
             int id = this.getResources().getIdentifier
-                    ("hm_"+this.currentBuildOfHangman, "drawable", this.getPackageName());
+                   ("hm_"+this.currentBuildOfHangman, "drawable", this.getPackageName());
             iv.setImageResource(id);
         }
         if (this.currentBuildOfHangman == fullHangman)
@@ -338,5 +348,12 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         Button b = (Button) v;
         b.setEnabled(false);
         checkLetter(b.getText().toString());
+        switch (b.getText().toString()){
+            case "U": checkLetter("Ü");
+                break;
+            case "O": checkLetter("Ö");
+                break;
+            case "A": checkLetter("Ä");
+        }
     }
 }

@@ -22,8 +22,8 @@ public class MusicPlayer
 
     public static void playNext(Context context, MusicType type)
     {
-        mp = MediaPlayer.create(context, R.raw.intro);
-        mp.start();
+       // mp = MediaPlayer.create(context, R.raw.intro);
+        //mp.start();
     }
 }
 

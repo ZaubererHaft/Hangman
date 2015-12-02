@@ -27,7 +27,7 @@ public class DatabaseManager extends SQLiteOpenHelper
     /**
      * Version of the database.
      */
-    private static final int DATABASE_VERSION       = 58;
+    private static final int DATABASE_VERSION       = 60;
     /**
      * Name of the database
      */
@@ -104,11 +104,22 @@ public class DatabaseManager extends SQLiteOpenHelper
                     ++amount;
                     String[] list = line.split(";");
 
-                    String createTableStatement =
-                            "INSERT INTO " + TABLE_WORDS + " (word,category,description) " +
-                                    " VALUES(\"" + list[0] + "\", \"" + list[1] + "\",\"" + list[2] + "\");";
+                    String createTableStatement;
+
+                    if(list.length == 2) {
+                        createTableStatement =
+                                "INSERT INTO " + TABLE_WORDS + " (word,category) " +
+                                        " VALUES(\"" + list[0] + "\", \"" + list[1] + "\");";
+                    }
+                    else{
+                        createTableStatement =
+                                "INSERT INTO " + TABLE_WORDS + " (word,category,description) " +
+                                        " VALUES(\"" + list[0] + "\", \"" + list[1] + "\",\"" + list[2] + "\");";
+                    }
+
                     db.execSQL(createTableStatement);
                 }
+
                 catch (IOException ex)
                 {
                     Logger.logOnly(ex.getMessage());
@@ -150,8 +161,7 @@ public class DatabaseManager extends SQLiteOpenHelper
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
-    {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_WORDS);
         this.onCreate(db);
