@@ -26,10 +26,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * the current shown picture of Hangman
      */
     private int currentBuildOfHangman;
-    /**
-     * Word categories.
-     */
-    private static List<String> categories = new ArrayList<>();
+
     /**
      * Current word to guess.
      */
@@ -46,7 +43,6 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * All words which can appear.
      */
     private ArrayList <String> wordList;
-
 
 
     @Override
@@ -66,7 +62,9 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         DatabaseManager db = new DatabaseManager(this);
 
         this.label = (TextView) findViewById(R.id.text_askedWord);
-        this.wordList = db.getWords(Singleplayer.categories);
+
+        //gets the categories of the settings.
+        this.wordList = db.getWords();
 
         this.resetGame();
         this.changeBackground();
@@ -248,15 +246,6 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      */
     private void buildHangman()
     {
-        //TODO: Threading?
-        Thread t = new Thread(new Runnable()
-        {
-            @Override
-            public void run() {
-
-            }
-        });
-
         final int fullHangman = 12;
         final int arms = 9;
         final int legs = 11;
@@ -317,15 +306,6 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         this.currentBuildOfHangman = 0;
     }
 
-    /**
-     * Sets the possible categories.
-     * @param categories all categories as list.
-     * @since 0.5
-     */
-    public static void setCategories(List<String> categories)
-    {
-        Singleplayer.categories = categories;
-    }
 
     @Override
     public void changeBackground() 

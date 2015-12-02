@@ -13,7 +13,8 @@
         android:exported="true"
         android:icon="@mipmap/hangman_logo"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Light.NoTitleBar" >
+        android:theme="@android:style/Theme.Light.NoTitleBar"
+        android:screenOrientation="portrait">
         <activity
             android:name=".LoginMenu"
             android:label="@string/app_name"
@@ -49,15 +50,18 @@
             android:label="@string/title_activity_about"
             android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".Category" >
+        <activity android:name=".Category"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".MusicMenu"
-            android:label="@string/title_activity_music_menu" >
+            android:label="@string/title_activity_music_menu"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".LayoutMenu"
-            android:label="@string/title_activity_layout_menu" >
+            android:label="@string/title_activity_layout_menu"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

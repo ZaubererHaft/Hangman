@@ -103,7 +103,7 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
 
         if (chosenCategories.size() > 0)
         {
-            Singleplayer.setCategories(chosenCategories);
+            Settings.setCategories(chosenCategories);
             Logger.write("Categories saved!", this);
         }
         //if no checkbox is selected, do not save

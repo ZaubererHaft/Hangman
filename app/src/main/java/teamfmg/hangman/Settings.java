@@ -12,6 +12,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Public settings class.<br />
@@ -48,6 +50,29 @@ public final class Settings
      * Gets the latest password
      */
     private static String lastPassword;
+    /**
+     * Word categories.
+     */
+    private static List<String> categories = new ArrayList<>();
+
+    /**
+     * Gets the available categories.
+     * @return List
+     */
+    public static List<String> getCategories()
+    {
+        return categories;
+    }
+
+    /**
+     * Sets the categories.
+     * @param categories The categories.
+     */
+    public static void setCategories(List<String> categories)
+    {
+        Settings.categories = categories;
+    }
+
 
     /**
      * Gets the color theme of the game.

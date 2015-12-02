@@ -246,18 +246,21 @@ public class DatabaseManager extends SQLiteOpenHelper
     }
 
     /**
-     * Return a List of Words
-     * @param categories Categories witch get selected
-     * @return List of Words
+     * Gets all words from the database. <br/>
+     * If no category was saved, all word are used.
+     * @return List of Words depending on the categories in the options menu.
      */
-    public ArrayList <String> getWords(List <String> categories)
+    public ArrayList <String> getWords()
     {
+        List <String> categories = Settings.getCategories();
         ArrayList <String> words = new ArrayList<>();
 
+        //Take all (default)
         String query = "SELECT * FROM " + TABLE_WORDS;
 
         for (int i = 0; i < categories.size(); i++)
         {
+            //overwrite query if there are categories.
             if (i == 0)
             {
                 query = query + " WHERE category LIKE \"" + categories.get(i) + "\"";
@@ -268,9 +271,11 @@ public class DatabaseManager extends SQLiteOpenHelper
 
         query = query + ";";
 
+        //execute queries.
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
+        //add all words to the list
         if (cursor != null && cursor.moveToFirst())
         {
             do
