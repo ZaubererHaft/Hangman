@@ -80,16 +80,37 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         boolean isFalseWord = true;
         for (int i = 0; i < currentWord.length(); i++)
         {
-            if (this.currentWord.charAt(i) == letter.charAt(0))
+            char sign = this.currentWord.charAt(i);
+
+            if(sign == 'Ü' && letter.equals("U"))
+            {
+                this.wordPieces[i] = "Ü";
+                isFalseWord = false;
+            }
+            else if(sign == 'Ä' && letter.equals("A"))
+            {
+                this.wordPieces[i] = "Ä";
+                isFalseWord = false;
+            }
+            else if(sign == 'Ö' && letter.equals("O"))
+            {
+                this.wordPieces[i] = "Ö";
+                isFalseWord = false;
+            }
+            if (sign == letter.charAt(0))
             {
                 this.wordPieces[i] = letter;
                 isFalseWord = false;
+                break;
             }
         }
+
+
         if (isFalseWord)
         {
             this.buildHangman();
         }
+
         this.updateLabel();
     }
 
@@ -261,7 +282,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         {
             ImageView iv = (ImageView) findViewById(R.id.image_hangman);
             int id = this.getResources().getIdentifier
-                   ("hm_"+this.currentBuildOfHangman, "drawable", this.getPackageName());
+                    ("hm_"+this.currentBuildOfHangman, "drawable", this.getPackageName());
             iv.setImageResource(id);
         }
         if (this.currentBuildOfHangman == fullHangman)
@@ -328,12 +349,5 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         Button b = (Button) v;
         b.setEnabled(false);
         checkLetter(b.getText().toString());
-        switch (b.getText().toString()){
-            case "U": checkLetter("Ü");
-                break;
-            case "O": checkLetter("Ö");
-                break;
-            case "A": checkLetter("Ä");
-        }
     }
 }

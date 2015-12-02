@@ -22,6 +22,7 @@ public class MusicPlayer
 
     public static void playNext(Context context, MusicType type)
     {
+        //TODO: Add Musik
        // mp = MediaPlayer.create(context, R.raw.intro);
         //mp.start();
     }
