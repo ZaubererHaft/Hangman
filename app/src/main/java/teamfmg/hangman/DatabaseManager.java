@@ -27,7 +27,7 @@ public class DatabaseManager extends SQLiteOpenHelper
     /**
      * Version of the database.
      */
-    private static final int DATABASE_VERSION       = 60;
+    private static final int DATABASE_VERSION       = 63;
     /**
      * Name of the database
      */
@@ -135,7 +135,7 @@ public class DatabaseManager extends SQLiteOpenHelper
         String createTableStatement =
                 "CREATE TABLE " + TABLE_USERS_NAME + " ( " +
                         "_id          INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "username     VARCHAR(20) NOT NULL, " +
+                        "username     VARCHAR(20), " +
                         "password     VARCHAR(30) NOT NULL, " +
                         "mail         VARCHAR(20) NOT NULL);";
         db.execSQL(createTableStatement);
