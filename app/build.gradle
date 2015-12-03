@@ -18,15 +18,12 @@ android {
     }
     productFlavors {
         Android5 {
-            minSdkVersion 21
+            minSdkVersion 22
             targetSdkVersion 23
         }
         Android2 {
             minSdkVersion 8
-            applicationId 'teamfmg.hangman'
             targetSdkVersion 8
-            versionCode 1
-            versionName '1.0'
         }
     }
 }

@@ -13,7 +13,7 @@ public class MusicPlayer
 {
     private static MediaPlayer mp = new MediaPlayer();
 
-    public enum MusicType {INTRO};
+    public enum MusicType {INTRO}
 
     private MusicPlayer()
     {

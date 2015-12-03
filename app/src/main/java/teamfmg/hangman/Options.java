@@ -23,20 +23,12 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
         setContentView(R.layout.activity_options);
 
         //init Buttons
-        Button ownWords     = (Button) findViewById(R.id.button_ownWords);
-        Button about        = (Button) findViewById(R.id.button_about);
-        Button music        = (Button) findViewById(R.id.button_options_music);
-        Button closeButton  = (Button) findViewById(R.id.options_close);
-        Button video        = (Button) findViewById(R.id.button_video);
-        Button category     = (Button) findViewById(R.id.button_options_categories);
-
-        //add ClickListener
-        closeButton.setOnClickListener(this);
-        ownWords.setOnClickListener(this);
-        about.setOnClickListener(this);
-        music.setOnClickListener(this);
-        video.setOnClickListener(this);
-        category.setOnClickListener(this);
+        findViewById(R.id.button_ownWords).setOnClickListener(this);
+        findViewById(R.id.button_about).setOnClickListener(this);
+        findViewById(R.id.button_options_music).setOnClickListener(this);
+        findViewById(R.id.options_close).setOnClickListener(this);
+        findViewById(R.id.button_video).setOnClickListener(this);
+        findViewById(R.id.button_options_categories).setOnClickListener(this);
 
         this.changeBackground();
 
@@ -46,25 +38,20 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
     @Override
     public void onClick(View v)
     {
-        Intent i;
 
         switch (v.getId())
         {
             case R.id.button_about:
-                 i = new Intent(this,About.class);
-                this.startActivity(i);
+                this.startActivity(new Intent(this,About.class));
                 break;
             case R.id.button_options_categories:
-                i = new Intent(this,Category.class);
-                this.startActivity(i);
+                this.startActivity(new Intent(this,Category.class));
                 break;
             case R.id.button_options_music:
-                i = new Intent(this,MusicMenu.class);
-                this.startActivity(i);
+                this.startActivity(new Intent(this,MusicMenu.class));
                 break;
             case R.id.button_video:
-                i = new Intent(this,LayoutMenu.class);
-                this.startActivity(i);
+                this.startActivity(new Intent(this,LayoutMenu.class));
                 break;
             case R.id.options_close:
                 this.finish();

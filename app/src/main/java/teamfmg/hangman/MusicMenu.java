@@ -21,7 +21,6 @@ public class MusicMenu extends Activity implements IApplyableSettings, View.OnCl
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_menu);
-
         this.closeButton = (Button) findViewById(R.id.music_close);
         this.closeButton.setOnClickListener(this);
 

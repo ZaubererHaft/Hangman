@@ -259,8 +259,7 @@ public final class Settings
 
             //Gets the last logged in user
             lastUsername =  br.readLine();
-            String pw = br.readLine();
-            lastPassword =  Caeser.encrypt(pw, 128 - Settings.encryptOffset);
+            lastPassword =  Caeser.encrypt(br.readLine(), 128 - Settings.encryptOffset);
 
             int quality = Integer.parseInt(br.readLine());
             setQuality(quality);

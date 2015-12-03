@@ -247,9 +247,51 @@ public class DatabaseManager extends SQLiteOpenHelper
     }
 
     /**
+     * Gets a random word from the database.
+     * @return
+     */
+    public String getRandomWord()
+    {
+        List <String> categories = Settings.getCategories();
+        String query = "SELECT * FROM " + TABLE_WORDS;
+
+        for (int i = 0; i < categories.size(); i++)
+        {
+            //overwrite query if there are categories.
+            if (i == 0)
+            {
+                query = query + " WHERE category LIKE \"" + categories.get(i) + "\"";
+                continue;
+            }
+            query = query + " OR category LIKE \"" + categories.get(i) + "\"";
+        }
+
+        query = query + ";";
+
+        //execute queries.
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        String result = null;
+
+        //add all words to the list
+        if (cursor != null && cursor.moveToFirst())
+        {
+            int rand = (int)(Math.random() * cursor.getCount());
+            cursor.move(rand);
+            result = cursor.getString(0);
+            db.close();
+            cursor.close();
+        }
+
+        return result;
+    }
+
+    /**
      * Gets all words from the database. <br/>
      * If no category was saved, all word are used.
      * @return List of Words depending on the categories in the options menu.
+     * @deprecated
      */
     public ArrayList <String> getWords()
     {

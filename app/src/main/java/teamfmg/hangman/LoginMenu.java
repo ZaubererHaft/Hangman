@@ -22,10 +22,7 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
     //DONE: (2) Only allow letters and numbers in username
     //DONE: (3) Continue Button Needs to work
     //DONE: (4) implement color chosen from settings
-    /**
-     * Buttons.
-     */
-    private Button login, register, exit;
+
     /**
      * Text fields.
      */
@@ -38,16 +35,12 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_menu);
 
-        this.login      = (Button)this.findViewById(R.id.button_login);
-        this.register   = (Button)this.findViewById(R.id.button_register);
-        this.exit       = (Button)this.findViewById(R.id.button_exit);
+        (this.findViewById(R.id.button_login)).setOnClickListener(this);
+        (this.findViewById(R.id.button_register)).setOnClickListener(this);
+        (this.findViewById(R.id.button_exit)).setOnClickListener(this);
 
         this.username   = (EditText)this.findViewById(R.id.textField_welcome_username);
         this.password   = (EditText)this.findViewById(R.id.textField_welcome_password);
-
-        this.login.setOnClickListener(this);
-        this.register.setOnClickListener(this);
-        this.exit.setOnClickListener(this);
 
         this.username.setOnClickListener(this);
         this.password.setOnClickListener(this);
@@ -65,8 +58,6 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
             Logger.logOnly("No userdata entered yet!");
         }
 
-        //MusicPlayer.playNext(this,null);
-
     }
 
     @Override
@@ -76,29 +67,27 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
         final int offset = 50;
 
         //exit button
-        if(id == this.exit.getId())
+        if(id == R.id.button_exit)
         {
             System.exit(0);
         }
         //register button
-        else if(id == this.register.getId())
+        else if(id == R.id.button_register)
         {
             //start register menu and closes this app
-            Intent i = new Intent(this,RegisterMenu.class);
-            this.startActivity(i);
+            this.startActivity(new Intent(this,RegisterMenu.class));
         }
 
         //login Button
-        else if(id == this.login.getId())
+        else if(id == R.id.button_login)
         {
             //gets the entered data
             String enteredName = this.username.getText().toString();
-
             //encrypts the entered password to compare it with the password in the db
             String enteredPassword = Caeser.encrypt
             (
                 this.password.getText().toString(),
-               Settings.encryptOffset
+                Settings.encryptOffset
             );
 
             try
@@ -120,9 +109,8 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
                     //Open Main Menu
                     Logger.write(this.getResources().getString(R.string.info_login_succeed)
                             ,this, offset);
-                    Intent i = new Intent(this,MainMenu.class);
                     this.finish();
-                    this.startActivity(i);
+                    this.startActivity(new Intent(this,MainMenu.class));
                 }
                 //Password wrong
                 else
