@@ -45,4 +45,11 @@ public class MusicMenu extends Activity implements IApplyableSettings, View.OnCl
             this.finish();
         }
     }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        System.gc();
+    }
 }

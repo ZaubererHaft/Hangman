@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.Point;
 import android.view.Display;
 import android.widget.RelativeLayout;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -54,33 +53,7 @@ public final class Settings
      * Word categories.
      */
     private static List<String> categories = new ArrayList<>();
-    /**
-     * Quality of the hangman pics.
-     */
-    private static int quality = 3;
 
-    public static final int qualityCodec = 9;
-
-    /**
-     * Gets the quality for the hangman pics in {@link Singleplayer}.
-     * @return Integer.
-     * @since 0.7
-     */
-    public static int getQuality()
-    {
-        return quality;
-    }
-
-    /**
-     * Sets the quality for the hangman pics.<br />
-     * Note that 2 is the highest quality. A value higher than 6 is not recommended.
-     * @param quality
-     * @since 0.7
-     */
-    public static void setQuality(int quality)
-    {
-            Settings.quality = quality;
-    }
 
     /**
      * Gets the available categories.
@@ -196,7 +169,6 @@ public final class Settings
             pWriter.println(theme.toString());
             pWriter.println(getCurrentUser().getName());
             pWriter.println(getCurrentUser().getPassword());
-            pWriter.println(getQuality());
 
             for (int i = 0; i < categories.size(); i++)
             {
@@ -258,11 +230,8 @@ public final class Settings
             Settings.stringToColor(color);
 
             //Gets the last logged in user
-            lastUsername =  br.readLine();
+            lastUsername = br.readLine();
             lastPassword =  Caeser.encrypt(br.readLine(), 128 - Settings.encryptOffset);
-
-            int quality = Integer.parseInt(br.readLine());
-            setQuality(quality);
 
             String cat;
 

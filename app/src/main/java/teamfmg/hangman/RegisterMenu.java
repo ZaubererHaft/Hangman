@@ -155,4 +155,11 @@ public class RegisterMenu extends Activity implements View.OnClickListener, IApp
         RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_register);
         Settings.setColor(rl);
     }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        System.gc();
+    }
 }

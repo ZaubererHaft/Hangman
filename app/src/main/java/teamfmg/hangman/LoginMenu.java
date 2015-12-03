@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -57,7 +56,6 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
         {
             Logger.logOnly("No userdata entered yet!");
         }
-
     }
 
     @Override
@@ -108,9 +106,9 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
 
                     //Open Main Menu
                     Logger.write(this.getResources().getString(R.string.info_login_succeed)
-                            ,this, offset);
+                            , this, offset);
                     this.finish();
-                    this.startActivity(new Intent(this,MainMenu.class));
+                    this.startActivity(new Intent(this, MainMenu.class));
                 }
                 //Password wrong
                 else
@@ -124,23 +122,28 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
             {
                 Logger.write(this.getResources().getString(R.string.error_login_wrongUsername)
                         , this, offset);
-                //ex.printStackTrace();
             }
             //Error with the Database
             catch (SQLiteException ex)
             {
                 Logger.write(this.getResources().getString(R.string.error_general_sqlite),
                         this, offset);
-                //ex.printStackTrace();
+
             }
         }
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        System.gc();
     }
 
     @Override
     public void changeBackground()
     {
         Settings.load(this);
-        RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_login);
-        Settings.setColor(rl);
+        Settings.setColor((RelativeLayout) this.findViewById(R.id.relLayout_login));
     }
 }

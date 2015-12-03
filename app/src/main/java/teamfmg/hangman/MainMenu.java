@@ -77,4 +77,11 @@ public class MainMenu extends Activity implements View.OnClickListener, IApplyab
         RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_mainMenu);
         Settings.setColor(rl);
     }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        System.gc();
+    }
 }

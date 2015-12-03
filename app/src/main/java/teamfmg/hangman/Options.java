@@ -76,4 +76,11 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
         RelativeLayout rl   = (RelativeLayout)this.findViewById(R.id.relLayout_options);
         Settings.setColor(rl);
     }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        System.gc();
+    }
 }

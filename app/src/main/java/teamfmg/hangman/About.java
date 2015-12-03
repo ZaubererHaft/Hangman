@@ -35,7 +35,12 @@ public class About extends Activity implements IApplyableSettings, View.OnClickL
         RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_about);
         Settings.setColor(rl);
     }
-
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        System.gc();
+    }
     @Override
     public void onClick(View v)
     {

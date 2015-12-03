@@ -1,7 +1,6 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
-import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;

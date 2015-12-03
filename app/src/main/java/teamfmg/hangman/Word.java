@@ -12,6 +12,11 @@ public class Word
      */
     private String word, category;
 
+    /**
+     * Instantiates a new word.
+     * @param word String.
+     * @param category Category.
+     */
     public Word(String word, String category)
     {
         this.setWord(word);

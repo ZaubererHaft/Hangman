@@ -188,4 +188,10 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
                 break;
         }
     }
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        System.gc();
+    }
 }
