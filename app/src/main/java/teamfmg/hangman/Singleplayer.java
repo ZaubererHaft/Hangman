@@ -23,7 +23,6 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * the current shown picture of Hangman
      */
     private int currentBuildOfHangman;
-
     /**
      * Current word to guess.
      */
@@ -48,6 +47,10 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * The next drawable to show.
      */
     private Drawable nextDrawable;
+    /**
+     * Detects whether a thread is loading images.
+     */
+    private boolean isLoading = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -58,7 +61,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         this.findViewById(R.id.singleplayer_back).setOnClickListener(this);
         this.initButtons();
 
-        db = new DatabaseManager(this);
+        this.db = new DatabaseManager(this);
         this.label = (TextView) findViewById(R.id.text_askedWord);
 
         this.resetGame();
@@ -73,7 +76,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     {
         boolean isFalseWord = true;
 
-        for (int i = 0; i < currentWord.length(); i++)
+        for (int i = 0; i < this.currentWord.length(); i++)
         {
             char sign = this.currentWord.charAt(i);
 
@@ -135,12 +138,11 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
                 this.wordPieces[i] = "_ ";
             }
         }
-
         this.updateLabel();
     }
 
     /**
-     * Updates the label under the Hangman.
+     * Updates the label(text) under the Hangman.
      * @since 0.5
      */
     private void updateLabel()
@@ -161,6 +163,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
     /**
      * Win the game.
+     * @since 0.5
      */
     private void win ()
     {
@@ -171,6 +174,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
     /**
      * Resets all buttons to Enabled(true)
+     * TODO: Verbessern :)
      * @since 0.5
      */
     private void resetButtons()
@@ -212,6 +216,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
     /**
      * Inits all Buttons on the Keyboard.
+     * TODO: Verbesssern :)
      * @since 0.5
      */
     private void initButtons()
@@ -262,19 +267,19 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         final int arms = 7;
         final int legs = 9;
 
-        currentBuildOfHangman++;
+        this.currentBuildOfHangman++;
 
         //Makes that arms and legs appears together
-        if (currentBuildOfHangman == arms || currentBuildOfHangman == legs)
+        if (this.currentBuildOfHangman == arms || this.currentBuildOfHangman == legs)
         {
-            currentBuildOfHangman++;
+            this.currentBuildOfHangman++;
         }
-        if(currentBuildOfHangman < fullHangman)
+        if(this.currentBuildOfHangman < this.fullHangman)
         {
-            ((ImageView) findViewById(R.id.image_hangman)).setImageDrawable(nextDrawable);
+            ((ImageView) findViewById(R.id.image_hangman)).setImageDrawable(this.nextDrawable);
             this.loadNextImg();
         }
-        else if (currentBuildOfHangman == fullHangman)
+        else if (this.currentBuildOfHangman == this.fullHangman)
         {
             this.loose();
         }
@@ -284,25 +289,42 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * Loads the next hangman picture.
      * @since 0.7
      */
-    private synchronized void loadNextImg()
+    private void loadNextImg()
     {
-        final String pack = this.getPackageName();
-        final Resources res = this.getResources();
-
-        Thread t = new Thread(new Runnable()
+        if(!this.isLoading)
         {
-            int id = 0;
+            final String pack = this.getPackageName();
+            final Resources res = this.getResources();
 
-            @Override
-            public void run()
+            Thread t = new Thread(new Runnable()
             {
-                int i = currentBuildOfHangman + 1;
-                id = res.getIdentifier
-                        ("hm_"+i, "drawable", pack);
-                nextDrawable = res.getDrawable(id);
-            }
-        });
-        t.start();
+                int id = 0;
+
+                @Override
+                public void run()
+                {
+                    isLoading = true;
+
+                    try
+                    {
+                        System.gc();
+                        Logger.logOnly("Loading next image...");
+                        int i = currentBuildOfHangman + 1;
+                        id = res.getIdentifier
+                                ("hm_" + i, "drawable", pack);
+                        nextDrawable = res.getDrawable(id);
+                        Logger.logOnly("Done!");
+                    }
+                    catch (OutOfMemoryError ex)
+                    {
+                        Logger.logOnlyError(ex.getMessage());
+                    }
+
+                    isLoading = false;
+                }
+            });
+            t.start();
+        }
     }
 
     /**
@@ -359,9 +381,12 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
             return;
         }
 
-        Button b = (Button) v;
-        b.setEnabled(false);
-        checkLetter(b.getText().toString());
+        if(!isLoading)
+        {
+            Button b = (Button) v;
+            b.setEnabled(false);
+            checkLetter(b.getText().toString());
+        }
     }
 
     @Override
