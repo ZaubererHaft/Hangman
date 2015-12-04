@@ -62,7 +62,7 @@
     <string name="title_activity_about">About</string>
     <string name="label_about">About the developers</string>
     <string name="label_x">╳</string>
-    <string name="text_header_categorys">Hangman - Categorys</string>
+    <string name="text_header_categories">Hangman - Categories</string>
     <string name="checkbox_cat_all">All</string>
     <string name="categoryName_capitals">Capitals</string>
     <string name="categoryName_citys_de">German Citys</string>

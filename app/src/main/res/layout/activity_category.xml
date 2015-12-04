@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/text_header_categorys"
+        android:text="@string/text_header_categories"
         android:id="@+id/textView2"
         android:textSize="@dimen/textSizeBig"
         android:textColor="@color/color_white"
