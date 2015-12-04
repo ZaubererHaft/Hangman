@@ -115,7 +115,6 @@ public class LayoutMenu extends Activity implements View.OnClickListener,IApplya
     @Override
     public void changeBackground()
     {
-        Settings.load(this);
         RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_layout);
         Settings.setColor(rl);
     }
