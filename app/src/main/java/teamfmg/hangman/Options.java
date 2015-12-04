@@ -56,6 +56,9 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
             case R.id.options_close:
                 this.finish();
                 break;
+            case R.id.button_ownWords:
+                this.startActivity(new Intent(this,OwnWordsMenu.class));
+                break;
             default:
                 Logger.write("Currently no function", this);
         }

@@ -52,12 +52,12 @@ public class LayoutMenu extends Activity implements View.OnClickListener,IApplya
         this.colorSpinner = (Spinner) findViewById(R.id.options_menu_spinner);
 
         colorList = new String[]
-                {
-                        this.getString(R.string.color_blue),
-                        getString(R.string.color_green),
-                        getString(R.string.color_orange),
-                        getString(R.string.color_purple)
-                };
+        {
+            this.getString(R.string.color_blue),
+            getString(R.string.color_green),
+            getString(R.string.color_orange),
+            getString(R.string.color_purple)
+        };
 
         //add values to Spinner
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
@@ -105,8 +105,6 @@ public class LayoutMenu extends Activity implements View.OnClickListener,IApplya
             //save settings
             Settings.save(this);
         }
-
-
         //close activity
         else if (v.getId() == R.id.layout_close)
         {
@@ -117,6 +115,7 @@ public class LayoutMenu extends Activity implements View.OnClickListener,IApplya
     @Override
     public void changeBackground()
     {
+        Settings.load(this);
         RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_layout);
         Settings.setColor(rl);
     }

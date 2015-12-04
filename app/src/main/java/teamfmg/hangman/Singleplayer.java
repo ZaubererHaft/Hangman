@@ -173,39 +173,35 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     }
 
     /**
-     * Resets all buttons to Enabled(true)
-     * TODO: Verbessern :)
+     * Resets all buttons to Enabled(true).
      * @since 0.5
      */
     private void resetButtons()
     {
         //Reset Buttons in row one
         LinearLayout layoutRowOne = (LinearLayout) this.findViewById(R.id.linLayout_rowOne);
-        for (int i = 0; i < layoutRowOne.getChildCount(); i++)
-        {
-            View v = layoutRowOne.getChildAt(i);
-            if (v instanceof Button) 
-            {
-                Button b = (Button) v;
-                b.setEnabled(true);
-            }
-        }
+        this.resetButtonRow(layoutRowOne);
 
         //Reset Buttons in row two
         LinearLayout layoutRowTwo = (LinearLayout) this.findViewById(R.id.linLayout_rowTwo);
-        for (int i = 0; i < layoutRowTwo.getChildCount(); i++){
-            View v = layoutRowTwo.getChildAt(i);
-            if (v instanceof Button) {
-                Button b = (Button) v;
-                b.setEnabled(true);
-            }
-        }
+        this.resetButtonRow(layoutRowTwo);
 
         //Reset Buttons in row three
         LinearLayout layoutRowThree = (LinearLayout) this.findViewById(R.id.linLayout_rowThree);
-        for (int i = 0; i < layoutRowThree.getChildCount(); i++)
+        this.resetButtonRow(layoutRowThree);
+
+    }
+
+    /**
+     * Resets all buttons in a layout. (Sets them enabled)
+     * @param ll layout.
+     * @since 0.7
+     */
+    private void resetButtonRow (LinearLayout ll)
+    {
+        for (int i = 0; i < ll.getChildCount(); i++)
         {
-            View v = layoutRowThree.getChildAt(i);
+            View v = ll.getChildAt(i);
             if (v instanceof Button)
             {
                 Button b = (Button) v;
@@ -216,39 +212,32 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
     /**
      * Inits all Buttons on the Keyboard.
-     * TODO: Verbesssern :)
      * @since 0.5
      */
     private void initButtons()
     {
         //Add OnClickListener for Buttons in row one
         LinearLayout layoutRowOne = (LinearLayout) this.findViewById(R.id.linLayout_rowOne);
-        for (int i = 0; i < layoutRowOne.getChildCount(); i++)
-        {
-            View v = layoutRowOne.getChildAt(i);
-            if (v instanceof Button)
-            {
-                Button b = (Button) v;
-                b.setOnClickListener(this);
-            }
-        }
+        this.initButtonInRow(layoutRowOne);
 
         //Add OnClickListener for Buttons in row two
         LinearLayout layoutRowTwo = (LinearLayout) this.findViewById(R.id.linLayout_rowTwo);
-        for (int i = 0; i < layoutRowTwo.getChildCount(); i++)
-        {
-            View v = layoutRowTwo.getChildAt(i);
-            if (v instanceof Button)
-            {
-                Button b = (Button) v;
-                b.setOnClickListener(this);
-            }
-        }
+        this.initButtonInRow(layoutRowTwo);
 
         //Add OnClickListener for Buttons in row three
         LinearLayout layoutRowThree = (LinearLayout) this.findViewById(R.id.linLayout_rowThree);
-        for (int i = 0; i < layoutRowThree.getChildCount(); i++){
-            View v = layoutRowThree.getChildAt(i);
+        this.initButtonInRow(layoutRowThree);
+    }
+
+    /**
+     * Inits all buttons in a layout.
+     * @param ll Layout.
+     * @since 0.7
+     */
+    private void initButtonInRow(LinearLayout ll)
+    {
+        for (int i = 0; i < ll.getChildCount(); i++){
+            View v = ll.getChildAt(i);
             if (v instanceof Button)
             {
                 Button b = (Button) v;

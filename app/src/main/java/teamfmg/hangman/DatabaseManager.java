@@ -68,6 +68,7 @@ public class DatabaseManager extends SQLiteOpenHelper
     /**
      * Loads all words from the *.csv to the data base.
      * @param db Database to load.
+     * @since 0.5
      */
     public void loadWords(SQLiteDatabase db)
     {
@@ -203,6 +204,7 @@ public class DatabaseManager extends SQLiteOpenHelper
     /**
      * Add a word to the database
      * @param w Word to add
+     * @since 0.5
      */
     public void addWord (Word w)
     {
@@ -248,7 +250,8 @@ public class DatabaseManager extends SQLiteOpenHelper
 
     /**
      * Gets a random word from the database.
-     * @return
+     * @return String
+     * @since 0.7
      */
     public String getRandomWord()
     {
@@ -292,6 +295,7 @@ public class DatabaseManager extends SQLiteOpenHelper
      * If no category was saved, all word are used.
      * @return List of Words depending on the categories in the options menu.
      * @deprecated
+     * @since 0.5
      */
     public ArrayList <String> getWords()
     {
@@ -339,6 +343,7 @@ public class DatabaseManager extends SQLiteOpenHelper
     /**
      * Return a List of Categorys (no duplicates)
      * @return List of Categorys
+     * @since 0.6
      */
     public ArrayList <String> getCategories()
     {

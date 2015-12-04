@@ -58,6 +58,7 @@ public final class Settings
     /**
      * Gets the available categories.
      * @return List
+     * @since 0.7
      */
     public static List<String> getCategories()
     {
@@ -67,6 +68,7 @@ public final class Settings
     /**
      * Sets the categories.
      * @param categories The categories.
+     * @since 0.7
      */
     public static void setCategories(List<String> categories)
     {

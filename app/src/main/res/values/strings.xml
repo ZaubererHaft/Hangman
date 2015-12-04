@@ -80,5 +80,7 @@
     <string name="button_options_categories">Categories</string>,
     <string name="hint_loading">Loading...</string>
     <string name="options_video_label_quality">Quality</string>
+    <string name="title_activity_own_words_menu">OwnWordsMenu</string>
+    <string name="text_header_ownwords">Hangman - Add Words</string>
 
 </resources>
