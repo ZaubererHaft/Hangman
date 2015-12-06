@@ -72,6 +72,7 @@
     <string name="categoryName_cars">Cars</string>
     <string name="categoryName_rivers">Rivers</string>
     <string name="categoryName_trees">Trees</string>
+    <string name="categoryName_animals">Animals</string>
 
     <string name="categoryName_test">Test Data</string>
     <string name="title_activity_music_menu">MusicMenu</string>

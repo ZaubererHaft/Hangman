@@ -160,6 +160,9 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
             case "tree":
                 newName = this.getResources().getString(R.string.categoryName_trees);
                 break;
+            case "animal":
+                newName = this.getResources().getString(R.string.categoryName_animals);
+                break;
             case "test":
                 newName = this.getResources().getString(R.string.categoryName_test);
                 break;
