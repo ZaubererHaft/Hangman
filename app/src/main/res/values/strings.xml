@@ -88,5 +88,15 @@
     <string name="options_video_label_quality">Quality</string>
     <string name="title_activity_own_words_menu">OwnWordsMenu</string>
     <string name="text_header_ownwords">Hangman - Add Words</string>
+    <string name="newWord_new" >New</string>
+    <string name="addWord_delete">Delete</string>
+    <string name="newWord_Done">Add</string>
+    <string name="ownWords_word" />
+    <string name="ownWords_category" />
+    <string name="ownWords_description" />
+    <string name="ownWords_hint_word" >Word</string>
+    <string name="ownWords_hint_category" >Category</string>
+    <string name="ownWords_hint_description" >Description</string>
+    <string name="addWord_close">Close</string>
 
 </resources>
