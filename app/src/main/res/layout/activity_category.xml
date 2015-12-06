@@ -36,14 +36,14 @@
         android:checked="false" />
 
     <ScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView_cats"
         android:layout_below="@+id/checkBox_cat_all"
         android:layout_alignParentLeft="true"
         android:fillViewport="false"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="false" />
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"

@@ -69,6 +69,10 @@
     <string name="categoryName_countries">Countries</string>
     <string name="categoryName_gaming">Gaming</string>
     <string name="categoryName_instruments">Instruments</string>
+    <string name="categoryName_cars">Cars</string>
+    <string name="categoryName_rivers">Rivers</string>
+    <string name="categoryName_trees">Trees</string>
+
     <string name="categoryName_test">Test Data</string>
     <string name="title_activity_music_menu">MusicMenu</string>
     <string name="options_music_header">Hangman - Music</string>
