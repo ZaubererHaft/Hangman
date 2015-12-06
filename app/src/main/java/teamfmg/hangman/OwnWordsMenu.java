@@ -93,7 +93,6 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
         {
             this.findViewById(id).setVisibility(View.INVISIBLE);
         }
-
         //change text of the add button
         ((Button)this.findViewById(R.id.newWord_Done)).setText(R.string.newWord_new);
 
