@@ -95,7 +95,7 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
         //if no category was found, select them all
         if(cats == 0)
         {
-            this.selectAllBoxes(true);
+            checkBox_all.setChecked(true);
         }
 
     }
