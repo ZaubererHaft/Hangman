@@ -31,9 +31,9 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
     private List<CheckBox> checkBoxes;
 
     /**
-     * List of available Categorys in DataBase
+     * List of available Categories in DataBase
      */
-    private List<String> avaibleCategories;
+    private List<String> availableCategories;
 
     /**
      * Is the checkbox checked.
@@ -50,15 +50,14 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
 
         //Init
         CheckBox checkBox_all           = (CheckBox)    this.findViewById(R.id.checkBox_cat_all);
-        ScrollView scrollView       = (ScrollView)  this.findViewById(R.id.scrollView_cats);
-
-        Button close                = (Button)      this.findViewById(R.id.category_close);
+        ScrollView scrollView           = (ScrollView)  this.findViewById(R.id.scrollView_cats);
+        Button close                    = (Button)      this.findViewById(R.id.category_close);
         close.setOnClickListener(this);
 
         LinearLayout linearLayout   = new           LinearLayout(this);
         this.checkBoxes             = new           ArrayList<>();
         DatabaseManager db          = new           DatabaseManager(this);
-        this.avaibleCategories      = new           ArrayList<>();
+        this.availableCategories    = new           ArrayList<>();
 
         //Adding OnClickListener
         checkBox_all.setOnClickListener(this);
@@ -70,22 +69,23 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
 
 
         //read DISTINCT Categories from DataBase
-        this.avaibleCategories =  db.getCategories();
+        this.availableCategories =  db.getCategories();
 
         int cats = 0;
 
         //Add one Checkbox for each Button (+ GUI Settings)
-        for (int i = 0; i < this.avaibleCategories.size(); i++) {
+        for (int i = 0; i < this.availableCategories.size(); i++)
+        {
             CheckBox c = new CheckBox(this);
             c.setId(this.viewsCount);
             this.viewsCount++;
             linearLayout.addView(c);
-            c.setText(convertCategoryName(this.avaibleCategories.get(i)));
+            c.setText(convertCategoryName(this.availableCategories.get(i)));
             c.setTextColor(Color.WHITE);
             c.setOnClickListener(this);
             this.checkBoxes.add(c);
 
-            if (Settings.getCategories().contains(this.avaibleCategories.get(i)))
+            if (Settings.getCategories().contains(this.availableCategories.get(i)))
             {
                 c.setChecked(true);
                 cats += 1;
@@ -112,7 +112,7 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
         {
             if (this.checkBoxes.get(i).isChecked())
             {
-                chosenCategories.add(this.avaibleCategories.get(i));
+                chosenCategories.add(this.availableCategories.get(i));
             }
         }
 
@@ -144,6 +144,12 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
                 break;
             case "countries":
                 newName = this.getResources().getString(R.string.categoryName_countries);
+                break;
+            case "gaming":
+                newName = this.getResources().getString(R.string.categoryName_gaming);
+                break;
+            case "instruments":
+                newName = this.getResources().getString(R.string.categoryName_instruments);
                 break;
             case "test":
                 newName = this.getResources().getString(R.string.categoryName_test);

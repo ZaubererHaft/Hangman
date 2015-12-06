@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 public class LoginMenu extends Activity implements View.OnClickListener, IApplyableSettings
 {
 
+
     //DONE: (1) Fix max Length of the text fields
     //DONE: (2) Only allow letters and numbers in username
     //DONE: (3) Continue Button Needs to work
