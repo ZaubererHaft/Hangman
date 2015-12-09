@@ -1,9 +1,12 @@
 package teamfmg.hangman;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -11,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -201,20 +205,40 @@ public class DatabaseManager extends SQLiteOpenHelper
         db.close();
     }
 
+    public void useCommand (String command){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(command);
+        db.close();
+    }
+
     /**
      * Add a word to the database
      * @param w Word to add
      * @since 0.5
      */
-    public void addWord (Word w)
+    public void addWord (Word w) throws Exception
     {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues val = new ContentValues();
-        val.put("word", w.getWord());
-        val.put("category", w.getCategory());
 
-        db.insert(TABLE_WORDS,null,val);
-        db.close();
+    SQLiteDatabase db = this.getWritableDatabase();
+    ContentValues val = new ContentValues();
+    val.put("word", w.getWord());
+    val.put("category", w.getCategory());
+
+    if (w.getDescription().length() != 0){
+        val.put("description", w.getDescription());
+    }
+
+    db.insert(TABLE_WORDS, null, val);
+    Logger.write("Added!", (Activity) context);
+    db.close();
+    }
+
+    public boolean exists(String word, String categorie)
+    {
+        //Bsp: SELECT * FROM words WHERE word LIKE "test" AND categorie LIKE "testCategory";
+        String command = "SELECT * FROM \"" + TABLE_WORDS + "\" WHERE word LIKE \"" + word +
+                "\" AND category LIKE \"" + categorie + "\";";
+        useCommand(command);
     }
 
     /**
@@ -246,6 +270,34 @@ public class DatabaseManager extends SQLiteOpenHelper
             cursor.close();
         }
         return users;
+    }
+
+    public ArrayList<String> getWordsOfCategory(String category)
+    {
+        String query = "SELECT * FROM " + TABLE_WORDS + " WHERE category LIKE + \""+category+"\";";
+        ArrayList<String> words = new ArrayList<>();
+
+        //execute queries.
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        //add all words to the list
+        if (cursor != null && cursor.moveToFirst())
+        {
+            do
+            {
+                String w = cursor.getString(0);
+                // Add word
+                words.add(w);
+            }
+            while (cursor.moveToNext());
+
+            db.close();
+            cursor.close();
+        }
+
+        return words;
+
     }
 
     /**

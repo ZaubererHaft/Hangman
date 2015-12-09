@@ -166,6 +166,9 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
             case "test":
                 newName = this.getResources().getString(R.string.categoryName_test);
                 break;
+            case "ownWord":
+                newName = this.getResources().getString(R.string.categoryName_ownWord);
+                break;
             default:
                 newName = nameInDatabase;
                 break;

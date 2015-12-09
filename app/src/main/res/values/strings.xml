@@ -73,7 +73,7 @@
     <string name="categoryName_rivers">Rivers</string>
     <string name="categoryName_trees">Trees</string>
     <string name="categoryName_animals">Animals</string>
-
+    <string name="categoryName_ownWord">Own Words</string>
     <string name="categoryName_test">Test Data</string>
     <string name="title_activity_music_menu">MusicMenu</string>
     <string name="options_music_header">Hangman - Music</string>
@@ -99,5 +99,6 @@
     <string name="ownWords_hint_category" >Category</string>
     <string name="ownWords_hint_description" >Description</string>
     <string name="addWord_close">Close</string>
+    <string name="newWord_add" />
 
 </resources>

@@ -6,7 +6,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="teamfmg.hangman.OwnWordsMenu"
     android:id="@+id/relLayout_ownWords"
-    android:background="@drawable/green">
+    android:background="@drawable/purple">
 
     <TextView
         android:layout_width="wrap_content"
@@ -35,106 +35,70 @@
         android:layout_alignTop="@+id/text_header_ownwords"
         android:layout_alignParentRight="true" />
 
-    <RelativeLayout
+    <EditText
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="@string/ownWords_description"
+        android:ems="10"
+        android:id="@+id/ownWords_description"
+        android:editable="false"
+        android:enabled="true"
+        android:visibility="visible"
+        android:hint="@string/ownWords_hint_description"
+        android:layout_below="@+id/ownWords_word"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="@string/ownWords_word"
+        android:ems="10"
+        android:id="@+id/ownWords_word"
+        android:enabled="true"
+        android:visibility="visible"
+        android:hint="@string/ownWords_hint_word"
+        android:layout_alignParentTop="false"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/text_header_ownwords"
-        android:id="@+id/relLayout_ownWords_sub">
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="@dimen/marginToHeader" />
 
-        <ScrollView
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/newWord_Done"
+        android:id="@+id/newWord_Done"
+        android:minWidth="@dimen/AddWord"
+        android:maxWidth="@dimen/AddWord"
+        android:layout_below="@+id/ownWords_description"
+        android:layout_alignParentRight="true" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ownWords_Scroll"
+        android:fillViewport="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/newWord_Done">
+
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/ownWords_Scroll"
-            android:layout_alignParentRight="true"
-            android:fillViewport="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="@dimen/marginToHeader"
-            android:layout_above="@+id/ownWords_word">
+            android:layout_height="match_parent"
+            android:id="@+id/ownWords_linLayout">
 
-            <TextView
+            <include
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:id="@+id/textView3"
-                android:textSize="@dimen/textSizeMedium"
-                android:textColor="@color/color_white" />
-        </ScrollView>
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="@string/ownWords_description"
-            android:ems="10"
-            android:id="@+id/ownWords_description"
-            android:editable="false"
-            android:enabled="true"
-            android:visibility="visible"
-            android:layout_above="@+id/newWord_Done"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:hint="@string/ownWords_hint_description" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="@string/ownWords_category"
-            android:ems="10"
-            android:id="@+id/ownWords_category"
-            android:enabled="true"
-            android:visibility="visible"
-            android:layout_above="@+id/ownWords_description"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:hint="@string/ownWords_hint_category" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/newWord_new"
-            android:id="@+id/newWord_Done"
-            android:minWidth="@dimen/AddWord"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:maxWidth="@dimen/AddWord" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/addWord_delete"
-            android:id="@+id/addWord_delete"
-            android:maxWidth="@dimen/AddWord"
-            android:minWidth="@dimen/AddWord"
-            android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/newWord_Done" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="@string/ownWords_word"
-            android:ems="10"
-            android:id="@+id/ownWords_word"
-            android:enabled="true"
-            android:visibility="visible"
-            android:layout_above="@+id/ownWords_category"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:hint="@string/ownWords_hint_word" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/addWord_close"
-            android:id="@+id/addWord_close"
-            android:maxWidth="@dimen/AddWord"
-            android:minWidth="@dimen/AddWord"
-            android:layout_below="@+id/ownWords_description"
-            android:layout_toRightOf="@+id/addWord_delete" />
-
-    </RelativeLayout>
+                layout="@layout/new_word_element" />
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

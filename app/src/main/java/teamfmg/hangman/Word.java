@@ -10,7 +10,7 @@ public class Word
     /**
      * Variables (Strings).
      */
-    private String word, category;
+    private String word, category, description;
 
     /**
      * Instantiates a new word.
@@ -21,6 +21,13 @@ public class Word
     {
         this.setWord(word);
         this.setCategory(category);
+    }
+
+    public Word(String word, String category, String description)
+    {
+        this.setWord(word);
+        this.setCategory(category);
+        this.setDescription(description);
     }
 
     /**
@@ -58,4 +65,8 @@ public class Word
     {
         this.category = category;
     }
+
+    public String getDescription() { return description; }
+
+    public void setDescription(String description) { this.description = description;}
 }
