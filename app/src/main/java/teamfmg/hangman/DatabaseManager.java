@@ -225,11 +225,7 @@ public class DatabaseManager extends SQLiteOpenHelper
      */
     public void addWord (Word w)
     {
-        if (w.getWord().length() < 3){
-            Logger.write("Word too short", (Activity) context, -70);
-            return;
-        }
-        if (!exists(w.getWord(),w.getCategory()))
+        try
         {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues val = new ContentValues();
@@ -242,30 +238,42 @@ public class DatabaseManager extends SQLiteOpenHelper
             }
 
             db.insert(TABLE_WORDS, null, val);
-            Logger.write("Added!", (Activity) context, -70);
             db.close();
         }
-        else
+        catch(SQLiteException ex)
         {
-            Logger.write("Word already exists", (Activity) context, -70);
+            Logger.logOnlyError(ex.getMessage());
         }
     }
 
 
+    public void remove (Word word)
+    {
+        String query = "DELETE FROM " + TABLE_WORDS + " WHERE word LIKE \"" + word.getWord() +
+                "\" AND category LIKE \"" + word.getCategory() + "\";";
+        try
+        {
+            this.useCommand(query);
+        }
+        catch (SQLiteException ex)
+        {
+            Logger.logOnlyError(ex.getMessage());
+        }
+    }
+
     /**
      * Searches for an word and return its existance.
-     * @param word Word to search.
-     * @param category The category to search
+     * @param word Word to add.
      * @return boolean
      * @since 0.7
      */
-    public boolean exists(String word, String category)
+    public boolean exists(Word word)
     {
         boolean b;
 
         //Bsp: SELECT * FROM words WHERE word LIKE "test" AND category LIKE "testCategory";
-        String query = "SELECT * FROM " + TABLE_WORDS + " WHERE word LIKE \"" + word +
-                "\" AND category LIKE \"" + category + "\";";
+        String query = "SELECT * FROM " + TABLE_WORDS + " WHERE word LIKE \"" + word.getWord() +
+                "\" AND category LIKE \"" + word.getCategory() + "\";";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
@@ -330,10 +338,10 @@ public class DatabaseManager extends SQLiteOpenHelper
      * @return {@link ArrayList}
      * @since 0.7
      */
-    public ArrayList<String> getWordsOfCategory(String category)
+    public ArrayList<Word> getWordsOfCategory(String category)
     {
         String query = "SELECT * FROM " + TABLE_WORDS + " WHERE category LIKE \""+category+"\";";
-        ArrayList<String> words = new ArrayList<>();
+        ArrayList<Word> words = new ArrayList<>();
 
         //execute queries.
         SQLiteDatabase db = this.getWritableDatabase();
@@ -344,7 +352,12 @@ public class DatabaseManager extends SQLiteOpenHelper
         {
             do
             {
-                String w = cursor.getString(0);
+                Word w = new Word
+                (
+                        cursor.getString(0),
+                        cursor.getString(1),
+                        cursor.getString(2)
+                );
                 // Add word
                 words.add(w);
             }
