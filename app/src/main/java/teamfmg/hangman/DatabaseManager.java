@@ -225,6 +225,10 @@ public class DatabaseManager extends SQLiteOpenHelper
      */
     public void addWord (Word w)
     {
+        if (w.getWord().length() < 3){
+            Logger.write("Word too short", (Activity) context, -70);
+            return;
+        }
         if (!exists(w.getWord(),w.getCategory()))
         {
             SQLiteDatabase db = this.getWritableDatabase();
@@ -238,12 +242,12 @@ public class DatabaseManager extends SQLiteOpenHelper
             }
 
             db.insert(TABLE_WORDS, null, val);
-            Logger.write("Added!", (Activity) context);
+            Logger.write("Added!", (Activity) context, -70);
             db.close();
         }
         else
         {
-            Logger.write("Word already exists", (Activity) context);
+            Logger.write("Word already exists", (Activity) context, -70);
         }
     }
 
