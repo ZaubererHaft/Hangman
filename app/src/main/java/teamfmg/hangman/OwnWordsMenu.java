@@ -1,11 +1,14 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -22,7 +25,7 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
     private ArrayList<String> words;
     private TextView wordText, descriptionText;
     private DatabaseManager db;
-
+    private int viewsCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -34,7 +37,6 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
         this.findViewById(R.id.ownwords_close).setOnClickListener(this);
 
         db = new DatabaseManager(this);
-        this.words = db.getWordsOfCategory("custom");
 
         this.setUpLayout();
         wordText = (TextView)findViewById(R.id.ownWords_word);
@@ -42,25 +44,30 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
 
     }
 
+    private void addInclude(int id)
+    {
+        LinearLayout parent = (LinearLayout)this.findViewById(R.id.ownWords_linLayout);
+
+        LayoutInflater inflater = (LayoutInflater)this.getSystemService(LAYOUT_INFLATER_SERVICE);
+        View child = inflater.inflate(R.layout.new_word_element, null, false);
+
+        parent.addView(child);
+    }
+
     private void setUpLayout()
     {
-        int viewsCount = 0;
+
         this.findViewById(R.id.newWord_Done).setOnClickListener(this);
-
-
         LinearLayout ll = (LinearLayout)findViewById(R.id.ownWords_linLayout);
+        words = db.getWordsOfCategory("ownWord");
 
         //Add one Checkbox for each Button (+ GUI Settings)
         //TODO: Implement
         for (int i = 0; i < this.words.size(); i++)
         {
-            View c = new View(this);
-
-            c.setId(viewsCount);
             viewsCount++;
-            ll.addView(c);
+            this.addInclude(10+viewsCount);
         }
-
 
         //adds click listener to words
         for (int i = 0; i < ll.getChildCount(); i++)
@@ -91,15 +98,15 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
         {
             this.finish();
         }
-        if (v.getId() == R.id.newWord_Done){
+        if (v.getId() == R.id.newWord_Done)
+        {
             Word w = new Word(wordText.getText().toString(), "ownWord", descriptionText.getText().toString());
 
-            try {
-                db.addWord(w);
-                }
-            catch (Exception e){
-                Logger.write("Word already excists", this);
-            }
+            //TODO hier exists
+            db.addWord(w);
+            ++viewsCount;
+            this.addInclude(viewsCount);
+
 
             wordText.setText("");
             descriptionText.setText("");

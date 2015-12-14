@@ -31,7 +31,7 @@ public class DatabaseManager extends SQLiteOpenHelper
     /**
      * Version of the database.
      */
-    private static final int DATABASE_VERSION       = 70;
+    private static final int DATABASE_VERSION       = 71;
     /**
      * Name of the database
      */
@@ -273,7 +273,6 @@ public class DatabaseManager extends SQLiteOpenHelper
         if (cursor != null && cursor.getCount() > 0)
         {
             cursor.moveToFirst();
-            cursor.close();
             b = true;
         }
         else
@@ -281,7 +280,16 @@ public class DatabaseManager extends SQLiteOpenHelper
             b = false;
         }
 
-        db.close();
+        try
+        {
+            cursor.close();
+            db.close();
+        }
+        catch (NullPointerException ex)
+        {
+            Logger.logOnly("Database error");
+        }
+
         return b;
     }
 
