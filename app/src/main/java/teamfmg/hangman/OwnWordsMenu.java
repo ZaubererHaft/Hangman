@@ -46,7 +46,7 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
 
     /**
      * Generates the layout of the own words menu.
-     * @since 0.5
+     * @since 0.7
      */
     private void setUpLayout()
     {
