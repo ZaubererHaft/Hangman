@@ -216,35 +216,65 @@ public class DatabaseManager extends SQLiteOpenHelper
      * @param w Word to add
      * @since 0.5
      */
-    public void addWord (Word w) throws Exception
+    public void addWord (Word w)
     {
+        if (!exists(w.getWord(),w.getCategory()))
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues val = new ContentValues();
+            val.put("word", w.getWord());
+            val.put("category", w.getCategory());
 
-    SQLiteDatabase db = this.getWritableDatabase();
-    ContentValues val = new ContentValues();
-    val.put("word", w.getWord());
-    val.put("category", w.getCategory());
+            if (w.getDescription().length() != 0){
+                val.put("description", w.getDescription());
+            }
 
-    if (w.getDescription().length() != 0){
-        val.put("description", w.getDescription());
+            db.insert(TABLE_WORDS, null, val);
+            Logger.write("Added!", (Activity) context);
+            db.close();
+        }
+        else
+        {
+            Logger.write("Word already exists", (Activity) context);
+        }
     }
 
-    db.insert(TABLE_WORDS, null, val);
-    Logger.write("Added!", (Activity) context);
-    db.close();
-    }
 
-    public boolean exists(String word, String categorie)
+    public boolean exists(String word, String category)
     {
-        //Bsp: SELECT * FROM words WHERE word LIKE "test" AND categorie LIKE "testCategory";
-        String command = "SELECT * FROM \"" + TABLE_WORDS + "\" WHERE word LIKE \"" + word +
-                "\" AND category LIKE \"" + categorie + "\";";
-        useCommand(command);
-    }
+        //Bsp: SELECT * FROM words WHERE word LIKE "test" AND category LIKE "testCategory";
+        String query = "SELECT * FROM " + TABLE_WORDS + " WHERE word LIKE \"" + word +
+                "\" AND category LIKE \"" + category + "\";";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        try {
+            if (cursor != null) {
+
+                cursor.moveToFirst();
+                cursor.close();
+                db.close();
+
+                return true;
+            }
+            else {
+                System.out.println("ba");
+
+                return false;
+            }
+        }
+            catch (CursorIndexOutOfBoundsException ex)
+            {
+                cursor.close();
+                db.close();
+                return false;
+            }
+        }
 
     /**
      * Gets all registered users
      * @return List of users.
-     * @since 0.1
+     * @since 0.1i
      * @deprecated
      */
     public List<User> getUsers()
