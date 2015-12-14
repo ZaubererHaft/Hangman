@@ -91,7 +91,7 @@ public class DatabaseManager extends SQLiteOpenHelper
 
             BufferedReader buffer = new BufferedReader(new InputStreamReader(in),8192);
 
-            String line = "";
+            String line;
 
             int amount = 0;
 
@@ -111,15 +111,17 @@ public class DatabaseManager extends SQLiteOpenHelper
 
                     String createTableStatement;
 
-                    if(list.length == 2) {
+                    if(list.length == 2)
+                    {
                         createTableStatement =
                                 "INSERT INTO " + TABLE_WORDS + " (word,category) " +
                                         " VALUES(\"" + list[0] + "\", \"" + list[1] + "\");";
                     }
-                    else{
+                    else
+                    {
                         createTableStatement =
-                                "INSERT INTO " + TABLE_WORDS + " (word,category,description) " +
-                                        " VALUES(\"" + list[0] + "\", \"" + list[1] + "\",\"" + list[2] + "\");";
+                        "INSERT INTO " + TABLE_WORDS + " (word,category,description) " +
+                        " VALUES(\"" + list[0] + "\", \"" + list[1] + "\",\"" + list[2] + "\");";
                     }
 
                     db.execSQL(createTableStatement);
@@ -205,7 +207,12 @@ public class DatabaseManager extends SQLiteOpenHelper
         db.close();
     }
 
-    public void useCommand (String command){
+    /**
+     * Executes a vommand to the database.
+     * @param command {@link String}
+     */
+    public void useCommand (String command)
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(command);
         db.close();
@@ -225,7 +232,8 @@ public class DatabaseManager extends SQLiteOpenHelper
             val.put("word", w.getWord());
             val.put("category", w.getCategory());
 
-            if (w.getDescription().length() != 0){
+            if (w.getDescription().length() != 0)
+            {
                 val.put("description", w.getDescription());
             }
 
@@ -240,36 +248,38 @@ public class DatabaseManager extends SQLiteOpenHelper
     }
 
 
+    /**
+     * Searches for an word and return its existance.
+     * @param word Word to search.
+     * @param category The category to search
+     * @return boolean
+     * @since 0.7
+     */
     public boolean exists(String word, String category)
     {
+        boolean b;
+
         //Bsp: SELECT * FROM words WHERE word LIKE "test" AND category LIKE "testCategory";
         String query = "SELECT * FROM " + TABLE_WORDS + " WHERE word LIKE \"" + word +
                 "\" AND category LIKE \"" + category + "\";";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
-        try {
-            if (cursor != null) {
-
-                cursor.moveToFirst();
-                cursor.close();
-                db.close();
-
-                return true;
-            }
-            else {
-                System.out.println("ba");
-
-                return false;
-            }
+        //a word exists if we found something
+        if (cursor != null && cursor.getCount() > 0)
+        {
+            cursor.moveToFirst();
+            cursor.close();
+            b = true;
         }
-            catch (CursorIndexOutOfBoundsException ex)
-            {
-                cursor.close();
-                db.close();
-                return false;
-            }
+        else
+        {
+            b = false;
         }
+
+        db.close();
+        return b;
+    }
 
     /**
      * Gets all registered users
@@ -302,9 +312,15 @@ public class DatabaseManager extends SQLiteOpenHelper
         return users;
     }
 
+    /**
+     * Gets all words of a category.
+     * @param category Category to get the words.
+     * @return {@link ArrayList}
+     * @since 0.7
+     */
     public ArrayList<String> getWordsOfCategory(String category)
     {
-        String query = "SELECT * FROM " + TABLE_WORDS + " WHERE category LIKE + \""+category+"\";";
+        String query = "SELECT * FROM " + TABLE_WORDS + " WHERE category LIKE \""+category+"\";";
         ArrayList<String> words = new ArrayList<>();
 
         //execute queries.

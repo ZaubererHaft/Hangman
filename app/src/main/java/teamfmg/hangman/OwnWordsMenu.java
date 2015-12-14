@@ -51,6 +51,7 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
         LinearLayout ll = (LinearLayout)findViewById(R.id.ownWords_linLayout);
 
         //Add one Checkbox for each Button (+ GUI Settings)
+        //TODO: Implement
         for (int i = 0; i < this.words.size(); i++)
         {
             View c = new View(this);

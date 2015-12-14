@@ -88,17 +88,12 @@
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/newWord_Done">
 
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/ownWords_linLayout">
-
-            <include
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                layout="@layout/new_word_element" />
-        </LinearLayout>
+            android:id="@+id/ownWords_linLayout"></LinearLayout>
     </ScrollView>
 
 </RelativeLayout>
