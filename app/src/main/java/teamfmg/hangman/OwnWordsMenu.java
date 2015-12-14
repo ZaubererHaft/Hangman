@@ -68,6 +68,8 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
                 words.get(i).getDescription()
             );
         }
+
+        this.wordText.requestFocus();
     }
 
     /**

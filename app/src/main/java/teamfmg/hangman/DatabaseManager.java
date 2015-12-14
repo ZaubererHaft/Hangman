@@ -295,7 +295,7 @@ public class DatabaseManager extends SQLiteOpenHelper
         }
         catch (NullPointerException ex)
         {
-            Logger.logOnly("Database error");
+            Logger.logOnly(ex.getMessage());
         }
 
         return b;
@@ -325,9 +325,16 @@ public class DatabaseManager extends SQLiteOpenHelper
                 users.add(u);
             }
             while (cursor.moveToNext());
-
             db.close();
+        }
+        try
+        {
             cursor.close();
+            db.close();
+        }
+        catch (NullPointerException ex)
+        {
+            Logger.logOnly(ex.getMessage());
         }
         return users;
     }
@@ -364,9 +371,16 @@ public class DatabaseManager extends SQLiteOpenHelper
             while (cursor.moveToNext());
 
             db.close();
-            cursor.close();
         }
-
+        try
+        {
+            cursor.close();
+            db.close();
+        }
+        catch (NullPointerException ex)
+        {
+            Logger.logOnly(ex.getMessage());
+        }
         return words;
 
     }
@@ -407,9 +421,16 @@ public class DatabaseManager extends SQLiteOpenHelper
             cursor.move(rand);
             result = cursor.getString(0);
             db.close();
-            cursor.close();
         }
-
+        try
+        {
+            cursor.close();
+            db.close();
+        }
+        catch (NullPointerException ex)
+        {
+            Logger.logOnly(ex.getMessage());
+        }
         return result;
     }
 
@@ -457,7 +478,16 @@ public class DatabaseManager extends SQLiteOpenHelper
             while (cursor.moveToNext());
 
             db.close();
+        }
+
+        try
+        {
             cursor.close();
+            db.close();
+        }
+        catch (NullPointerException ex)
+        {
+            Logger.logOnly(ex.getMessage());
         }
 
         return words;
@@ -487,9 +517,16 @@ public class DatabaseManager extends SQLiteOpenHelper
             }
             while (cursor.moveToNext());
 
+            db.close();
+        }
+        try
+        {
             cursor.close();
             db.close();
-
+        }
+        catch (NullPointerException ex)
+        {
+            Logger.logOnly(ex.getMessage());
         }
         return categories;
     }

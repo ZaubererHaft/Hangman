@@ -51,7 +51,6 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
         {
             this.username.setText(Settings.getLastUsername());
             this.password.setText(Settings.getLastPassword());
-            this.password.requestFocus();
         }
         catch(NullPointerException ex)
         {
