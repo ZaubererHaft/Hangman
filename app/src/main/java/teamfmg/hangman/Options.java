@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 
 /**
@@ -23,12 +22,12 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
         setContentView(R.layout.activity_options);
 
         //init Buttons
-        findViewById(R.id.button_ownWords).setOnClickListener(this);
-        findViewById(R.id.button_about).setOnClickListener(this);
-        findViewById(R.id.button_options_music).setOnClickListener(this);
-        findViewById(R.id.options_close).setOnClickListener(this);
-        findViewById(R.id.button_video).setOnClickListener(this);
-        findViewById(R.id.button_options_categories).setOnClickListener(this);
+        this.findViewById(R.id.button_ownWords).setOnClickListener(this);
+        this.findViewById(R.id.button_about).setOnClickListener(this);
+        this.findViewById(R.id.button_options_music).setOnClickListener(this);
+        this.findViewById(R.id.options_close).setOnClickListener(this);
+        this.findViewById(R.id.button_video).setOnClickListener(this);
+        this.findViewById(R.id.button_options_categories).setOnClickListener(this);
 
         this.changeBackground();
 

@@ -34,7 +34,7 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
     /**
      * Category of added words.
      */
-    private final String categoryName = "OwnWord";
+    private final String categoryName = "ownWord";
 
 
     @Override

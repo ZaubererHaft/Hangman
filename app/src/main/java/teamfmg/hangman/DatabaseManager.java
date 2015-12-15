@@ -24,13 +24,12 @@ import java.util.List;
  */
 public class DatabaseManager extends SQLiteOpenHelper
 {
-
     /**
      * Version of the database.
      */
     private static final int DATABASE_VERSION       = 71;
     /**
-     * Name of the database
+     * Name of the database.
      */
     private static final String DATABASE_NAME       = "database.db";
     /**
@@ -38,7 +37,7 @@ public class DatabaseManager extends SQLiteOpenHelper
      */
     private static final String TABLE_USERS_NAME    = "users";
     /**
-     * Name of the table words
+     * Name of the table words.
      */
     private static final String TABLE_WORDS    = "words";
     /**

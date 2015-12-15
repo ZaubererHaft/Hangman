@@ -23,6 +23,12 @@ public class Word
         this.setCategory(category);
     }
 
+    /**
+     * Instantiates a new word.
+     * @param word String
+     * @param category String
+     * @param description String.
+     */
     public Word(String word, String category, String description)
     {
         this.setWord(word);
@@ -66,7 +72,15 @@ public class Word
         this.category = category;
     }
 
+    /**
+     * Gets the description.
+     * @return String
+     */
     public String getDescription() { return description; }
 
+    /**
+     * Sets the description.
+     * @param description String
+     */
     public void setDescription(String description) { this.description = description;}
 }

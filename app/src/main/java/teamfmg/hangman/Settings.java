@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Point;
 import android.view.Display;
 import android.widget.RelativeLayout;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -12,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,10 +31,6 @@ public final class Settings
      * Color theme of the game.
      */
     private static Theme theme = Theme.GREEN;
-    /**
-     * The min. supported screen size.
-     */
-    public static final Point minScreenRes = new Point(600,800);
     /**
      * The key for encryption.
      */
@@ -62,7 +60,8 @@ public final class Settings
      */
     public static List<String> getCategories()
     {
-        return categories;
+        Collections.sort(categories);
+        return  categories;
     }
 
     /**
@@ -251,6 +250,10 @@ public final class Settings
             Logger.logOnly("Settings loaded!");
             fr.close();
             br.close();
+
+            //sort list
+            Collections.sort(categories);
+
         }
         catch (IOException ex)
         {

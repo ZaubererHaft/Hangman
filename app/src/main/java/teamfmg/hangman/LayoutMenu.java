@@ -47,7 +47,7 @@ public class LayoutMenu extends Activity implements View.OnClickListener,IApplya
     {
         String[] colorList;
 
-        //TODO: Design vom Dropdown ändern
+        //TODO: change spinner design
         this.colorSpinner = (Spinner) findViewById(R.id.options_menu_spinner);
 
         colorList = new String[]

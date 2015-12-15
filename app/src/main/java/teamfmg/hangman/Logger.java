@@ -10,7 +10,7 @@ import android.widget.Toast;
  * Created by Ludwig 09.11.2015.
  * @since 0.1
  */
-public class Logger
+public final class Logger
 {
     /**
      * Logs a info text to the console and opens a toast at the device.

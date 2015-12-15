@@ -9,7 +9,9 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -98,6 +100,8 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
             this.selectAllBoxes(true);
         }
 
+        Collections.sort(this.availableCategories);
+
     }
 
     @Override
@@ -125,7 +129,7 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
         //if no checkbox is selected, do not save
         else
         {
-            Logger.write("Categories NOT saved!", this);
+            Logger.write(this.getResources().getString(R.string.category_hint_not_saved), this);
         }
     }
 
