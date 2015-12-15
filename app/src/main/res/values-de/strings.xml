@@ -1,0 +1,112 @@
+<resources>
+    <string name="app_name">FMG Hangman</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="label_username">Benutzername</string>
+    <string name="label_password">Passwort</string>
+    <string name="testfield_username">Benutzername</string>
+    <string name="button_login">Login</string>
+    <string name="label_welcome">Hangman - Wilkommen</string>
+    <string name="button_register">Registrieren</string>
+    <string name="button_exit">Exit</string>
+    <string name="title_activity_register_menu">RegisterMenu</string>
+
+    <string name="hello_world">Hallo Welt</string>
+    <string name="label_register">Hangman - Register</string>
+    <string name="button_back">Zurück</string>
+    <string name="label_register_username">Benutzername</string>
+    <string name="label_mail">E-Mail</string>
+    <string name="label_register_hint">Alle Felder müssen ausgefüllt sein</string>
+    <string name="label_register_hint_second">Nur Zahlen und Buchstaben sind erlaubt</string>
+
+    <string name="info_register_succeed">Erfolgreich Registriert!</string>
+    <string name="info_login_succeed">Erfolgreich eingeloggt!</string>
+
+    <string name="error_general_sqlite">Fehler beim Lesen der Datenbank!</string>
+
+    <string name="error_register_emptyUsername">Bitte Nutzername eingeben!</string>
+    <string name="error_register_userAlreadyExists">Benutzer existiert bereits!</string>
+    <string name="error_register_invalidEmail">Bitte geben Sie eine Valide E-Mail Addresse ein!</string>
+    <string name="error_register_passwordShort">Das Passwort muss aus mindestens 8 Zeichen bestehen!</string>
+    <string name="error_login_wrongUsername">Benutzername existiert nicht!</string>
+    <string name="error_login_wrongPassword">Falsches Passwort!</string>
+    <string name="error_register_wrongRepeatedPassword">Das Passwort stimmt nicht mit dem Benutzernamen überein!</string>
+    <string name="button_not_registered">Nicht Registriert?</string>
+    <string name="label_repeat_password">Passwort wiederholen</string>
+    <string name="label_register_hint_mail">deineMail@beispiel.com</string>
+    <string name="label_hint_register_password">Mindestens 8 Zeichen</string>
+    <string name="label_register_hint_repeatpassword">Wiederhole dein Passwort</string>
+
+    <string name="hint_settings_changed">Einstellungen gespeichert!</string>
+
+    <string name="button_play">Spielen</string>
+    <string name="button_multiplayer">Mehrspieler</string>
+    <string name="button_options">Optionen</string>
+    <string name="text_header">Hangman - Menü</string>
+    <string name="text_header_options">Hangman - Optionen</string>
+    <string name="button_apply">Übernehmen</string>
+    <string name="text_language">Sprache</string>
+    <string name="text_ownWords">Eigene Wörter</string>
+    <string name="buttons_about">Über</string>
+    <string name="color_green">Green</string>
+    <string name="color_blue">Blue</string>
+    <string name="color_purple">Purple</string>
+    <string name="color_orange">Orange</string>
+    <string name="title_activity_main_menu">MainMenu</string>
+    <string name="title_activity_options">Optionen</string>
+    <string name="text_chooseColor">Fahrbe wählen:</string>
+    <string name="allowedDigits">
+        0123456789qwertzuiopasdfghjklyxcvbnmQWERTZUIOPÜASDFGHJKLYXCVBNM</string>
+    <string name="lettersOnly">
+    qwertzuiopasdfghjklyxcvbnmQWERT ZUIOPÜASDFGHJKLYXCVBNM-.</string>
+    <string name="options_hint_restart">Bitte starten sie die App neu um die Einstellungen zu übernehmen</string>
+    <string name="login_save_login">Logindaten speichern</string>
+    <string name="title_activity_about">Über</string>
+    <string name="label_about">Über die Entwickeler</string>
+    <string name="label_x">╳</string>
+    <string name="text_header_categories">Hangman - Kategorien</string>
+    <string name="checkbox_cat_all">Alle</string>
+    <string name="categoryName_capitals">Hauptstädte</string>
+    <string name="categoryName_citys_de">Deutsche Städte</string>
+    <string name="categoryName_countries">Länder</string>
+    <string name="categoryName_gaming">Gaming</string>
+    <string name="categoryName_instruments">Instrumente</string>
+    <string name="categoryName_cars">Autos</string>
+    <string name="categoryName_rivers">Flüsse</string>
+    <string name="categoryName_trees">Bäume</string>
+    <string name="categoryName_animals">Tiere</string>
+    <string name="categoryName_ownWord">Eigene Wörter</string>
+    <string name="categoryName_test">Test Daten</string>
+    <string name="title_activity_music_menu">MusicMenu</string>
+    <string name="options_music_header">Hangman - Musik</string>
+    <string name="options_music_mute">Ton aus</string>
+    <string name="options_music_volume">Laudstärke</string>
+    <string name="title_activity_layout_menu">LayoutMenu</string>
+    <string name="options_layout_header">Hangman - Video</string>
+    <string name="label_options_video">Video</string>
+    <string name="button_video">Video</string>
+    <string name="button_options_music">Musik</string>
+    <string name="button_options_categories">Kategorien</string>,
+    <string name="hint_loading">Laden...</string>
+    <string name="options_video_label_quality">Qualität</string>
+    <string name="title_activity_own_words_menu">OwnWordsMenu</string>
+    <string name="text_header_ownwords">Hangman - Wort hinzufügen</string>
+    <string name="newWord_new" >Neu</string>
+    <string name="addWord_delete">Löschen</string>
+    <string name="newWord_Done">Hinzufügen</string>
+    <string name="ownWords_word" />
+    <string name="ownWords_category" />
+    <string name="ownWords_description" />
+    <string name="ownWords_hint_word" >Wort</string>
+    <string name="ownWords_hint_category" >Kategorie</string>
+    <string name="ownWords_hint_description" >Beschreibung</string>
+    <string name="addWord_close">Schließen</string>
+    <string name="newWord_add" />
+    <string name="button_mainMenu_account">Account</string>
+
+    <string name="ownWord_hint_tooShort">Bitte mindestens 3 Zeichen eingeben!</string>
+    <string name="ownWord_hint_added">Wort hinzugefügt!</string>
+    <string name="ownWord_hint_removed">Word gelöscht!</string>
+    <string name="ownWord_hint_word_already_exists">Wort existiert bereits!</string>
+
+    <string name="category_hint_not_saved">Kategorien nicht gespeichert!</string>
+</resources>

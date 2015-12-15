@@ -49,7 +49,7 @@ public class LayoutMenu extends Activity implements View.OnClickListener,IApplya
 
         //TODO: change spinner design
         this.colorSpinner = (Spinner) findViewById(R.id.options_menu_spinner);
-
+        //TODO Deutsche Version funktuioniert nicht.
         colorList = new String[]
         {
             this.getString(R.string.color_blue),

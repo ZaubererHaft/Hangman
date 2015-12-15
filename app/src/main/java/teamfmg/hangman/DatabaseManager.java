@@ -259,6 +259,7 @@ public class DatabaseManager extends SQLiteOpenHelper
         }
     }
 
+
     /**
      * Searches for an word and return its existance.
      * @param word Word to add.
