@@ -3,6 +3,7 @@ package teamfmg.hangman;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -13,7 +14,8 @@ import android.widget.Spinner;
  * Created by Ludwig 27.11.2015.
  * @since 0.6
  */
-public class LayoutMenu extends Activity implements View.OnClickListener,IApplyableSettings
+public class LayoutMenu extends Activity implements View.OnClickListener,IApplyableSettings,
+        AdapterView.OnItemSelectedListener
 {
     /**
      * GUI objects.
@@ -28,11 +30,8 @@ public class LayoutMenu extends Activity implements View.OnClickListener,IApplya
         setContentView(R.layout.activity_layout_menu);
 
         Button closeButton  = (Button) this.findViewById(R.id.layout_close);
-        Button applyButton  = (Button) this.findViewById(R.id.button_video_apply);
-
 
         closeButton.setOnClickListener(this);
-        applyButton.setOnClickListener(this);
 
         this.createSpinner();
         this.chooseActiveElementFromSettings();
@@ -63,6 +62,8 @@ public class LayoutMenu extends Activity implements View.OnClickListener,IApplya
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, colorList);
         this.colorSpinner.setAdapter(adapter);
+
+        this.colorSpinner.setOnItemSelectedListener(this);
     }
 
     /**
@@ -92,21 +93,8 @@ public class LayoutMenu extends Activity implements View.OnClickListener,IApplya
     @Override
     public void onClick(View v)
     {
-        if (v.getId() == R.id.button_video_apply)
-        {
-            String s = this.colorSpinner.getSelectedItem().toString();
-
-            //chooses color from string
-            Settings.stringToColor(s.toUpperCase());
-
-            //apply color on layout
-            this.changeBackground();
-
-            //save settings
-            Settings.save(this);
-        }
         //close activity
-        else if (v.getId() == R.id.layout_close)
+        if (v.getId() == R.id.layout_close)
         {
             this.finish();
         }
@@ -124,5 +112,27 @@ public class LayoutMenu extends Activity implements View.OnClickListener,IApplya
     {
         super.onDestroy();
         System.gc();
+    }
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+    {
+        String s = colorSpinner.getSelectedItem().toString();
+
+        //chooses color from string
+        Settings.stringToColor(s.toUpperCase());
+
+        //apply color on layout
+        changeBackground();
+
+        //save settings
+        Settings.save(this);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent)
+    {
+
     }
 }

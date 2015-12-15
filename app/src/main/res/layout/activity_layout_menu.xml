@@ -43,16 +43,6 @@
         android:layout_marginTop="@dimen/marginToHeader" />
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_apply"
-        android:id="@+id/button_video_apply"
-        android:textSize="@dimen/textSizeMedium"
-        android:minHeight="@dimen/button_height"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true" />
-
-    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/label_x"
