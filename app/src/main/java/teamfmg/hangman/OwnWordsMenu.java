@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 
 /**
@@ -30,6 +31,10 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
      * This handle the database connection.
      */
     private DatabaseManager db;
+    /**
+     * Category of added words.
+     */
+    private final String categoryName = "OwnWord";
 
 
     @Override
@@ -57,7 +62,7 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
         this.wordText = (TextView)findViewById(R.id.ownWords_word);
         this.descriptionText = (TextView)findViewById(R.id.ownWords_description);
 
-        this.words = db.getWordsOfCategory("ownWord");
+        this.words = db.getWordsOfCategory(this.categoryName);
 
         //Add custom layout for each word
         for (int i = 0; i < this.words.size(); i++)
@@ -124,13 +129,13 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
             Word w = new Word
             (
                 this.wordText.getText().toString(),
-                "ownWord",
+                this.categoryName,
                 this.descriptionText.getText().toString()
             );
 
             if(w.getWord().length() < minWordLength)
             {
-                Logger.write("Too short!",this);
+                Logger.write(this.getResources().getString(R.string.ownWord_hint_tooShort),this);
                 return;
             }
 
@@ -140,11 +145,18 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
                 //add it to db
                 this.db.addWord(w);
                 this.addInclude(w.getWord(),w.getDescription());
-                Logger.write("Added!", this, logOffset);
+                Logger.write
+                (
+                    this.getResources().getString(R.string.ownWord_hint_added), this, logOffset
+                );
             }
             else
             {
-                Logger.write("Word already exists!",this, logOffset);
+                Logger.write
+                (
+                    this.getResources().getString(R.string.ownWord_hint_word_already_exists),
+                    this, logOffset
+                );
             }
 
             //clear the text fields
@@ -161,7 +173,7 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
             Word w = new Word
             (
                 ((TextView)parent.findViewById(R.id.element_word)).getText().toString(),
-                "OwnWord",
+                this.categoryName,
                 ((TextView)parent.findViewById(R.id.element_description)).getText().toString()
             );
 
@@ -171,7 +183,11 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
             ViewGroup vg = (ViewGroup)this.findViewById(R.id.ownWords_linLayout);
             vg.removeView(parent);
 
-            Logger.write("Removed!", this, logOffset);
+            Logger.write
+            (
+                this.getResources().getString(R.string.ownWord_hint_removed),
+                this, logOffset
+            );
         }
     }
 }

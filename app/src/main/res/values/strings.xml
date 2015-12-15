@@ -57,7 +57,7 @@
     <string name="allowedDigits">
         0123456789qwertzuiopasdfghjklyxcvbnmQWERTZUIOPÜASDFGHJKLYXCVBNM</string>
     <string name="lettersOnly">
-    qwertzuiopasdfghjklyxcvbnmQWERTZUIOPÜASDFGHJKLYXCVBNM</string>
+    qwertzuiopasdfghjklyxcvbnmQWERT ZUIOPÜASDFGHJKLYXCVBNM-.</string>
     <string name="options_hint_restart">Please restart the app to apply changes!</string>
     <string name="login_save_login">Save login data</string>
     <string name="title_activity_aout">Aout</string>
@@ -104,4 +104,8 @@
     <string name="newWord_add" />
     <string name="button_mainMenu_account">Account</string>
 
+    <string name="ownWord_hint_tooShort">Please enter at least 3 signs!</string>
+    <string name="ownWord_hint_added">Word added!</string>
+    <string name="ownWord_hint_removed">Word removed!</string>
+    <string name="ownWord_hint_word_already_exists">Word already exists!</string>
 </resources>

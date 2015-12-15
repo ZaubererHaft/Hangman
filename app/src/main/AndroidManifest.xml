@@ -67,7 +67,7 @@
         <activity
             android:name=".OwnWordsMenu"
             android:label="@string/title_activity_own_words_menu"
-            android:windowSoftInputMode="stateHidden" >
+            android:windowSoftInputMode="adjustPan">
         </activity>
     </application>
 
