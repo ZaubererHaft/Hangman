@@ -35,38 +35,6 @@
         android:layout_alignTop="@+id/text_header_ownwords"
         android:layout_alignParentRight="true" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="@string/ownWords_description"
-        android:ems="10"
-        android:id="@+id/ownWords_description"
-        android:editable="false"
-        android:enabled="true"
-        android:visibility="visible"
-        android:hint="@string/ownWords_hint_description"
-        android:layout_below="@+id/ownWords_word"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentEnd="true" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="@string/ownWords_word"
-        android:ems="10"
-        android:id="@+id/ownWords_word"
-        android:enabled="true"
-        android:visibility="visible"
-        android:hint="@string/ownWords_hint_word"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/text_header_ownwords"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="@dimen/marginToHeader" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -76,6 +44,30 @@
         android:maxWidth="@dimen/AddWord"
         android:layout_below="@+id/ownWords_description"
         android:layout_alignParentRight="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/ownWords_word"
+        android:layout_below="@+id/ownwords_close"
+        android:layout_alignParentLeft="true"
+        android:hint="@string/ownWords_hint_word"
+        android:layout_marginTop="@dimen/marginToHeader"
+        android:maxLength="@integer/maxWordLength"
+        android:digits="@string/lettersOnly" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/ownWords_description"
+        android:layout_below="@+id/ownWords_word"
+        android:layout_alignParentRight="true"
+        android:hint="@string/ownWords_hint_description"
+        android:maxLength="@integer/maxDescriptionLength" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -93,7 +85,9 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/ownWords_linLayout">
+            android:id="@+id/ownWords_linLayout"
+            android:layout_below="@+id/ownWords_word"
+            android:layout_alignParentLeft="true">
 
         </LinearLayout>
     </ScrollView>

@@ -11,7 +11,8 @@
         android:textSize="@dimen/textSizeMedium"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:textColor="@color/color_white" />
+        android:textColor="@color/color_white"
+        android:layout_toLeftOf="@+id/element_delete" />
 
     <Button
         android:layout_width="wrap_content"
@@ -37,5 +38,6 @@
         android:textSize="@dimen/textSizeSmall"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/element_word"
-        android:textColor="@color/color_white" />
+        android:textColor="@color/color_white"
+        android:layout_toLeftOf="@+id/element_delete" />
 </RelativeLayout>

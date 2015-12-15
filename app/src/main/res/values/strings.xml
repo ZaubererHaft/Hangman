@@ -56,6 +56,8 @@
     <string name="text_chooseColor">Choose Color</string>
     <string name="allowedDigits">
         0123456789qwertzuiopasdfghjklyxcvbnmQWERTZUIOPÜASDFGHJKLYXCVBN</string>
+    <string name="lettersOnly">
+    qwertzuiopasdfghjklyxcvbnmQWERTZUIOPÜASDFGHJKLYXCVBN</string>
     <string name="options_hint_restart">Please restart the app to apply changes!</string>
     <string name="login_save_login">Save login data</string>
     <string name="title_activity_aout">Aout</string>
@@ -100,5 +102,6 @@
     <string name="ownWords_hint_description" >Description</string>
     <string name="addWord_close">Close</string>
     <string name="newWord_add" />
+    <string name="button_mainMenu_account">Account</string>
 
 </resources>

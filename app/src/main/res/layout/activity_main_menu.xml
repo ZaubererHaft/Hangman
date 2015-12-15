@@ -76,4 +76,16 @@
         android:layout_marginTop="@dimen/marginToHeader"
         android:singleLine="true" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_mainMenu_account"
+        android:minHeight="@dimen/button_height"
+        android:textSize="@dimen/textSizeMedium"
+        android:layout_below="@+id/button_options"
+        android:layout_alignRight="@+id/button_options"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:text="@string/button_mainMenu_account" />
+
 </RelativeLayout>
