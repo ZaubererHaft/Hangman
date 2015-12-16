@@ -75,6 +75,8 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
 
         int cats = 0;
 
+        this.formatCategories();
+
         //Add one Checkbox for each Button (+ GUI Settings)
         for (int i = 0; i < this.availableCategories.size(); i++)
         {
@@ -82,7 +84,7 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
             c.setId(this.viewsCount);
             this.viewsCount++;
             linearLayout.addView(c);
-            c.setText(convertCategoryName(this.availableCategories.get(i)));
+            c.setText(this.availableCategories.get(i));
             c.setTextColor(Color.WHITE);
             c.setOnClickListener(this);
             this.checkBoxes.add(c);
@@ -100,8 +102,25 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
             this.selectAllBoxes(true);
         }
 
-        Collections.sort(this.availableCategories);
+    }
 
+    /**
+     * This formats the available categories.<br />
+     * Changes the visible name in a good format and sorts the list.
+     * @since 0.8
+     */
+    private void formatCategories()
+    {
+        ArrayList<String> newList = new ArrayList<>();
+
+        for (String s:this.availableCategories)
+        {
+            String newString = this.convertCategoryName(s);
+            newList.add(newString);
+        }
+
+        Collections.sort(newList);
+        this.availableCategories = newList;
     }
 
     @Override
