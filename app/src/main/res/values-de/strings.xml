@@ -47,9 +47,9 @@
     <string name="text_language">Sprache</string>
     <string name="text_ownWords">Eigene Wörter</string>
     <string name="buttons_about">Über</string>
-    <string name="color_green">Green</string>
-    <string name="color_blue">Blue</string>
-    <string name="color_purple">Purple</string>
+    <string name="color_green">Grün</string>
+    <string name="color_blue">Blau</string>
+    <string name="color_purple">Purpur</string>
     <string name="color_orange">Orange</string>
     <string name="title_activity_main_menu">MainMenu</string>
     <string name="title_activity_options">Optionen</string>
@@ -109,4 +109,7 @@
     <string name="ownWord_hint_word_already_exists">Wort existiert bereits!</string>
 
     <string name="category_hint_not_saved">Kategorien nicht gespeichert!</string>
+
+
+
 </resources>

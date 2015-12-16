@@ -53,9 +53,9 @@ public class LayoutMenu extends Activity implements View.OnClickListener,IApplya
         colorList = new String[]
         {
             this.getString(R.string.color_blue),
-            getString(R.string.color_green),
-            getString(R.string.color_orange),
-            getString(R.string.color_purple)
+            this.getString(R.string.color_green),
+            this.getString(R.string.color_orange),
+            this.getString(R.string.color_purple)
         };
 
         //add values to Spinner
@@ -118,10 +118,9 @@ public class LayoutMenu extends Activity implements View.OnClickListener,IApplya
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
     {
-        String s = colorSpinner.getSelectedItem().toString();
 
-        //chooses color from string
-        Settings.stringToColor(s.toUpperCase());
+        //chooses index and set color
+        Settings.indexToColor(colorSpinner.getSelectedItemPosition());
 
         //apply color on layout
         changeBackground();

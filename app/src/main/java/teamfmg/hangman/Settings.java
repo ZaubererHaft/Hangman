@@ -1,6 +1,7 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.view.Display;
 import android.widget.RelativeLayout;
@@ -167,7 +168,7 @@ public final class Settings
         try
         {
             pWriter = new PrintWriter(new BufferedWriter(new FileWriter(file),8192));
-            pWriter.println(theme.toString());
+            pWriter.println(theme.ordinal());
             pWriter.println(getCurrentUser().getName());
             pWriter.println(getCurrentUser().getPassword());
 
@@ -228,7 +229,7 @@ public final class Settings
 
             //Gets the color theme
             String color = br.readLine();
-            Settings.stringToColor(color);
+            Settings.indexToColor(Integer.valueOf(color));
 
             //Gets the last logged in user
             lastUsername = br.readLine();
@@ -267,11 +268,40 @@ public final class Settings
 
 
     /**
+     * Sets the color of the settings by a index.
+     * @param i String.
+     * @since 0.8
+     */
+    public static void indexToColor(int i)
+    {
+
+        switch (i)
+        {
+            case 0:
+                theme = Theme.BLUE;
+                break;
+            case 1:
+                theme = Theme.GREEN;
+                break;
+            case 2:
+                theme = Theme.ORANGE;
+                break;
+            case 3:
+                theme = Theme.PURPLE;
+                break;
+            default:
+                Logger.logOnly("Couldn't index to color!");
+        }
+    }
+    /**
      * Sets the color of the settings by a string.
      * @param s String.
+     * @since 0.3
+     * @deprecated
      */
-    public static void stringToColor(String s)
+    private static void stringToColor(String s)
     {
+
         switch (s)
         {
             case "BLUE":
@@ -290,11 +320,11 @@ public final class Settings
                 Logger.logOnly("Couldn't string to color!");
         }
     }
-
     /**
      * Gets the path of an activity.
      * @param a The activity.
      * @return The path as string.
+     * @since 0.3
      */
     public static String getPath(Activity a)
     {

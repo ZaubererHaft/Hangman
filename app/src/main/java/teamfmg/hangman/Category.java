@@ -142,7 +142,8 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
     public String convertCategoryName(String nameInDatabase)
     {
         String newName;
-        switch (nameInDatabase){
+        switch (nameInDatabase)
+        {
             case "capitals":
                 newName = this.getResources().getString(R.string.categoryName_capitals);
                 break;
