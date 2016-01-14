@@ -26,12 +26,14 @@ public class MainMenu extends Activity implements View.OnClickListener, IApplyab
         Button options      =       (Button) findViewById(R.id.button_options);
         Button play         =       (Button) findViewById(R.id.button_play);
         Button multiplayer  =       (Button) findViewById(R.id.button_multiplayer);
+        Button account      =       (Button) findViewById(R.id.button_mainMenu_account);
 
         //add ClickListener
         exit.setOnClickListener(this);
         options.setOnClickListener(this);
         play.setOnClickListener(this);
         multiplayer.setOnClickListener(this);
+        account.setOnClickListener(this);
 
         this.changeBackground();
     }
@@ -56,6 +58,12 @@ public class MainMenu extends Activity implements View.OnClickListener, IApplyab
             case R.id.button_play:
                 Intent j = new Intent(this, Singleplayer.class);
                 this.startActivity(j);
+                break;
+
+            //Account
+            case R.id.button_mainMenu_account:
+                Intent k = new Intent(this, Statistic.class);
+                this.startActivity(k);
                 break;
             default:
                 Logger.write("Currently no function", this);

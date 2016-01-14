@@ -28,6 +28,7 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
      */
     private EditText username, password;
 
+    private static User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -104,6 +105,8 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
                         Settings.save(this);
                     }
 
+                    setCurrentUser(user);
+
                     //Open Main Menu
                     Logger.write(this.getResources().getString(R.string.info_login_succeed)
                             , this, offset);
@@ -131,6 +134,14 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
 
             }
         }
+    }
+
+    public static User getCurrentUser() {
+        return currentUser;
+    }
+
+    public static void setCurrentUser(User currentUser) {
+        LoginMenu.currentUser = currentUser;
     }
 
     @Override

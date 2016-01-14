@@ -45,6 +45,9 @@ public class DatabaseManager extends SQLiteOpenHelper
      */
     private Context context;
 
+    public enum Attribut {SCORE, WINS, LOSES, CORRECTLETTER, WRONGLETTER}
+
+    public Attribut attribut;
 
     /**
      * Creates a new instance of the database handler.
@@ -140,7 +143,12 @@ public class DatabaseManager extends SQLiteOpenHelper
                         "_id          INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "username     VARCHAR(20), " +
                         "password     VARCHAR(30) NOT NULL, " +
-                        "mail         VARCHAR(20) NOT NULL);";
+                        "mail         VARCHAR(20) NOT NULL, " +
+                        "score        INTEGER DEFAULT '0'," +
+                        "wins         INTEGER DEFAULT '0'," +
+                        "loses        INTEGER DEFAULT '0'," +
+                        "correctLetters INTEGER DEFAULT '0'," +
+                        "wrongLetters INTEGER DEFAULT '0')";
         db.execSQL(createTableStatement);
 
         try
@@ -214,6 +222,84 @@ public class DatabaseManager extends SQLiteOpenHelper
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(command);
         db.close();
+    }
+
+    public void raiseScore (Attribut attribut, int amount){
+
+        String attributName = null;
+
+        switch (attribut) {
+            case SCORE:
+                attributName = "score";
+                break;
+            case WINS:
+                attributName = "wins";
+                break;
+            case LOSES:
+                attributName = "loses";
+                break;
+            case CORRECTLETTER:
+                attributName = "correctLetter";
+                break;
+            case WRONGLETTER:
+                attributName = "wrongLetter";
+                break;
+        }
+
+        useCommand("UPDATE " + TABLE_USERS_NAME + " SET " + attributName + " = " + attributName + " + "
+                + amount + " WHERE username LIKE '" + LoginMenu.getCurrentUser().getName() + "';");
+
+    }
+
+    public int getCurrentStatistic (Attribut attribut, User user){
+
+        String attributName = null;
+
+        switch (attribut) {
+            case SCORE:
+                attributName = "score";
+                break;
+            case WINS:
+                attributName = "wins";
+                break;
+            case LOSES:
+                attributName = "loses";
+                break;
+            case CORRECTLETTER:
+                attributName = "correctLetter";
+                break;
+            case WRONGLETTER:
+                attributName = "wrongLetter";
+                break;
+        }
+
+        String query = "SELECT " + attributName + " FROM " + TABLE_USERS_NAME + " WHERE username LIKE '"
+                + LoginMenu.getCurrentUser().getName() + "';";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if(cursor != null)
+        {
+            try
+            {
+                cursor.moveToFirst();
+                return cursor.getInt(0);
+            }
+            catch (CursorIndexOutOfBoundsException ex)
+            {
+                return 0;
+            }
+            finally
+            {
+                cursor.close();
+                db.close();
+            }
+        }
+        else
+        {
+            throw new NullPointerException();
+        }
     }
 
     /**

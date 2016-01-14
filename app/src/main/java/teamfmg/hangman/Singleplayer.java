@@ -180,6 +180,14 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
                     this.currentWordObject.getCategory(),
                     won, this);
 
+        DatabaseManager db = new DatabaseManager(this);
+        if (won){
+            db.raiseScore(DatabaseManager.Attribut.WINS, 1);
+        }
+        else {
+            db.raiseScore(DatabaseManager.Attribut.LOSES, 1);
+        }
+
         this.resetGame();
     }
 

@@ -69,6 +69,11 @@
             android:label="@string/title_activity_own_words_menu"
             android:windowSoftInputMode="adjustPan">
         </activity>
+        <activity
+            android:name=".Statistic"
+            android:label="@string/title_activity_own_words_menu"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
     </application>
 
 </manifest>
