@@ -1,6 +1,10 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
@@ -34,7 +38,7 @@ public final class Logger
 
     public static void logOnlyError(Object obj)
     {
-        Log.e("ERROR",obj.toString());
+        Log.e("ERROR", obj.toString());
     }
 
     /**
@@ -44,7 +48,7 @@ public final class Logger
      */
     public static void logOnly(Object obj)
     {
-        Log.i("MESSAGE:",obj.toString());
+        Log.i("MESSAGE:", obj.toString());
     }
 
     /**
@@ -65,5 +69,28 @@ public final class Logger
             toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, defaultOffset);
             toast.show();
         }
+    }
+
+    public static void popupDialog (String text, Activity frame)
+    {
+        AlertDialog.Builder d = new AlertDialog.Builder(frame);
+        d.setTitle(text);
+        d.setPositiveButton("Ok", null);
+        d.create().show();
+    }
+    public static void popupDialog (String text, Boolean won, Activity frame)
+    {
+        AlertDialog.Builder d = new AlertDialog.Builder(frame);
+        if (won)
+        {
+            d.setTitle("You won");
+        }
+        else
+        {
+            d.setTitle("You loose");
+        }
+        d.setMessage(text);
+        d.setPositiveButton("Ok", null);
+        d.create().show();
     }
 }

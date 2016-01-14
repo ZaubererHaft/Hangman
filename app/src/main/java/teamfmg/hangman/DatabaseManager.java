@@ -389,7 +389,7 @@ public class DatabaseManager extends SQLiteOpenHelper
      * @return String
      * @since 0.7
      */
-    public String getRandomWord()
+    public Word getRandomWord()
     {
         List <String> categories = Settings.getCategories();
         String query = "SELECT * FROM " + TABLE_WORDS;
@@ -411,14 +411,14 @@ public class DatabaseManager extends SQLiteOpenHelper
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
-        String result = null;
+        Word result = null;
 
         //add all words to the list
         if (cursor != null && cursor.moveToFirst())
         {
             int rand = (int)(Math.random() * cursor.getCount());
             cursor.move(rand);
-            result = cursor.getString(0);
+            result = new Word(cursor.getString(0), cursor.getString(1), cursor.getString(2));
             db.close();
         }
         try

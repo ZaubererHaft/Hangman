@@ -28,6 +28,10 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      */
     private String currentWord;
     /**
+     * The object of the currend word to guess
+     */
+    private Word currentWordObject;
+    /**
      * Label to show the text.
      */
     private TextView label;
@@ -167,8 +171,22 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      */
     private void win ()
     {
+        //TODO: Vorschlag: Win und Loose zusammenfügen, da nur ein Bool unterschiedlich ist
         //TODO: No hardcoded string
-        Logger.write("Gewonnen! Das Wort war: " +  this.currentWord, this, -200);
+        if (this.currentWordObject.getDescription() != null)
+        {
+            Logger.popupDialog( "Wort: "          + this.currentWordObject.getWord() + "\n" +
+                                "Beschreibung: "  + this.currentWordObject.getDescription() + "\n" +
+                                "Kategorie: "     + this.currentWordObject.getCategory(),
+                    true, this);
+        }
+        else
+        {
+            Logger.popupDialog( "Wort: "          + this.currentWordObject.getWord() + "\n" +
+                                "Kategorie: "     + this.currentWordObject.getCategory(),
+                    true, this);
+        }
+
         this.resetGame();
     }
 
@@ -322,9 +340,21 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      */
     private void loose()
     {
-        //TODO: Offset bearbeiten bzw. Gewinnanzeige ändern
-        Logger.write("Verloren! Das Wort war: " + this.currentWord, this, -200);
-        resetGame();
+        //TODO: Kategory Name überarbeiten
+        if (this.currentWordObject.getDescription() != null)
+        {
+            Logger.popupDialog( "Wort: "          + this.currentWordObject.getWord() + "\n" +
+                            "Beschreibung: "  + this.currentWordObject.getDescription() + "\n" +
+                            "Kategorie: "     + this.currentWordObject.getCategory(),
+                    false, this);
+        }
+        else
+        {
+            Logger.popupDialog( "Wort: "          + this.currentWordObject.getWord() + "\n" +
+                            "Kategorie: "     + this.currentWordObject.getCategory(),
+                    false, this);
+        }
+        this.resetGame();
     }
 
     /**
@@ -334,7 +364,8 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     private void resetGame()
     {
         this.resetHangman();
-        this.currentWord = db.getRandomWord().toUpperCase();
+        currentWordObject = db.getRandomWord();
+        this.currentWord = currentWordObject.getWord().toUpperCase();
         this.resetButtons();
         this.newWord(this.currentWord);
         this.loadNextImg();

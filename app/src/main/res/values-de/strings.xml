@@ -79,7 +79,7 @@
     <string name="title_activity_music_menu">MusicMenu</string>
     <string name="options_music_header">Hangman - Musik</string>
     <string name="options_music_mute">Ton aus</string>
-    <string name="options_music_volume">Laudstärke</string>
+    <string name="options_music_volume">Lautstärke</string>
     <string name="title_activity_layout_menu">LayoutMenu</string>
     <string name="options_layout_header">Hangman - Video</string>
     <string name="label_options_video">Video</string>
