@@ -161,31 +161,24 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         //win the game
         if (s.equals(this.currentWord))
         {
-            this.win();
+            this.finishGame(true);
         }
     }
 
     /**
-     * Win the game.
+     * Finish the game.
+     * Show Game Result and resets the Game
      * @since 0.5
      */
-    private void win ()
+    private void finishGame(boolean won)
     {
         //TODO: Vorschlag: Win und Loose zusammenfügen, da nur ein Bool unterschiedlich ist
         //TODO: No hardcoded string
-        if (this.currentWordObject.getDescription() != null)
-        {
-            Logger.popupDialog( "Wort: "          + this.currentWordObject.getWord() + "\n" +
-                                "Beschreibung: "  + this.currentWordObject.getDescription() + "\n" +
-                                "Kategorie: "     + this.currentWordObject.getCategory(),
-                    true, this);
-        }
-        else
-        {
-            Logger.popupDialog( "Wort: "          + this.currentWordObject.getWord() + "\n" +
-                                "Kategorie: "     + this.currentWordObject.getCategory(),
-                    true, this);
-        }
+
+        Logger.popupDialog(this.currentWordObject.getWord(),
+                    this.currentWordObject.getDescription(),
+                    this.currentWordObject.getCategory(),
+                    won, this);
 
         this.resetGame();
     }
@@ -288,7 +281,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         }
         else if (this.currentBuildOfHangman == this.fullHangman)
         {
-            this.loose();
+            this.finishGame(false);
         }
     }
 
@@ -332,29 +325,6 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
             });
             t.start();
         }
-    }
-
-    /**
-     * Looses the game.
-     * @since 0.5
-     */
-    private void loose()
-    {
-        //TODO: Kategory Name überarbeiten
-        if (this.currentWordObject.getDescription() != null)
-        {
-            Logger.popupDialog( "Wort: "          + this.currentWordObject.getWord() + "\n" +
-                            "Beschreibung: "  + this.currentWordObject.getDescription() + "\n" +
-                            "Kategorie: "     + this.currentWordObject.getCategory(),
-                    false, this);
-        }
-        else
-        {
-            Logger.popupDialog( "Wort: "          + this.currentWordObject.getWord() + "\n" +
-                            "Kategorie: "     + this.currentWordObject.getCategory(),
-                    false, this);
-        }
-        this.resetGame();
     }
 
     /**

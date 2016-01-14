@@ -1,6 +1,7 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -126,7 +127,7 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
         for (int i = 0; i < dbNames.size(); i++)
         {
             //get the displayed name and add it
-            String newString = this.convertCategoryName(dbNames.get(i));
+            String newString = convertCategoryName(dbNames.get(i),this.getResources());
             hm.put(newString,dbNames.get(i));
             this.displayedCategories.add(newString);
         }
@@ -185,40 +186,40 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
      * @return a nice looking Description (String)
      * @since 0.6
      */
-    public String convertCategoryName(String nameInDatabase)
+    public static String convertCategoryName(String nameInDatabase, Resources res)
     {
         String newName;
         switch (nameInDatabase)
         {
             case "capitals":
-                newName = this.getResources().getString(R.string.categoryName_capitals);
+                newName = res.getString(R.string.categoryName_capitals);
                 break;
             case "countries":
-                newName = this.getResources().getString(R.string.categoryName_countries);
+                newName = res.getString(R.string.categoryName_countries);
                 break;
             case "gaming":
-                newName = this.getResources().getString(R.string.categoryName_gaming);
+                newName = res.getString(R.string.categoryName_gaming);
                 break;
             case "instruments":
-                newName = this.getResources().getString(R.string.categoryName_instruments);
+                newName = res.getString(R.string.categoryName_instruments);
                 break;
             case "car":
-                newName = this.getResources().getString(R.string.categoryName_cars);
+                newName = res.getString(R.string.categoryName_cars);
                 break;
             case "river":
-                newName = this.getResources().getString(R.string.categoryName_rivers);
+                newName = res.getString(R.string.categoryName_rivers);
                 break;
             case "tree":
-                newName = this.getResources().getString(R.string.categoryName_trees);
+                newName = res.getString(R.string.categoryName_trees);
                 break;
             case "animal":
-                newName = this.getResources().getString(R.string.categoryName_animals);
+                newName = res.getString(R.string.categoryName_animals);
                 break;
             case "test":
-                newName = this.getResources().getString(R.string.categoryName_test);
+                newName = res.getString(R.string.categoryName_test);
                 break;
             case "ownWord":
-                newName = this.getResources().getString(R.string.categoryName_ownWord);
+                newName = res.getString(R.string.categoryName_ownWord);
                 break;
             default:
                 newName = nameInDatabase;

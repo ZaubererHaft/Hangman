@@ -78,18 +78,29 @@ public final class Logger
         d.setPositiveButton("Ok", null);
         d.create().show();
     }
-    public static void popupDialog (String text, Boolean won, Activity frame)
+    public static void popupDialog (String word, String description, String category, Boolean won, Activity frame)
     {
         AlertDialog.Builder d = new AlertDialog.Builder(frame);
         if (won)
         {
-            d.setTitle("You won");
+            d.setTitle(frame.getResources().getString(R.string.string_win));
         }
         else
         {
-            d.setTitle("You loose");
+            d.setTitle(frame.getResources().getString(R.string.string_lose));
         }
-        d.setMessage(text);
+        if (description == null || description.length() == 0)
+        {
+            d.setMessage(frame.getResources().getString(R.string.string_Word) + ": " + word + "\n" +
+                    frame.getResources().getString(R.string.string_Category) + ": " + Category.convertCategoryName(category, frame.getResources()) + "\n");
+        }
+        else
+        {
+            d.setMessage(frame.getResources().getString(R.string.string_Word) + ": " + word + "\n" +
+                frame.getResources().getString(R.string.string_Description) + ": " + description + "\n" +
+                frame.getResources().getString(R.string.string_Category) + ": " + Category.convertCategoryName(category, frame.getResources()) + "\n");
+        }
+
         d.setPositiveButton("Ok", null);
         d.create().show();
     }

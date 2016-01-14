@@ -109,5 +109,12 @@
     <string name="ownWord_hint_removed">Word removed!</string>
     <string name="ownWord_hint_word_already_exists">Word already exists!</string>
 
+    <string name="string_win">You win!</string>
+    <string name="string_lose">You lose!</string>
+    <string name="string_Category">Category</string>
+    <string name="string_Word">Word</string>
+    <string name="string_Description">Description</string>
+
+
     <string name="category_hint_not_saved">Categories not saved!</string>
 </resources>
