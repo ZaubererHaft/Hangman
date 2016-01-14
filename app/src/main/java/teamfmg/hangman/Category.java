@@ -12,6 +12,7 @@ import android.widget.ScrollView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -35,12 +36,20 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
     /**
      * List of available Categories in DataBase
      */
-    private List<String> availableCategories;
+    private HashMap<String, String> availableCategories;
+    /**
+     * The displayed categories.
+     */
+    private ArrayList<String> displayedCategories = new ArrayList<>();
 
     /**
      * Is the checkbox checked.
      */
     private boolean checked;
+    /**
+     * This handles the database conection.
+     */
+    private DatabaseManager db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -58,8 +67,9 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
 
         LinearLayout linearLayout   = new           LinearLayout(this);
         this.checkBoxes             = new           ArrayList<>();
-        DatabaseManager db          = new           DatabaseManager(this);
-        this.availableCategories    = new           ArrayList<>();
+
+        this.availableCategories    = new           HashMap<>(100);
+        db = new           DatabaseManager(this);
 
         //Adding OnClickListener
         checkBox_all.setOnClickListener(this);
@@ -69,13 +79,10 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         scrollView.addView(linearLayout);
 
-
         //read DISTINCT Categories from DataBase
-        this.availableCategories =  db.getCategories();
+        this.availableCategories =  this.readCategories();
 
         int cats = 0;
-
-        this.formatCategories();
 
         //Add one Checkbox for each Button (+ GUI Settings)
         for (int i = 0; i < this.availableCategories.size(); i++)
@@ -84,12 +91,13 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
             c.setId(this.viewsCount);
             this.viewsCount++;
             linearLayout.addView(c);
-            c.setText(this.availableCategories.get(i));
+            c.setText(this.displayedCategories.get(i));
             c.setTextColor(Color.WHITE);
             c.setOnClickListener(this);
             this.checkBoxes.add(c);
 
-            if (Settings.getCategories().contains(this.availableCategories.get(i)))
+            if (Settings.getCategories().contains(
+                    this.availableCategories.get(this.displayedCategories.get(i))))
             {
                 c.setChecked(true);
                 cats += 1;
@@ -105,23 +113,41 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
     }
 
     /**
+     * This reads the categories out of the databases and adds a name which is displayed in the
+     * settings.
+     * @return A hashmap with the displayed name as key and the database name as value
+     */
+    private HashMap<String,String> readCategories()
+    {
+        ArrayList<String> dbNames = this.db.getCategories();
+        HashMap<String,String> hm = new HashMap<>();
+
+        //for all categories
+        for (int i = 0; i < dbNames.size(); i++)
+        {
+            //get the displayed name and add it
+            String newString = this.convertCategoryName(dbNames.get(i));
+            hm.put(newString,dbNames.get(i));
+            this.displayedCategories.add(newString);
+        }
+
+        //sorting array
+        this.displayedCategories = formatCategories(this.displayedCategories);
+        return hm;
+    }
+
+    /**
      * This formats the available categories.<br />
      * Changes the visible name in a good format and sorts the list.
      * @since 0.8
      */
-    private void formatCategories()
+    private ArrayList<String>  formatCategories(ArrayList<String> newList)
     {
-        ArrayList<String> newList = new ArrayList<>();
-
-        for (String s:this.availableCategories)
-        {
-            String newString = this.convertCategoryName(s);
-            newList.add(newString);
-        }
-
         Collections.sort(newList);
-        this.availableCategories = newList;
+        return newList;
+
     }
+
 
     @Override
     protected void onPause()
@@ -135,7 +161,8 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
         {
             if (this.checkBoxes.get(i).isChecked())
             {
-                chosenCategories.add(this.availableCategories.get(i));
+                String key = this.checkBoxes.get(i).getText().toString();
+                chosenCategories.add(this.availableCategories.get(key));
             }
         }
 
