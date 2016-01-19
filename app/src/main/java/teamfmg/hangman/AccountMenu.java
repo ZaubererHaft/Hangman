@@ -67,4 +67,6 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
         super.onDestroy();
         System.gc();
     }
+
+
 }

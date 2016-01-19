@@ -59,13 +59,16 @@
         <activity
             android:name=".OwnWordsMenu"
             android:label="@string/title_activity_own_words_menu"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Statistic"
             android:label="@string/title_activity_own_words_menu"
-            android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".AccountMenu" />
-        <activity android:name=".Achievements"></activity>
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AccountMenu"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Achievements" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

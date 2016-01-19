@@ -46,9 +46,9 @@
         android:id="@+id/account_statistic"
         android:textSize="20sp"
         android:minHeight="@dimen/button_height"
-        android:layout_below="@+id/account_close"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="@dimen/marginToHeader" />
+        android:layout_marginTop="@dimen/marginToHeader"
+        android:layout_below="@+id/text_header_account" />
 
     <Button
         android:layout_width="match_parent"
