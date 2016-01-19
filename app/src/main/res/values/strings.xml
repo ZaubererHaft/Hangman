@@ -91,15 +91,15 @@
     <string name="options_video_label_quality">Quality</string>
     <string name="title_activity_own_words_menu">OwnWordsMenu</string>
     <string name="text_header_ownwords">Hangman - Add Words</string>
-    <string name="newWord_new" >New</string>
+    <string name="newWord_new">New</string>
     <string name="addWord_delete">Delete</string>
     <string name="newWord_Done">Add</string>
     <string name="ownWords_word" />
     <string name="ownWords_category" />
     <string name="ownWords_description" />
-    <string name="ownWords_hint_word" >Word</string>
-    <string name="ownWords_hint_category" >Category</string>
-    <string name="ownWords_hint_description" >Description</string>
+    <string name="ownWords_hint_word">Word</string>
+    <string name="ownWords_hint_category">Category</string>
+    <string name="ownWords_hint_description">Description</string>
     <string name="addWord_close">Close</string>
     <string name="newWord_add" />
     <string name="button_mainMenu_account">Account</string>
@@ -122,4 +122,9 @@
     <string name="label_statistic_lose">Lose: </string>
     <string name="label_statistc_correctLetters">Correct Letters: </string>
     <string name="label_statistic_wrongLetters">Wrong Letters: </string>
+    <string name="text_header_account">Account details</string>
+    <string name="account_change_pw">Change Password</string>
+    <string name="account_achievements">Achievements</string>
+    <string name="account_logout">Logout</string>
+    <string name="label_achievements">Achievements</string>
 </resources>

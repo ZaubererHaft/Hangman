@@ -62,7 +62,7 @@ public class MainMenu extends Activity implements View.OnClickListener, IApplyab
 
             //Account
             case R.id.button_mainMenu_account:
-                Intent k = new Intent(this, Statistic.class);
+                Intent k = new Intent(this, AccountMenu.class);
                 this.startActivity(k);
                 break;
             default:
