@@ -19,7 +19,8 @@ public class Statistic extends Activity implements IApplyableSettings, View.OnCl
         Button close                    = (Button)      this.findViewById(R.id.statistic_close);
 
         TextView winsAmount = (TextView)this.findViewById(R.id.label_statistic_wins_amount);
-        winsAmount.setText(" " + db.getCurrentStatistic(DatabaseManager.Attribut.WINS));
+        winsAmount.setText(" " + db.getCurrentStatistic(DatabaseManager.Attribut.WINS) + " davon Perfekt: "
+                + db.getCurrentStatistic(DatabaseManager.Attribut.PERFECTS));
 
         TextView losesAmount = (TextView)this.findViewById(R.id.label_statistic_loses_amount);
         losesAmount.setText(" " + db.getCurrentStatistic(DatabaseManager.Attribut.LOSES));
