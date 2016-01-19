@@ -55,6 +55,10 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * Detects whether a thread is loading images.
      */
     private boolean isLoading = false;
+    /**
+     * Needed for the "Perfects"-Statistic.
+     */
+    private boolean currentWordIsPerfect = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -278,6 +282,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         final int arms = 7;
         final int legs = 9;
 
+        this.currentWordIsPerfect = false;
         this.currentBuildOfHangman++;
 
         //Makes that arms and legs appears together
@@ -344,6 +349,11 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      */
     private void resetGame()
     {
+        if(currentWordIsPerfect){
+            DatabaseManager db = new DatabaseManager(this);
+            db.raiseScore(DatabaseManager.Attribut.PERFECTS, 1);
+        }
+        currentWordIsPerfect = true;
         this.resetHangman();
         currentWordObject = db.getRandomWord();
         this.currentWord = currentWordObject.getWord().toUpperCase();
