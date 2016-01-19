@@ -118,6 +118,8 @@
 
     <string name="category_hint_not_saved">Categories not saved!</string>
     <string name="label_statistic_hadder">Statistic</string>
-    <string name="label_statistic_wins">Wins:</string>
-    <string name="label_statistic_lose">Lose:</string>
+    <string name="label_statistic_wins">Wins: </string>
+    <string name="label_statistic_lose">Lose: </string>
+    <string name="label_statistc_correctLetters">Correct Letters: </string>
+    <string name="label_statistic_wrongLetters">Wrong Letters: </string>
 </resources>

@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/label_x"
-        android:id="@+id/button2"
+        android:id="@+id/statistic_close"
         android:textStyle="bold"
         android:textColor="@color/color_white"
         android:onClick="onClick"
@@ -33,7 +33,7 @@
         android:id="@+id/text_header_account"
         android:textSize="@dimen/textSizeBig"
         android:textColor="@color/color_white"
-        android:layout_alignTop="@+id/button2"
+        android:layout_alignTop="@+id/statistic_close"
         android:layout_alignParentLeft="true" />
 
     <TextView
@@ -41,11 +41,11 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/label_statistic_hadder"
-        android:id="@+id/textView3"
+        android:id="@+id/label_statistic_hadder"
         android:textColor="@color/color_white"
         android:textIsSelectable="false"
         android:textSize="@dimen/textSizeBig"
-        android:layout_alignTop="@+id/button2"
+        android:layout_alignTop="@+id/statistic_close"
         android:layout_toRightOf="@+id/text_header_account" />
 
     <TextView
@@ -54,7 +54,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/label_statistic_wins"
         android:id="@+id/label_statistic_wins"
-        android:layout_below="@+id/button2"
+        android:layout_below="@+id/statistic_close"
         android:layout_alignParentLeft="true"
         android:textColor="@color/color_white"
         android:layout_marginTop="@dimen/marginToHeader"
@@ -79,8 +79,9 @@
         android:id="@+id/label_statistic_loses_amount"
         android:textColor="@color/color_white"
         android:textSize="@dimen/textSizeMedium"
-        android:layout_below="@+id/label_statistic_wins"
-        android:layout_toRightOf="@+id/label_statistic_wins" />
+        android:layout_toRightOf="@+id/label_statistic_loses"
+        android:layout_alignTop="@+id/label_statistic_loses"
+        android:layout_marginLeft="@dimen/marginForSpace" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -91,5 +92,52 @@
         android:textColor="@color/color_white"
         android:textSize="@dimen/textSizeMedium"
         android:layout_alignTop="@+id/label_statistic_wins"
-        android:layout_toRightOf="@+id/label_statistic_wins" />
+        android:layout_toRightOf="@+id/label_statistic_wins"
+        android:layout_marginLeft="@dimen/marginForSpace" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/label_statistc_correctLetters"
+        android:id="@+id/label_statistic_correctLetters"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/textSizeMedium"
+        android:layout_below="@+id/label_statistic_loses"
+        android:layout_alignParentLeft="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/label_statistic_wrongLetters"
+        android:id="@+id/label_statistic_wrongLetters"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/textSizeMedium"
+        android:layout_below="@+id/label_statistic_correctLetters"
+        android:layout_alignParentLeft="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/label_statistic_correctLetters_amount"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/textSizeMedium"
+        android:layout_alignTop="@+id/label_statistic_correctLetters"
+        android:layout_toRightOf="@+id/label_statistic_correctLetters"
+        android:layout_marginLeft="@dimen/marginForSpace" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/label_statistic_wrongLetters_amount"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/textSizeMedium"
+        android:layout_toRightOf="@+id/label_statistic_wrongLetters"
+        android:layout_alignTop="@+id/label_statistic_wrongLetters"
+        android:layout_marginLeft="@dimen/marginForSpace" />
 </RelativeLayout>

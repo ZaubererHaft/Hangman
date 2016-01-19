@@ -10,4 +10,5 @@
     <dimen name="button_keybord_width">30dp</dimen>
     <dimen name="textSizeDouble">40dp</dimen>
     <dimen name="AddWord">100dp</dimen>
+    <dimen name="marginForSpace">10dp</dimen>
 </resources>

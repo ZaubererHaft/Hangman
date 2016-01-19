@@ -108,8 +108,11 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         if (isFalseWord)
         {
             this.buildHangman();
+            db.raiseScore(DatabaseManager.Attribut.WRONGLETTER, 1);
         }
-
+        else {
+            db.raiseScore(DatabaseManager.Attribut.CORRECTLETTER, 1);
+        }
         this.updateLabel();
     }
 

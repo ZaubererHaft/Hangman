@@ -239,10 +239,10 @@ public class DatabaseManager extends SQLiteOpenHelper
                 attributName = "loses";
                 break;
             case CORRECTLETTER:
-                attributName = "correctLetter";
+                attributName = "correctLetters";
                 break;
             case WRONGLETTER:
-                attributName = "wrongLetter";
+                attributName = "wrongLetters";
                 break;
         }
 
@@ -266,10 +266,10 @@ public class DatabaseManager extends SQLiteOpenHelper
                 attributName = "loses";
                 break;
             case CORRECTLETTER:
-                attributName = "correctLetter";
+                attributName = "correctLetters";
                 break;
             case WRONGLETTER:
-                attributName = "wrongLetter";
+                attributName = "wrongLetters";
                 break;
         }
 
