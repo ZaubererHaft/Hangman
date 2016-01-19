@@ -45,7 +45,7 @@ public class DatabaseManager extends SQLiteOpenHelper
      */
     private Context context;
 
-    public enum Attribut {SCORE, WINS, LOSES, CORRECTLETTER, WRONGLETTER}
+    public enum Attribut {SCORE, WINS, LOSES, PERFECTS, CORRECTLETTER, WRONGLETTER}
 
     public Attribut attribut;
 
@@ -147,6 +147,7 @@ public class DatabaseManager extends SQLiteOpenHelper
                         "score        INTEGER DEFAULT '0'," +
                         "wins         INTEGER DEFAULT '0'," +
                         "loses        INTEGER DEFAULT '0'," +
+                        "perfects     INTEGER DEFAULT '0'," +
                         "correctLetters INTEGER DEFAULT '0'," +
                         "wrongLetters INTEGER DEFAULT '0')";
         db.execSQL(createTableStatement);
@@ -224,58 +225,35 @@ public class DatabaseManager extends SQLiteOpenHelper
         db.close();
     }
 
+    /**
+     * Adds an value to the current value in the Database
+     * @param attribut The type of Statistic
+     * @param amount Value which will be added
+     */
     public void raiseScore (Attribut attribut, int amount){
 
-        String attributName = null;
-
-        switch (attribut) {
-            case SCORE:
-                attributName = "score";
-                break;
-            case WINS:
-                attributName = "wins";
-                break;
-            case LOSES:
-                attributName = "loses";
-                break;
-            case CORRECTLETTER:
-                attributName = "correctLetters";
-                break;
-            case WRONGLETTER:
-                attributName = "wrongLetters";
-                break;
-        }
+        String attributName = getAttributName(attribut);
 
         useCommand("UPDATE " + TABLE_USERS_NAME + " SET " + attributName + " = " + attributName + " + "
                 + amount + " WHERE username LIKE '" + LoginMenu.getCurrentUser().getName() + "';");
 
     }
 
-    public int getCurrentStatistic (Attribut attribut, User user){
+    /**
+     * Creates an Select for the DB for the Statistics
+     * @param attribut The type of Statistic
+     * @return Value of the attribut for the current User
+     */
+    public int getCurrentStatistic (Attribut attribut)
+    {
+        //convert attribut for the using in the DB
+        String attributName = getAttributName(attribut);
 
-        String attributName = null;
-
-        switch (attribut) {
-            case SCORE:
-                attributName = "score";
-                break;
-            case WINS:
-                attributName = "wins";
-                break;
-            case LOSES:
-                attributName = "loses";
-                break;
-            case CORRECTLETTER:
-                attributName = "correctLetters";
-                break;
-            case WRONGLETTER:
-                attributName = "wrongLetters";
-                break;
-        }
-
+        //DB Command for get the wish-value
         String query = "SELECT " + attributName + " FROM " + TABLE_USERS_NAME + " WHERE username LIKE '"
                 + LoginMenu.getCurrentUser().getName() + "';";
 
+        //Curser
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
@@ -300,6 +278,39 @@ public class DatabaseManager extends SQLiteOpenHelper
         {
             throw new NullPointerException();
         }
+    }
+
+    /**
+     * Convert the Enum to an String. This String is the correct name of the Attribut in the Database
+     * @param attribut Attribut which will get converted
+     * @return correct name of the Attribut in the Database
+     */
+    private String getAttributName(Attribut attribut){
+
+        String attributName = null;
+
+        switch (attribut) {
+            case SCORE:
+                attributName = "score";
+                break;
+            case WINS:
+                attributName = "wins";
+                break;
+            case LOSES:
+                attributName = "loses";
+                break;
+            case CORRECTLETTER:
+                attributName = "correctLetters";
+                break;
+            case WRONGLETTER:
+                attributName = "wrongLetters";
+                break;
+            case PERFECTS:
+                attributName = "perfects";
+                break;
+        }
+
+        return attributName;
     }
 
     /**

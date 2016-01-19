@@ -19,16 +19,16 @@ public class Statistic extends Activity implements IApplyableSettings, View.OnCl
         Button close                    = (Button)      this.findViewById(R.id.statistic_close);
 
         TextView winsAmount = (TextView)this.findViewById(R.id.label_statistic_wins_amount);
-        winsAmount.setText(" " + db.getCurrentStatistic(DatabaseManager.Attribut.WINS, LoginMenu.getCurrentUser()));
+        winsAmount.setText(" " + db.getCurrentStatistic(DatabaseManager.Attribut.WINS));
 
         TextView losesAmount = (TextView)this.findViewById(R.id.label_statistic_loses_amount);
-        losesAmount.setText(" " + db.getCurrentStatistic(DatabaseManager.Attribut.LOSES, LoginMenu.getCurrentUser()));
+        losesAmount.setText(" " + db.getCurrentStatistic(DatabaseManager.Attribut.LOSES));
 
         TextView correctLettersAmount = (TextView)this.findViewById(R.id.label_statistic_correctLetters_amount);
-        correctLettersAmount.setText(" " + db.getCurrentStatistic(DatabaseManager.Attribut.CORRECTLETTER, LoginMenu.getCurrentUser()));
+        correctLettersAmount.setText(" " + db.getCurrentStatistic(DatabaseManager.Attribut.CORRECTLETTER));
 
         TextView wrongLettersAmount = (TextView)this.findViewById(R.id.label_statistic_wrongLetters_amount);
-        wrongLettersAmount.setText(" " + db.getCurrentStatistic(DatabaseManager.Attribut.WRONGLETTER, LoginMenu.getCurrentUser()));
+        wrongLettersAmount.setText(" " + db.getCurrentStatistic(DatabaseManager.Attribut.WRONGLETTER));
 
         changeBackground();
     }
