@@ -1,6 +1,7 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -57,6 +58,17 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
             case R.id.account_achievments:
                 i = new Intent(this, Achievements.class);
                 this.startActivity(i);
+            break;
+
+            case R.id.account_logout:
+                LoginMenu.setCurrentUser(null);
+
+                i = new Intent(getApplicationContext(), LoginMenu.class);
+                ComponentName cn = i.getComponent();
+                //Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
+                startActivity(i);
+
+
             break;
         }
     }
