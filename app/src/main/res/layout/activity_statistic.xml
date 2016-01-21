@@ -140,4 +140,11 @@
         android:layout_toRightOf="@+id/label_statistic_wrongLetters"
         android:layout_alignTop="@+id/label_statistic_wrongLetters"
         android:layout_marginLeft="@dimen/marginForSpace" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/label_statistic_wrongLetters"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/statistic_diagram_layout1"></RelativeLayout>
 </RelativeLayout>

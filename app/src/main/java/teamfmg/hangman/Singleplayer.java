@@ -1,9 +1,9 @@
 package teamfmg.hangman;
 
+import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -351,7 +351,8 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     {
         this.resetHangman();
         currentWordObject = db.getRandomWord();
-        this.currentWord = currentWordObject.getWord().toUpperCase();
+        this.currentWord = currentWordObject.getWord();
+        this.currentWord = this.currentWord.toUpperCase();
         this.resetButtons();
         this.newWord(this.currentWord);
         this.loadNextImg();

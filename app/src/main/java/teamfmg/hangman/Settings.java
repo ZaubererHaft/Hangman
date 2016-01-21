@@ -1,7 +1,6 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
-import android.content.res.Resources;
 import android.graphics.Point;
 import android.view.Display;
 import android.widget.RelativeLayout;
