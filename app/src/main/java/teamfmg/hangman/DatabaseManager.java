@@ -27,7 +27,7 @@ public class DatabaseManager extends SQLiteOpenHelper
     /**
      * Version of the database.
      */
-    private static final int DATABASE_VERSION       = 77;
+    private static final int DATABASE_VERSION       = 78;
     /**
      * Name of the database.
      */

@@ -53,15 +53,15 @@
     <string name="color_orange">Orange</string>
     <string name="title_activity_main_menu">MainMenu</string>
     <string name="title_activity_options">Optionen</string>
-    <string name="text_chooseColor">Fahrbe wählen:</string>
+    <string name="text_chooseColor">Farbe wählen:</string>
     <string name="allowedDigits">
-        0123456789qwertzuiopasdfghjklyxcvbnmQWERTZUIOPÜASDFGHJKLYXCVBNM</string>
+        0123456789qwertzuiopasdfghjklyxcvbnmäöüQWERTZUIOPASDFGHJKLYXCVBNMÄÜÖ</string>
     <string name="lettersOnly">
-    qwertzuiopasdfghjklyxcvbnmQWERT ZUIOPÜASDFGHJKLYXCVBNM-.</string>
+    qwertzuiopasdfghjklyxcvbnmüöäQWERT ZUIOPASDFGHJKLYXCVBNMÜÖÄ-.</string>
     <string name="options_hint_restart">Bitte starten sie die App neu um die Einstellungen zu übernehmen</string>
     <string name="login_save_login">Logindaten speichern</string>
     <string name="title_activity_about">Über</string>
-    <string name="label_about">Über die Entwickeler</string>
+    <string name="label_about">Über die Entwickler</string>
     <string name="label_x">╳</string>
     <string name="text_header_categories">Hangman - Kategorien</string>
     <string name="checkbox_cat_all">Alle</string>
@@ -105,7 +105,7 @@
 
     <string name="ownWord_hint_tooShort">Bitte mindestens 3 Zeichen eingeben!</string>
     <string name="ownWord_hint_added">Wort hinzugefügt!</string>
-    <string name="ownWord_hint_removed">Word gelöscht!</string>
+    <string name="ownWord_hint_removed">Wort gelöscht!</string>
     <string name="ownWord_hint_word_already_exists">Wort existiert bereits!</string>
 
     <string name="string_win">Du hast gewonnen!</string>

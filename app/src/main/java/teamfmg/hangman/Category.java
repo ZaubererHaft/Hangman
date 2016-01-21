@@ -52,6 +52,8 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
      */
     private DatabaseManager db;
 
+    private CheckBox checkBox_all;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -61,7 +63,7 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
         this.changeBackground();
 
         //Init
-        CheckBox checkBox_all           = (CheckBox)    this.findViewById(R.id.checkBox_cat_all);
+        checkBox_all           = (CheckBox)    this.findViewById(R.id.checkBox_cat_all);
         ScrollView scrollView           = (ScrollView)  this.findViewById(R.id.scrollView_cats);
         Button close                    = (Button)      this.findViewById(R.id.category_close);
         close.setOnClickListener(this);
@@ -74,7 +76,6 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
 
         //Adding OnClickListener
         checkBox_all.setOnClickListener(this);
-        this.checked = checkBox_all.isChecked();
 
         //Additional GUI Settings
         linearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -97,7 +98,8 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
             c.setOnClickListener(this);
             this.checkBoxes.add(c);
 
-            if (Settings.getCategories().contains(
+            if (Settings.getCategories().contains
+                    (
                     this.availableCategories.get(this.displayedCategories.get(i))))
             {
                 c.setChecked(true);
@@ -106,9 +108,10 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
         }
 
         //if no category was found, select them all
-        if(cats == 0)
+        if(cats == 0 || cats == this.availableCategories.size())
         {
             this.selectAllBoxes(true);
+            this.checked = true;
         }
 
     }
@@ -242,6 +245,8 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
         {
             this.checkBoxes.get(i).setChecked(b);
         }
+
+        this.checkBox_all.setChecked(b);
     }
 
     @Override

@@ -41,6 +41,8 @@ public class MainMenu extends Activity implements View.OnClickListener, IApplyab
     @Override
     public void onClick(View v)
     {
+        Intent i = null;
+
         switch (v.getId())
         {
             //Stop the App
@@ -50,20 +52,20 @@ public class MainMenu extends Activity implements View.OnClickListener, IApplyab
 
             //Open Options Activity
             case R.id.button_options:
-                Intent i = new Intent(this, Options.class);
+                i = new Intent(this, Options.class);
                 this.startActivity(i);
                 break;
 
             //Single player
             case R.id.button_play:
-                Intent j = new Intent(this, Singleplayer.class);
-                this.startActivity(j);
+                i = new Intent(this, Singleplayer.class);
+                this.startActivity(i);
                 break;
 
             //Account
             case R.id.button_mainMenu_account:
-                Intent k = new Intent(this, AccountMenu.class);
-                this.startActivity(k);
+                i = new Intent(this, AccountMenu.class);
+                this.startActivity(i);
                 break;
             default:
                 Logger.write("Currently no function", this);

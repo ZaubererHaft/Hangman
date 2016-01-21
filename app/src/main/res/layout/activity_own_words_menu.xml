@@ -17,7 +17,8 @@
         android:textSize="@dimen/textSizeBig"
         android:textColor="@color/color_white"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/ownwords_close" />
 
     <Button
         android:layout_width="wrap_content"
@@ -51,12 +52,12 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/ownWords_word"
-        android:layout_below="@+id/ownwords_close"
-        android:layout_alignParentLeft="true"
         android:hint="@string/ownWords_hint_word"
-        android:layout_marginTop="@dimen/marginToHeader"
         android:maxLength="@integer/maxWordLength"
-        android:digits="@string/lettersOnly" />
+        android:digits="@string/lettersOnly"
+        android:layout_below="@+id/text_header_ownwords"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/marginToHeader" />
 
     <EditText
         android:layout_width="match_parent"

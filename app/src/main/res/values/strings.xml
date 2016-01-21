@@ -55,9 +55,9 @@
     <string name="title_activity_options">Options</string>
     <string name="text_chooseColor">Choose Color</string>
     <string name="allowedDigits">
-        0123456789qwertzuiopasdfghjklyxcvbnmQWERTZUIOPÜASDFGHJKLYXCVBNM</string>
+        0123456789qwertzuiopasdfghjklyxcvbnmäöüQWERTZUIOPÜASDFGHJKLYXCVBNMÖÄ</string>
     <string name="lettersOnly">
-    qwertzuiopasdfghjklyxcvbnmQWERT ZUIOPÜASDFGHJKLYXCVBNM-.</string>
+    qwertzuiopasdfghjklyxcvbnmäüöQWERT ZUIOPÜASDFGHJKLYXCVBNMÄÜÖ-.</string>
     <string name="options_hint_restart">Please restart the app to apply changes!</string>
     <string name="login_save_login">Save login data</string>
     <string name="title_activity_aout">Aout</string>
