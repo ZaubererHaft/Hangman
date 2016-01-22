@@ -265,7 +265,6 @@ public final class Settings
         }
     }
 
-
     /**
      * Sets the color of the settings by a index.
      * @param i String.

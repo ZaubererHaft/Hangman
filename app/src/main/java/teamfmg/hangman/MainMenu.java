@@ -36,6 +36,7 @@ public class MainMenu extends Activity implements View.OnClickListener, IApplyab
         account.setOnClickListener(this);
 
         this.changeBackground();
+
     }
 
     @Override

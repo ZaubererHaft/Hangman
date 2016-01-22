@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.IntentCompat;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 /**
  * Account menu.<br />
@@ -14,6 +16,7 @@ import android.widget.RelativeLayout;
  */
 public class AccountMenu extends Activity implements IApplyableSettings, View.OnClickListener
 {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -29,6 +32,8 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
         this.findViewById(R.id.account_change_pw).setOnClickListener(this);
         this.findViewById(R.id.account_close).setOnClickListener(this);
         this.findViewById(R.id.account_logout).setOnClickListener(this);
+
+        ((TextView)this.findViewById(R.id.label_current_User)).setText(LoginMenu.getCurrentUser().getName());
     }
 
     @Override
@@ -63,12 +68,10 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
             case R.id.account_logout:
                 LoginMenu.setCurrentUser(null);
 
-                i = new Intent(getApplicationContext(), LoginMenu.class);
+                i = new Intent(this, LoginMenu.class);
                 ComponentName cn = i.getComponent();
-                //Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
-                startActivity(i);
-
-
+                Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
+                this.startActivity(mainIntent);
             break;
         }
     }

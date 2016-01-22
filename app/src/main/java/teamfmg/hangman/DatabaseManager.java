@@ -27,7 +27,7 @@ public class DatabaseManager extends SQLiteOpenHelper
     /**
      * Version of the database.
      */
-    private static final int DATABASE_VERSION       = 78;
+    private static final int DATABASE_VERSION       = 79;
     /**
      * Name of the database.
      */
@@ -180,6 +180,7 @@ public class DatabaseManager extends SQLiteOpenHelper
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_WORDS);
         this.onCreate(db);
+
     }
 
     @Deprecated

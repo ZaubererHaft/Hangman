@@ -9,6 +9,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
+import java.util.ArrayList;
+
 /**
  * The Login menu for Hangman.<br />
  * Created by Ludwig 09.11.2015.
@@ -107,6 +109,8 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
 
                     setCurrentUser(user);
 
+                    ArrayList<String>  list = db.getCategories();
+                    Settings.setCategories(list);
                     //Open Main Menu
                     Logger.write(this.getResources().getString(R.string.info_login_succeed)
                             , this, offset);

@@ -79,4 +79,24 @@
         android:minHeight="@dimen/button_height"
         android:layout_below="@+id/account_change_pw"
         android:layout_alignParentLeft="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/Account_label_logged_in"
+        android:id="@+id/Account_label_logged_in"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:textColor="@color/color_white" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/label_current_User"
+        android:id="@+id/label_current_User"
+        android:layout_alignTop="@+id/Account_label_logged_in"
+        android:layout_alignRight="@+id/text_header_account"
+        android:textColor="@android:color/white" />
 </RelativeLayout>

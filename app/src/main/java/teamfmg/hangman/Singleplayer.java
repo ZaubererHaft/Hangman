@@ -180,9 +180,9 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         //TODO: No hardcoded string
 
         Logger.popupDialog(this.currentWordObject.getWord(),
-                    this.currentWordObject.getDescription(),
-                    this.currentWordObject.getCategory(),
-                    won, this);
+                this.currentWordObject.getDescription(),
+                this.currentWordObject.getCategory(),
+                won, this);
 
         DatabaseManager db = new DatabaseManager(this);
         if (won){
@@ -351,6 +351,14 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     {
         this.resetHangman();
         currentWordObject = db.getRandomWord();
+
+        if(currentWordObject == null)
+        {
+            Logger.write("An error with the database occurred. Please try reloading the categories!",this);
+            this.finish();
+            return;
+        }
+
         this.currentWord = currentWordObject.getWord();
         this.currentWord = this.currentWord.toUpperCase();
         this.resetButtons();
