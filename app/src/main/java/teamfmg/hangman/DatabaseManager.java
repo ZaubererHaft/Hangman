@@ -44,10 +44,10 @@ public class DatabaseManager extends SQLiteOpenHelper
      * Context representing the activity.
      */
     private Context context;
-
-    public enum Attribut {SCORE, WINS, LOSES, PERFECTS, CORRECTLETTER, WRONGLETTER}
-
-    public Attribut attribut;
+    /**
+     * Attribute to choose statistics
+     */
+    public enum Attribute {SCORE, WINS, LOSES, PERFECTS, CORRECTLETTER, WRONGLETTER}
 
     /**
      * Creates a new instance of the database handler.
@@ -231,7 +231,7 @@ public class DatabaseManager extends SQLiteOpenHelper
      * @param attribut The type of Statistic
      * @param amount Value which will be added
      */
-    public void raiseScore (Attribut attribut, int amount){
+    public void raiseScore (Attribute attribut, int amount){
 
         String attributName = getAttributName(attribut);
 
@@ -245,7 +245,7 @@ public class DatabaseManager extends SQLiteOpenHelper
      * @param attribut The type of Statistic
      * @return Value of the attribut for the current User
      */
-    public int getCurrentStatistic (Attribut attribut)
+    public int getCurrentStatistic (Attribute attribut)
     {
         //convert attribut for the using in the DB
         String attributName = getAttributName(attribut);
@@ -286,7 +286,7 @@ public class DatabaseManager extends SQLiteOpenHelper
      * @param attribut Attribut which will get converted
      * @return correct name of the Attribut in the Database
      */
-    private String getAttributName(Attribut attribut){
+    private String getAttributName(Attribute attribut){
 
         String attributName = null;
 

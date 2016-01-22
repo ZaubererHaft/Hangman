@@ -28,7 +28,6 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
      * Amount of created Checkboxes
      */
     private int viewsCount = 0;
-
     /**
      * List of all Checkboxes (without the "ALL"-CheckBox)
      */
@@ -42,16 +41,17 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
      * The displayed categories.
      */
     private ArrayList<String> displayedCategories = new ArrayList<>();
-
     /**
      * Is the checkbox checked.
      */
     private boolean checked;
     /**
-     * This handles the database conection.
+     * This handles the database connection.
      */
     private DatabaseManager db;
-
+    /**
+     * The checkbox to select all elements.
+     */
     private CheckBox checkBox_all;
 
     @Override
@@ -99,8 +99,9 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
             this.checkBoxes.add(c);
 
             if (Settings.getCategories().contains
-                    (
-                    this.availableCategories.get(this.displayedCategories.get(i))))
+            (
+                this.availableCategories.get(this.displayedCategories.get(i)))
+            )
             {
                 c.setChecked(true);
                 cats += 1;

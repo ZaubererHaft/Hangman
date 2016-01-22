@@ -85,7 +85,6 @@ public final class Charts
 
     }
 
-
     public static View generateLineChart(Activity activity)
     {
         int[] val = {1,2,3,4,5,6,7};

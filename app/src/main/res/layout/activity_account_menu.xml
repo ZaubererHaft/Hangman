@@ -96,7 +96,8 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/label_current_User"
         android:id="@+id/label_current_User"
-        android:layout_alignTop="@+id/Account_label_logged_in"
-        android:layout_alignRight="@+id/text_header_account"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/Account_label_logged_in"
+        android:layout_marginLeft="@dimen/marginForSpace" />
 </RelativeLayout>

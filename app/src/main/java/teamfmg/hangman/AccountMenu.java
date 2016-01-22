@@ -3,6 +3,7 @@ package teamfmg.hangman;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.IntentCompat;
 import android.view.View;
@@ -47,12 +48,22 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
     @Override
     public void onClick(View v)
     {
-        Intent i = null;
+        int curVersion = android.os.Build.VERSION.SDK_INT;
+        Intent i;
 
         switch (v.getId())
         {
             case R.id.account_close:
                 this.finish();
+
+                /**
+                 * Fixing logout bug < gingerbread
+                 */
+                if (curVersion < Build.VERSION_CODES.HONEYCOMB)
+                {
+                    this.startActivity(new Intent(this,MainMenu.class));
+                }
+
             break;
 
             case R.id.account_statistic:
@@ -68,10 +79,23 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
             case R.id.account_logout:
                 LoginMenu.setCurrentUser(null);
 
+                /**
+                 * Fixing logout bug < gingerbread
+                 */
                 i = new Intent(this, LoginMenu.class);
-                ComponentName cn = i.getComponent();
-                Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
-                this.startActivity(mainIntent);
+
+                if (curVersion >= Build.VERSION_CODES.HONEYCOMB)
+                {
+                    ComponentName cn = i.getComponent();
+                    Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
+                    this.startActivity(mainIntent);
+                }
+                else
+                {
+                    this.finish();
+                    this.startActivity(i);
+                }
+
             break;
         }
     }
@@ -81,6 +105,23 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
     {
         super.onDestroy();
         System.gc();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        this.finish();
+
+        /**
+         * Fixing logout bug < gingerbread
+         */
+        int curVersion = android.os.Build.VERSION.SDK_INT;
+
+        if (curVersion < Build.VERSION_CODES.HONEYCOMB)
+        {
+
+            this.startActivity(new Intent(this,MainMenu.class));
+        }
     }
 
 

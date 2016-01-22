@@ -14,17 +14,6 @@ public class Word
 
     /**
      * Instantiates a new word.
-     * @param word String.
-     * @param category Category.
-     */
-    public Word(String word, String category)
-    {
-        this.setWord(word);
-        this.setCategory(category);
-    }
-
-    /**
-     * Instantiates a new word.
      * @param word String
      * @param category String
      * @param description String.

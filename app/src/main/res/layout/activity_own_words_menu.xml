@@ -58,7 +58,8 @@
         android:layout_below="@+id/text_header_ownwords"
         android:layout_alignParentRight="true"
         android:layout_marginTop="@dimen/marginToHeader"
-        android:imeOptions="actionNext"/>
+        android:imeOptions="actionNext"
+        />
 
     <EditText
         android:layout_width="match_parent"

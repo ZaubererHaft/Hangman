@@ -2,7 +2,6 @@ package teamfmg.hangman;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -24,7 +23,7 @@ public class Achievements extends Activity implements IApplyableSettings, View.O
         this.findViewById(R.id.achievements_close).setOnClickListener(this);
 
         this.changeBackground();
-        this.openPieChart();
+
     }
 
     @Override
@@ -39,7 +38,7 @@ public class Achievements extends Activity implements IApplyableSettings, View.O
     @Override
     public void onClick(View v)
     {
-        Intent i = null;
+        Intent i;
 
         switch (v.getId())
         {
@@ -61,23 +60,6 @@ public class Achievements extends Activity implements IApplyableSettings, View.O
         System.gc();
     }
 
-    private void openPieChart()
-    {
-        // Start Activity
-        //RelativeLayout rl = (RelativeLayout)activity.findViewById(R.id.achievements_subLayout);
-        //rl.addView(chartView, 0);
-
-        // Pie Chart Section Names
-        String[] code = new String[] {
-                "Eclair & Older", "Froyo", "Gingerbread", "Honeycomb",
-                "IceCream Sandwich", "Jelly Bean"
-        };
-        // Pie Chart Section Value
-        double[] distribution = { 3.9, 12.9, 55.8, 1.9, 23.7, 1.8 } ;
-        // Color of each Pie Chart Sections
-        int[] colors = { Color.BLUE, Color.MAGENTA, Color.GREEN, Color.CYAN, Color.RED,Color.YELLOW };
-
-    }
 
 
 }

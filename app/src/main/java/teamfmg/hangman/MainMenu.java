@@ -2,6 +2,7 @@ package teamfmg.hangman;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -42,7 +43,7 @@ public class MainMenu extends Activity implements View.OnClickListener, IApplyab
     @Override
     public void onClick(View v)
     {
-        Intent i = null;
+        Intent i;
 
         switch (v.getId())
         {
@@ -65,8 +66,21 @@ public class MainMenu extends Activity implements View.OnClickListener, IApplyab
 
             //Account
             case R.id.button_mainMenu_account:
+
+
+                /**
+                 * Fixing logout bug for versions < Honeycomb
+                 */
+                int curVersion = android.os.Build.VERSION.SDK_INT;
+
+                if (curVersion < Build.VERSION_CODES.HONEYCOMB)
+                {
+                    this.finish();
+                }
+
                 i = new Intent(this, AccountMenu.class);
                 this.startActivity(i);
+
                 break;
             default:
                 Logger.write("Currently no function", this);

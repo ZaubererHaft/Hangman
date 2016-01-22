@@ -109,10 +109,10 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         if (isFalseWord)
         {
             this.buildHangman();
-            db.raiseScore(DatabaseManager.Attribut.WRONGLETTER, 1);
+            db.raiseScore(DatabaseManager.Attribute.WRONGLETTER, 1);
         }
         else {
-            db.raiseScore(DatabaseManager.Attribut.CORRECTLETTER, 1);
+            db.raiseScore(DatabaseManager.Attribute.CORRECTLETTER, 1);
         }
         this.updateLabel();
     }
@@ -186,14 +186,14 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
         DatabaseManager db = new DatabaseManager(this);
         if (won){
-            db.raiseScore(DatabaseManager.Attribut.WINS, 1);
+            db.raiseScore(DatabaseManager.Attribute.WINS, 1);
         }
         else {
-            db.raiseScore(DatabaseManager.Attribut.LOSES, 1);
+            db.raiseScore(DatabaseManager.Attribute.LOSES, 1);
         }
         if (this.currentBuildOfHangman == 0)
         {
-            db.raiseScore(DatabaseManager.Attribut.PERFECTS, 1);
+            db.raiseScore(DatabaseManager.Attribute.PERFECTS, 1);
         }
 
         this.resetGame();

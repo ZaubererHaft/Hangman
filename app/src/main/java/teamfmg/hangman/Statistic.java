@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,11 +17,11 @@ public class Statistic extends Activity implements IApplyableSettings, View.OnCl
         setContentView(R.layout.activity_statistic);
         DatabaseManager db = new DatabaseManager(this);
 
-        Integer wins            = db.getCurrentStatistic(DatabaseManager.Attribut.WINS);
-        Integer perfects        = db.getCurrentStatistic(DatabaseManager.Attribut.PERFECTS);
-        Integer losses          = db.getCurrentStatistic(DatabaseManager.Attribut.LOSES);
-        Integer correctLetters  = db.getCurrentStatistic(DatabaseManager.Attribut.CORRECTLETTER);
-        Integer wrongLetters    = db.getCurrentStatistic(DatabaseManager.Attribut.WRONGLETTER);
+        Integer wins            = db.getCurrentStatistic(DatabaseManager.Attribute.WINS);
+        Integer perfects        = db.getCurrentStatistic(DatabaseManager.Attribute.PERFECTS);
+        Integer losses          = db.getCurrentStatistic(DatabaseManager.Attribute.LOSES);
+        Integer correctLetters  = db.getCurrentStatistic(DatabaseManager.Attribute.CORRECTLETTER);
+        Integer wrongLetters    = db.getCurrentStatistic(DatabaseManager.Attribute.WRONGLETTER);
 
         String[] texts=
         {
@@ -47,9 +46,7 @@ public class Statistic extends Activity implements IApplyableSettings, View.OnCl
             Color.GREEN
         };
 
-        //init
-        Button close                    = (Button)      this.findViewById(R.id.statistic_close);
-
+        //TODO: Remove
         TextView winsAmount = (TextView)this.findViewById(R.id.label_statistic_wins_amount);
         winsAmount.setText(" " +  wins + " (" + texts[2] +" " + perfects+")");
 
