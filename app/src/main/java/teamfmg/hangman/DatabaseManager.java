@@ -66,15 +66,10 @@ public class DatabaseManager
         {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection
-            ("jdbc:mysql://www.db4free.net:3306/proj_hangman?useSSL=false&user=zauberhaft&password=asdfg-01");
+            ("jdbc:mysql://www.db4free.net:3306/"+DATABASE_NAME+"?useSSL=false&user=zauberhaft&password=asdfg-01");
 
         }
-        catch (ClassNotFoundException ex)
-        {
-            ex.printStackTrace();
-            Logger.write(ex, this.activity);
-        }
-        catch (SQLException ex)
+        catch (Exception ex)
         {
             ex.printStackTrace();
             Logger.write(ex, this.activity);
@@ -138,6 +133,7 @@ public class DatabaseManager
         catch (SQLException e)
         {
             e.printStackTrace();
+            Logger.write(e, this.activity);
         }
         finally
         {
@@ -207,7 +203,7 @@ public class DatabaseManager
                 catch (IOException ex)
                 {
                     ex.printStackTrace();
-                    Logger.logOnly(ex.getMessage());
+                    Logger.write(ex, this.activity);
                 }
                 finally
                 {
@@ -265,6 +261,7 @@ public class DatabaseManager
         }
         catch (SQLException e)
         {
+            Logger.write(e,this.activity);
             e.printStackTrace();
         }
     }
@@ -303,13 +300,14 @@ public class DatabaseManager
 
         try
         {
-            if(this.res != null)
+            if(this.res != null && this.res.next())
             {
                 return this.res.getInt(attributName);
             }
         }
         catch (SQLException ex)
         {
+            Logger.write(ex,this.activity);
             ex.printStackTrace();
         }
         finally
@@ -378,7 +376,7 @@ public class DatabaseManager
         catch(SQLiteException ex)
         {
             ex.printStackTrace();
-            Logger.logOnlyError(ex.getMessage());
+            Logger.write(ex, this.activity);
         }
         finally
         {
@@ -398,7 +396,7 @@ public class DatabaseManager
         catch (SQLiteException ex)
         {
             ex.printStackTrace();
-            Logger.logOnlyError(ex.getMessage());
+            Logger.write(ex, this.activity);
         }
         finally
         {
@@ -468,6 +466,7 @@ public class DatabaseManager
         }
         catch (SQLException e)
         {
+            Logger.write(e,this.activity);
             e.printStackTrace();
         }
         finally
@@ -517,6 +516,7 @@ public class DatabaseManager
         }
         catch (SQLException e)
         {
+            Logger.write(e,this.activity);
             e.printStackTrace();
         }
         finally
@@ -596,6 +596,7 @@ public class DatabaseManager
         }
         catch (SQLException ex)
         {
+            Logger.write(ex,this.activity);
             ex.printStackTrace();
             return null;
         }
