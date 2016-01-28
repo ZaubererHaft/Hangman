@@ -18,7 +18,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by consult on 1/27/16.
+ *
+ * Created by Ludwig on 1/27/16.
  */
 public class DatabaseManager
 {
@@ -65,7 +66,7 @@ public class DatabaseManager
         {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection
-            ("jdbc:mysql://www.db4free.net:3306/proj_hangman?useSSL=false&useUnicode=true&characterEncoding=ascii&user=zauberhaft&password=asdfg-01");
+            ("jdbc:mysql://www.db4free.net:3306/proj_hangman?useSSL=false&user=zauberhaft&password=asdfg-01");
 
         }
         catch (ClassNotFoundException ex)
@@ -113,31 +114,34 @@ public class DatabaseManager
     public ArrayList<Word> getWordsOfCategory(String category)
     {
         String query = "SELECT * FROM " + TABLE_WORDS + " WHERE category LIKE \""+category+"\";";
-        ArrayList<Word> words = new ArrayList<Word>();
+        ArrayList<Word> words = new ArrayList<>();
 
-        this.useCommand(query);
+        this.useCommand(query, false);
 
-        //add all words to the list
-        if (this.res != null)
-        {
-            try
+        try
+        {        //add all words to the list
+            if (this.res != null)
             {
                 while (this.res.next())
                 {
                     Word w = new Word
-                        (
-                                this.res.getString(0),
-                                this.res.getString(1),
-                                this.res.getString(2)
-                        );
+                    (
+                        this.res.getString(0),
+                        this.res.getString(1),
+                        this.res.getString(2)
+                    );
                     // Add word
                     words.add(w);
                 }
             }
-            catch (SQLException e)
-            {
-                e.printStackTrace();
-            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            this.closeConnection();
         }
 
         return words;
@@ -197,13 +201,17 @@ public class DatabaseManager
                                         " VALUES(\"" + list[0] + "\", \"" + list[1] + "\",\"" + list[2] + "\");";
                     }
 
-                    this.useCommand(createTableStatement);
+                    this.useCommand(createTableStatement, true);
                 }
 
                 catch (IOException ex)
                 {
                     ex.printStackTrace();
                     Logger.logOnly(ex.getMessage());
+                }
+                finally
+                {
+                    this.closeConnection();
                 }
             }
         }
@@ -219,19 +227,19 @@ public class DatabaseManager
     public void addUser (User u) throws SQLiteException
     {
 
-        String cmd = "INSERT INTO "+ TABLE_USERS_NAME + " VALUES ("+
-                u.getName() + ","+
-                u.getPassword() + ","+
-                u.getMail()+");";
+        String cmd = "INSERT INTO "+ TABLE_USERS_NAME + " VALUES ( DEFAULT,'"+
+                u.getName() + "','"+
+                u.getPassword() + "','"+
+                u.getMail()+"',0,0,0,0,0,0);";
 
-        this.useCommand(cmd);
+        this.useCommand(cmd, true);
     }
 
     /**
      * Executes a command to the database and closes ot automatically
      * @param command {@link String}
      */
-    public void useCommand (String command)
+    public void useCommand (String command, boolean manipulative)
     {
         try
         {
@@ -244,7 +252,16 @@ public class DatabaseManager
             }
 
             this.statement = this.connection.createStatement();
-            this.res =  this.statement.executeQuery(command);
+
+            if(manipulative)
+            {
+                this.statement.executeUpdate(command);
+            }
+            else
+            {
+                this.res =  this.statement.executeQuery(command);
+            }
+
         }
         catch (SQLException e)
         {
@@ -261,8 +278,10 @@ public class DatabaseManager
 
         String attributName = getAttributName(attribut);
 
-        useCommand("UPDATE " + TABLE_USERS_NAME + " SET " + attributName + " = " + attributName + " + "
-                + amount + " WHERE username LIKE '" + LoginMenu.getCurrentUser().getName() + "';");
+        String cmd = "UPDATE " + TABLE_USERS_NAME + " SET " + attributName + " = " + attributName + " + "
+                + amount + " WHERE username LIKE '" + LoginMenu.getCurrentUser().getName() + "';";
+
+        useCommand(cmd, true);
 
     }
 
@@ -280,24 +299,24 @@ public class DatabaseManager
         String query = "SELECT " + attributName + " FROM " + TABLE_USERS_NAME + " WHERE username LIKE '"
                 + LoginMenu.getCurrentUser().getName() + "';";
 
-        this.useCommand(query);
+        this.useCommand(query, false);
 
-        if(this.res != null)
+        try
         {
-            try
+            if(this.res != null)
             {
                 return this.res.getInt(attributName);
             }
-            catch (SQLException ex)
-            {
-                ex.printStackTrace();
-                return 0;
-            }
         }
-        else
+        catch (SQLException ex)
         {
-            throw new NullPointerException();
+            ex.printStackTrace();
         }
+        finally
+        {
+            this.closeConnection();
+        }
+        return 0;
     }
 
     /**
@@ -346,7 +365,6 @@ public class DatabaseManager
                     w.getWord() + ","+
                     w.getCategory() + ",";
 
-            this.useCommand(cmd);
 
             if (w.getDescription().length() != 0)
             {
@@ -355,12 +373,16 @@ public class DatabaseManager
 
             cmd += ");";
 
-            this.useCommand(cmd);
+            this.useCommand(cmd, true);
         }
         catch(SQLiteException ex)
         {
             ex.printStackTrace();
             Logger.logOnlyError(ex.getMessage());
+        }
+        finally
+        {
+            this.closeConnection();
         }
     }
 
@@ -371,12 +393,16 @@ public class DatabaseManager
                 "\" AND category LIKE \"" + word.getCategory() + "\";";
         try
         {
-            this.useCommand(query);
+            this.useCommand(query, true);
         }
         catch (SQLiteException ex)
         {
             ex.printStackTrace();
             Logger.logOnlyError(ex.getMessage());
+        }
+        finally
+        {
+            this.closeConnection();
         }
     }
 
@@ -394,7 +420,7 @@ public class DatabaseManager
         //Bsp: SELECT * FROM words WHERE word LIKE "test" AND category LIKE "testCategory";
         String query = "SELECT * FROM " + TABLE_WORDS + " WHERE word LIKE \"" + word.getWord() +
                 "\" AND category LIKE \"" + word.getCategory() + "\";";
-        this.useCommand(query);
+        this.useCommand(query, false);
 
         //a word exists if we found something
         try
@@ -406,7 +432,10 @@ public class DatabaseManager
             e.printStackTrace();
             Logger.write(e, this.activity);
         }
-
+        finally
+        {
+            this.closeConnection();
+        }
         return b;
     }
 
@@ -418,11 +447,11 @@ public class DatabaseManager
      */
     public List<User> getUsers()
     {
-        List<User> users = new LinkedList<User>();
+        List<User> users = new LinkedList<>();
 
         String query = "SELECT  * FROM " + TABLE_USERS_NAME;
 
-        this.useCommand(query);
+        this.useCommand(query, false);
 
         try
         {
@@ -440,6 +469,10 @@ public class DatabaseManager
         catch (SQLException e)
         {
             e.printStackTrace();
+        }
+        finally
+        {
+            this.closeConnection();
         }
 
         return users;
@@ -461,30 +494,34 @@ public class DatabaseManager
             //overwrite query if there are categories.
             if (i == 0)
             {
-                query = query + " WHERE category LIKE \"" + categories.get(i) + "\"";
+                query = query + " WHERE category LIKE '" + categories.get(i) + "'";
                 continue;
             }
-            query = query + " OR category LIKE \"" + categories.get(i) + "\" ORDER BY RAND() LIMIT 1";
+            query = query + " OR category LIKE '" + categories.get(i) + "'";
         }
 
-        query = query + ";";
+        query += " ORDER BY RAND() LIMIT 1;";
 
         //execute queries.
-        this.useCommand(query);
+        this.useCommand(query, false);
 
         Word result = null;
 
-        //add all words to the list
-        if (this.res != null)
+        try
+        {   //add all words to the list
+            if (this.res != null && this.res.next())
+            {
+                result =
+                    new Word(this.res.getString(1), this.res.getString(2), this.res.getString(3));
+            }
+        }
+        catch (SQLException e)
         {
-            try
-            {
-                result = new Word(this.res.getString(0), this.res.getString(1), this.res.getString(2));
-            }
-            catch (SQLException e)
-            {
-                e.printStackTrace();
-            }
+            e.printStackTrace();
+        }
+        finally
+        {
+            this.closeConnection();
         }
 
         return result;
@@ -498,15 +535,16 @@ public class DatabaseManager
      */
     public ArrayList <String> getCategories()
     {
-        ArrayList <String> categories = new ArrayList<String>();
+        ArrayList <String> categories = new ArrayList<>();
 
         String query = "SELECT DISTINCT category FROM " + TABLE_WORDS + ";";
 
-        this.useCommand(query);
+        this.useCommand(query, false);
 
-        if (this.res != null)
+
+        try
         {
-            try
+            if (this.res != null)
             {
                 while (this.res.next())
                 {
@@ -515,11 +553,15 @@ public class DatabaseManager
                     categories.add(c);
                 }
             }
-            catch (SQLException e)
-            {
-                e.printStackTrace();
-                Logger.write(e,this.activity);
-            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            Logger.write(e,this.activity);
+        }
+        finally
+        {
+            this.closeConnection();
         }
 
         return categories;
@@ -538,35 +580,28 @@ public class DatabaseManager
                 " WHERE username LIKE '" + name + "';";
 
 
-        this.useCommand(query);
+        this.useCommand(query, false);
 
-        if(this.res != null)
+        try
         {
-            try
+            if (this.res != null && this.res.next())
             {
-                if (this.res.next() )
-                {
-                    return new User(
-                            this.res.getString(1), this.res.getString(2), this.res.getString(3));
-                }
-                else
-                {
-                    return null;
-                }
+                return new User(
+                        this.res.getString(2), this.res.getString(3), this.res.getString(4));
             }
-            catch (SQLException ex)
+            else
             {
-                ex.printStackTrace();
                 return null;
             }
-            finally
-            {
-                this.closeConnection();
-            }
         }
-        else
+        catch (SQLException ex)
         {
+            ex.printStackTrace();
             return null;
+        }
+        finally
+        {
+            this.closeConnection();
         }
     }
 
