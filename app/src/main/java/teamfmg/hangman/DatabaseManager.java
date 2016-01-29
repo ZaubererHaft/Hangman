@@ -105,6 +105,63 @@ public class DatabaseManager
             Logger.write(e,this.activity);
         }
     }
+
+    public void deleteCustomWord(User u, String wordname)
+    {
+        String query = "DELETE FROM userwords WHERE (SELECT wordID FROM customwords WHERE word LIKE '" + wordname + "') LIKE wordID " +
+                "AND (SELECT users._id FROM users WHERE username LIKE '" + u.getName() + "') LIKE userID;" ;
+
+
+        this.useCommand(query, true);
+
+    }
+
+    /**
+     * Gets a custom word identified by a user.
+     * @param u User.
+     * @return List of words.
+     */
+    public ArrayList<Word> getCustomWords(User u)
+    {
+        String command ="SELECT customwords.word, userwords.description FROM customwords "+
+        "INNER JOIN userwords ON userwords.wordID = customwords.wordID "+
+        "INNER JOIN users ON users._id = userwords.userID "+
+        "WHERE users.username LIKE '"+u.getName()+"';";
+
+        ArrayList<Word> words = new ArrayList<>();
+
+        this.useCommand(command, false);
+
+        try
+        {        //add all words to the list
+            if (this.res != null)
+            {
+                while (this.res.next())
+                {
+                    Word w = new Word
+                    (
+                            this.res.getString(1),
+                            "ownWord",
+                            this.res.getString(2)
+                    );
+                    // Add word
+                    words.add(w);
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            Logger.write(e, this.activity);
+        }
+        finally
+        {
+            this.closeConnection();
+        }
+
+        return words;
+    }
+
     /**
      * Gets all words of a category.
      * @param category Category to get the words.
@@ -355,23 +412,41 @@ public class DatabaseManager
      * @param w Word to add
      * @since 0.5
      */
-    public void addWord (Word w)
+    public boolean addWord (Word w)
     {
         try
         {
-            String cmd = "INSERT INTO "+ TABLE_WORDS + " VALUES ("+
-                    w.getWord() + ","+
-                    w.getCategory() + ",";
+            String command = "INSERT INTO customwords VALUES (DEFAULT, '"+ w.getWord() + "');";
 
+            String cmd2 = "INSERT INTO userwords VALUES ( ("+
+                    "SELECT wordID FROM customwords WHERE word LIKE '"+w.getWord()+"'),("+
+                    "SELECT _id FROM users WHERE username LIKE '"+LoginMenu.getCurrentUser().getName()+"'),'"+
+                    w.getDescription()+"');";
 
-            if (w.getDescription().length() != 0)
+            if(!exists(w))
             {
-                cmd += "," + w.getDescription();
+                this.useCommand(command, true);
             }
+            if(existsInUserWord(w,LoginMenu.getCurrentUser()))
+            {
+                Logger.write
+                (
+                    activity.getResources().getString(R.string.ownWord_hint_word_already_exists),
+                        activity, -70
+                );
+                return false;
+            }
+            else
+            {
+                this.useCommand(cmd2, true);
 
-            cmd += ");";
-
-            this.useCommand(cmd, true);
+                Logger.write
+                (
+                        activity.getResources().getString(R.string.ownWord_hint_added),
+                        activity, -70
+                );
+                return true;
+            }
         }
         catch(SQLiteException ex)
         {
@@ -382,6 +457,8 @@ public class DatabaseManager
         {
             this.closeConnection();
         }
+
+        return false;
     }
 
 
@@ -411,13 +488,46 @@ public class DatabaseManager
      * @return boolean
      * @since 0.7
      */
-    public boolean exists(Word word)
+    public boolean existsInUserWord(Word word, User user)
     {
         boolean b = false;
 
         //Bsp: SELECT * FROM words WHERE word LIKE "test" AND category LIKE "testCategory";
-        String query = "SELECT * FROM " + TABLE_WORDS + " WHERE word LIKE \"" + word.getWord() +
-                "\" AND category LIKE \"" + word.getCategory() + "\";";
+        String query = "SELECT * FROM userwords WHERE (SELECT wordID FROM customwords WHERE word LIKE '" + word.getWord() + "') LIKE wordID " +
+                "AND (SELECT users._id FROM users WHERE username LIKE '" + user.getName() + "') LIKE userID;" ;
+
+        this.useCommand(query, false);
+
+        //a word exists if we found something
+        try
+        {
+            b = this.res.next();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            Logger.write(e, this.activity);
+        }
+        finally
+        {
+            this.closeConnection();
+        }
+        return b;
+    }
+
+    public boolean exists(Word word)
+    {
+        boolean b = false;
+
+        if(word.getWord().lastIndexOf(" ") == word.getWord().length()-1)
+        {
+            word.setWord(word.getWord().substring(0,word.getWord().length()-1));
+        }
+
+        //Bsp: SELECT * FROM words WHERE word LIKE "test" AND category LIKE "testCategory";
+        String query = "SELECT * FROM cust" +
+                "omwords WHERE word LIKE '"+word.getWord()+"' OR word LIKE '" + word.getWord() +" '; ";
+
         this.useCommand(query, false);
 
         //a word exists if we found something

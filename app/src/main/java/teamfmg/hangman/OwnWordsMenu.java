@@ -44,7 +44,8 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
         setContentView(R.layout.activity_own_words_menu);
 
         this.changeBackground();
-        //this.db = new DatabaseManager(this);
+        db = DatabaseManager.getInstance();
+        db.setActivity(this);
 
         this.setUpLayout();
     }
@@ -62,7 +63,7 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
         this.wordText = (TextView)findViewById(R.id.ownWords_word);
         this.descriptionText = (TextView)findViewById(R.id.ownWords_description);
 
-        this.words = db.getWordsOfCategory(this.categoryName);
+        this.words = db.getCustomWords(LoginMenu.getCurrentUser());
 
         //Add custom layout for each word
         for (int i = 0; i < this.words.size(); i++)
@@ -139,25 +140,13 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
                 return;
             }
 
-            //if the word doesn't exists...
-            if(!this.db.exists(w))
+            //add it to db
+            if(this.db.addWord(w))
             {
-                //add it to db
-                this.db.addWord(w);
-                this.addInclude(w.getWord(),w.getDescription());
-                Logger.write
-                (
-                    this.getResources().getString(R.string.ownWord_hint_added), this, logOffset
-                );
-            }
-            else
-            {
-                Logger.write
-                (
-                    this.getResources().getString(R.string.ownWord_hint_word_already_exists),
-                    this, logOffset
-                );
-            }
+                this.addInclude(w.getWord(), w.getDescription());
+            };
+
+
 
             //clear the text fields
             this.wordText.setText("");
@@ -178,7 +167,7 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
             );
 
             //remove word from database, list and view group
-            this.db.remove(w);
+            this.db.deleteCustomWord(LoginMenu.getCurrentUser(), w.getWord());
             this.words.remove(w);
             ViewGroup vg = (ViewGroup)this.findViewById(R.id.ownWords_linLayout);
             vg.removeView(parent);
