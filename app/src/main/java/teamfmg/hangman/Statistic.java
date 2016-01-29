@@ -10,12 +10,14 @@ import android.widget.TextView;
 public class Statistic extends Activity implements IApplyableSettings, View.OnClickListener
 {
 
+    DatabaseManager db = DatabaseManager.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistic);
-        DatabaseManager db = new DatabaseManager(this);
+
+        db.setActivity(this);
 
         Integer wins            = db.getCurrentStatistic(DatabaseManager.Attribute.WINS);
         Integer perfects        = db.getCurrentStatistic(DatabaseManager.Attribute.PERFECTS);

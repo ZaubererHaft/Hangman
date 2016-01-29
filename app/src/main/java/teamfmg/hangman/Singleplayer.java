@@ -42,7 +42,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     /**
      * Handles database connection.
      */
-    private DatabaseManager db;
+    private DatabaseManager db = DatabaseManager.getInstance();
     /**
      * Full size of hangman.
      */
@@ -55,6 +55,10 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * Detects whether a thread is loading images.
      */
     private boolean isLoading = false;
+    /**
+     * Temp value for database connect;
+     */
+    private int wrongLetters, correctLetters;
 
 
     @Override
@@ -63,10 +67,11 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_singleplayer);
 
+        db.setActivity(this);
+
         this.findViewById(R.id.singleplayer_back).setOnClickListener(this);
         this.initButtons();
 
-        this.db = new DatabaseManager(this);
         this.label = (TextView) findViewById(R.id.text_askedWord);
 
         this.resetGame();
@@ -109,10 +114,12 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         if (isFalseWord)
         {
             this.buildHangman();
-            db.raiseScore(DatabaseManager.Attribute.WRONGLETTER, 1);
+            wrongLetters++;
         }
-        else {
-            db.raiseScore(DatabaseManager.Attribute.CORRECTLETTER, 1);
+        else
+        {
+            //db.raiseScore(DatabaseManager.Attribute.CORRECTLETTER, 1);
+            correctLetters++;
         }
         this.updateLabel();
     }
@@ -184,17 +191,22 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
                 this.currentWordObject.getCategory(),
                 won, this);
 
-        DatabaseManager db = new DatabaseManager(this);
-        if (won){
+
+        if (won)
+        {
             db.raiseScore(DatabaseManager.Attribute.WINS, 1);
         }
-        else {
+        else
+        {
             db.raiseScore(DatabaseManager.Attribute.LOSES, 1);
         }
         if (this.currentBuildOfHangman == 0)
         {
             db.raiseScore(DatabaseManager.Attribute.PERFECTS, 1);
         }
+
+        db.raiseScore(DatabaseManager.Attribute.WRONGLETTER, wrongLetters);
+        db.raiseScore(DatabaseManager.Attribute.WRONGLETTER, correctLetters);
 
         this.resetGame();
     }
@@ -351,6 +363,8 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     {
         this.resetHangman();
         currentWordObject = db.getRandomWord();
+        wrongLetters = 0;
+        correctLetters = 0;
 
         if(currentWordObject == null)
         {

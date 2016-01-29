@@ -95,7 +95,8 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
 
             try
             {
-                DatabaseManager db = new DatabaseManager(this);
+                //DatabaseManager db = new DatabaseManager(this);
+                DatabaseManager db = DatabaseManager.getInstance();
 
                 //get user and compare passwords...
                 User user = db.getUser(enteredName);

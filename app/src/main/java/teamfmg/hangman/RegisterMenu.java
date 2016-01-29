@@ -25,17 +25,20 @@ public class RegisterMenu extends Activity implements View.OnClickListener, IApp
     /**
      * This handles the database connection.
     */
-    private DatabaseManager db;
+    private DatabaseManager db =  DatabaseManager.getInstance();
     /**
      * y Offset for toast
      */
     private final int offset = 125;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_menu);
+
+        db.setActivity(this);
 
         this.back       = (Button)this.findViewById(R.id.register_close);
         this.register   = (Button)this.findViewById(R.id.button_register);
@@ -49,8 +52,6 @@ public class RegisterMenu extends Activity implements View.OnClickListener, IApp
 
         this.back.setOnClickListener(this);
         this.register.setOnClickListener(this);
-
-        db = new DatabaseManager(this);
 
         this.changeBackground();
 

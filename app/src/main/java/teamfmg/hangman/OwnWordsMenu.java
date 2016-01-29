@@ -44,7 +44,7 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
         setContentView(R.layout.activity_own_words_menu);
 
         this.changeBackground();
-        this.db = new DatabaseManager(this);
+        //this.db = new DatabaseManager(this);
 
         this.setUpLayout();
     }

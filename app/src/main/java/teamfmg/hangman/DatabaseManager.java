@@ -48,31 +48,36 @@ public class DatabaseManager
     private Statement statement = null;
     private ResultSet res = null;
 
-    /**
-     * Creates a new instance of the database handler.
-     * @param activity Context class.
-     * @since 0.1
-     */
-    public DatabaseManager(Activity activity)
+    private static DatabaseManager manager;
+
+
+    public static DatabaseManager getInstance()
     {
+        if(manager == null)
+        {
+            manager = new DatabaseManager();
+        }
+        return manager;
+    }
 
-        this.activity = activity;
-
+    public void setActivity(Activity a)
+    {
+        this.activity = a;
     }
 
     private void connect()
     {
-        try
+        if(connection == null)
         {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection
-            ("jdbc:mysql://www.db4free.net:3306/"+DATABASE_NAME+"?useSSL=false&user=zauberhaft&password=asdfg-01");
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                connection = DriverManager.getConnection
+                        ("jdbc:mysql://www.db4free.net:3306/" + DATABASE_NAME + "?useSSL=false&user=zauberhaft&password=asdfg-01");
 
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-            Logger.write(ex, this.activity);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                Logger.write(ex, this.activity);
+            }
         }
     }
 
@@ -81,17 +86,17 @@ public class DatabaseManager
         try
         {
 
-            if (statement != null)
+            if (this.statement != null)
             {
-                statement.close();
+                this.statement.close();
             }
-            if (connection != null)
+            //if (this.connection != null)
+            //{
+             //   this.connection.close();
+            //}
+            if(this.res != null)
             {
-                connection.close();
-            }
-            if(res != null)
-            {
-                res.close();
+                this.res.close();
             }
         }
         catch (SQLException e)
@@ -241,11 +246,6 @@ public class DatabaseManager
         {
             this.connect();
 
-            if(connection == null)
-            {
-                this.res = null;
-                return;
-            }
 
             this.statement = this.connection.createStatement();
 
@@ -568,7 +568,7 @@ public class DatabaseManager
     }
 
     /**
-     * Gets a user by its name.
+     * Gets a user by their name
      * @param name Name of the user.
      * @return A User Object.
      * @throws NullPointerException Exception, if no user was found.

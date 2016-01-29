@@ -72,7 +72,7 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
         this.checkBoxes             = new           ArrayList<>();
 
         this.availableCategories    = new           HashMap<>(100);
-        db = new           DatabaseManager(this);
+        db = DatabaseManager.getInstance();
 
         //Adding OnClickListener
         checkBox_all.setOnClickListener(this);
