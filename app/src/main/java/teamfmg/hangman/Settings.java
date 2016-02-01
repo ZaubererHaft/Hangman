@@ -52,6 +52,10 @@ public final class Settings
      */
     private static List<String> categories = new ArrayList<>();
 
+    private Settings()
+    {
+
+    }
 
     /**
      * Gets the available categories.

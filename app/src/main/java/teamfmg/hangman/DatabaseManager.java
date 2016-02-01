@@ -50,6 +50,10 @@ public class DatabaseManager
 
     private static DatabaseManager manager;
 
+    private DatabaseManager()
+    {
+
+    }
 
     public static DatabaseManager getInstance()
     {
@@ -108,8 +112,10 @@ public class DatabaseManager
 
     public void deleteCustomWord(User u, String wordname)
     {
-        String query = "DELETE FROM userwords WHERE (SELECT wordID FROM customwords WHERE word LIKE '" + wordname + "') LIKE wordID " +
-                "AND (SELECT users._id FROM users WHERE username LIKE '" + u.getName() + "') LIKE userID;" ;
+        String query = "DELETE FROM userwords WHERE " +
+            "(SELECT wordID FROM customwords WHERE word LIKE '" + wordname + "') LIKE wordID " +
+            "AND " +
+            "(SELECT users._id FROM users WHERE username LIKE '" + u.getName() + "') LIKE userID;" ;
 
 
         this.useCommand(query, true);
@@ -595,8 +601,9 @@ public class DatabaseManager
      */
     public Word getRandomWord()
     {
+
         List <String> categories = Settings.getCategories();
-        String query = "SELECT * FROM " + TABLE_WORDS;
+        String query = "SELECT word, category, description FROM " + TABLE_WORDS;
 
         for (int i = 0; i < categories.size(); i++)
         {
@@ -609,7 +616,12 @@ public class DatabaseManager
             query = query + " OR category LIKE '" + categories.get(i) + "'";
         }
 
-        query += " ORDER BY RAND() LIMIT 1;";
+
+        query += " UNION SELECT word,'ownwords' AS category, description "+
+        "FROM  userwords "+
+        "INNER JOIN customwords ON customwords.wordID = userwords.wordID "+
+        "WHERE (SELECT _id FROM users WHERE username = '" + LoginMenu.getCurrentUser().getName()+ "') = userID " +
+                "ORDER BY RAND() LIMIT 1;";
 
         //execute queries.
         this.useCommand(query, false);
@@ -647,7 +659,9 @@ public class DatabaseManager
     {
         ArrayList <String> categories = new ArrayList<>();
 
-        String query = "SELECT DISTINCT category FROM " + TABLE_WORDS + ";";
+        String query = "SELECT DISTINCT category FROM " + TABLE_WORDS;
+
+        query += " UNION SELECT '"+activity.getString(R.string.categoryName_ownWord)+"' FROM userwords WHERE userID = (SELECT _id FROM users WHERE username = '"+LoginMenu.getCurrentUser().getName()+"');";
 
         this.useCommand(query, false);
 
