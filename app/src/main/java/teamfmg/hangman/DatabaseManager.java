@@ -529,7 +529,7 @@ public class DatabaseManager extends Thread
 
             String cmd2 = "INSERT INTO userwords VALUES ( ("+
                     "SELECT wordID FROM customwords WHERE word LIKE '"+w.getWord()+"'),('"+
-                    LoginMenu.getCurrentUser().getId()+"''"+w.getDescription()+"');";
+                    LoginMenu.getCurrentUser().getId()+"'),'"+w.getDescription()+"');";
 
             if(!exists(w))
             {
