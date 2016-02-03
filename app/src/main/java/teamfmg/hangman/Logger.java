@@ -61,6 +61,7 @@ public final class Logger
 
         if(frame != null)
         {
+
             Toast toast = Toast.makeText(frame.getApplicationContext(),
                     text.toString(), Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, defaultOffset);

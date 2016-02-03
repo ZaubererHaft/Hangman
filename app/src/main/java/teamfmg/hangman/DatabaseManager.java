@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Looper;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -92,12 +93,28 @@ public class DatabaseManager extends Thread
     @Override
     public void run()
     {
+        Looper.prepare();
+
         while (!isInterrupted())
         {
+
             if (!this.isOnline())
             {
+                if (this.connection != null)
+                {
+                    try
+                    {
+                        this.connection.close();
+                        this.connection = null;
+                    }
+                    catch (SQLException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                }
                 Logger.logOnly("Connection lost... Try reconnecting...");
-                //this.connection = null;
+
                 this.connect();
             }
             try
@@ -160,6 +177,7 @@ public class DatabaseManager extends Thread
                 connection = DriverManager.getConnection
                         ("jdbc:mysql://" +CONNCECTING_URL+ "/" + DATABASE_NAME
                                 + "?useSSL=false&user=external&password=asdfg-01");
+                Logger.logOnly("Connected!");
 
             }
             catch (Exception ex)
@@ -401,16 +419,15 @@ public class DatabaseManager extends Thread
         {
             this.connect();
 
-
-            this.statement = this.connection.createStatement();
-
-            if(manipulative)
+            if(this.isOnline())
             {
-                this.statement.executeUpdate(command);
-            }
-            else
-            {
-                this.res =  this.statement.executeQuery(command);
+                this.statement = this.connection.createStatement();
+
+                if (manipulative) {
+                    this.statement.executeUpdate(command);
+                } else {
+                    this.res = this.statement.executeQuery(command);
+                }
             }
 
         }
