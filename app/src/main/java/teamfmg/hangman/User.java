@@ -8,23 +8,34 @@ package teamfmg.hangman;
 public class User
 {
     /**
+     * Variables (Strings).
+     */
+    private String name, password, mail;
+    /**
+     * ID if the users.
+     */
+    private final int id;
+
+    /**
      * Creates a new user to be added at the database.
      * @param name Name
      * @param password Password
      * @param mail e mail
      * @since 0.1
      */
-    public User(String name, String password, String mail)
+    public User(String name, String password, String mail, int id)
     {
         this.setName(name);
         this.setPassword(password);
         this.setMail(mail);
+        this.id = id;
     }
 
-    /**
-     * Variables (Strings).
-     */
-    private String name, password, mail;
+    public int getId()
+    {
+        return id;
+    }
+
 
     /**
      * Gets the username.

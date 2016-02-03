@@ -1,13 +1,24 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -21,7 +32,7 @@ import java.util.List;
  *
  * Created by Ludwig on 1/27/16.
  */
-public class DatabaseManager
+public class DatabaseManager extends Thread
 {
     /**
      * Name of the database.
@@ -36,6 +47,18 @@ public class DatabaseManager
      */
     private static final String TABLE_WORDS    = "words";
     /**
+     * URL to server.
+     */
+    private static final String CONNCECTING_URL = "h2530840.stratoserver.net";
+    /**
+     * Time to connect to the server.
+     */
+    private static final long CONNECTTING_TIME = 1000;
+    /**
+     * This handles the database connection.
+     */
+    private static DatabaseManager manager;
+    /**
      * Context representing the activity.
      */
     private Activity activity;
@@ -43,16 +66,67 @@ public class DatabaseManager
      * Attribute to choose statistics
      */
     public enum Attribute {SCORE, WINS, LOSES, PERFECTS, CORRECTLETTER, WRONGLETTER}
-
+    /**
+     * The connection. Represents the status to the online DB
+     */
     private Connection connection = null;
+    /**
+     * The SQL statement.
+     */
     private Statement statement = null;
+    /**
+     * The ResultSet of all statements.
+     */
     private ResultSet res = null;
 
-    private static DatabaseManager manager;
 
+
+    /**
+     * Default constructor to avoid instances.
+     */
     private DatabaseManager()
     {
+        this.start();
+    }
 
+    @Override
+    public void run()
+    {
+        while (!isInterrupted())
+        {
+            if (!this.isOnline())
+            {
+                Logger.logOnly("Connection lost... Try reconnecting...");
+                //this.connection = null;
+                this.connect();
+            }
+            try
+            {
+                Thread.sleep(CONNECTTING_TIME);
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    //TODO: implement
+    public String getOnlineStatus()
+    {
+        return null;
+    }
+
+    /**
+     * Checks the online connection.
+     * @return true
+     */
+    public boolean isOnline()
+    {
+        ConnectivityManager cm =
+                (ConnectivityManager) this.activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     public static DatabaseManager getInstance()
@@ -64,27 +138,41 @@ public class DatabaseManager
         return manager;
     }
 
+    /**
+     * Sets the activity context.
+     * @param a Activity to set.
+     */
     public void setActivity(Activity a)
     {
         this.activity = a;
     }
 
+    /**
+     * This connects to the database.
+     */
     private void connect()
     {
         if(connection == null)
         {
-            try {
+            try
+            {
                 Class.forName("com.mysql.jdbc.Driver");
                 connection = DriverManager.getConnection
-                        ("jdbc:mysql://www.db4free.net:3306/" + DATABASE_NAME + "?useSSL=false&user=zauberhaft&password=asdfg-01");
+                        ("jdbc:mysql://" +CONNCECTING_URL+ "/" + DATABASE_NAME
+                                + "?useSSL=false&user=external&password=asdfg-01");
 
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 ex.printStackTrace();
                 Logger.write(ex, this.activity);
             }
         }
     }
 
+    /**
+     * This closes the connection
+     */
     private void closeConnection()
     {
         try
@@ -110,12 +198,16 @@ public class DatabaseManager
         }
     }
 
+    /**
+     * Deletes a word from the user.
+     * @param u user.
+     * @param wordname word to description.
+     */
     public void deleteCustomWord(User u, String wordname)
     {
         String query = "DELETE FROM userwords WHERE " +
             "(SELECT wordID FROM customwords WHERE word LIKE '" + wordname + "') LIKE wordID " +
-            "AND " +
-            "(SELECT users._id FROM users WHERE username LIKE '" + u.getName() + "') LIKE userID;" ;
+            "AND " +LoginMenu.getCurrentUser().getId()+" LIKE userID;" ;
 
 
         this.useCommand(query, true);
@@ -330,6 +422,17 @@ public class DatabaseManager
     }
 
     /**
+     * Changes the password.
+     * @param newPW The new password.
+     */
+    public void changePassword(String newPW)
+    {
+        this.useCommand("UPDATE users SET password = "+
+                Caeser.encrypt(newPW,Settings.encryptOffset)+" WHERE username = '"+
+                LoginMenu.getCurrentUser().getName()+"';",true);
+    }
+
+    /**
      * Adds an value to the current value in the Database
      * @param attribut The type of Statistic
      * @param amount Value which will be added
@@ -425,15 +528,14 @@ public class DatabaseManager
             String command = "INSERT INTO customwords VALUES (DEFAULT, '"+ w.getWord() + "');";
 
             String cmd2 = "INSERT INTO userwords VALUES ( ("+
-                    "SELECT wordID FROM customwords WHERE word LIKE '"+w.getWord()+"'),("+
-                    "SELECT _id FROM users WHERE username LIKE '"+LoginMenu.getCurrentUser().getName()+"'),'"+
-                    w.getDescription()+"');";
+                    "SELECT wordID FROM customwords WHERE word LIKE '"+w.getWord()+"'),('"+
+                    LoginMenu.getCurrentUser().getId()+"''"+w.getDescription()+"');";
 
             if(!exists(w))
             {
                 this.useCommand(command, true);
             }
-            if(existsInUserWord(w,LoginMenu.getCurrentUser()))
+            if(existsInUserWord(w))
             {
                 Logger.write
                 (
@@ -468,6 +570,10 @@ public class DatabaseManager
     }
 
 
+    /**
+     * Removes a word from the database.
+     * @param word Wprd to remove
+     */
     public void remove (Word word)
     {
         String query = "DELETE FROM " + TABLE_WORDS + " WHERE word LIKE \"" + word.getWord() +
@@ -494,13 +600,14 @@ public class DatabaseManager
      * @return boolean
      * @since 0.7
      */
-    public boolean existsInUserWord(Word word, User user)
+    public boolean existsInUserWord(Word word)
     {
         boolean b = false;
 
         //Bsp: SELECT * FROM words WHERE word LIKE "test" AND category LIKE "testCategory";
-        String query = "SELECT * FROM userwords WHERE (SELECT wordID FROM customwords WHERE word LIKE '" + word.getWord() + "') LIKE wordID " +
-                "AND (SELECT users._id FROM users WHERE username LIKE '" + user.getName() + "') LIKE userID;" ;
+        String query = "SELECT * FROM userwords WHERE (SELECT wordID FROM customwords WHERE word " +
+                "LIKE '" + word.getWord() + "') LIKE wordID " +
+                "AND "+LoginMenu.getCurrentUser().getId()+" LIKE userID;" ;
 
         this.useCommand(query, false);
 
@@ -521,6 +628,11 @@ public class DatabaseManager
         return b;
     }
 
+    /**
+     * Checks whether a word exists om the database.
+     * @param word word to check.
+     * @return boolean.
+     */
     public boolean exists(Word word)
     {
         boolean b = false;
@@ -574,7 +686,7 @@ public class DatabaseManager
 
                 while (this.res.next())
                 {
-                    User u = new User(this.res.getString(1),this.res.getString(2),this.res.getString(3));
+                    User u = new User(this.res.getString(1),this.res.getString(2),this.res.getString(3),this.res.getInt(4));
                     // Add user
                     users.add(u);
                 }
@@ -620,7 +732,7 @@ public class DatabaseManager
         query += " UNION SELECT word,'ownwords' AS category, description "+
         "FROM  userwords "+
         "INNER JOIN customwords ON customwords.wordID = userwords.wordID "+
-        "WHERE (SELECT _id FROM users WHERE username = '" + LoginMenu.getCurrentUser().getName()+ "') = userID " +
+        "WHERE '" + LoginMenu.getCurrentUser().getId()+ "' = userID " +
                 "ORDER BY RAND() LIMIT 1;";
 
         //execute queries.
@@ -661,7 +773,8 @@ public class DatabaseManager
 
         String query = "SELECT DISTINCT category FROM " + TABLE_WORDS;
 
-        query += " UNION SELECT '"+activity.getString(R.string.categoryName_ownWord)+"' FROM userwords WHERE userID = (SELECT _id FROM users WHERE username = '"+LoginMenu.getCurrentUser().getName()+"');";
+        query += " UNION SELECT '"+activity.getString(R.string.categoryName_ownWord)+"' " +
+                "FROM userwords WHERE userID = '"+LoginMenu.getCurrentUser().getId()+"';";
 
         this.useCommand(query, false);
 
@@ -710,8 +823,11 @@ public class DatabaseManager
         {
             if (this.res != null && this.res.next())
             {
-                return new User(
-                        this.res.getString(2), this.res.getString(3), this.res.getString(4));
+                return new User
+                (
+                    this.res.getString(2), this.res.getString(3),
+                    this.res.getString(4), this.res.getInt(1)
+                );
             }
             else
             {
@@ -728,6 +844,119 @@ public class DatabaseManager
         {
             this.closeConnection();
         }
+    }
+
+    class OfflineDatabase extends SQLiteOpenHelper
+    {
+        /**
+         * Version of the database.
+         */
+        private static final int DATABASE_VERSION       = 80;
+        /**
+         * Name of the database.
+         */
+        private static final String DATABASE_NAME       = "database.db";
+
+        /**
+         * Creates a new instance of the database handler.
+         * @since 0.1
+         */
+        public OfflineDatabase ()
+        {
+            super(activity, DATABASE_NAME, null, DATABASE_VERSION);
+
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase db)
+        {
+            String cmd =
+            "CREATE TABLE users"+
+            "    ("+
+            "            _id          INTEGER PRIMARY KEY AUTO_INCREMENT,"+
+            "            username     VARCHAR(20),"+
+            "            password     VARCHAR(30) NOT NULL,"+
+            "            mail         VARCHAR(20) NOT NULL,"+
+            "            score        INTEGER DEFAULT '0',"+
+            "    wins         INTEGER DEFAULT '0',"+
+            "    loses        INTEGER DEFAULT '0',"+
+            "    perfects     INTEGER DEFAULT '0',"+
+            "    correctLetters INTEGER DEFAULT '0',"+
+            "    wrongLetters INTEGER DEFAULT '0'"+
+            ");";
+
+            this.useCommand(cmd);
+
+            cmd = "CREATE TABLE  words"+
+            "    ("+
+            "            word         VARCHAR(60) NOT NULL,"+
+            "            category     VARCHAR(18) NOT NULL,"+
+            "            description  VARCHAR(255),"+
+            "            PRIMARY KEY (word, category)"+
+            "    );";
+
+            this.useCommand(cmd);
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
+        {
+            this.useCommand("DROP TABLE IF EXISTS " + TABLE_USERS_NAME);
+            this.useCommand("DROP TABLE IF EXISTS " + TABLE_WORDS);
+            this.onCreate(db);
+        }
+
+        /**
+         * Executes a vommand to the database.
+         * @param command {@link String}
+         */
+        public void useCommand (String command)
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.execSQL(command);
+            db.close();
+        }
+
+        /**
+         * This copies the data to the SQLitedatabase.
+         */
+        public void copyDatabaseStructureFromSQL()
+        {
+            Thread t = new Thread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    try
+                    {
+                        Document doc = Jsoup.connect(CONNCECTING_URL+"/files").get();
+                        Elements links = doc.getElementsByTag("a");
+
+                        for (Element link : links)
+                        {
+                            if(link.toString().endsWith(".csv"))
+                            {
+
+                                URL url = new URL(CONNCECTING_URL+"/files/"+link.attr("href"));
+
+                                String cmd = ".separator \",\"" +
+                                    ".mode csv" +
+                                    ".import "+url+" users";
+
+                                useCommand(cmd);
+                            }
+                        }
+                    }
+                    catch (IOException ex)
+                    {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+
+            t.start();
+        }
+
     }
 
 }

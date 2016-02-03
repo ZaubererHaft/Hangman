@@ -142,7 +142,7 @@ public class RegisterMenu extends Activity implements View.OnClickListener, IApp
                 enteredUsername,
                 //encryption
                 Caeser.encrypt(enteredPassword,Settings.encryptOffset),
-                enteredMail
+                enteredMail,-1
             )
         );
         Logger.write(this.getResources().getString(R.string.info_register_succeed), this, offset);

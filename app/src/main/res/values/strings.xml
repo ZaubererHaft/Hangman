@@ -130,6 +130,7 @@
     <string name="label_achievements">Achievements</string>
     <string name="Account_label_logged_in">Logged in as:</string>
     <string name="label_current_User">NULL</string>
+    <string name="changePassword_button">Change Password</string>
 
 
 </resources>

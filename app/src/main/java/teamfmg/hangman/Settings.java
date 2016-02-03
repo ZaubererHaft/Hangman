@@ -38,7 +38,7 @@ public final class Settings
     /**
      * The user the player has logged in with.
      */
-    private static User currentUser = new User("","","");
+    private static User currentUser = new User("","","",-1);
     /**
      * The last entered username(use this to fill up the text field in login)
      */

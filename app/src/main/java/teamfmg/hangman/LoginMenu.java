@@ -38,11 +38,9 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_menu);
 
-                (this.findViewById(R.id.button_login)).setOnClickListener(this);
+        (this.findViewById(R.id.button_login)).setOnClickListener(this);
         (this.findViewById(R.id.button_register)).setOnClickListener(this);
         (this.findViewById(R.id.button_exit)).setOnClickListener(this);
-
-
 
         this.username   = (EditText)this.findViewById(R.id.textField_welcome_username);
         this.password   = (EditText)this.findViewById(R.id.textField_welcome_password);
@@ -57,7 +55,7 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
             this.username.setText(Settings.getLastUsername());
             this.password.setText(Settings.getLastPassword());
         }
-        catch(NullPointerException ex)
+        catch (NullPointerException ex)
         {
             Logger.logOnly("No userdata entered yet!");
         }

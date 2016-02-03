@@ -206,7 +206,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         }
 
         db.raiseScore(DatabaseManager.Attribute.WRONGLETTER, wrongLetters);
-        db.raiseScore(DatabaseManager.Attribute.WRONGLETTER, correctLetters);
+        db.raiseScore(DatabaseManager.Attribute.CORRECTLETTER, correctLetters);
 
         this.resetGame();
     }
