@@ -167,7 +167,7 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
             );
 
             //remove word from database, list and view group
-            this.db.deleteCustomWord(LoginMenu.getCurrentUser(), w.getWord());
+            this.db.deleteCustomWord(w.getWord());
             this.words.remove(w);
             ViewGroup vg = (ViewGroup)this.findViewById(R.id.ownWords_linLayout);
             vg.removeView(parent);

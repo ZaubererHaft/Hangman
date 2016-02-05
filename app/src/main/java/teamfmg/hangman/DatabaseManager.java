@@ -140,6 +140,11 @@ public class DatabaseManager extends Thread
         }
     }
 
+    /**
+     * Adds a user to the offline DB.
+     * @param user User to add.
+     * @since 1.1
+     */
     public void addOfflineUser(User user)
     {
         if(this.od == null)
