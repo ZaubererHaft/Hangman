@@ -18,6 +18,7 @@ import android.widget.TextView;
 public class AccountMenu extends Activity implements IApplyableSettings, View.OnClickListener
 {
 
+    DatabaseManager db = DatabaseManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -25,6 +26,7 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_menu);
 
+        db.setActivity(this);
         this.changeBackground();
 
         //adding click listener
@@ -35,6 +37,13 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
         this.findViewById(R.id.account_logout).setOnClickListener(this);
 
         ((TextView)this.findViewById(R.id.label_current_User)).setText(LoginMenu.getCurrentUser().getName());
+
+        if(!db.isOnline())
+        {
+            this.findViewById(R.id.account_statistic).setEnabled(false);
+            this.findViewById(R.id.account_achievments).setEnabled(false);
+            this.findViewById(R.id.account_change_pw).setEnabled(false);
+        }
     }
 
     @Override
@@ -50,6 +59,9 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
     {
         int curVersion = android.os.Build.VERSION.SDK_INT;
         Intent i;
+
+
+
 
         switch (v.getId())
         {
@@ -67,13 +79,16 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
             break;
 
             case R.id.account_statistic:
+
                 i = new Intent(this, Statistic.class);
                 this.startActivity(i);
             break;
 
             case R.id.account_achievments:
+
                 i = new Intent(this, Achievements.class);
                 this.startActivity(i);
+
             break;
 
             case R.id.account_logout:

@@ -28,6 +28,7 @@
     <string name="error_register_invalidEmail">Please enter a valid e-mail!</string>
     <string name="error_register_passwordShort">Your password needs at least 8 characters!</string>
     <string name="error_login_wrongUsername">Username does not exists!</string>
+    <string name="error_login_offlineNoUser">You have to login online once before using the offline mode with this user!</string>
     <string name="error_login_wrongPassword">Wrong Password!</string>
     <string name="error_register_wrongRepeatedPassword">The passwords do not match!</string>
     <string name="button_not_registered">Not registered?</string>
@@ -131,6 +132,5 @@
     <string name="Account_label_logged_in">Logged in as:</string>
     <string name="label_current_User">NULL</string>
     <string name="changePassword_button">Change Password</string>
-
 
 </resources>

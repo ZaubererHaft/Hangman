@@ -1,7 +1,10 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -9,29 +12,23 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Looper;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Field;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
+ * <u><h1>Class to handle database connections.</h1></u><br />
+ * Using <b>JDBC</b>, this class has implement all SQL statements directly in the code as well as data to
+ * connect.<br />
+ * As using {@link ResultSet}, this class is designed as a Singleton using getInstance().
+ * <br />
+ * Be aware to set setInstance() to set the right activity context.<br /><br />
  * Created by Ludwig on 1/27/16.
+ * @since 0.1
  */
 public class DatabaseManager extends Thread
 {
@@ -50,11 +47,11 @@ public class DatabaseManager extends Thread
     /**
      * URL to server.
      */
-    private static final String CONNCECTING_URL = "h2530840.stratoserver.net";
+    private static final String CONNECTING_URL = "h2530840.stratoserver.net";
     /**
      * Time to connect to the server.
      */
-    private static final long CONNECTTING_TIME = 1000;
+    private static final long CONNECTING_TIME = 1000;
     /**
      * This handles the database connection.
      */
@@ -64,11 +61,11 @@ public class DatabaseManager extends Thread
      */
     private Activity activity;
     /**
-     * Attribute to choose statistics
+     * Attribute to choose statistics.
      */
-    public enum Attribute {SCORE, WINS, LOSES, PERFECTS, CORRECTLETTER, WRONGLETTER}
+    public enum Attribute {SCORE, WINS, LOSES, PERFECTS, CORRECT_LETTER, WRONG_LETTER}
     /**
-     * The connection. Represents the status to the online DB
+     * The connection. Represents the status to the online DB.
      */
     private Connection connection = null;
     /**
@@ -79,15 +76,17 @@ public class DatabaseManager extends Thread
      * The ResultSet of all statements.
      */
     private ResultSet res = null;
-
-
+    /**
+     * Reference to the offline database.
+     */
+    private OfflineDatabase od;
 
     /**
      * Default constructor to avoid instances.
      */
     private DatabaseManager()
     {
-        this.start();
+
     }
 
     @Override
@@ -95,11 +94,23 @@ public class DatabaseManager extends Thread
     {
         Looper.prepare();
 
+        if (od != null)
+        {
+            //TODO: Nur am anfang
+            this.od.synchDatabases();
+        }
+
         while (!isInterrupted())
         {
-
-            if (!this.isOnline())
+            if (od == null)
             {
+                this.od = new OfflineDatabase();
+            }
+
+            if(!this.isOnline())
+            {
+                Logger.logOnlyError("Connection lost - try reconnection!");
+
                 if (this.connection != null)
                 {
                     try
@@ -111,15 +122,16 @@ public class DatabaseManager extends Thread
                     {
                         e.printStackTrace();
                     }
-
                 }
-                Logger.logOnly("Connection lost... Try reconnecting...");
-
-                this.connect();
+                else
+                {
+                    this.connect();
+                }
             }
+
             try
             {
-                Thread.sleep(CONNECTTING_TIME);
+                Thread.sleep(CONNECTING_TIME);
             }
             catch (InterruptedException e)
             {
@@ -128,10 +140,14 @@ public class DatabaseManager extends Thread
         }
     }
 
-    //TODO: implement
-    public String getOnlineStatus()
+    public void addOfflineUser(User user)
     {
-        return null;
+        if(this.od == null)
+        {
+            this.od = new OfflineDatabase();
+        }
+
+        this.od.addUser(user);
     }
 
     /**
@@ -161,11 +177,16 @@ public class DatabaseManager extends Thread
      */
     public void setActivity(Activity a)
     {
+        if(!this.isAlive())
+        {
+            this.start();
+        }
         this.activity = a;
     }
 
     /**
-     * This connects to the database.
+     * This connects to the online database.
+     * @since 1.1
      */
     private void connect()
     {
@@ -173,23 +194,33 @@ public class DatabaseManager extends Thread
         {
             try
             {
-                Class.forName("com.mysql.jdbc.Driver");
-                connection = DriverManager.getConnection
-                        ("jdbc:mysql://" +CONNCECTING_URL+ "/" + DATABASE_NAME
-                                + "?useSSL=false&user=external&password=asdfg-01");
-                Logger.logOnly("Connected!");
+                if(this.isOnline())
+                {
+                    Class.forName("com.mysql.jdbc.Driver");
+                    connection = DriverManager.getConnection
+                            ("jdbc:mysql://" + CONNECTING_URL + "/" + DATABASE_NAME
+                                    + "?useSSL=false&user=external&password=asdfg-01");
+                    Logger.logOnly("Connected!");
+                }
+                else
+                {
+                    Logger.logOnly("No internet connection!");
+                }
 
             }
-            catch (Exception ex)
+            catch (SQLException ex)
             {
-                ex.printStackTrace();
-                Logger.write(ex, this.activity);
+                Logger.logOnlyError("Failed to communicate with server - "+ex.getMessage());
+            }
+            catch (ClassNotFoundException ex){
+                Logger.logOnlyError("Error loading class - " + ex.getMessage());
             }
         }
     }
 
     /**
      * This closes the connection
+     * @since 1.1
      */
     private void closeConnection()
     {
@@ -218,10 +249,10 @@ public class DatabaseManager extends Thread
 
     /**
      * Deletes a word from the user.
-     * @param u user.
      * @param wordname word to description.
+     * @since 1.1
      */
-    public void deleteCustomWord(User u, String wordname)
+    public void deleteCustomWord(String wordname)
     {
         String query = "DELETE FROM userwords WHERE " +
             "(SELECT wordID FROM customwords WHERE word LIKE '" + wordname + "') LIKE wordID " +
@@ -236,6 +267,7 @@ public class DatabaseManager extends Thread
      * Gets a custom word identified by a user.
      * @param u User.
      * @return List of words.
+     * @since 1.1
      */
     public ArrayList<Word> getCustomWords(User u)
     {
@@ -278,119 +310,6 @@ public class DatabaseManager extends Thread
         return words;
     }
 
-    /**
-     * Gets all words of a category.
-     * @param category Category to get the words.
-     * @return {@link ArrayList}
-     * @since 0.7
-     */
-    public ArrayList<Word> getWordsOfCategory(String category)
-    {
-        String query = "SELECT * FROM " + TABLE_WORDS + " WHERE category LIKE \""+category+"\";";
-        ArrayList<Word> words = new ArrayList<>();
-
-        this.useCommand(query, false);
-
-        try
-        {        //add all words to the list
-            if (this.res != null)
-            {
-                while (this.res.next())
-                {
-                    Word w = new Word
-                    (
-                        this.res.getString(0),
-                        this.res.getString(1),
-                        this.res.getString(2)
-                    );
-                    // Add word
-                    words.add(w);
-                }
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-            Logger.write(e, this.activity);
-        }
-        finally
-        {
-            this.closeConnection();
-        }
-
-        return words;
-
-    }
-    /**
-     * Loads all words from the *.csv to the data base.
-     * @since 0.5
-     */
-    public void loadWords()
-    {
-
-        Logger.logOnly(R.string.hint_loading);
-
-        //Get all files in raw directory
-        Field[] fields = R.raw.class.getFields();
-
-        for (Field field : fields)
-        {
-            int id = this.activity.getResources().getIdentifier(
-                    field.getName(), "raw", this.activity.getPackageName());
-
-            InputStream in = this.activity.getResources().openRawResource(id);
-
-            BufferedReader buffer = new BufferedReader(new InputStreamReader(in),8192);
-
-            String line;
-
-            int amount = 0;
-
-            while(true)
-            {
-                try
-                {
-                    line = buffer.readLine();
-
-                    if(line == null)
-                    {
-                        Logger.logOnly(field.toString()+": Data loaded: " +amount);
-                        break;
-                    }
-                    ++amount;
-                    String[] list = line.split(";");
-
-                    String createTableStatement;
-
-                    if(list.length == 2)
-                    {
-                        createTableStatement =
-                                "INSERT INTO " + TABLE_WORDS + " (word,category) " +
-                                        " VALUES(\"" + list[0] + "\", \"" + list[1] + "\");";
-                    }
-                    else
-                    {
-                        createTableStatement =
-                                "INSERT INTO " + TABLE_WORDS + " (word,category,description) " +
-                                        " VALUES(\"" + list[0] + "\", \"" + list[1] + "\",\"" + list[2] + "\");";
-                    }
-
-                    this.useCommand(createTableStatement, true);
-                }
-
-                catch (IOException ex)
-                {
-                    ex.printStackTrace();
-                    Logger.write(ex, this.activity);
-                }
-                finally
-                {
-                    this.closeConnection();
-                }
-            }
-        }
-    }
-
 
     /**
      * Adds a user to the database.
@@ -410,8 +329,9 @@ public class DatabaseManager extends Thread
     }
 
     /**
-     * Executes a command to the database and closes ot automatically
+     * Executes a command to the database and closes it automatically
      * @param command {@link String}
+     * @since 1.1
      */
     public void useCommand (String command, boolean manipulative)
     {
@@ -423,9 +343,12 @@ public class DatabaseManager extends Thread
             {
                 this.statement = this.connection.createStatement();
 
-                if (manipulative) {
+                if (manipulative)
+                {
                     this.statement.executeUpdate(command);
-                } else {
+                }
+                else
+                {
                     this.res = this.statement.executeQuery(command);
                 }
             }
@@ -441,18 +364,20 @@ public class DatabaseManager extends Thread
     /**
      * Changes the password.
      * @param newPW The new password.
+     * @since 1.1
      */
     public void changePassword(String newPW)
     {
-        this.useCommand("UPDATE users SET password = "+
-                Caeser.encrypt(newPW,Settings.encryptOffset)+" WHERE username = '"+
-                LoginMenu.getCurrentUser().getName()+"';",true);
+        this.useCommand("UPDATE users SET password = " +
+                Caeser.encrypt(newPW, Settings.encryptOffset) + " WHERE username = '" +
+                LoginMenu.getCurrentUser().getName() + "';", true);
     }
 
     /**
      * Adds an value to the current value in the Database
      * @param attribut The type of Statistic
      * @param amount Value which will be added
+     * @since 1.1
      */
     public void raiseScore (Attribute attribut, int amount){
 
@@ -469,6 +394,7 @@ public class DatabaseManager extends Thread
      * Creates an Select for the DB for the Statistics
      * @param attribut The type of Statistic
      * @return Value of the attribut for the current User
+     * @since 1.1
      */
     public int getCurrentStatistic (Attribute attribut)
     {
@@ -503,7 +429,8 @@ public class DatabaseManager extends Thread
     /**
      * Convert the Enum to an String. This String is the correct name of the Attribut in the Database
      * @param attribut Attribut which will get converted
-     * @return correct name of the Attribut in the Database
+     * @return correct name of the attribut in the Database
+     * @since 1.1
      */
     private String getAttributName(Attribute attribut){
 
@@ -519,10 +446,10 @@ public class DatabaseManager extends Thread
             case LOSES:
                 attributName = "loses";
                 break;
-            case CORRECTLETTER:
+            case CORRECT_LETTER:
                 attributName = "correctLetters";
                 break;
-            case WRONGLETTER:
+            case WRONG_LETTER:
                 attributName = "wrongLetters";
                 break;
             case PERFECTS:
@@ -586,29 +513,6 @@ public class DatabaseManager extends Thread
         return false;
     }
 
-
-    /**
-     * Removes a word from the database.
-     * @param word Wprd to remove
-     */
-    public void remove (Word word)
-    {
-        String query = "DELETE FROM " + TABLE_WORDS + " WHERE word LIKE \"" + word.getWord() +
-                "\" AND category LIKE \"" + word.getCategory() + "\";";
-        try
-        {
-            this.useCommand(query, true);
-        }
-        catch (SQLiteException ex)
-        {
-            ex.printStackTrace();
-            Logger.write(ex, this.activity);
-        }
-        finally
-        {
-            this.closeConnection();
-        }
-    }
 
 
     /**
@@ -683,53 +587,17 @@ public class DatabaseManager extends Thread
     }
 
     /**
-     * Gets all registered users
-     * @return List of users.
-     * @since 0.1i
-     * @deprecated
-     */
-    public List<User> getUsers()
-    {
-        List<User> users = new LinkedList<>();
-
-        String query = "SELECT  * FROM " + TABLE_USERS_NAME;
-
-        this.useCommand(query, false);
-
-        try
-        {
-            if (this.res != null)
-            {
-
-                while (this.res.next())
-                {
-                    User u = new User(this.res.getString(1),this.res.getString(2),this.res.getString(3),this.res.getInt(4));
-                    // Add user
-                    users.add(u);
-                }
-            }
-        }
-        catch (SQLException e)
-        {
-            Logger.write(e,this.activity);
-            e.printStackTrace();
-        }
-        finally
-        {
-            this.closeConnection();
-        }
-
-        return users;
-    }
-
-
-    /**
      * Gets a random word from the database.
      * @return String
      * @since 0.7
      */
     public Word getRandomWord()
     {
+
+        if(!this.isOnline())
+        {
+            return this.od.getRandomWord();
+        }
 
         List <String> categories = Settings.getCategories();
         String query = "SELECT word, category, description FROM " + TABLE_WORDS;
@@ -767,7 +635,7 @@ public class DatabaseManager extends Thread
         }
         catch (SQLException e)
         {
-            Logger.write(e,this.activity);
+            Logger.write(e, this.activity);
             e.printStackTrace();
         }
         finally
@@ -786,6 +654,11 @@ public class DatabaseManager extends Thread
      */
     public ArrayList <String> getCategories()
     {
+        if(!this.isOnline())
+        {
+            return this.od.getCategories();
+        }
+
         ArrayList <String> categories = new ArrayList<>();
 
         String query = "SELECT DISTINCT category FROM " + TABLE_WORDS;
@@ -811,7 +684,7 @@ public class DatabaseManager extends Thread
         catch (SQLException e)
         {
             e.printStackTrace();
-            Logger.write(e,this.activity);
+            Logger.write(e, this.activity);
         }
         finally
         {
@@ -830,7 +703,19 @@ public class DatabaseManager extends Thread
      */
     public User getUser(String name) throws NullPointerException
     {
-        String query = "SELECT * FROM " + TABLE_USERS_NAME +
+
+        //Use offline mode
+        if(!this.isOnline())
+        {
+            if(od == null)
+            {
+                od = new OfflineDatabase();
+            }
+            return this.od.getUser(name);
+
+        }
+
+        String query = "SELECT username, password, mail, _id FROM " + TABLE_USERS_NAME +
                 " WHERE username LIKE '" + name + "';";
 
 
@@ -842,8 +727,8 @@ public class DatabaseManager extends Thread
             {
                 return new User
                 (
-                    this.res.getString(2), this.res.getString(3),
-                    this.res.getString(4), this.res.getInt(1)
+                    this.res.getString(1), this.res.getString(2),
+                    this.res.getString(3), this.res.getInt(4)
                 );
             }
             else
@@ -863,12 +748,16 @@ public class DatabaseManager extends Thread
         }
     }
 
+    /**
+     * This inner class handles the connection to the offline database <br />
+     * It is using SQLite.
+     */
     class OfflineDatabase extends SQLiteOpenHelper
     {
         /**
          * Version of the database.
          */
-        private static final int DATABASE_VERSION       = 80;
+        private static final int DATABASE_VERSION       = 87;
         /**
          * Name of the database.
          */
@@ -880,7 +769,12 @@ public class DatabaseManager extends Thread
          */
         public OfflineDatabase ()
         {
-            super(activity, DATABASE_NAME, null, DATABASE_VERSION);
+            super(activity.getBaseContext(), DATABASE_NAME, null, DATABASE_VERSION);
+            this.getWritableDatabase();
+        }
+
+        public void synchDatabases()
+        {
 
         }
 
@@ -890,8 +784,8 @@ public class DatabaseManager extends Thread
             String cmd =
             "CREATE TABLE users"+
             "    ("+
-            "            _id          INTEGER PRIMARY KEY AUTO_INCREMENT,"+
-            "            username     VARCHAR(20),"+
+            "            _id          INTEGER,"+
+            "            username     VARCHAR(20) PRIMARY KEY,"+
             "            password     VARCHAR(30) NOT NULL,"+
             "            mail         VARCHAR(20) NOT NULL,"+
             "            score        INTEGER DEFAULT '0',"+
@@ -902,7 +796,7 @@ public class DatabaseManager extends Thread
             "    wrongLetters INTEGER DEFAULT '0'"+
             ");";
 
-            this.useCommand(cmd);
+            db.execSQL(cmd);
 
             cmd = "CREATE TABLE  words"+
             "    ("+
@@ -910,63 +804,114 @@ public class DatabaseManager extends Thread
             "            category     VARCHAR(18) NOT NULL,"+
             "            description  VARCHAR(255),"+
             "            PRIMARY KEY (word, category)"+
-            "    );";
+                    "    );";
 
-            this.useCommand(cmd);
+            db.execSQL(cmd);
+
+            Logger.logOnly("Offline DB created!");
+
+            this.copyDatabaseStructureFromSQL();
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
         {
-            this.useCommand("DROP TABLE IF EXISTS " + TABLE_USERS_NAME);
-            this.useCommand("DROP TABLE IF EXISTS " + TABLE_WORDS);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_WORDS);
             this.onCreate(db);
         }
 
-        /**
-         * Executes a vommand to the database.
-         * @param command {@link String}
-         */
-        public void useCommand (String command)
-        {
-            SQLiteDatabase db = this.getWritableDatabase();
-            db.execSQL(command);
-            db.close();
-        }
 
         /**
-         * This copies the data to the SQLitedatabase.
+         * This copies the data to the SQLite database.
+         * @since 1.1
          */
         public void copyDatabaseStructureFromSQL()
         {
+
             Thread t = new Thread(new Runnable()
             {
                 @Override
                 public void run()
                 {
+
+                    Logger.logOnly("Start copying dbs...");
+
+                    /**
+                     * Load all words.
+                     */
+                    String query = "SELECT * FROM words;";
+                    DatabaseManager.this.useCommand(query, false);
+
                     try
                     {
-                        Document doc = Jsoup.connect(CONNCECTING_URL+"/files").get();
-                        Elements links = doc.getElementsByTag("a");
-
-                        for (Element link : links)
+                        if (DatabaseManager.this.res != null)
                         {
-                            if(link.toString().endsWith(".csv"))
+                            while (DatabaseManager.this.res.next())
                             {
-
-                                URL url = new URL(CONNCECTING_URL+"/files/"+link.attr("href"));
-
-                                String cmd = ".separator \",\"" +
-                                    ".mode csv" +
-                                    ".import "+url+" users";
-
-                                useCommand(cmd);
+                                OfflineDatabase.this.addWord
+                                (
+                                    new Word
+                                    (
+                                        DatabaseManager.this.res.getString(1),
+                                        DatabaseManager.this.res.getString(2),
+                                        DatabaseManager.this.res.getString(3)
+                                    )
+                                );
                             }
                         }
+                        Logger.logOnly("Table Words DONE!");
                     }
-                    catch (IOException ex)
+                    catch (SQLException e)
                     {
-                        ex.printStackTrace();
+                        e.printStackTrace();
+                        Logger.logOnlyError(e.getMessage());
+                    }
+                    finally
+                    {
+                        DatabaseManager.this.closeConnection();
+                    }
+
+                    if(LoginMenu.getCurrentUser() == null)
+                    {
+                        return;
+                    }
+
+                    /**
+                     * Load user.
+                     */
+                    query = "SELECT * FROM users WHERE username LIKE '"+
+                            LoginMenu.getCurrentUser().getName()+"';";
+                    DatabaseManager.this.useCommand(query, false);
+
+                    try
+                    {
+                        if (DatabaseManager.this.res != null)
+                        {
+                            while (DatabaseManager.this.res.next())
+                            {
+                                OfflineDatabase.this.addUser
+                                (
+                                    new User
+                                    (
+                                        DatabaseManager.this.res.getString(2),
+                                        DatabaseManager.this.res.getString(3),
+                                        DatabaseManager.this.res.getString(4),
+                                        DatabaseManager.this.res.getInt(1)
+                                    )
+                                );
+                            }
+                            Logger.logOnly("Table users DONE!");
+                        }
+                    }
+                    catch (SQLException e)
+                    {
+                        e.printStackTrace();
+                        Logger.logOnlyError(e.getMessage());
+                    }
+                    finally
+                    {
+                        DatabaseManager.this.closeConnection();
                     }
                 }
             });
@@ -974,6 +919,189 @@ public class DatabaseManager extends Thread
             t.start();
         }
 
-    }
 
+        /**
+         * Adds a word to the offline db.
+         * @since 0.1
+         * @param w The word to add.
+         */
+        public void addWord (Word w)
+        {
+            try
+            {
+                SQLiteDatabase db = this.getWritableDatabase();
+                ContentValues val = new ContentValues();
+                val.put("word", w.getWord());
+                val.put("category", w.getCategory());
+
+                if (w.getDescription() != null && w.getDescription().length() > 0)
+                {
+                    val.put("description", w.getDescription());
+                }
+
+                db.insert(TABLE_WORDS, null, val);
+                db.close();
+            }
+            catch(SQLiteException ex)
+            {
+                Logger.logOnlyError(ex.getMessage());
+            }
+        }
+
+
+        /**
+         * Adds a user to the database.
+         * @param u User to add
+         * @throws SQLiteException
+         * @since 0.1
+         */
+        public void addUser (User u) throws SQLiteException
+        {
+            if(this.getUser(u.getName()) == null)
+            {
+                SQLiteDatabase db = this.getWritableDatabase();
+
+                ContentValues val = new ContentValues();
+                val.put("username", u.getName());
+                val.put("password", u.getPassword());
+                val.put("mail", u.getMail());
+                val.put("_id", u.getId());
+
+                db.insert(TABLE_USERS_NAME, null, val);
+                db.close();
+            }
+        }
+
+
+        /**
+         * Gets a user by its name.
+         * @param name Name of the user.
+         * @return A User Object.
+         * @since 0.1
+         */
+        public User getUser(String name)
+        {
+            String query = "SELECT username,password,mail,_id FROM " + TABLE_USERS_NAME +
+                    " WHERE username LIKE '" + name + "';";
+            SQLiteDatabase db = this.getWritableDatabase();
+
+            if (!db.isOpen())
+            {
+                db = activity.getApplicationContext().openOrCreateDatabase
+                        (DATABASE_NAME, SQLiteDatabase.OPEN_READWRITE, null);
+            }
+
+            Cursor cursor = db.rawQuery(query, null);
+
+            if(cursor != null)
+            {
+                try
+                {
+                    cursor.moveToFirst();
+                    return new User(cursor.getString(0),
+                            cursor.getString(1), cursor.getString(2), cursor.getInt(3));
+                }
+                catch (CursorIndexOutOfBoundsException ex)
+                {
+                    return null;
+                }
+                finally
+                {
+                    cursor.close();
+                    db.close();
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /**
+         * Gets a random word from the database.
+         * @return String
+         * @since 0.7
+         */
+        public Word getRandomWord()
+        {
+            List <String> categories = Settings.getCategories();
+            String query = "SELECT * FROM " + TABLE_WORDS;
+
+            for (int i = 0; i < categories.size(); i++)
+            {
+                //overwrite query if there are categories.
+                if (i == 0)
+                {
+                    query = query + " WHERE category LIKE \"" + categories.get(i) + "\"";
+                    continue;
+                }
+                query = query + " OR category LIKE \"" + categories.get(i) + "\"";
+            }
+
+            query = query + ";";
+
+            //execute queries.
+            SQLiteDatabase db = this.getWritableDatabase();
+            Cursor cursor = db.rawQuery(query, null);
+
+            Word result = null;
+
+            //add all words to the list
+            if (cursor != null && cursor.moveToFirst())
+            {
+                int rand = (int)(Math.random() * cursor.getCount());
+                cursor.move(rand);
+                result = new Word(cursor.getString(0), cursor.getString(1), cursor.getString(2));
+
+                try
+                {
+                    cursor.close();
+                    db.close();
+                }
+                catch (NullPointerException ex)
+                {
+                    Logger.logOnly(ex.getMessage());
+                }
+            }
+
+            return result;
+        }
+
+        /**
+         * Return a List of Categorys (no duplicates)
+         * @return List of Categorys
+         * @since 0.6
+         */
+        public ArrayList <String> getCategories()
+        {
+            ArrayList <String> categories = new ArrayList<>();
+
+            String query = "SELECT DISTINCT category FROM " + TABLE_WORDS + ";";
+
+            SQLiteDatabase db = this.getWritableDatabase();
+            Cursor cursor = db.rawQuery(query, null);
+
+            if (cursor != null && cursor.moveToFirst())
+            {
+                do
+                {
+                    String c = cursor.getString(0);
+                    // Add category
+                    categories.add(c);
+                }
+                while (cursor.moveToNext());
+
+                try
+                {
+                    cursor.close();
+                    db.close();
+                }
+                catch (NullPointerException ex)
+                {
+                    Logger.logOnly(ex.getMessage());
+                }
+            }
+            return categories;
+        }
+    }
 }

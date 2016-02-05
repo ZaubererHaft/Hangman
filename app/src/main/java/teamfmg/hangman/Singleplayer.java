@@ -118,7 +118,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         }
         else
         {
-            //db.raiseScore(DatabaseManager.Attribute.CORRECTLETTER, 1);
+            //db.raiseScore(DatabaseManager.Attribute.CORRECT_LETTER, 1);
             correctLetters++;
         }
         this.updateLabel();
@@ -205,8 +205,8 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
             db.raiseScore(DatabaseManager.Attribute.PERFECTS, 1);
         }
 
-        db.raiseScore(DatabaseManager.Attribute.WRONGLETTER, wrongLetters);
-        db.raiseScore(DatabaseManager.Attribute.CORRECTLETTER, correctLetters);
+        db.raiseScore(DatabaseManager.Attribute.WRONG_LETTER, wrongLetters);
+        db.raiseScore(DatabaseManager.Attribute.CORRECT_LETTER, correctLetters);
 
         this.resetGame();
     }

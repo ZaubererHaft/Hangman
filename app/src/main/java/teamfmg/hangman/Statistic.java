@@ -22,8 +22,8 @@ public class Statistic extends Activity implements IApplyableSettings, View.OnCl
         Integer wins            = db.getCurrentStatistic(DatabaseManager.Attribute.WINS);
         Integer perfects        = db.getCurrentStatistic(DatabaseManager.Attribute.PERFECTS);
         Integer losses          = db.getCurrentStatistic(DatabaseManager.Attribute.LOSES);
-        Integer correctLetters  = db.getCurrentStatistic(DatabaseManager.Attribute.CORRECTLETTER);
-        Integer wrongLetters    = db.getCurrentStatistic(DatabaseManager.Attribute.WRONGLETTER);
+        Integer correctLetters  = db.getCurrentStatistic(DatabaseManager.Attribute.CORRECT_LETTER);
+        Integer wrongLetters    = db.getCurrentStatistic(DatabaseManager.Attribute.WRONG_LETTER);
 
         String[] texts=
         {

@@ -31,6 +31,13 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
 
         this.changeBackground();
 
+        DatabaseManager db = DatabaseManager.getInstance();
+        db.setActivity(this);
+
+        if(!db.isOnline())
+        {
+            this.findViewById(R.id.button_ownWords).setEnabled(false);
+        }
     }
 
     //TODO: implement about
@@ -56,7 +63,7 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
                 this.finish();
                 break;
             case R.id.button_ownWords:
-                this.startActivity(new Intent(this,OwnWordsMenu.class));
+                this.startActivity(new Intent(this, OwnWordsMenu.class));
                 break;
             default:
                 Logger.write("Currently no function", this);

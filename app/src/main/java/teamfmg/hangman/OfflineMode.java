@@ -81,7 +81,8 @@ public class OfflineMode extends SQLiteOpenHelper
         Logger.logOnly(R.string.hint_loading);
 
         //Get all files in raw directory
-        Field[] fields = R.raw.class.getFields();
+        //Field[] fields = R.raw.class.getFields();
+        Field[] fields = null;
 
         for (Field field : fields)
         {

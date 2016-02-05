@@ -87,6 +87,7 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
         {
             //gets the entered data
             String enteredName = this.username.getText().toString();
+
             //encrypts the entered password to compare it with the password in the db
             String enteredPassword = Caeser.encrypt
             (
@@ -96,26 +97,60 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
 
             try
             {
-                //get user and compare passwords...
+                //get user
                 User user = db.getUser(enteredName);
 
+                //no user found...
+                if(user == null)
+                {
+                    //online mode
+                    if(db.isOnline())
+                    {
+
+                        Logger.write(this.getResources().getString(R.string.error_login_wrongUsername)
+                                , this, offset);
+
+                        //do not execute the following statements
+                        return;
+                    }
+                    //offline mode
+                    else
+                    {
+                        Logger.write(this.getResources().getString(R.string.error_login_offlineNoUser)
+                                , this, offset);
+                        //do not execute the following statements
+                        return;
+                    }
+
+                }
+
+                //compare passwords if there was a user...
                 if(user.getPassword().equals(enteredPassword))
                 {
                     CheckBox c = (CheckBox)this.findViewById(R.id.login_saveLoginData);
                     Settings.setCurrentUser(user);
 
+                    //save login data
                     if(c.isChecked())
                     {
                         Settings.save(this);
                     }
 
+                    //adds a user to the offline db
+                    db.addOfflineUser(user);
+
+                    //sets the current user
                     setCurrentUser(user);
 
+                    //load categories
                     ArrayList<String>  list = db.getCategories();
                     Settings.setCategories(list);
+
                     //Open Main Menu
                     Logger.write(this.getResources().getString(R.string.info_login_succeed)
                             , this, offset);
+
+                    //closing menu
                     this.finish();
                     this.startActivity(new Intent(this, MainMenu.class));
                 }
@@ -125,12 +160,6 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
                     Logger.write(this.getResources().getString(R.string.error_login_wrongPassword)
                             ,this,offset);
                 }
-            }
-            //User does not exists...
-            catch (NullPointerException ex)
-            {
-                Logger.write(this.getResources().getString(R.string.error_login_wrongUsername)
-                        , this, offset);
             }
             //Error with the Database
             catch (SQLiteException ex)
