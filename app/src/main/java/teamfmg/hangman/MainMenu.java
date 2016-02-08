@@ -60,7 +60,7 @@ public class MainMenu extends Activity implements View.OnClickListener, IApplyab
 
             //Single player
             case R.id.button_play:
-                i = new Intent(this, Singleplayer.class);
+                i = new Intent(this, SingleplayerMenu.class);
                 this.startActivity(i);
                 break;
 
@@ -82,6 +82,15 @@ public class MainMenu extends Activity implements View.OnClickListener, IApplyab
                 this.startActivity(i);
 
                 break;
+
+
+            //Multiplayer
+            /*case  R.id.button_multiplayer:
+                i = new Intent(this, MultiplayerMenu.class);
+                this.startActivity(i);
+                break;
+            */
+
             default:
                 Logger.write("Currently no function", this);
         }

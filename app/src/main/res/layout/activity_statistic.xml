@@ -144,7 +144,79 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/statistic_diagram_layout1"
+        android:layout_below="@+id/label_statistic_scoreSpeedMode"
+        android:layout_alignParentLeft="true">
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/label_statistic_scoreStandardMode"
+        android:id="@+id/label_statistic_scoreStandardMode"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/textSizeMedium"
         android:layout_below="@+id/label_statistic_wrongLetters"
-        android:layout_alignParentLeft="true"
-        android:id="@+id/statistic_diagram_layout1"></RelativeLayout>
+        android:layout_alignParentLeft="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/label_statistic_scoreHardcoreMode"
+        android:id="@+id/label_statistic_scoreHardcoreMode"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/textSizeMedium"
+        android:layout_below="@+id/label_statistic_scoreStandardMode"
+        android:layout_toRightOf="@+id/text_header_account" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/label_statistic_scoreSpeedMode"
+        android:id="@+id/label_statistic_scoreSpeedMode"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/textSizeMedium"
+        android:layout_below="@+id/label_statistic_scoreHardcoreMode"
+        android:layout_toRightOf="@+id/text_header_account" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/label_statistic_scoreStandardMode_amount"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/textSizeMedium"
+        android:layout_alignTop="@+id/label_statistic_scoreStandardMode"
+        android:layout_toRightOf="@+id/label_statistic_scoreStandardMode"
+        android:layout_marginLeft="@dimen/marginForSpace" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/label_statistic_scoreHardcoreMode_amount"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/textSizeMedium"
+        android:layout_alignTop="@+id/label_statistic_scoreHardcoreMode"
+        android:layout_toRightOf="@+id/label_statistic_scoreHardcoreMode"
+        android:layout_marginLeft="@dimen/marginForSpace" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/label_statistic_scoreSpeedMode_amount"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/textSizeMedium"
+        android:layout_below="@+id/label_statistic_scoreHardcoreMode"
+        android:layout_toRightOf="@+id/label_statistic_scoreSpeedMode"
+        android:layout_marginLeft="@dimen/marginForSpace" />
+
 </RelativeLayout>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="teamfmg.hangman.SingleplayerMenu"
+    android:background="@drawable/purple"
+    android:id="@+id/relLayout_singleplayerMenu">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/text_header_singleplayerMenu"
+        android:id="@+id/text_header_singleplayerMenu"
+        android:textSize="@dimen/textSizeBig"
+        android:textColor="@color/color_white"
+        android:textIsSelectable="false"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/button_exit_singleplayerMenu" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_x"
+        android:id="@+id/button_exit_singleplayerMenu"
+        android:textStyle="bold"
+        android:textColor="@color/color_white"
+        android:onClick="onClick"
+        android:capitalize="characters"
+        android:background="@null"
+        android:gravity="center_vertical|center_horizontal"
+        android:minWidth="@dimen/textSizeDouble"
+        android:textSize="@dimen/textSizeBig"
+        android:minHeight="@dimen/textSizeDouble"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_singleplayerMenu_StandardMode"
+        android:id="@+id/button_singleplayerMenu_StandardMode"
+        android:layout_below="@+id/button_exit_singleplayerMenu"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/text_header_singleplayerMenu"
+        android:layout_marginTop="@dimen/marginToHeader"
+        android:textSize="@dimen/textSizeMedium"
+        android:minHeight="@dimen/button_height" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_information"
+        android:id="@+id/button_info_standardMode"
+        android:layout_alignTop="@+id/button_singleplayerMenu_StandardMode"
+        android:layout_toRightOf="@+id/button_singleplayerMenu_StandardMode"
+        android:layout_alignParentRight="true"
+        android:minWidth="@dimen/info_button_minWidth"
+        android:textSize="@dimen/textSizeMedium"
+        android:minHeight="@dimen/button_height" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_singleplayerMenu_CustomMode"
+        android:id="@+id/button_singleplayerMenu_CustomMode"
+        android:layout_below="@+id/button_singleplayerMenu_StandardMode"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/button_info_standardMode"
+        android:textSize="@dimen/textSizeMedium"
+        android:minHeight="@dimen/button_height" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_singleplayerMenu_HardcoreMode"
+        android:id="@+id/button_singleplayerMenu_HardcoreMode"
+        android:layout_below="@+id/button_singleplayerMenu_CustomMode"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/button_singleplayerMenu_SpeedMode"
+        android:textSize="@dimen/textSizeMedium"
+        android:minHeight="@dimen/button_height" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_singleplayerMenu_SpeedMode"
+        android:id="@+id/button_singleplayerMenu_SpeedMode"
+        android:layout_below="@+id/button_singleplayerMenu_HardcoreMode"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/button_info_HardcoreMode"
+        android:textSize="@dimen/textSizeMedium"
+        android:minHeight="@dimen/button_height" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_information"
+        android:id="@+id/button_info_customMode"
+        android:minWidth="@dimen/info_button_minWidth"
+        android:layout_below="@+id/button_singleplayerMenu_StandardMode"
+        android:layout_alignParentRight="true"
+        android:textSize="@dimen/textSizeMedium"
+        android:minHeight="@dimen/button_height" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_information"
+        android:id="@+id/button_info_HardcoreMode"
+        android:minWidth="@dimen/info_button_minWidth"
+        android:layout_alignTop="@+id/button_singleplayerMenu_HardcoreMode"
+        android:layout_alignParentRight="true"
+        android:textSize="@dimen/textSizeMedium"
+        android:minHeight="@dimen/button_height" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_information"
+        android:id="@+id/button_info_speedMode"
+        android:minWidth="@dimen/info_button_minWidth"
+        android:layout_alignBottom="@+id/button_singleplayerMenu_SpeedMode"
+        android:layout_alignParentRight="true"
+        android:textSize="@dimen/textSizeMedium"
+        android:minHeight="@dimen/button_height" />
+
+</RelativeLayout>

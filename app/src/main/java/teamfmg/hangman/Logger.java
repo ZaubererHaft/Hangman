@@ -2,6 +2,7 @@ package teamfmg.hangman;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
@@ -69,17 +70,11 @@ public final class Logger
         }
     }
 
-    public static void popupDialog (String word, String description, String category, Boolean won, Activity frame)
+    public static void popupDialogGameResult(String word, String description, String category, String title, Activity frame)
     {
         AlertDialog.Builder d = new AlertDialog.Builder(frame);
-        if (won)
-        {
-            d.setTitle(frame.getResources().getString(R.string.string_win));
-        }
-        else
-        {
-            d.setTitle(frame.getResources().getString(R.string.string_lose));
-        }
+        d.setTitle(title);
+
         if (description == null || description.length() == 0)
         {
             d.setMessage(frame.getResources().getString(R.string.string_Word) + ": " + word + "\n" +
@@ -94,5 +89,37 @@ public final class Logger
 
         d.setPositiveButton("Ok", null);
         d.create().show();
+    }
+
+    public static void messageDialog (String title, String message, Activity frame)
+    {
+        AlertDialog.Builder d = new AlertDialog.Builder(frame);
+        d.setTitle(title);
+        d.setMessage(message);
+        d.setPositiveButton("Ok", null);
+        d.create().show();
+    }
+
+    //Currently no funktion
+    public static boolean yesNoDialog (String message, Activity activity){
+
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+
+
+        return true;
     }
 }

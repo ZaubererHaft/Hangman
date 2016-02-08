@@ -59,6 +59,32 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * Temp value for database connect;
      */
     private int wrongLetters, correctLetters;
+    /**
+     * Enum for the available GameModes
+     */
+    public enum GameMode {STANDARD, CUSTOM, HARDCORE, SPEED};
+    /**
+     * The choosen Gamemode
+     */
+    public static GameMode gameMode;
+    /**
+     * the current score in Speed and Hardcore mode
+     */
+    private int score;
+    /**
+     * the name of the Package
+     */
+    private String pack;
+    /**
+     * Resources
+     */
+    private Resources res;
+    /**
+     * Amount of reseting Hangmanparts in Harcoremode.
+     */
+    final int resetingInHardcore = 3;
+
+    TextView scoreLabel;
 
 
     @Override
@@ -71,10 +97,34 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
         this.findViewById(R.id.singleplayer_back).setOnClickListener(this);
         this.initButtons();
+        pack = this.getPackageName();
+        res = this.getResources();
 
         this.label = (TextView) findViewById(R.id.text_askedWord);
+        TextView header = (TextView)findViewById(R.id.label_singleplayer_header);
+        scoreLabel = (TextView) findViewById(R.id.label_singleplayer_score);
+
+        String headerText = null;
+        switch (gameMode)
+        {
+            case STANDARD:
+                headerText = this.getResources().getString(R.string.button_singleplayerMenu_StandardMode);
+                break;
+            case CUSTOM:
+                headerText = this.getResources().getString(R.string.button_singleplayerMenu_CustomMode);
+                break;
+            case HARDCORE:
+                headerText = this.getResources().getString(R.string.button_singleplayerMenu_HardcoreMode);
+                break;
+            case SPEED:
+                headerText = this.getResources().getString(R.string.button_singleplayerMenu_SpeedMode);
+        }
+        header.setText(headerText);
 
         this.resetGame();
+        setHangman(0);
+        score = 0;
+        setCurrentScoreOnLable();
         this.changeBackground();
     }
 
@@ -118,8 +168,9 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         }
         else
         {
-            //db.raiseScore(DatabaseManager.Attribute.CORRECT_LETTER, 1);
             correctLetters++;
+            score++;
+            setCurrentScoreOnLable();
         }
         this.updateLabel();
     }
@@ -183,30 +234,77 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      */
     private void finishGame(boolean won)
     {
-        //TODO: Vorschlag: Win und Loose zusammenfügen, da nur ein Bool unterschiedlich ist
-        //TODO: No hardcoded string
+        String titleOfDialog;
 
-        Logger.popupDialog(this.currentWordObject.getWord(),
+        if (this.currentBuildOfHangman == 0)
+            titleOfDialog = getResources().getString(R.string.string_perfect);
+        else if (won)
+            titleOfDialog = getResources().getString(R.string.string_win);
+        else
+        titleOfDialog = getResources().getString(R.string.string_lose);
+
+        Logger.popupDialogGameResult(this.currentWordObject.getWord(),
                 this.currentWordObject.getDescription(),
                 this.currentWordObject.getCategory(),
-                won, this);
+                titleOfDialog, this);
 
+        //Special Hardcore Mode
+        if (!won && gameMode == GameMode.HARDCORE)
+        {
+            if (score > db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE)){
+                Logger.messageDialog(this.getResources().getString(R.string.string_newHighscore),
+                        this.getResources().getString(R.string.string_yourNewHighscore) + score + "\n"
+                                + this.getResources().getString(R.string.string_yourOldHighscore)
+                        + db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE), this);
+                db.updateStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, score);
+            }
+            else{
+                Logger.messageDialog(this.getResources().getString(R.string.string_lose),
+                        this.getResources().getString(R.string.string_yourCurrentScore) + score + "\n"
+                                + this.getResources().getString(R.string.string_yourHighscore)
+                        + db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE), this);
+            }
+            score = 0;
+            setCurrentScoreOnLable();
+            setHangman(0);
+        }
 
-        if (won)
+        //Special Hardcore Mode
+        if (won && gameMode == GameMode.HARDCORE)
         {
-            db.raiseScore(DatabaseManager.Attribute.WINS, 1);
-        }
-        else
-        {
-            db.raiseScore(DatabaseManager.Attribute.LOSES, 1);
-        }
-        if (this.currentBuildOfHangman == 0)
-        {
-            db.raiseScore(DatabaseManager.Attribute.PERFECTS, 1);
+            score = score + 10;
+            setCurrentScoreOnLable();
+            if (currentBuildOfHangman > resetingInHardcore)
+            {
+                currentBuildOfHangman = currentBuildOfHangman - resetingInHardcore;
+            }
+            else
+            {
+                currentBuildOfHangman = 0;
+            }
+            setHangman(currentBuildOfHangman);
+            loadNextImg();
         }
 
-        db.raiseScore(DatabaseManager.Attribute.WRONG_LETTER, wrongLetters);
-        db.raiseScore(DatabaseManager.Attribute.CORRECT_LETTER, correctLetters);
+        //Special Standard Mode
+        if (gameMode == GameMode.STANDARD)
+        {
+            if (won)
+            {
+                db.raiseStatistic(DatabaseManager.Attribute.WINS, 1);
+            }
+            else
+            {
+                db.raiseStatistic(DatabaseManager.Attribute.LOSES, 1);
+            }
+            if (this.currentBuildOfHangman == 0)
+            {
+                db.raiseStatistic(DatabaseManager.Attribute.PERFECTS, 1);
+            }
+
+            db.raiseStatistic(DatabaseManager.Attribute.WRONG_LETTER, wrongLetters);
+            db.raiseStatistic(DatabaseManager.Attribute.CORRECT_LETTER, correctLetters);
+        }
 
         this.resetGame();
     }
@@ -298,7 +396,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         this.currentBuildOfHangman++;
 
         //Makes that arms and legs appears together
-        if (this.currentBuildOfHangman == arms || this.currentBuildOfHangman == legs)
+        if (gameMode != GameMode.HARDCORE && (this.currentBuildOfHangman == arms || this.currentBuildOfHangman == legs))
         {
             this.currentBuildOfHangman++;
         }
@@ -321,9 +419,6 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     {
         if(!this.isLoading)
         {
-            final String pack = this.getPackageName();
-            final Resources res = this.getResources();
-
             Thread t = new Thread(new Runnable()
             {
                 int id = 0;
@@ -341,7 +436,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
                         id = res.getIdentifier
                                 ("hm_" + i, "drawable", pack);
                         nextDrawable = res.getDrawable(id);
-                        Logger.logOnly("Done!");
+                        Logger.logOnly("Done! Loaded hm_" + i);
                     }
                     catch (OutOfMemoryError ex)
                     {
@@ -355,20 +450,31 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         }
     }
 
+    private void setCurrentScoreOnLable()
+    {
+        if (gameMode == GameMode.CUSTOM || gameMode == GameMode.STANDARD){
+            scoreLabel.setText("");
+            return;
+        }
+        scoreLabel.setText(this.getResources().getText(R.string.string_score) + ": " + this.score);
+    }
+
     /**
      * Resets the Round
      * @since 0.5
      */
     private void resetGame()
     {
-        this.resetHangman();
-        currentWordObject = db.getRandomWord();
+        if (gameMode != GameMode.HARDCORE)
+        this.setHangman(0);
+
+        currentWordObject = db.getRandomWord(gameMode);
         wrongLetters = 0;
         correctLetters = 0;
 
         if(currentWordObject == null)
         {
-            Logger.write("An error with the database occurred. Please try reloading the categories!",this);
+            Logger.write(this.getResources().getText(R.string.error_reload_categories) ,this);
             this.finish();
             return;
         }
@@ -384,11 +490,12 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * resets the Hangman. No Part is build
      * @since 0.5
      */
-    private void resetHangman()
+    private void setHangman(int buildOfHangman)
     {
         ImageView iv = (ImageView) findViewById(R.id.image_hangman);
-        iv.setImageResource(R.drawable.hm_0);
-        this.currentBuildOfHangman = 0;
+        int id = res.getIdentifier("hm_" + buildOfHangman, "drawable", pack);
+        iv.setImageResource(id);
+        this.currentBuildOfHangman = buildOfHangman;
     }
 
 

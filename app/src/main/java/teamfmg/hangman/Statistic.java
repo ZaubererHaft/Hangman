@@ -24,6 +24,10 @@ public class Statistic extends Activity implements IApplyableSettings, View.OnCl
         Integer losses          = db.getCurrentStatistic(DatabaseManager.Attribute.LOSES);
         Integer correctLetters  = db.getCurrentStatistic(DatabaseManager.Attribute.CORRECT_LETTER);
         Integer wrongLetters    = db.getCurrentStatistic(DatabaseManager.Attribute.WRONG_LETTER);
+        Integer scoreStandardMode    = db.getCurrentStatistic(DatabaseManager.Attribute.SCORE);
+        Integer highscoreHardcore    = db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE);
+        Integer highscoreSpeedmode   = db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_SPEEDMODE);
+
 
         String[] texts=
         {
@@ -56,10 +60,19 @@ public class Statistic extends Activity implements IApplyableSettings, View.OnCl
         losesAmount.setText(losses.toString());
 
         TextView correctLettersAmount = (TextView)this.findViewById(R.id.label_statistic_correctLetters_amount);
-        correctLettersAmount.setText(" " + correctLetters);
+        correctLettersAmount.setText(correctLetters.toString());
 
         TextView wrongLettersAmount = (TextView)this.findViewById(R.id.label_statistic_wrongLetters_amount);
-        wrongLettersAmount.setText(" " + wrongLetters);
+        wrongLettersAmount.setText(wrongLetters.toString());
+
+        TextView scoreStandardModeAmount = (TextView)this.findViewById(R.id.label_statistic_scoreStandardMode_amount);
+        scoreStandardModeAmount.setText(scoreStandardMode.toString());
+
+        TextView highscoreHardcoreModeAmount = (TextView)this.findViewById(R.id.label_statistic_scoreHardcoreMode_amount);
+        highscoreHardcoreModeAmount.setText(highscoreHardcore.toString());
+
+        TextView highscoreSpeedModeAmount = (TextView)this.findViewById(R.id.label_statistic_scoreSpeedMode_amount);
+        highscoreSpeedModeAmount.setText(highscoreSpeedmode.toString());
 
         this.changeBackground();
 

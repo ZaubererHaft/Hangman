@@ -8,14 +8,27 @@
     tools:context=".Singleplayer"
     android:id="@+id/relLayout_singleplayer">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Header"
+        android:id="@+id/label_singleplayer_header"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/textSizeBig"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/singleplayer_back"
+        android:layout_alignParentLeft="true" />
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/image_hangman"
         android:adjustViewBounds="true"
         android:scaleType="fitStart"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="@dimen/marginToHeader" />
+        android:layout_alignParentTop="false"
+        android:layout_marginTop="@dimen/marginToHeader"
+        android:layout_below="@+id/label_singleplayer_header" />
 
     <TextView
         android:layout_width="match_parent"
@@ -34,7 +47,8 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:id="@+id/linearLayout">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -310,5 +324,17 @@
         android:minHeight="@dimen/textSizeDouble"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Score:"
+        android:id="@+id/label_singleplayer_score"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignParentLeft="true"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/textSizeSmall"
+        android:layout_marginBottom="@dimen/marginForSpace" />
 
 </RelativeLayout>

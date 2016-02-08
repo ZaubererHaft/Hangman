@@ -222,7 +222,7 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
             case "test":
                 newName = res.getString(R.string.categoryName_test);
                 break;
-            case "ownWord":
+            case "ownwords":
                 newName = res.getString(R.string.categoryName_ownWord);
                 break;
             default:

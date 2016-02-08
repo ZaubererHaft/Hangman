@@ -11,4 +11,5 @@
     <dimen name="textSizeDouble">40dp</dimen>
     <dimen name="AddWord">100dp</dimen>
     <dimen name="marginForSpace">10dp</dimen>
+    <dimen name="info_button_minWidth">40dp</dimen>
 </resources>

@@ -112,6 +112,7 @@
 
     <string name="string_win">You win!</string>
     <string name="string_lose">You lose!</string>
+    <string name="string_perfect">PERFECT!</string>
     <string name="string_Category">Category</string>
     <string name="string_Word">Word</string>
     <string name="string_Description">Description</string>
@@ -132,5 +133,29 @@
     <string name="Account_label_logged_in">Logged in as:</string>
     <string name="label_current_User">NULL</string>
     <string name="changePassword_button">Change Password</string>
+
+    <string name="text_header_multiplayer">Multiplayer</string>
+    <string name="text_header_bluetooth">Multiplayer - Bluetooth</string>
+    <string name="text_header_singleplayerMenu">Singleplayer</string>
+    <string name="button_information">i</string>
+    <string name="button_singleplayerMenu_StandardMode">Standard Mode</string>
+    <string name="button_singleplayerMenu_CustomMode">Custom Mode</string>
+    <string name="button_singleplayerMenu_HardcoreMode">Hardcore Mode</string>
+    <string name="button_singleplayerMenu_SpeedMode">Speed Mode</string>
+    <string name="message_singleplayerMenu_info_StandardMode">Statistics are Enabled. All categories are used without your own words.</string>
+    <string name="message_singleplayerMenu_info_CustomMode">Statistics are Disabled. You can choose the categories in Options -> Categorys.</string>
+    <string name="message_singleplayerMenu_info_HardcoreMode">This Mode will be realy hard. The Hangman does not reset after solving a word. Solve as many Letters and Words to raise your Score! Reach the best Highscore to lead the scoreboard!</string>
+    <string name="message_singleplayerMenu_info_SpeedMode">(COMING SOON) Fight against the Time. You start with 120 Seconds and gain 5 more for each correct letter, but loose 20 for reaching an full Hangman. If You solve an Word your score rises!</string>
+    <string name="string_score">Score</string>
+    <string name="error_reload_categories">An error with the database occurred. Please try reloading the categories!</string>
+    <string name="string_newHighscore">NEW HIGHSCORE!</string>
+    <string name="string_yourNewHighscore">New Highscore: </string>
+    <string name="string_yourOldHighscore">Old Highscore: </string>
+    <string name="string_yourHighscore">Your Highscore: </string>
+    <string name="string_yourCurrentScore">Current Score: </string>
+    <string name="label_statistic_scoreStandardMode">Score Standard Mode:</string>
+    <string name="label_statistic_scoreHardcoreMode">Highscore Hardcore Mode:</string>
+    <string name="label_statistic_scoreSpeedMode">Highscore Speed Mode:</string>
+
 
 </resources>

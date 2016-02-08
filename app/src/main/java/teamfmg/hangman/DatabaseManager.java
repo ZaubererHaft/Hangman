@@ -63,7 +63,7 @@ public class DatabaseManager extends Thread
     /**
      * Attribute to choose statistics.
      */
-    public enum Attribute {SCORE, WINS, LOSES, PERFECTS, CORRECT_LETTER, WRONG_LETTER}
+    public enum Attribute {SCORE, HIGHSCORE_HARDCORE, HIGHSCORE_SPEEDMODE, WINS, LOSES, PERFECTS, CORRECT_LETTER, WRONG_LETTER}
     /**
      * The connection. Represents the status to the online DB.
      */
@@ -384,7 +384,7 @@ public class DatabaseManager extends Thread
      * @param amount Value which will be added
      * @since 1.1
      */
-    public void raiseScore (Attribute attribut, int amount){
+    public void raiseStatistic(Attribute attribut, int amount){
 
         String attributName = getAttributName(attribut);
 
@@ -393,6 +393,15 @@ public class DatabaseManager extends Thread
 
         useCommand(cmd, true);
 
+    }
+
+    public void updateStatistic(Attribute attribut, int value){
+        String attributName = getAttributName(attribut);
+
+        String cmd = "UPDATE " + TABLE_USERS_NAME + " SET " + attributName + " = " + value +
+                " WHERE username LIKE '" + LoginMenu.getCurrentUser().getName() + "';";
+
+        useCommand(cmd, true);
     }
 
     /**
@@ -405,10 +414,19 @@ public class DatabaseManager extends Thread
     {
         //convert attribut for the using in the DB
         String attributName = getAttributName(attribut);
+        String query;
 
-        //DB Command for get the wish-value
-        String query = "SELECT " + attributName + " FROM " + TABLE_USERS_NAME + " WHERE username LIKE '"
-                + LoginMenu.getCurrentUser().getName() + "';";
+        if (attribut == Attribute.SCORE)
+        {
+            query = "SELECT ((wins + (perfects * 4) - loses)*10 + correctLetters - wrongletters)" +
+                    " AS 'score' FROM  users WHERE username LIKE '" + LoginMenu.getCurrentUser().getName() + "';";
+        }
+        else
+        {
+            //DB Command for get the wish-value
+            query = "SELECT " + attributName + " FROM " + TABLE_USERS_NAME + " WHERE username LIKE '"
+                    + LoginMenu.getCurrentUser().getName() + "';";
+        }
 
         this.useCommand(query, false);
 
@@ -460,6 +478,11 @@ public class DatabaseManager extends Thread
             case PERFECTS:
                 attributName = "perfects";
                 break;
+            case HIGHSCORE_HARDCORE:
+                attributName = "highscoreHardcore";
+                break;
+            case HIGHSCORE_SPEEDMODE:
+                attributName = "highscoreSpeedmode";
         }
 
         return attributName;
@@ -596,7 +619,7 @@ public class DatabaseManager extends Thread
      * @return String
      * @since 0.7
      */
-    public Word getRandomWord()
+    public Word getRandomWord(Singleplayer.GameMode gameMode)
     {
 
         if(!this.isOnline())
@@ -604,26 +627,30 @@ public class DatabaseManager extends Thread
             return this.od.getRandomWord();
         }
 
-        List <String> categories = Settings.getCategories();
         String query = "SELECT word, category, description FROM " + TABLE_WORDS;
 
-        for (int i = 0; i < categories.size(); i++)
+        if (gameMode == Singleplayer.GameMode.CUSTOM)
         {
-            //overwrite query if there are categories.
-            if (i == 0)
+            List <String> categories = Settings.getCategories();
+
+            for (int i = 0; i < categories.size(); i++)
             {
-                query = query + " WHERE category LIKE '" + categories.get(i) + "'";
-                continue;
+                //overwrite query if there are categories.
+                if (i == 0)
+                {
+                    query = query + " WHERE category LIKE '" + categories.get(i) + "'";
+                    continue;
+                }
+                query = query + " OR category LIKE '" + categories.get(i) + "'";
             }
-            query = query + " OR category LIKE '" + categories.get(i) + "'";
+
+            query += " UNION SELECT word,'ownwords' AS category, description " +
+                    "FROM  userwords " +
+                    "INNER JOIN customwords ON customwords.wordID = userwords.wordID " +
+                    "WHERE '" + LoginMenu.getCurrentUser().getId() + "' = userID";
+
         }
-
-
-        query += " UNION SELECT word,'ownwords' AS category, description "+
-        "FROM  userwords "+
-        "INNER JOIN customwords ON customwords.wordID = userwords.wordID "+
-        "WHERE '" + LoginMenu.getCurrentUser().getId()+ "' = userID " +
-                "ORDER BY RAND() LIMIT 1;";
+        query += " ORDER BY RAND() LIMIT 1;";
 
         //execute queries.
         this.useCommand(query, false);
