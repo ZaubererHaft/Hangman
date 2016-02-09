@@ -35,6 +35,7 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
         this.findViewById(R.id.account_change_pw).setOnClickListener(this);
         this.findViewById(R.id.account_close).setOnClickListener(this);
         this.findViewById(R.id.account_logout).setOnClickListener(this);
+        this.findViewById(R.id.button_accountMenu_Scoreboard).setOnClickListener(this);
 
         ((TextView)this.findViewById(R.id.label_current_User)).setText(LoginMenu.getCurrentUser().getName());
 
@@ -118,6 +119,11 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
                 }
 
             break;
+
+            case R.id.button_accountMenu_Scoreboard:
+                i = new Intent(this, Scoreboard.class);
+                this.startActivity(i);
+                break;
         }
     }
 

@@ -156,6 +156,8 @@
     <string name="label_statistic_scoreStandardMode">Score Standard Mode:</string>
     <string name="label_statistic_scoreHardcoreMode">Highscore Hardcore Mode:</string>
     <string name="label_statistic_scoreSpeedMode">Highscore Speed Mode:</string>
+    <string name="label_scoreboard_header">Scoreboard</string>
+    <string name="button_accountMenu_Scoreboard">Scoreboard</string>
 
 
 </resources>

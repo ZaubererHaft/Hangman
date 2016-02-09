@@ -45,5 +45,7 @@
         android:layout_below="@+id/achievements_close"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="@dimen/marginToHeader"
-        android:id="@+id/achievements_subLayout"></RelativeLayout>
+        android:id="@+id/achievements_subLayout">
+
+    </RelativeLayout>
 </RelativeLayout>

@@ -77,6 +77,7 @@ public class SingleplayerMenu extends Activity implements IApplyableSettings, Vi
                         this.getResources().getString(R.string.message_singleplayerMenu_info_HardcoreMode), this);
                 break;
 
+            //Speedmode
             case R.id.button_info_speedMode:
                 Logger.messageDialog(this.getResources().getString(R.string.button_singleplayerMenu_SpeedMode),
                         this.getResources().getString(R.string.message_singleplayerMenu_info_SpeedMode), this);

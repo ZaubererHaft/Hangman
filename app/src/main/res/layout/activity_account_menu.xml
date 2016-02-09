@@ -100,4 +100,14 @@
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/Account_label_logged_in"
         android:layout_marginLeft="@dimen/marginForSpace" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_accountMenu_Scoreboard"
+        android:id="@+id/button_accountMenu_Scoreboard"
+        android:textSize="20sp"
+        android:minHeight="@dimen/button_height"
+        android:layout_below="@+id/account_logout"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

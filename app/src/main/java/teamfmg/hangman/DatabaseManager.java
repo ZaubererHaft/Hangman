@@ -449,6 +449,65 @@ public class DatabaseManager extends Thread
         return 0;
     }
 
+    public List<String[]> getHardcoreScoreboard ()
+    {
+        return getScoreboard("highscoreHardcore");
+    }
+
+    public List<String[]> getSpeedModeScoreboard ()
+    {
+        return getScoreboard("highscoreSpeedmode");
+    }
+
+    public List<String[]> getStandardScoreboard ()
+    {
+        return getScoreboard("highscoreStandard");
+    }
+
+
+
+    private List<String[]> getScoreboard(String colomnName){
+        String query;
+
+        if (colomnName.equals("highscoreStandard"))
+        {
+            query = "SELECT username, ((wins + (perfects * 4) - loses)*10 + correctLetters - wrongletters) " +
+                    "AS 'score' FROM  users ORDER BY score DESC";
+        }
+        else
+        {
+            query = "SELECT username, " + colomnName + " FROM users ORDER BY " + colomnName + " DESC;";
+        }
+
+        this.useCommand(query, false);
+
+        List<String[]> list = new ArrayList<>();
+
+        try
+        {
+            if(this.res != null)
+            {
+                while (this.res.next()){
+                    String[] innerList = new String[2];
+                    innerList[0] = this.res.getString(1);
+                    innerList[1] = ((Integer)this.res.getInt(2)).toString();
+                    list.add(innerList);
+                }
+                return list;
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.write(ex,this.activity);
+            ex.printStackTrace();
+        }
+        finally
+        {
+            this.closeConnection();
+        }
+        return null;
+    }
+
     /**
      * Convert the Enum to an String. This String is the correct name of the Attribut in the Database
      * @param attribut Attribut which will get converted

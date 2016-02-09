@@ -89,6 +89,12 @@
         <activity
             android:name=".SingleplayerMenu"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".Scoreboard"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ScoreboardTab"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
