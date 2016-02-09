@@ -251,18 +251,18 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         //Special Hardcore Mode
         if (!won && gameMode == GameMode.HARDCORE)
         {
-            if (score > db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE)){
+            if (score > db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, LoginMenu.getCurrentUser().getName())){
                 Logger.messageDialog(this.getResources().getString(R.string.string_newHighscore),
                         this.getResources().getString(R.string.string_yourNewHighscore) + score + "\n"
                                 + this.getResources().getString(R.string.string_yourOldHighscore)
-                        + db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE), this);
+                        + db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, LoginMenu.getCurrentUser().getName()), this);
                 db.updateStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, score);
             }
             else{
                 Logger.messageDialog(this.getResources().getString(R.string.string_lose),
                         this.getResources().getString(R.string.string_yourCurrentScore) + score + "\n"
                                 + this.getResources().getString(R.string.string_yourHighscore)
-                        + db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE), this);
+                        + db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, LoginMenu.getCurrentUser().getName()), this);
             }
             score = 0;
             setCurrentScoreOnLable();

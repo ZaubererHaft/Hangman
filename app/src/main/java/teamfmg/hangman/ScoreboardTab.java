@@ -1,6 +1,7 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,17 +76,16 @@ public class ScoreboardTab extends Activity implements View.OnClickListener, IAp
         if (bold)
         {
             child = inflater.inflate(R.layout.new_scoreboard_element_bold, null, false);
-            ((TextView)child.findViewById(R.id.scoreboardElement_Rank_bold)).setText(String.valueOf(rank));
-            ((TextView)child.findViewById(R.id.scoreboardElement_Username_bold)).setText(name);
-            ((TextView)child.findViewById(R.id.scoreboardElement_Score_bold)).setText(score);
+
         }
         else
         {
             child = inflater.inflate(R.layout.new_scoreboard_element, null, false);
-            ((TextView)child.findViewById(R.id.scoreboardElement_Rank)).setText(String.valueOf(rank));
-            ((TextView)child.findViewById(R.id.scoreboardElement_Username)).setText(name);
-            ((TextView)child.findViewById(R.id.scoreboardElement_Score)).setText(score);
+
         }
+        ((TextView)child.findViewById(R.id.scoreboardElement_Rank)).setText(String.valueOf(rank));
+        ((TextView)child.findViewById(R.id.scoreboardElement_Username)).setText(name);
+        ((TextView)child.findViewById(R.id.scoreboardElement_Score)).setText(score);
 
 
         child.setOnClickListener(this);
@@ -109,7 +109,9 @@ public class ScoreboardTab extends Activity implements View.OnClickListener, IAp
             break;
             
             default:
-                Logger.write("Currently no funktion!", this);
+                Intent i = new Intent(this, Statistic.class);
+                i.putExtra("othersStatistic", ((TextView)v.findViewById(R.id.scoreboardElement_Username)).getText());
+                this.startActivity(i);
             break;
         }
     }

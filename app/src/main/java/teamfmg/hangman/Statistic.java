@@ -1,6 +1,7 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -18,15 +19,25 @@ public class Statistic extends Activity implements IApplyableSettings, View.OnCl
         setContentView(R.layout.activity_statistic);
 
         db.setActivity(this);
+        String username = LoginMenu.getCurrentUser().getName();
 
-        Integer wins            = db.getCurrentStatistic(DatabaseManager.Attribute.WINS);
-        Integer perfects        = db.getCurrentStatistic(DatabaseManager.Attribute.PERFECTS);
-        Integer losses          = db.getCurrentStatistic(DatabaseManager.Attribute.LOSES);
-        Integer correctLetters  = db.getCurrentStatistic(DatabaseManager.Attribute.CORRECT_LETTER);
-        Integer wrongLetters    = db.getCurrentStatistic(DatabaseManager.Attribute.WRONG_LETTER);
-        Integer scoreStandardMode    = db.getCurrentStatistic(DatabaseManager.Attribute.SCORE);
-        Integer highscoreHardcore    = db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE);
-        Integer highscoreSpeedmode   = db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_SPEEDMODE);
+        if (getIntent().hasExtra("othersStatistic")){
+            Bundle extra = getIntent().getExtras();
+            TextView header = (TextView)findViewById(R.id.label_statistic_header);
+            header.setText(header.getText() + " by " + extra.getString("othersStatistic"));
+            username = extra.getString("othersStatistic");
+        }
+
+        Integer wins            = db.getCurrentStatistic(DatabaseManager.Attribute.WINS, username);
+        Integer perfects        = db.getCurrentStatistic(DatabaseManager.Attribute.PERFECTS, username);
+        Integer losses          = db.getCurrentStatistic(DatabaseManager.Attribute.LOSES, username);
+        Integer correctLetters  = db.getCurrentStatistic(DatabaseManager.Attribute.CORRECT_LETTER, username);
+        Integer wrongLetters    = db.getCurrentStatistic(DatabaseManager.Attribute.WRONG_LETTER, username);
+        Integer scoreStandardMode    = db.getCurrentStatistic(DatabaseManager.Attribute.SCORE, username);
+        Integer highscoreHardcore    = db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, username);
+        Integer highscoreSpeedmode   = db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_SPEEDMODE, username);
+
+
 
 
         String[] texts=

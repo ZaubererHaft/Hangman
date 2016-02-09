@@ -410,7 +410,7 @@ public class DatabaseManager extends Thread
      * @return Value of the attribut for the current User
      * @since 1.1
      */
-    public int getCurrentStatistic (Attribute attribut)
+    public int getCurrentStatistic (Attribute attribut, String username)
     {
         //convert attribut for the using in the DB
         String attributName = getAttributName(attribut);
@@ -419,13 +419,13 @@ public class DatabaseManager extends Thread
         if (attribut == Attribute.SCORE)
         {
             query = "SELECT ((wins + (perfects * 4) - loses)*10 + correctLetters - wrongletters)" +
-                    " AS 'score' FROM  users WHERE username LIKE '" + LoginMenu.getCurrentUser().getName() + "';";
+                    " AS 'score' FROM  users WHERE username LIKE '" + username + "';";
         }
         else
         {
             //DB Command for get the wish-value
             query = "SELECT " + attributName + " FROM " + TABLE_USERS_NAME + " WHERE username LIKE '"
-                    + LoginMenu.getCurrentUser().getName() + "';";
+                    + username + "';";
         }
 
         this.useCommand(query, false);

@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/label_statistic_hadder"
-        android:id="@+id/label_statistic_hadder"
+        android:id="@+id/label_statistic_header"
         android:textColor="@color/color_white"
         android:textIsSelectable="false"
         android:textSize="@dimen/textSizeBig"
