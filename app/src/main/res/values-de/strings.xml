@@ -76,6 +76,10 @@
     <string name="categoryName_animals">Tiere</string>
     <string name="categoryName_ownWord">Eigene Wörter</string>
     <string name="categoryName_test">Test Daten</string>
+    <string name="categoryName_spices">Gewürze</string>
+    <string name="categoryName_nuts">Nüsse</string>
+    <string name="categoryName_vegetables">Gemüße und Obst</string>
+
     <string name="title_activity_music_menu">MusicMenu</string>
     <string name="options_music_header">Hangman - Musik</string>
     <string name="options_music_mute">Ton aus</string>

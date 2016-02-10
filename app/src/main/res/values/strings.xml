@@ -78,6 +78,10 @@
     <string name="categoryName_animals">Animals</string>
     <string name="categoryName_ownWord">Own Words</string>
     <string name="categoryName_test">Test Data</string>
+    <string name="categoryName_spices">Spices</string>
+    <string name="categoryName_nuts">Nuts</string>
+    <string name="categoryName_vegetables">Vegetables</string>
+
     <string name="title_activity_music_menu">MusicMenu</string>
     <string name="options_music_header">Hangman - Music</string>
     <string name="options_music_mute">Mute</string>

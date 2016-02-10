@@ -405,6 +405,77 @@ public class DatabaseManager extends Thread
         }
     }
 
+
+    /**
+     * Loads all words from the *.csv to the data base.
+     * @since 0.5
+     */
+    /*public void loadWords()
+    {
+
+        Logger.logOnly(R.string.hint_loading);
+
+        //Get all files in raw directory
+        Field[] fields = R.raw.class.getFields();
+
+        for (Field field : fields)
+        {
+            int id = this.activity.getResources().getIdentifier(
+                    field.getName(), "raw", this.activity.getPackageName());
+
+            InputStream in = this.activity.getResources().openRawResource(id);
+
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(in),8192);
+
+            String line;
+
+            int amount = 0;
+
+            while(true)
+            {
+                try
+                {
+                    line = buffer.readLine();
+
+                    if(line == null)
+                    {
+                        Logger.logOnly(field.toString()+": Data loaded: " +amount);
+                        break;
+                    }
+                    ++amount;
+                    String[] list = line.split(";");
+
+                    String createTableStatement;
+
+                    if(list.length == 2)
+                    {
+                        createTableStatement =
+                                "INSERT INTO " + TABLE_WORDS + " (word,category) " +
+                                        " VALUES(\"" + list[0] + "\", \"" + list[1] + "\");";
+                    }
+                    else
+                    {
+                        createTableStatement =
+                                "INSERT INTO " + TABLE_WORDS + " (word,category,description) " +
+                                        " VALUES(\"" + list[0] + "\", \"" + list[1] + "\",\"" + list[2] + "\");";
+                    }
+
+                    this.useCommand(createTableStatement, true);
+                }
+
+                catch (IOException ex)
+                {
+                    ex.printStackTrace();
+                    Logger.logOnly(ex.getMessage());
+                }
+                finally
+                {
+                    this.closeConnection();
+                }
+            }
+        }
+    }*/
+
     /**
      * Changes the password.
      * @param newPW The new password.
