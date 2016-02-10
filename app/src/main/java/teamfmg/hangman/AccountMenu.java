@@ -50,6 +50,7 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
             this.findViewById(R.id.account_statistic).setEnabled(false);
             this.findViewById(R.id.account_achievments).setEnabled(false);
             this.findViewById(R.id.account_change_pw).setEnabled(false);
+            this.findViewById(R.id.button_accountMenu_Scoreboard).setEnabled(false);
         }
     }
 
@@ -66,8 +67,6 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
     {
         int curVersion = android.os.Build.VERSION.SDK_INT;
         Intent i;
-
-
 
 
         switch (v.getId())

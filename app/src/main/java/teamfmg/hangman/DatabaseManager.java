@@ -325,10 +325,10 @@ public class DatabaseManager extends Thread
     public void addUser (User u) throws SQLiteException
     {
 
-        String cmd = "INSERT INTO "+ TABLE_USERS_NAME + " VALUES ( DEFAULT,'"+
+        String cmd = "INSERT INTO "+ TABLE_USERS_NAME + "(username, password, mail) VALUES ('"+
                 u.getName() + "','"+
                 u.getPassword() + "','"+
-                u.getMail()+"',0,0,0,0,0,0);";
+                u.getMail()+"');";
 
         this.useCommand(cmd, true);
     }
