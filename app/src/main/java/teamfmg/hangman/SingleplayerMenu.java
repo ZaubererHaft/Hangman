@@ -13,7 +13,7 @@ public class SingleplayerMenu extends Activity implements IApplyableSettings, Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_singleplayer_menu);
         changeBackground();
-
+        DatabaseManager db = DatabaseManager.getInstance();
         //ClickListener
         findViewById(R.id.button_singleplayerMenu_StandardMode).setOnClickListener(this);
         findViewById(R.id.button_singleplayerMenu_CustomMode).setOnClickListener(this);
@@ -24,6 +24,12 @@ public class SingleplayerMenu extends Activity implements IApplyableSettings, Vi
         findViewById(R.id.button_info_HardcoreMode).setOnClickListener(this);
         findViewById(R.id.button_info_speedMode).setOnClickListener(this);
         findViewById(R.id.button_exit_singleplayerMenu).setOnClickListener(this);
+
+        if (!db.isOnline()){
+            findViewById(R.id.button_singleplayerMenu_StandardMode).setEnabled(false);
+            findViewById(R.id.button_singleplayerMenu_HardcoreMode).setEnabled(false);
+            findViewById(R.id.button_singleplayerMenu_SpeedMode).setEnabled(false);
+        }
     }
 
     @Override
