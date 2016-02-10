@@ -1,6 +1,8 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Point;
 import android.view.Display;
 import android.widget.RelativeLayout;
@@ -78,6 +80,17 @@ public final class Settings
         Settings.categories = categories;
     }
 
+    /**
+     * Detects whether program is running on a large screen.
+     * @param context Activity context.
+     * @return boolean
+     */
+    public static boolean isTablet(Context context)
+    {
+        return (context.getResources().getConfiguration().screenLayout
+                & Configuration.SCREENLAYOUT_SIZE_MASK)
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
 
     /**
      * Gets the color theme of the game.

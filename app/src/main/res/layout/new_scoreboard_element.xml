@@ -22,9 +22,12 @@
         android:text="Username"
         android:id="@+id/scoreboardElement_Username"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:textColor="@color/color_white"
-        android:textSize="@dimen/textSizeMedium" />
+        android:textSize="@dimen/textSizeMedium"
+        android:layout_toRightOf="@+id/scoreboardElement_Rank"
+        android:layout_toLeftOf="@+id/scoreboardElement_Score"
+        android:gravity="center|left"
+        android:layout_marginLeft="@dimen/marginForSpace" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -35,5 +38,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:textColor="@color/color_white"
-        android:textSize="@dimen/textSizeMedium" />
+        android:textSize="@dimen/textSizeMedium"
+        android:minWidth="@dimen/AddWord"
+        android:gravity="right" />
 </RelativeLayout>

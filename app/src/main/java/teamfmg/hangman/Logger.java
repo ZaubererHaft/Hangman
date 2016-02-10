@@ -38,6 +38,10 @@ public final class Logger
     {
         Log.e("ERROR", obj.toString());
     }
+    public static void logOnlyWarning(Object obj)
+    {
+        Log.w("WARNING", obj.toString());
+    }
 
     /**
      * Only writing to logcat.

@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:text="@string/label_statistic_hadder"
         android:id="@+id/account_statistic"
-        android:textSize="20sp"
+        android:textSize="@dimen/textSizeMedium"
         android:minHeight="@dimen/button_height"
         android:layout_alignParentRight="true"
         android:layout_marginTop="@dimen/marginToHeader"
@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:text="@string/account_change_pw"
         android:id="@+id/account_change_pw"
-        android:textSize="20sp"
+        android:textSize="@dimen/textSizeMedium"
         android:minHeight="@dimen/button_height"
         android:layout_below="@+id/account_achievments"
         android:layout_alignParentRight="true" />
@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:text="@string/account_achievements"
         android:id="@+id/account_achievments"
-        android:textSize="20sp"
+        android:textSize="@dimen/textSizeMedium"
         android:minHeight="@dimen/button_height"
         android:layout_below="@+id/account_statistic"
         android:layout_alignParentLeft="true" />
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:text="@string/account_logout"
         android:id="@+id/account_logout"
-        android:textSize="20sp"
+        android:textSize="@dimen/textSizeMedium"
         android:minHeight="@dimen/button_height"
         android:layout_below="@+id/account_change_pw"
         android:layout_alignParentLeft="true" />
@@ -106,7 +106,7 @@
         android:layout_height="wrap_content"
         android:text="@string/button_accountMenu_Scoreboard"
         android:id="@+id/button_accountMenu_Scoreboard"
-        android:textSize="20sp"
+        android:textSize="@dimen/textSizeMedium"
         android:minHeight="@dimen/button_height"
         android:layout_below="@+id/account_logout"
         android:layout_centerHorizontal="true" />

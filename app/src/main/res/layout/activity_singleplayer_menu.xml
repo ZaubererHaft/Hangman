@@ -82,9 +82,9 @@
         android:id="@+id/button_singleplayerMenu_HardcoreMode"
         android:layout_below="@+id/button_singleplayerMenu_CustomMode"
         android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/button_singleplayerMenu_SpeedMode"
         android:textSize="@dimen/textSizeMedium"
-        android:minHeight="@dimen/button_height" />
+        android:minHeight="@dimen/button_height"
+        android:layout_alignRight="@+id/button_singleplayerMenu_CustomMode" />
 
     <Button
         android:layout_width="wrap_content"
@@ -106,7 +106,8 @@
         android:layout_below="@+id/button_singleplayerMenu_StandardMode"
         android:layout_alignParentRight="true"
         android:textSize="@dimen/textSizeMedium"
-        android:minHeight="@dimen/button_height" />
+        android:minHeight="@dimen/button_height"
+        android:layout_toRightOf="@+id/button_singleplayerMenu_CustomMode" />
 
     <Button
         android:layout_width="wrap_content"

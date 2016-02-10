@@ -62,7 +62,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     /**
      * Enum for the available GameModes
      */
-    public enum GameMode {STANDARD, CUSTOM, HARDCORE, SPEED};
+    public enum GameMode {STANDARD, CUSTOM, HARDCORE, SPEED}
     /**
      * The choosen Gamemode
      */
@@ -465,14 +465,14 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      */
     private void resetGame()
     {
-        if (gameMode != GameMode.HARDCORE)
+        if (this.gameMode != GameMode.HARDCORE)
         this.setHangman(0);
 
-        currentWordObject = db.getRandomWord(gameMode);
-        wrongLetters = 0;
-        correctLetters = 0;
+        this.currentWordObject = this.db.getRandomWord(gameMode);
+        this.wrongLetters = 0;
+        this.correctLetters = 0;
 
-        if(currentWordObject == null)
+        if(this.currentWordObject == null)
         {
             Logger.write(this.getResources().getText(R.string.error_reload_categories) ,this);
             this.finish();

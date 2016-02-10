@@ -22,11 +22,11 @@ import java.util.List;
 
 /**
  * <u><h1>Class to handle database connections.</h1></u><br />
- * Using <b>JDBC</b>, this class has implement all SQL statements directly in the code as well as data to
+ * Using <b>JDBC</b>, this class has implemented all SQL statements directly in the code as well as data to
  * connect.<br />
  * As using {@link ResultSet}, this class is designed as a Singleton using getInstance().
  * <br />
- * Be aware to set setInstance() to set the right activity context.<br /><br />
+ * Be aware to set set the right activity context with setActivity().<br /><br />
  * Created by Ludwig on 1/27/16.
  * @since 0.1
  */
@@ -864,6 +864,9 @@ public class DatabaseManager extends Thread
             this.getWritableDatabase();
         }
 
+        /**
+         * TODO: Implement.
+         */
         public void synchDatabases()
         {
 
@@ -934,19 +937,37 @@ public class DatabaseManager extends Thread
                     String query = "SELECT * FROM words;";
                     DatabaseManager.this.useCommand(query, false);
 
+
+                    /**
+                     * For threading reasons we need a second ResultSet
+                     */
+                    DatabaseManager.this.connect();
+                    ResultSet res2 = null;
+
+                    if(DatabaseManager.this.isOnline())
+                    {
+                        try
+                        {
+                            res2 = statement.executeQuery(query);
+                        }
+                        catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
                     try
                     {
-                        if (DatabaseManager.this.res != null)
+                        if (res2 != null)
                         {
-                            while (DatabaseManager.this.res.next())
+                            while (res2.next())
                             {
                                 OfflineDatabase.this.addWord
                                 (
                                     new Word
                                     (
-                                        DatabaseManager.this.res.getString(1),
-                                        DatabaseManager.this.res.getString(2),
-                                        DatabaseManager.this.res.getString(3)
+                                        res2.getString(1),
+                                        res2.getString(2),
+                                        res2.getString(3)
                                     )
                                 );
                             }
@@ -963,6 +984,7 @@ public class DatabaseManager extends Thread
                         DatabaseManager.this.closeConnection();
                     }
 
+                    //dont try loading a null user.
                     if(LoginMenu.getCurrentUser() == null)
                     {
                         return;

@@ -2,6 +2,7 @@ package teamfmg.hangman;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ScoreboardTab extends Activity implements View.OnClickListener, IApplyableSettings{
@@ -70,22 +70,23 @@ public class ScoreboardTab extends Activity implements View.OnClickListener, IAp
 
         LayoutInflater inflater = (LayoutInflater)this.getSystemService(LAYOUT_INFLATER_SERVICE);
 
-        View child;
+        View child = inflater.inflate(R.layout.new_scoreboard_element, null, false);
+
+        ((TextView)child.findViewById(R.id.scoreboardElement_Rank)).setText(String.valueOf(rank));
+        ((TextView)child.findViewById(R.id.scoreboardElement_Username)).setText(name);
+        ((TextView)child.findViewById(R.id.scoreboardElement_Score)).setText(score);
 
 
         if (bold)
         {
-            child = inflater.inflate(R.layout.new_scoreboard_element_bold, null, false);
-
+            ((TextView)child.findViewById(R.id.scoreboardElement_Rank)).
+                    setTypeface(((TextView) child.findViewById(R.id.scoreboardElement_Rank)).getTypeface(), Typeface.BOLD);
+            ((TextView)child.findViewById(R.id.scoreboardElement_Username)).
+                    setTypeface(((TextView) child.findViewById(R.id.scoreboardElement_Username)).getTypeface(), Typeface.BOLD);
+            ((TextView)child.findViewById(R.id.scoreboardElement_Score)).
+                    setTypeface(((TextView) child.findViewById(R.id.scoreboardElement_Score)).getTypeface(), Typeface.BOLD);
         }
-        else
-        {
-            child = inflater.inflate(R.layout.new_scoreboard_element, null, false);
 
-        }
-        ((TextView)child.findViewById(R.id.scoreboardElement_Rank)).setText(String.valueOf(rank));
-        ((TextView)child.findViewById(R.id.scoreboardElement_Username)).setText(name);
-        ((TextView)child.findViewById(R.id.scoreboardElement_Score)).setText(score);
 
 
         child.setOnClickListener(this);
