@@ -18,7 +18,8 @@
         android:icon="@mipmap/hangman_logo"
         android:label="@string/app_name"
         android:screenOrientation="portrait"
-        android:theme="@android:style/Theme.Light.NoTitleBar" >
+        android:theme="@android:style/Theme.Light.NoTitleBar"
+        android:largeHeap="true">
         <activity
             android:name=".LoginMenu"
             android:label="@string/app_name"
