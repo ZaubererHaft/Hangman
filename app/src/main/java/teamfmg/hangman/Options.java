@@ -14,6 +14,8 @@ import android.widget.RelativeLayout;
 public class Options extends Activity implements View.OnClickListener, IApplyableSettings
 {
 
+    DatabaseManager db = DatabaseManager.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -31,7 +33,7 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
 
         this.changeBackground();
 
-        DatabaseManager db = DatabaseManager.getInstance();
+
         db.setActivity(this);
 
         if(!db.isOnline())
@@ -63,7 +65,10 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
                 this.finish();
                 break;
             case R.id.button_ownWords:
-                this.startActivity(new Intent(this, OwnWordsMenu.class));
+                if(db.isOnline())
+                {
+                    this.startActivity(new Intent(this, OwnWordsMenu.class));
+                }
                 break;
             default:
                 Logger.write("Currently no function", this);

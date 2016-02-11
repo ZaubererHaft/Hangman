@@ -6,10 +6,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-public class SingleplayerMenu extends Activity implements IApplyableSettings, View.OnClickListener{
+/**
+ * The Singleplayer menu<br />
+ * Created by Vincent 09.02.2016.
+ * @since 1.2
+ */
+public class SingleplayerMenu extends Activity implements IApplyableSettings, View.OnClickListener
+{
+
+    /**
+     * Instance to database.
+     */
+    DatabaseManager db = DatabaseManager.getInstance();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_singleplayer_menu);
         changeBackground();
@@ -25,24 +37,31 @@ public class SingleplayerMenu extends Activity implements IApplyableSettings, Vi
         findViewById(R.id.button_info_speedMode).setOnClickListener(this);
         findViewById(R.id.button_exit_singleplayerMenu).setOnClickListener(this);
 
-        if (!db.isOnline()){
+        if (!db.isOnline())
+        {
             findViewById(R.id.button_singleplayerMenu_StandardMode).setEnabled(false);
             findViewById(R.id.button_singleplayerMenu_HardcoreMode).setEnabled(false);
             findViewById(R.id.button_singleplayerMenu_SpeedMode).setEnabled(false);
         }
+
+        this.db.setActivity(this);
     }
 
     @Override
-    public void changeBackground() {
+    public void changeBackground()
+    {
         Settings.load(this);
         RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_singleplayerMenu);
         Settings.setColor(rl);
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
         Intent i;
-        switch (v.getId()){
+
+        switch (v.getId())
+        {
             case R.id.button_exit_singleplayerMenu:
                 this.finish();
                 break;
@@ -61,9 +80,12 @@ public class SingleplayerMenu extends Activity implements IApplyableSettings, Vi
 
             //StandardMode
             case R.id.button_singleplayerMenu_StandardMode:
-                i = new Intent(this, Singleplayer.class);
-                Singleplayer.gameMode = Singleplayer.GameMode.STANDARD;
-                this.startActivity(i);
+                if(db.isOnline())
+                {
+                    i = new Intent(this, Singleplayer.class);
+                    Singleplayer.gameMode = Singleplayer.GameMode.STANDARD;
+                    this.startActivity(i);
+                }
                 break;
 
             case R.id.button_info_standardMode:
@@ -73,9 +95,12 @@ public class SingleplayerMenu extends Activity implements IApplyableSettings, Vi
 
             //HardcoreMode
             case R.id.button_singleplayerMenu_HardcoreMode:
-                i = new Intent(this, Singleplayer.class);
-                Singleplayer.gameMode = Singleplayer.GameMode.HARDCORE;
-                this.startActivity(i);
+                if(db.isOnline())
+                {
+                    i = new Intent(this, Singleplayer.class);
+                    Singleplayer.gameMode = Singleplayer.GameMode.HARDCORE;
+                    this.startActivity(i);
+                }
                 break;
 
             case R.id.button_info_HardcoreMode:

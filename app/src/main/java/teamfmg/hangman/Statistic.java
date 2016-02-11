@@ -1,7 +1,6 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -28,14 +27,16 @@ public class Statistic extends Activity implements IApplyableSettings, View.OnCl
             username = extra.getString("othersStatistic");
         }
 
-        Integer wins            = db.getCurrentStatistic(DatabaseManager.Attribute.WINS, username);
-        Integer perfects        = db.getCurrentStatistic(DatabaseManager.Attribute.PERFECTS, username);
-        Integer losses          = db.getCurrentStatistic(DatabaseManager.Attribute.LOSES, username);
-        Integer correctLetters  = db.getCurrentStatistic(DatabaseManager.Attribute.CORRECT_LETTER, username);
-        Integer wrongLetters    = db.getCurrentStatistic(DatabaseManager.Attribute.WRONG_LETTER, username);
-        Integer scoreStandardMode    = db.getCurrentStatistic(DatabaseManager.Attribute.SCORE, username);
-        Integer highscoreHardcore    = db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, username);
-        Integer highscoreSpeedmode   = db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_SPEEDMODE, username);
+        int[] val = db.getAllStatistics();
+
+        Integer wins                    = val[0];
+        Integer perfects                = val[1];
+        Integer losses                  = val[2];
+        Integer correctLetters          = val[3];
+        Integer wrongLetters            = val[4];
+        Integer scoreStandardMode       = val[7];
+        Integer highscoreHardcore       = val[5];
+        Integer highscoreSpeedmode      = val[6];
 
 
 

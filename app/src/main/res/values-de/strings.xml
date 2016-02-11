@@ -25,7 +25,7 @@
 
     <string name="error_register_emptyUsername">Bitte Nutzername eingeben!</string>
     <string name="error_register_userAlreadyExists">Benutzer existiert bereits!</string>
-    <string name="error_register_invalidEmail">Bitte geben Sie eine Valide E-Mail Addresse ein!</string>
+    <string name="error_register_invalidEmail">Bitte geben Sie eine Valide E-Mail Adresse ein!</string>
     <string name="error_register_passwordShort">Das Passwort muss aus mindestens 8 Zeichen bestehen!</string>
     <string name="error_login_wrongUsername">Benutzername existiert nicht!</string>
     <string name="error_login_wrongPassword">Falsches Passwort!</string>
@@ -90,7 +90,7 @@
     <string name="button_video">Video</string>
     <string name="button_options_music">Musik</string>
     <string name="button_options_categories">Kategorien</string>,
-    <string name="hint_loading">Laden...</string>
+    <string name="hint_loading">Laden…</string>
     <string name="options_video_label_quality">Qualität</string>
     <string name="title_activity_own_words_menu">OwnWordsMenu</string>
     <string name="text_header_ownwords">Hangman - Wort hinzufügen</string>
@@ -119,7 +119,44 @@
     <string name="string_Description">Beschreibung</string>
 
     <string name="category_hint_not_saved">Kategorien nicht gespeichert!</string>
-
+    <string name="Account_label_logged_in">Eingeloggt als:</string>
+    <string name="account_achievements">Erfolge</string>
+    <string name="account_change_pw">Passwort ändern</string>
+    <string name="account_logout">Ausloggen</string>
+    <string name="button_accountMenu_Scoreboard">Ranglisten</string>
+    <string name="button_information">i</string>
+    <string name="button_singleplayerMenu_CustomMode">Custom Mode</string>
+    <string name="button_singleplayerMenu_HardcoreMode">Hardcore Mode</string>
+    <string name="changePassword_button">Passwort ändern</string>
+    <string name="error_login_offlineNoUser">Du musst Dich zuerst ein Mal online einloggen, um mit diesem User offline zu spielen!</string>
+    <string name="error_reload_categories">EIn Datenbankfehler ist aufgetreten. Bitte überprüfe deine Internetverbindung</string>
+    <string name="label_achievements">Erfolge</string>
+    <string name="label_statistc_correctLetters">Richtige Buchstaben:</string>
+    <string name="label_statistic_hadder">Statistik</string>
+    <string name="label_statistic_lose">Verloren:</string>
+    <string name="label_statistic_perfect">Perfekte:</string>
+    <string name="label_statistic_wins">Gewonnen:</string>
+    <string name="label_statistic_wrongLetters">Falsche Buchstaben:</string>
+    <string name="message_singleplayerMenu_info_CustomMode"><![CDATA[Statistiken sind abgeschalten. Abgefragte Kategorien können in Optionen -> Kategorien geändert werden.]]></string>
+    <string name="string_newHighscore">NEUER HIGHSCORE!</string>
+    <string name="string_perfect">PERFEKT!</string>
+    <string name="string_yourCurrentScore">Erreichtes Ergebnis:</string>
+    <string name="string_yourHighscore">Dein Highscore:</string>
+    <string name="string_yourNewHighscore">Neuer Highscore:</string>
+    <string name="string_yourOldHighscore">Alter Highscore:</string>
+    <string name="label_scoreboard_header">Rangliste</string>
+    <string name="label_statistic_scoreHardcoreMode" translatable="false">Highscore Hardcore Mode:</string>
+    <string name="label_statistic_scoreSpeedMode">Highscore Speed Mode:</string>
+    <string name="label_statistic_scoreStandardMode">Score Standard Mode:</string>
+    <string name="button_singleplayerMenu_SpeedMode">Speed Mode</string>
+    <string name="button_singleplayerMenu_StandardMode">Standard Mode</string>
+    <string name="message_singleplayerMenu_info_HardcoreMode">Dieser Modus ist wirklich hart. Der Hangman setzt sich nach einem Wort nicht zurück. Löse so viele Buchstaben und Wörtern wie Du kannst, um Deinen Score zu verbesserm! Erhöhe Deinen Score imd erklimme die Rangliste.</string>
+    <string name="message_singleplayerMenu_info_SpeedMode">(COMING SOON) Kämpfe gegen die Zeit.</string>
+    <string name="message_singleplayerMenu_info_StandardMode">Statistiken sind aktiviert. Alle Kategorieren (ohne Eigene Wörter) werden benutzt.</string>
+    <string name="text_header_account">Account details</string>
+    <string name="text_header_bluetooth">Multiplayer - Bluetooth</string>
+    <string name="text_header_multiplayer" translatable="false">Multiplayer</string>
+    <string name="text_header_singleplayerMenu" translatable="false">Singleplayer</string>
 
 
 </resources>

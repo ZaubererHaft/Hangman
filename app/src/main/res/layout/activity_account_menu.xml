@@ -30,7 +30,6 @@
         android:textStyle="bold"
         android:textColor="@color/color_white"
         android:onClick="onClick"
-        android:capitalize="characters"
         android:background="@null"
         android:gravity="center_vertical|center_horizontal"
         android:minWidth="@dimen/textSizeDouble"

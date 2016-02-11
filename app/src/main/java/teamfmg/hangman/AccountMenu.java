@@ -18,6 +18,9 @@ import android.widget.TextView;
 public class AccountMenu extends Activity implements IApplyableSettings, View.OnClickListener
 {
 
+    /**
+     * Database instance.
+     */
     DatabaseManager db = DatabaseManager.getInstance();
 
     @Override
@@ -79,15 +82,18 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
             break;
 
             case R.id.account_statistic:
-
-                i = new Intent(this, Statistic.class);
-                this.startActivity(i);
+                if(db.isOnline()) {
+                    i = new Intent(this, Statistic.class);
+                    this.startActivity(i);
+                }
             break;
 
             case R.id.account_achievments:
-
-                i = new Intent(this, Achievements.class);
-                this.startActivity(i);
+                if(db.isOnline())
+                {
+                    i = new Intent(this, Achievements.class);
+                    this.startActivity(i);
+                }
 
             break;
 
@@ -114,8 +120,10 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
             break;
 
             case R.id.button_accountMenu_Scoreboard:
-                i = new Intent(this, Scoreboard.class);
-                this.startActivity(i);
+                if(db.isOnline()) {
+                    i = new Intent(this, Scoreboard.class);
+                    this.startActivity(i);
+                }
                 break;
         }
     }

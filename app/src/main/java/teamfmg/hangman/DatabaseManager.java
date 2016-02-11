@@ -31,6 +31,7 @@ import java.util.List;
  * <br />
  * Be aware to set set the right activity context with setActivity().<br /><br />
  * Created by Ludwig on 1/27/16.
+ * @author Ludwig
  * @since 0.1
  */
 public class DatabaseManager extends Thread
@@ -54,7 +55,7 @@ public class DatabaseManager extends Thread
     /**
      * Time to connect to the server.
      */
-    private static final long CONNECTING_TIME = 1000;
+    private static final long CONNECTING_TIME = 2000;
     /**
      * This handles the database connection.
      */
@@ -161,6 +162,7 @@ public class DatabaseManager extends Thread
     /**
      * Checks the online connection.
      * @return true
+     * @since 1.1
      */
     public boolean isOnline()
     {
@@ -191,6 +193,7 @@ public class DatabaseManager extends Thread
     /**
      * Detects whether there is network connection.
      * @return boolean.
+     * @since 1.1
      */
     private boolean hasNetworkConnection()
     {
@@ -206,6 +209,7 @@ public class DatabaseManager extends Thread
     /**
      * Gets the instance of the singleton.
      * @return {@link DatabaseManager}
+     * @since 1.1
      */
     public static DatabaseManager getInstance()
     {
@@ -219,6 +223,7 @@ public class DatabaseManager extends Thread
     /**
      * Sets the activity context.
      * @param a Activity to set.
+     * @since 1.1
      */
     public void setActivity(Activity a)
     {
@@ -505,6 +510,11 @@ public class DatabaseManager extends Thread
 
     }
 
+    /**
+     * Update a statistic value.
+     * @param attribut Attribut.
+     * @param value Value.
+     */
     public void updateStatistic(Attribute attribut, int value){
         String attributName = getAttributName(attribut);
 
@@ -513,6 +523,53 @@ public class DatabaseManager extends Thread
 
         useCommand(cmd, true);
     }
+
+
+    /**
+     * Gets all statistics sorted in an array.
+     * @return int[]
+     */
+    public int[] getAllStatistics()
+    {
+        int[] i = new int[8];
+
+        String cmd = "SELECT wins, perfects, loses, correctLetters, wrongLetters, " +
+                "highscoreHardcore, highscoreSpeedmode FROM users WHERE username LIKE '"
+                +LoginMenu.getCurrentUser().getName()+"';";
+
+        this.useCommand(cmd, false);
+
+        try
+        {
+            if(this.res != null && this.res.next())
+            {
+
+                for (int a = 0; a < i.length; a++)
+                {
+                    if(a < i.length - 1)
+                    {
+                        i[a] = this.res.getInt(a + 1);
+                    }
+                }
+
+                i[i.length-1] = ((i[0] + (i[1] * 4) - i[2]) * 10) + i[3] - i[4];
+
+                return i;
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.write(ex,this.activity);
+            ex.printStackTrace();
+        }
+        finally
+        {
+            this.closeConnection();
+        }
+
+        return i;
+    }
+
 
     /**
      * Creates an Select for the DB for the Statistics
@@ -559,24 +616,43 @@ public class DatabaseManager extends Thread
         return 0;
     }
 
+    /**
+     * Returns a list with highscores.
+     * @return {@link List}
+     * @since 1.1
+     */
     public List<String[]> getHardcoreScoreboard ()
     {
         return getScoreboard("highscoreHardcore");
     }
-
+    /**
+     * Returns a list with highscores.
+     * @return {@link List}
+     * @since 1.1
+     */
     public List<String[]> getSpeedModeScoreboard ()
     {
         return getScoreboard("highscoreSpeedmode");
     }
-
+    /**
+     * Returns a list with highscores.
+     * @return {@link List}
+     * @since 1.1
+     */
     public List<String[]> getStandardScoreboard ()
     {
         return getScoreboard("highscoreStandard");
     }
 
 
-
-    private List<String[]> getScoreboard(String colomnName){
+    /**
+     * Executes a command getting highscore values given by the name in the column.
+     * @param colomnName {@link String} - e.g. highscoreSpeedmode
+     * @return List with String elements.
+     * @since 1.1
+     */
+    private List<String[]> getScoreboard(String colomnName)
+    {
         String query;
 
         if (colomnName.equals("highscoreStandard"))
@@ -597,7 +673,8 @@ public class DatabaseManager extends Thread
         {
             if(this.res != null)
             {
-                while (this.res.next()){
+                while (this.res.next())
+                {
                     String[] innerList = new String[2];
                     innerList[0] = this.res.getString(1);
                     innerList[1] = ((Integer)this.res.getInt(2)).toString();
@@ -952,6 +1029,8 @@ public class DatabaseManager extends Thread
     /**
      * This inner class handles the connection to the offline database <br />
      * It is using SQLite.
+     * @since 1.1
+     * @author Ludwig
      */
     class OfflineDatabase extends SQLiteOpenHelper
     {

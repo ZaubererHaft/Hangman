@@ -61,7 +61,6 @@
     qwertzuiopasdfghjklyxcvbnmäüöQWERT ZUIOPÜASDFGHJKLYXCVBNMÄÜÖ-.</string>
     <string name="options_hint_restart">Please restart the app to apply changes!</string>
     <string name="login_save_login">Save login data</string>
-    <string name="title_activity_aout">Aout</string>
     <string name="title_activity_about">About</string>
     <string name="label_about">About the developers</string>
     <string name="label_x">╳</string>
@@ -92,21 +91,18 @@
     <string name="button_video">Video</string>
     <string name="button_options_music">Music</string>
     <string name="button_options_categories">Categories</string>,
-    <string name="hint_loading">Loading...</string>
+    <string name="hint_loading">Loading…</string>
     <string name="options_video_label_quality">Quality</string>
     <string name="title_activity_own_words_menu">OwnWordsMenu</string>
     <string name="text_header_ownwords">Hangman - Add Words</string>
     <string name="newWord_new">New</string>
     <string name="addWord_delete">Delete</string>
     <string name="newWord_Done">Add</string>
-    <string name="ownWords_word" />
-    <string name="ownWords_category" />
-    <string name="ownWords_description" />
+
     <string name="ownWords_hint_word">Word</string>
     <string name="ownWords_hint_category">Category</string>
     <string name="ownWords_hint_description">Description</string>
     <string name="addWord_close">Close</string>
-    <string name="newWord_add" />
     <string name="button_mainMenu_account">Account</string>
 
     <string name="ownWord_hint_tooShort">Please enter at least 3 signs!</string>
@@ -135,7 +131,7 @@
     <string name="account_logout">Logout</string>
     <string name="label_achievements">Achievements</string>
     <string name="Account_label_logged_in">Logged in as:</string>
-    <string name="label_current_User">NULL</string>
+    <string name="label_current_User" translatable="false">NULL</string>
     <string name="changePassword_button">Change Password</string>
 
     <string name="text_header_multiplayer">Multiplayer</string>
@@ -148,10 +144,10 @@
     <string name="button_singleplayerMenu_SpeedMode">Speed Mode</string>
     <string name="message_singleplayerMenu_info_StandardMode">Statistics are Enabled. All categories are used without your own words.</string>
     <string name="message_singleplayerMenu_info_CustomMode">Statistics are Disabled. You can choose the categories in Options -> Categorys.</string>
-    <string name="message_singleplayerMenu_info_HardcoreMode">This Mode will be realy hard. The Hangman does not reset after solving a word. Solve as many Letters and Words to raise your Score! Reach the best Highscore to lead the scoreboard!</string>
+    <string name="message_singleplayerMenu_info_HardcoreMode">This Mode will be really hard. The Hangman does not reset after solving a word. Solve as many Letters and Words to raise your Score! Reach the best Highscore to lead the scoreboard!</string>
     <string name="message_singleplayerMenu_info_SpeedMode">(COMING SOON) Fight against the Time. You start with 120 Seconds and gain 5 more for each correct letter, but loose 20 for reaching an full Hangman. If You solve an Word your score rises!</string>
-    <string name="string_score">Score</string>
-    <string name="error_reload_categories">An error with the database occurred. Please try reloading the categories!</string>
+    <string name="string_score" translatable="false">Score</string>
+    <string name="error_reload_categories">An error with the database occurred. Please check your internet connection</string>
     <string name="string_newHighscore">NEW HIGHSCORE!</string>
     <string name="string_yourNewHighscore">New Highscore: </string>
     <string name="string_yourOldHighscore">Old Highscore: </string>
