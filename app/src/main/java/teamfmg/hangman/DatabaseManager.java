@@ -12,6 +12,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Looper;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -161,12 +164,49 @@ public class DatabaseManager extends Thread
      */
     public boolean isOnline()
     {
-        ConnectivityManager cm =
-                (ConnectivityManager) this.activity.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
+        if (this.hasNetworkConnection())
+        {
+            try
+            {
+                HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.google.com").openConnection());
+                urlc.setRequestProperty("User-Agent", "Test");
+                urlc.setRequestProperty("Connection", "close");
+                urlc.setConnectTimeout((int)CONNECTING_TIME);
+                urlc.connect();
+                return (urlc.getResponseCode() == 200);
+            }
+            catch (IOException e)
+            {
+                Logger.logOnlyError(e.getMessage());
+            }
+        }
+        else
+        {
+            return false;
+        }
+
+        return false;
     }
 
+    /**
+     * Detects whether there is network connection.
+     * @return boolean.
+     */
+    private boolean hasNetworkConnection()
+    {
+
+        ConnectivityManager cm =
+                (ConnectivityManager)activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+    }
+
+    /**
+     * Gets the instance of the singleton.
+     * @return {@link DatabaseManager}
+     */
     public static DatabaseManager getInstance()
     {
         if(manager == null)
@@ -182,8 +222,7 @@ public class DatabaseManager extends Thread
      */
     public void setActivity(Activity a)
     {
-        if(!this.isAlive())
-        {
+        if(!this.isAlive()) {
             this.start();
         }
         this.activity = a;
@@ -365,6 +404,77 @@ public class DatabaseManager extends Thread
             e.printStackTrace();
         }
     }
+
+
+    /**
+     * Loads all words from the *.csv to the data base.
+     * @since 0.5
+     */
+    /*public void loadWords()
+    {
+
+        Logger.logOnly(R.string.hint_loading);
+
+        //Get all files in raw directory
+        Field[] fields = R.raw.class.getFields();
+
+        for (Field field : fields)
+        {
+            int id = this.activity.getResources().getIdentifier(
+                    field.getName(), "raw", this.activity.getPackageName());
+
+            InputStream in = this.activity.getResources().openRawResource(id);
+
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(in),8192);
+
+            String line;
+
+            int amount = 0;
+
+            while(true)
+            {
+                try
+                {
+                    line = buffer.readLine();
+
+                    if(line == null)
+                    {
+                        Logger.logOnly(field.toString()+": Data loaded: " +amount);
+                        break;
+                    }
+                    ++amount;
+                    String[] list = line.split(";");
+
+                    String createTableStatement;
+
+                    if(list.length == 2)
+                    {
+                        createTableStatement =
+                                "INSERT INTO " + TABLE_WORDS + " (word,category) " +
+                                        " VALUES(\"" + list[0] + "\", \"" + list[1] + "\");";
+                    }
+                    else
+                    {
+                        createTableStatement =
+                                "INSERT INTO " + TABLE_WORDS + " (word,category,description) " +
+                                        " VALUES(\"" + list[0] + "\", \"" + list[1] + "\",\"" + list[2] + "\");";
+                    }
+
+                    this.useCommand(createTableStatement, true);
+                }
+
+                catch (IOException ex)
+                {
+                    ex.printStackTrace();
+                    Logger.logOnly(ex.getMessage());
+                }
+                finally
+                {
+                    this.closeConnection();
+                }
+            }
+        }
+    }*/
 
     /**
      * Changes the password.

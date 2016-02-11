@@ -225,6 +225,15 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
             case "ownwords":
                 newName = res.getString(R.string.categoryName_ownWord);
                 break;
+            case "vegetables":
+                newName = res.getString(R.string.categoryName_vegetables);
+                break;
+            case "nuts":
+                newName = res.getString(R.string.categoryName_nuts);
+                break;
+            case "spices":
+                newName = res.getString(R.string.categoryName_spices);
+                break;
             default:
                 newName = nameInDatabase;
                 break;

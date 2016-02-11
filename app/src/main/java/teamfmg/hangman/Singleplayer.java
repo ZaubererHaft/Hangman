@@ -492,10 +492,17 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      */
     private void setHangman(int buildOfHangman)
     {
-        ImageView iv = (ImageView) findViewById(R.id.image_hangman);
-        int id = res.getIdentifier("hm_" + buildOfHangman, "drawable", pack);
-        iv.setImageResource(id);
-        this.currentBuildOfHangman = buildOfHangman;
+        try
+        {
+            ImageView iv = (ImageView) findViewById(R.id.image_hangman);
+            int id = res.getIdentifier("hm_" + buildOfHangman, "drawable", pack);
+            iv.setImageResource(id);
+            this.currentBuildOfHangman = buildOfHangman;
+        }
+        catch(OutOfMemoryError ex)
+        {
+            Logger.logOnlyError(ex);
+        }
     }
 
 

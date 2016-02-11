@@ -39,12 +39,6 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
 
         ((TextView)this.findViewById(R.id.label_current_User)).setText(LoginMenu.getCurrentUser().getName());
 
-        if (db.isOnline()){
-            ((TextView) this.findViewById(R.id.label_current_User)).setText(
-                    ((TextView) this.findViewById(R.id.label_current_User)).getText() +
-                            " (Score: " + db.getCurrentStatistic(DatabaseManager.Attribute.SCORE, LoginMenu.getCurrentUser().getName()) + ")");
-        }
-
         if(!db.isOnline())
         {
             this.findViewById(R.id.account_statistic).setEnabled(false);

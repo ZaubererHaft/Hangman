@@ -36,7 +36,15 @@ public final class Logger
 
     public static void logOnlyError(Object obj)
     {
-        Log.e("ERROR", obj.toString());
+        if(obj == null)
+        {
+            Log.e("ERROR", "Null Error Message!");
+        }
+        else
+        {
+            Log.e("ERROR", obj.toString());
+        }
+
     }
     public static void logOnlyWarning(Object obj)
     {
