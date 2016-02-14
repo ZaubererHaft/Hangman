@@ -529,13 +529,13 @@ public class DatabaseManager extends Thread
      * Gets all statistics sorted in an array.
      * @return int[]
      */
-    public int[] getAllStatistics()
+    public int[] getAllStatistics(String name)
     {
         int[] i = new int[8];
 
         String cmd = "SELECT wins, perfects, loses, correctLetters, wrongLetters, " +
                 "highscoreHardcore, highscoreSpeedmode FROM users WHERE username LIKE '"
-                +LoginMenu.getCurrentUser().getName()+"';";
+                + name +"';";
 
         this.useCommand(cmd, false);
 

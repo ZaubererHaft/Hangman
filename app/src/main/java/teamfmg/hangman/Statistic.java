@@ -27,7 +27,7 @@ public class Statistic extends Activity implements IApplyableSettings, View.OnCl
             username = extra.getString("othersStatistic");
         }
 
-        int[] val = db.getAllStatistics();
+        int[] val = db.getAllStatistics(username);
 
         Integer wins                    = val[0];
         Integer perfects                = val[1];
