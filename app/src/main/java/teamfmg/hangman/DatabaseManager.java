@@ -11,10 +11,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Looper;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -98,23 +94,18 @@ public class DatabaseManager extends Thread
     {
         Looper.prepare();
 
-        if (od != null)
-        {
-            //TODO: Nur am anfang
-            this.od.synchDatabases();
-        }
-
         while (!isInterrupted())
         {
-            if (od == null)
-            {
-                this.od = new OfflineDatabase();
-            }
-
+            /*
+            If we're running offline mode, try to reconnect
+             */
             if(!this.isOnline())
             {
                 Logger.logOnlyError("Connection lost - try reconnection!");
 
+                /**
+                 * Shut down old connection
+                 */
                 if (this.connection != null)
                 {
                     try
@@ -166,7 +157,7 @@ public class DatabaseManager extends Thread
      */
     public boolean isOnline()
     {
-        if (this.hasNetworkConnection())
+        /*if (this.hasNetworkConnection())
         {
             try
             {
@@ -185,9 +176,9 @@ public class DatabaseManager extends Thread
         else
         {
             return false;
-        }
+        }*/
 
-        return false;
+        return hasNetworkConnection();
     }
 
     /**
@@ -243,19 +234,11 @@ public class DatabaseManager extends Thread
         {
             try
             {
-                if(this.isOnline())
-                {
-                    Class.forName("com.mysql.jdbc.Driver");
-                    connection = DriverManager.getConnection
-                            ("jdbc:mysql://" + CONNECTING_URL + "/" + DATABASE_NAME
-                                    + "?useSSL=false&user=external&password=asdfg-01");
-                    Logger.logOnly("Connected!");
-                }
-                else
-                {
-                    Logger.logOnly("No internet connection!");
-                }
-
+                Class.forName("com.mysql.jdbc.Driver");
+                connection = DriverManager.getConnection
+                        ("jdbc:mysql://" + CONNECTING_URL + "/" + DATABASE_NAME
+                                + "?useSSL=false&user=external&password=asdfg-01");
+                Logger.logOnly("Connected!");
             }
             catch (SQLException ex)
             {
@@ -280,10 +263,6 @@ public class DatabaseManager extends Thread
             {
                 this.statement.close();
             }
-            //if (this.connection != null)
-            //{
-             //   this.connection.close();
-            //}
             if(this.res != null)
             {
                 this.res.close();
@@ -386,9 +365,10 @@ public class DatabaseManager extends Thread
     {
         try
         {
+            //check connection before running command
             this.connect();
 
-            if(this.isOnline())
+            if(isOnline())
             {
                 this.statement = this.connection.createStatement();
 
@@ -402,10 +382,11 @@ public class DatabaseManager extends Thread
                 }
             }
 
+
         }
         catch (SQLException e)
         {
-            Logger.write(e,this.activity);
+            Logger.logOnlyError(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -491,6 +472,8 @@ public class DatabaseManager extends Thread
         this.useCommand("UPDATE users SET password = " +
                 Caeser.encrypt(newPW, Settings.encryptOffset) + " WHERE username = '" +
                 LoginMenu.getCurrentUser().getName() + "';", true);
+
+        this.od.changePW(newPW);
     }
 
     /**
@@ -1016,13 +999,63 @@ public class DatabaseManager extends Thread
         }
         catch (SQLException ex)
         {
-            Logger.write(ex,this.activity);
+            Logger.write(ex, this.activity);
             ex.printStackTrace();
             return null;
         }
         finally
         {
             this.closeConnection();
+        }
+    }
+
+    /**
+     * Gets the amount of words.
+     * @return Integer.
+     */
+    public int getWordsCount()
+    {
+        String query = "SELECT COUNT(*) FROM words;";
+        this.useCommand(query, false);
+
+        try
+        {
+            if (this.res != null && this.res.next())
+            {
+                return this.res.getInt(1);
+            }
+            else
+            {
+                return -1;
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.write(ex, this.activity);
+            ex.printStackTrace();
+        }
+        finally
+        {
+            this.closeConnection();
+        }
+
+        return -1;
+    }
+
+    /**
+     * TODO: Implement.
+     */
+    public void synchDatabases()
+    {
+        Logger.logOnly("Check for updates...");
+
+        if(this.isOnline())
+        {
+            this.od.copyDatabaseStructureFromSQL();
+        }
+        else
+        {
+            Logger.logOnlyWarning("Database synch failed!");
         }
     }
 
@@ -1054,11 +1087,13 @@ public class DatabaseManager extends Thread
         }
 
         /**
-         * TODO: Implement.
+         * Deletes all words from the offline Database.
          */
-        public void synchDatabases()
+        public void deleteAllWords()
         {
-
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.execSQL("DELETE FROM words");
+            db.close();
         }
 
         @Override
@@ -1092,8 +1127,6 @@ public class DatabaseManager extends Thread
             db.execSQL(cmd);
 
             Logger.logOnly("Offline DB created!");
-
-            this.copyDatabaseStructureFromSQL();
         }
 
         @Override
@@ -1102,6 +1135,48 @@ public class DatabaseManager extends Thread
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS_NAME);
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_WORDS);
             this.onCreate(db);
+        }
+
+        public void changePW(String newPW)
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.execSQL("UPDATE users SET password = " +
+                    Caeser.encrypt(newPW, Settings.encryptOffset) + " WHERE username = '" +
+                    LoginMenu.getCurrentUser().getName() + "';");
+            db.close();
+        }
+
+
+        /**
+         * Get the amount of words in the offline DB.
+         * @return int.
+         */
+        public int getWordsCount()
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM words;", null);
+
+            if(cursor != null)
+            {
+                try
+                {
+                    cursor.moveToFirst();
+                    return cursor.getInt(0);
+                }
+                catch (CursorIndexOutOfBoundsException ex)
+                {
+                    return -2;
+                }
+                finally
+                {
+                    cursor.close();
+                    db.close();
+                }
+            }
+            else
+            {
+                return -2;
+            }
         }
 
 
@@ -1117,8 +1192,24 @@ public class DatabaseManager extends Thread
                 @Override
                 public void run()
                 {
-
-                    Logger.logOnly("Start copying dbs...");
+                    if(od.getWordsCount() != DatabaseManager.this.getWordsCount())
+                    {
+                        try
+                        {
+                            Logger.logOnly("Start updating dbs...");
+                            od.deleteAllWords();
+                        }
+                        catch (SQLiteException ex)
+                        {
+                            ex.printStackTrace();
+                            Logger.logOnlyWarning("Update failed!");
+                        }
+                    }
+                    else
+                    {
+                        Logger.logOnly("All dbs are up to date!");
+                        return;
+                    }
 
                     /**
                      * Load all words.
@@ -1163,7 +1254,7 @@ public class DatabaseManager extends Thread
                         }
                         Logger.logOnly("Table Words DONE!");
                     }
-                    catch (SQLException e)
+                    catch (SQLException | NullPointerException e)
                     {
                         e.printStackTrace();
                         Logger.logOnlyError(e.getMessage());
@@ -1173,21 +1264,15 @@ public class DatabaseManager extends Thread
                         DatabaseManager.this.closeConnection();
                     }
 
-                    //dont try loading a null user.
-                    if(LoginMenu.getCurrentUser() == null)
-                    {
-                        return;
-                    }
-
-                    /**
-                     * Load user.
-                     */
-                    query = "SELECT * FROM users WHERE username LIKE '"+
-                            LoginMenu.getCurrentUser().getName()+"';";
-                    DatabaseManager.this.useCommand(query, false);
-
                     try
                     {
+                        /**
+                         * Load user.
+                         */
+                        query = "SELECT * FROM users WHERE username LIKE '"+
+                                LoginMenu.getCurrentUser().getName()+"';";
+                        DatabaseManager.this.useCommand(query, false);
+
                         if (DatabaseManager.this.res != null)
                         {
                             while (DatabaseManager.this.res.next())
@@ -1206,7 +1291,7 @@ public class DatabaseManager extends Thread
                             Logger.logOnly("Table users DONE!");
                         }
                     }
-                    catch (SQLException e)
+                    catch (SQLException | NullPointerException e)
                     {
                         e.printStackTrace();
                         Logger.logOnlyError(e.getMessage());

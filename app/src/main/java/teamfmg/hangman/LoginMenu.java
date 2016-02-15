@@ -146,6 +146,8 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
                     ArrayList<String>  list = db.getCategories();
                     Settings.setCategories(list);
 
+                    db.synchDatabases();
+
                     //Open Main Menu
                     Logger.write(this.getResources().getString(R.string.info_login_succeed)
                             , this, offset);
