@@ -157,6 +157,7 @@
     <string name="text_header_bluetooth">Multiplayer - Bluetooth</string>
     <string name="text_header_multiplayer" translatable="false">Multiplayer</string>
     <string name="text_header_singleplayerMenu" translatable="false">Singleplayer</string>
+    <string name="error_register_offline">Du musst online sein, um Dich zu registrieren!</string>
 
 
 </resources>

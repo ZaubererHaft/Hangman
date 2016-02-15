@@ -232,20 +232,24 @@ public class DatabaseManager extends Thread
     {
         if(connection == null)
         {
-            try
+            if(this.isOnline())
             {
-                Class.forName("com.mysql.jdbc.Driver");
-                connection = DriverManager.getConnection
-                        ("jdbc:mysql://" + CONNECTING_URL + "/" + DATABASE_NAME
-                                + "?useSSL=false&user=external&password=asdfg-01");
-                Logger.logOnly("Connected!");
-            }
-            catch (SQLException ex)
-            {
-                Logger.logOnlyError("Failed to communicate with server - "+ex.getMessage());
-            }
-            catch (ClassNotFoundException ex){
-                Logger.logOnlyError("Error loading class - " + ex.getMessage());
+                try
+                {
+                    Class.forName("com.mysql.jdbc.Driver");
+                    connection = DriverManager.getConnection
+                            ("jdbc:mysql://" + CONNECTING_URL + "/" + DATABASE_NAME
+                                    + "?useSSL=false&user=external&password=asdfg-01");
+                    Logger.logOnly("Connected!");
+                }
+                catch (SQLException ex)
+                {
+                    Logger.logOnlyError("Failed to communicate with server - " + ex.getMessage());
+                }
+                catch (ClassNotFoundException ex)
+                {
+                    Logger.logOnlyError("Error loading class - " + ex.getMessage());
+                }
             }
         }
     }
