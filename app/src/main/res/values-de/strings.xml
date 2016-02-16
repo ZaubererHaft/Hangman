@@ -29,7 +29,7 @@
     <string name="error_register_passwordShort">Das Passwort muss aus mindestens 8 Zeichen bestehen!</string>
     <string name="error_login_wrongUsername">Benutzername existiert nicht!</string>
     <string name="error_login_wrongPassword">Falsches Passwort!</string>
-    <string name="error_register_wrongRepeatedPassword">Das Passwort stimmt nicht mit dem Benutzernamen überein!</string>
+    <string name="error_register_wrongRepeatedPassword">Die Passwörter stimmen nicht überein!</string>
     <string name="button_not_registered">Nicht Registriert?</string>
     <string name="label_repeat_password">Passwort wiederholen</string>
     <string name="label_register_hint_mail">deineMail@beispiel.com</string>
@@ -158,6 +158,8 @@
     <string name="text_header_multiplayer" translatable="false">Multiplayer</string>
     <string name="text_header_singleplayerMenu" translatable="false">Singleplayer</string>
     <string name="error_register_offline">Du musst online sein, um Dich zu registrieren!</string>
+    <string name="error_changePW">Fehler beimÄndern der Passwörter!</string>
+    <string name="error_changePW_oldPasswordWrong">Das alte Passwort ist nicht korrekt!</string>
 
 
 </resources>

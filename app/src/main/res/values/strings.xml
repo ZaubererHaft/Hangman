@@ -38,6 +38,10 @@
     <string name="label_hint_register_password">At least 8 signs</string>
     <string name="label_register_hint_repeatpassword">Repeat your password</string>
 
+    <string name="error_changePW_oldPasswordWrong">The old password is not correct!</string>
+    <string name="error_changePW">Error changing passwords!</string>
+    <string name="changePW_success">Password changed!</string>
+
     <string name="hint_settings_changed">Settings changed!</string>
 
     <string name="button_play">Play</string>

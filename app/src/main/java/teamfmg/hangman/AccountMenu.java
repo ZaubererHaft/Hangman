@@ -120,8 +120,19 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
             break;
 
             case R.id.button_accountMenu_Scoreboard:
-                if(db.isOnline()) {
+
+                if(db.isOnline())
+                {
                     i = new Intent(this, Scoreboard.class);
+                    this.startActivity(i);
+                }
+
+                break;
+
+            case R.id.account_change_pw:
+                if(db.isOnline())
+                {
+                    i = new Intent(this, ChangePassword.class);
                     this.startActivity(i);
                 }
                 break;
