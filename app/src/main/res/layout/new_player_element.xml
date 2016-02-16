@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Player 1:"
+        android:id="@+id/new_player_element_playerXY"
+        android:textSize="@dimen/textSizeMedium"
+        android:textColor="@color/color_white"
+        android:layout_alignBaseline="@+id/new_player_element_textField_playerName" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/new_player_element_textField_playerName"
+        android:layout_toRightOf="@+id/new_player_element_playerXY"
+        android:layout_marginLeft="@dimen/marginForSpace" />
+</RelativeLayout>

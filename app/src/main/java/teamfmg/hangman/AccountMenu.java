@@ -35,6 +35,7 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
         //Catch nullpointer
         if (LoginMenu.getCurrentUser() == null)
         {
+            Logger.logOnlyError(this.getResources().getText(R.string.error_no_currentUser));
             Logger.write(this.getResources().getText(R.string.error_no_currentUser), this);
             onClick(findViewById(R.id.account_logout));
         }

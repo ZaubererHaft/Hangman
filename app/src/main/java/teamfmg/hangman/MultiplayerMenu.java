@@ -48,6 +48,8 @@ public class MultiplayerMenu extends Activity implements IApplyableSettings, Vie
             */
 
             case R.id.multiplayerMenu_button_local:
+                i = new Intent(this, multiplayer_local_lobby.class);
+                this.startActivity(i);
                 break;
 
             default:
