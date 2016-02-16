@@ -52,6 +52,7 @@ public class ChangePassword extends Activity implements View.OnClickListener
                         {
                             db.changePassword(Caeser.encrypt(newPW,Settings.encryptOffset));
                             Logger.write(this.getString(R.string.changePW_success), this);
+                            this.finish();
                         }
                         catch(SQLException ex)
                         {
@@ -70,6 +71,11 @@ public class ChangePassword extends Activity implements View.OnClickListener
                             getString(R.string.error_changePW_oldPasswordWrong),this);
                 }
 
+        }
+
+        if(v.getId() == R.id.changePW_close)
+        {
+            this.finish();
         }
 
     }
