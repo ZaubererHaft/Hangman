@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import java.io.IOException;
-
 public class MultiplayerMenu extends Activity implements IApplyableSettings, View.OnClickListener {
 
     private Bluetooth bt;
@@ -20,11 +18,9 @@ public class MultiplayerMenu extends Activity implements IApplyableSettings, Vie
 
         //ClickListener
         this.findViewById(R.id.multiplayer_close).setOnClickListener(this);
-        this.findViewById(R.id.button_Wifi).setOnClickListener(this);
-        this.findViewById(R.id.button_bluetooth).setOnClickListener(this);
-
-
-
+        this.findViewById(R.id.multiplayerMenu_button_wifi).setOnClickListener(this);
+        this.findViewById(R.id.multiplayerMenu_button_bluetooth).setOnClickListener(this);
+        this.findViewById(R.id.multiplayerMenu_button_local).setOnClickListener(this);
     }
 
     @Override
@@ -44,9 +40,14 @@ public class MultiplayerMenu extends Activity implements IApplyableSettings, Vie
                 this.finish();
                 break;
 
+            /*
             case R.id.button_bluetooth:
                 i = new Intent(this, BluetoothMenu.class);
                 this.startActivity(i);
+                break;
+            */
+
+            case R.id.multiplayerMenu_button_local:
                 break;
 
             default:

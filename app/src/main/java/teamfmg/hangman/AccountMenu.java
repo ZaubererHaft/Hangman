@@ -32,6 +32,13 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
         db.setActivity(this);
         this.changeBackground();
 
+        //Catch nullpointer
+        if (LoginMenu.getCurrentUser() == null)
+        {
+            Logger.write(this.getResources().getText(R.string.error_no_currentUser), this);
+            onClick(findViewById(R.id.account_logout));
+        }
+
         //adding click listener
         this.findViewById(R.id.account_statistic).setOnClickListener(this);
         this.findViewById(R.id.account_achievments).setOnClickListener(this);

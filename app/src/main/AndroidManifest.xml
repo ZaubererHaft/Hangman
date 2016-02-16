@@ -17,9 +17,9 @@
         android:exported="true"
         android:icon="@mipmap/hangman_logo"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:screenOrientation="portrait"
-        android:theme="@android:style/Theme.Light.NoTitleBar"
-        android:largeHeap="true">
+        android:theme="@android:style/Theme.Light.NoTitleBar" >
         <activity
             android:name=".LoginMenu"
             android:label="@string/app_name"
@@ -96,6 +96,8 @@
         <activity
             android:name=".ScoreboardTab"
             android:screenOrientation="portrait" />
+        <activity android:name=".multiplayer_local_lobby" >
+        </activity>
     </application>
 
 </manifest>

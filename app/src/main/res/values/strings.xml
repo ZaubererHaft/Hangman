@@ -159,6 +159,13 @@
     <string name="label_statistic_scoreSpeedMode">Highscore Speed Mode:</string>
     <string name="label_scoreboard_header">Scoreboard</string>
     <string name="button_accountMenu_Scoreboard">Scoreboard</string>
+    <string name="error_no_currentUser">Failed to load User. Please login again!</string>
+    <string name="multiplayerMenu_button_bluetooth">Bluetooth</string>
+    <string name="multiplayerMenu_button_wifi">WiFi</string>
+    <string name="multiplayerMenu_button_local">Local</string>
+    <string name="text_header_multiplayer_local">Multiplayer Local</string>
+    <string name="multiplayer_local_lobby_players">Players:</string>
+    <string name="multiplayer_local_lobby_button_play">Play</string>
 
 
 </resources>

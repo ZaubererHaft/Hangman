@@ -85,11 +85,11 @@ public class MainMenu extends Activity implements View.OnClickListener, IApplyab
 
 
             //Multiplayer
-            /*case  R.id.button_multiplayer:
+            case  R.id.button_multiplayer:
                 i = new Intent(this, MultiplayerMenu.class);
                 this.startActivity(i);
                 break;
-            */
+
 
             default:
                 Logger.write("Currently no function", this);
