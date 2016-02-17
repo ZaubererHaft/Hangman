@@ -105,7 +105,7 @@ public class multiplayer_local_lobby extends Activity implements IApplyableSetti
         for (int i = 0; playerViewsList.size() > i; i++)
         {
             EditText editText = (EditText)playerViewsList.get(i).findViewById(R.id.new_player_element_textField_playerName);
-            if (editText.getText().toString().isEmpty())
+            if (editText.getText().toString().length() > 1)
             {
                 array[i] = editText.getText().toString();
             }
@@ -146,7 +146,7 @@ public class multiplayer_local_lobby extends Activity implements IApplyableSetti
 
             case R.id.multiplayer_local_lobby_button_play:
                 i = new Intent(this, MultiplayerLocal.class);
-                i.putExtra("players", getUsers());
+                MultiplayerLocal.usernames = getUsers();
                 Singleplayer.gameMode = Singleplayer.GameMode.LOCALMULTIPLAYER;
                 this.startActivity(i);
                 break;

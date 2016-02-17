@@ -26,7 +26,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     /**
      * Current word to guess.
      */
-    private String currentWord;
+    protected String currentWord;
     /**
      * The object of the currend word to guess
      */
@@ -42,7 +42,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     /**
      * Handles database connection.
      */
-    private DatabaseManager db = DatabaseManager.getInstance();
+    protected DatabaseManager db = DatabaseManager.getInstance();
     /**
      * Full size of hangman.
      */
@@ -121,6 +121,8 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
                 break;
             case LOCALMULTIPLAYER:
                 headerText = this.getResources().getString(R.string.text_header_multiplayer_local);
+                //In Local singleplayer the gamemode will be an Hardcore Mode.
+                gameMode = GameMode.HARDCORE;
                 break;
         }
         header.setText(headerText);
@@ -184,7 +186,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * @param word asked word
      * @since 0.5
      */
-    private void newWord(String word)
+    protected void newWord(String word)
     {
         this.wordPieces = new String[word.length()];
 
@@ -317,7 +319,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * Resets all buttons to Enabled(true).
      * @since 0.5
      */
-    private void resetButtons()
+    protected void resetButtons()
     {
         //Reset Buttons in row one
         LinearLayout layoutRowOne = (LinearLayout) this.findViewById(R.id.linLayout_rowOne);
