@@ -7,6 +7,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by consult on 17.02.2016.
@@ -19,28 +20,39 @@ public class MultiplayerLocal extends Singleplayer {
     private int currentWordPosition = 0;
     public static String[] usernames;
 
+    /**
+     * Local multiplayer with custom Amount of Players, wich all plays in Singleplayer Hardcore Mode.
+     * Every Player gets the same Words
+     */
     public MultiplayerLocal(){
         super();
 
-        //sets the mode to Hardcore
+        //Create and Fill the HashMap
         userList = new HashMap<>();
-        for (int i = 0; i < usernames.length; i++){
+
+        for (int i = 0; i < usernames.length; i++)
+        {
             userList.put(usernames[i], 0);
         }
     }
 
+    /**
+     * reset Game for Local Multiplayer
+     */
     @Override
     protected void resetGame() {
 
-        if (wordList.size() > currentWordPosition){
-            currentWordObject = wordList.get(currentWordPosition);
+        //List of words will be filled, so every Player gets the same Words
+        if (this.wordList.size() > this.currentWordPosition){
+            this.currentWordObject = this.wordList.get(currentWordPosition);
         }
         else
         {
             this.currentWordObject = this.db.getRandomWord(gameMode);
-            wordList.add(currentWordObject);
+            this.wordList.add(this.currentWordObject);
         }
 
+        //Standard preparation for next Round
         this.currentWord = currentWordObject.getWord();
         this.currentWord = this.currentWord.toUpperCase();
         this.resetButtons();
@@ -48,14 +60,32 @@ public class MultiplayerLocal extends Singleplayer {
         this.loadNextImg();
     }
 
-    private void nextPlayer(){
-        currentPlayer++;
+    private List<String[]> hashMapToListOfArrayLists (HashMap<String, Integer> hashMap)
+    {
+        return null;
+    }
 
-        if (currentPlayer == userList.size())
+    /**
+     * Prepaire next Player
+     */
+    private void nextPlayer(){
+        this.currentPlayer++;
+
+        //Every Player has finished
+        if (this.currentPlayer == this.userList.size())
         {
-            Logger.messageDialog("Endergebnis!", usernames[0] + " Score: " + userList.get(usernames[0]) + "\n"
-                    + usernames[1] + " Score: " + userList.get(usernames[1]), this);
+            //TODO Ergebnis zeigen
+            Intent i = new Intent(this, ScoreboardTab.class);
+            i.putExtra("shownScoreboard", 3);
+            //i.putExtra("playerList", ()hashMapToListOfArrayLists(userList));
+            this.startActivity(i);
+
+
+            Logger.messageDialog("Endergebnis!", this.usernames[0] + " Score: " + this.userList.get(this.usernames[0]) + "\n"
+                    + this.usernames[1] + " Score: " + this.userList.get(this.usernames[1]), this);
             Logger.logOnly("Multiplayer Beendet!");
+
+            //Reset Game
             this.currentPlayer = 0;
             this.wordList.clear();
         }
@@ -63,15 +93,25 @@ public class MultiplayerLocal extends Singleplayer {
         this.setCurrentScoreOnLable();
     }
 
+    /**
+     * Usually shows the Current Score, however in Local Multiplayer it shows the Current user.
+     * Overiting this methode save overiting a lot Methodes
+     */
     @Override
     protected void setCurrentScoreOnLable() {
-        scoreLabel.setText("Current User: " + usernames[currentPlayer]);
+        this.scoreLabel.setText("Current User: " + this.usernames[this.currentPlayer]);
     }
 
+    /**
+     * Finishes the Game
+     * Show the result of the Word and resets the hangman
+     * @param won is true if game is won
+     */
     @Override
     protected void finishGame(boolean won) {
         String titleOfDialog;
 
+        //Sets Title of the Popup Dialog
         if (this.currentBuildOfHangman == 0)
             titleOfDialog = getResources().getString(R.string.string_perfect);
         else if (won)
@@ -79,6 +119,7 @@ public class MultiplayerLocal extends Singleplayer {
         else
             titleOfDialog = getResources().getString(R.string.string_lose);
 
+        //PopupDialog
         Logger.popupDialogGameResult(this.currentWordObject.getWord(),
                 this.currentWordObject.getDescription(),
                 this.currentWordObject.getCategory(),
@@ -87,6 +128,7 @@ public class MultiplayerLocal extends Singleplayer {
 
         if (!won)
         {
+            //Update the HashMap and reset Game
             this.userList.put(usernames[currentPlayer], score);
             this.score = 0;
             this.setCurrentScoreOnLable();
@@ -96,6 +138,7 @@ public class MultiplayerLocal extends Singleplayer {
         }
         else
         {
+            //Add score and reset hangman a bit
             this.score = this.score + 10;
             this.setCurrentScoreOnLable();
             if (currentBuildOfHangman > resetingInHardcore)
