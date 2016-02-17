@@ -37,4 +37,15 @@
         android:layout_alignParentLeft="false"
         android:minHeight="@dimen/textSizeDouble" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/about_info"
+        android:id="@+id/textView8"
+        android:layout_below="@+id/label_about_header"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="@dimen/marginToHeader"
+        android:textColor="@color/color_white" />
+
 </RelativeLayout>

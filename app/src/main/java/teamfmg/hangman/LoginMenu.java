@@ -71,26 +71,6 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
             Logger.logOnly("No userdata entered yet!");
         }
 
-        this.checkForUpdates();
-    }
-
-
-    private void checkForUpdates()
-    {
-        int versionCode = -1;
-
-        try
-        {
-            versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
-        }
-        catch (PackageManager.NameNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-
-        Updater u = new Updater();
-        u.start();
-
     }
 
     @Override

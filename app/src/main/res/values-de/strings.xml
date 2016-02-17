@@ -97,15 +97,12 @@
     <string name="newWord_new" >Neu</string>
     <string name="addWord_delete">Löschen</string>
     <string name="newWord_Done">Hinzufügen</string>
-    <string name="ownWords_word" />
-    <string name="ownWords_category" />
-    <string name="ownWords_description" />
     <string name="ownWords_hint_word" >Wort</string>
     <string name="ownWords_hint_category" >Kategorie</string>
     <string name="ownWords_hint_description" >Beschreibung</string>
     <string name="addWord_close">Schließen</string>
-    <string name="newWord_add" />
     <string name="button_mainMenu_account">Account</string>
+
 
     <string name="ownWord_hint_tooShort">Bitte mindestens 3 Zeichen eingeben!</string>
     <string name="ownWord_hint_added">Wort hinzugefügt!</string>
@@ -145,7 +142,7 @@
     <string name="string_yourNewHighscore">Neuer Highscore:</string>
     <string name="string_yourOldHighscore">Alter Highscore:</string>
     <string name="label_scoreboard_header">Rangliste</string>
-    <string name="label_statistic_scoreHardcoreMode" translatable="false">Highscore Hardcore Mode:</string>
+    <string name="label_statistic_scoreHardcoreMode">Score Hardcore Mode:</string>
     <string name="label_statistic_scoreSpeedMode">Highscore Speed Mode:</string>
     <string name="label_statistic_scoreStandardMode">Score Standard Mode:</string>
     <string name="button_singleplayerMenu_SpeedMode">Speed Mode</string>
@@ -155,8 +152,8 @@
     <string name="message_singleplayerMenu_info_StandardMode">Statistiken sind aktiviert. Alle Kategorieren (ohne Eigene Wörter) werden benutzt.</string>
     <string name="text_header_account">Account details</string>
     <string name="text_header_bluetooth">Multiplayer - Bluetooth</string>
-    <string name="text_header_multiplayer" translatable="false">Multiplayer</string>
-    <string name="text_header_singleplayerMenu" translatable="false">Singleplayer</string>
+    <string name="text_header_multiplayer">Mehrspieler</string>
+    <string name="text_header_singleplayerMenu">Einzelspieler</string>
     <string name="error_register_offline">Du musst online sein, um Dich zu registrieren!</string>
     <string name="error_changePW">Fehler beimÄndern der Passwörter!</string>
     <string name="error_changePW_oldPasswordWrong">Das alte Passwort ist nicht korrekt!</string>
@@ -165,6 +162,16 @@
     <string name="header_changePW">Passwort ändern</string>
     <string name="label_changePW_change">Passwort ändern</string>
     <string name="label_changePW_old">Altes Passwort</string>
+    <string name="options_checkForUpdate">Neuste Version laden</string>
+    <string name="update_error_general">Update fehlgeschlagen!</string>
+    <string name="update_info_success">Update erfolgreich!</string>
+    <string name="update_info_alreadyLatest">Neuste Version schon installiert!</string>
+    <string name="update_info_downloadStartedt">Neuste Version wird heruntergeladen</string>
+    <string name="label_current_User">NULL</string>
+    <string name="update_info_downloadStarted">Neuste Version wird heruntergeladen</string>
+    <string name="string_score">Score</string>
+    <string name="about_info">Entwickelt von: FMG Auszubildende zum Fachinformatiker Jahrgang 2013</string>
+    <string name="update_info_downloadNotice">Der Download hat begonnen und läuft im Hintergrund. Dies kann einige Zeit dauern. Falls es einen Installationsfehler mit der .apk gibt, versuche die Datei manuell zu installieren. Sie wird im Downloads-Ordner gespeichert.</string>
 
 
 </resources>

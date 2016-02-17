@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 public class Options extends Activity implements View.OnClickListener, IApplyableSettings
 {
 
-    DatabaseManager db = DatabaseManager.getInstance();
+    private DatabaseManager db = DatabaseManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -30,7 +30,7 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
         this.findViewById(R.id.options_close).setOnClickListener(this);
         this.findViewById(R.id.button_video).setOnClickListener(this);
         this.findViewById(R.id.button_options_categories).setOnClickListener(this);
-
+        this.findViewById(R.id.options_checkForUpdate).setOnClickListener(this);
         this.changeBackground();
 
 
@@ -39,6 +39,7 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
         if(!db.isOnline())
         {
             this.findViewById(R.id.button_ownWords).setEnabled(false);
+            this.findViewById(R.id.options_checkForUpdate).setEnabled(false);
         }
     }
 
@@ -65,9 +66,17 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
                 this.finish();
                 break;
             case R.id.button_ownWords:
-                if(db.isOnline())
+                if(this.db.isOnline())
                 {
                     this.startActivity(new Intent(this, OwnWordsMenu.class));
+                }
+                break;
+            case R.id.options_checkForUpdate:
+
+                if(this.db.isOnline())
+                {
+                    Updater u = new Updater(this);
+                    u.checkForUpdates();
                 }
                 break;
             default:
