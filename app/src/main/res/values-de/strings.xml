@@ -160,6 +160,11 @@
     <string name="error_register_offline">Du musst online sein, um Dich zu registrieren!</string>
     <string name="error_changePW">Fehler beimÄndern der Passwörter!</string>
     <string name="error_changePW_oldPasswordWrong">Das alte Passwort ist nicht korrekt!</string>
+    <string name="changePW_success">Passwort geändert!</string>
+    <string name="Label_changePW_new">Neues Passwort</string>
+    <string name="header_changePW">Passwort ändern</string>
+    <string name="label_changePW_change">Passwort ändern</string>
+    <string name="label_changePW_old">Altes Passwort</string>
 
 
 </resources>

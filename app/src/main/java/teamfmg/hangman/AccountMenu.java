@@ -21,7 +21,7 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
     /**
      * Database instance.
      */
-    DatabaseManager db = DatabaseManager.getInstance();
+    private DatabaseManager db = DatabaseManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

@@ -3,10 +3,8 @@ package teamfmg.hangman;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 /**
  * Achievements menu.<br />
@@ -17,7 +15,8 @@ public class Achievements extends Activity implements IApplyableSettings, View.O
 {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_achievements);
 

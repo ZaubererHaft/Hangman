@@ -163,6 +163,10 @@
     <string name="label_statistic_scoreSpeedMode">Highscore Speed Mode:</string>
     <string name="label_scoreboard_header">Scoreboard</string>
     <string name="button_accountMenu_Scoreboard">Scoreboard</string>
+    <string name="Label_changePW_new">New Password</string>
+    <string name="label_changePW_old">Old Password</string>
+    <string name="header_changePW">Change password</string>
+    <string name="label_changePW_change">Change password</string>
 
 
 </resources>

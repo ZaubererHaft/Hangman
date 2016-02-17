@@ -4,17 +4,25 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import java.sql.SQLException;
 
-public class ChangePassword extends Activity implements View.OnClickListener
+/**
+ * Menu to change password.
+ * @author Lucas
+ * @since 1.1
+ */
+public class ChangePassword extends Activity implements View.OnClickListener, IApplyableSettings
 {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
 
+        this.changeBackground();
         this.findViewById(R.id.changePassword_button).setOnClickListener(this);
     }
 
@@ -78,5 +86,13 @@ public class ChangePassword extends Activity implements View.OnClickListener
             this.finish();
         }
 
+    }
+
+    @Override
+    public void changeBackground()
+    {
+        Settings.load(this);
+        RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_changePW);
+        Settings.setColor(rl);
     }
 }
