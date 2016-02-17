@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/text_header_multiplayer_local"
-        android:id="@+id/textView8"
+        android:id="@+id/text_header_multiplayer_local"
         android:textSize="@dimen/textSizeBig"
         android:textColor="@color/color_white"
         android:textIsSelectable="false"
@@ -35,20 +35,83 @@
         android:minWidth="@dimen/textSizeDouble"
         android:textSize="@dimen/textSizeBig"
         android:minHeight="@dimen/textSizeDouble"
-        android:layout_alignTop="@+id/textView8"
+        android:layout_alignTop="@+id/text_header_multiplayer_local"
         android:layout_alignParentRight="true" />
 
-    <TextView
+    <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/multiplayer_local_lobby_players"
-        android:id="@+id/textView9"
-        android:layout_below="@+id/button_multiplayer_local_lobby_exit"
-        android:layout_alignParentLeft="true"
+        android:id="@+id/multiplayer_local_lobby_scrollView_main"
+        android:layout_below="@+id/text_header_multiplayer_local"
         android:layout_marginTop="@dimen/marginToHeader"
-        android:textSize="@dimen/textSizeMedium"
-        android:textColor="@color/color_white" />
+        android:fillViewport="false"
+        android:layout_above="@+id/multiplayer_local_lobby_button_play">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/relLayout_multiplayer_local_lobby_scrollView">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/multiplayer_local_lobby_players"
+                android:id="@+id/multiplayer_local_lobby_players"
+                android:layout_alignParentLeft="true"
+                android:textSize="@dimen/textSizeMedium"
+                android:textColor="@color/color_white"
+                android:layout_alignParentTop="true" />
+
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/multiplayer_local_lobby_scrollView"
+                android:layout_below="@+id/multiplayer_local_lobby_players"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentEnd="false"
+                android:layout_alignParentStart="false"
+                android:layout_alignParentRight="true"
+                android:fillViewport="false">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:id="@+id/multiplayer_local_lobby_scrollView_playerList"
+                    android:layout_height="match_parent">
+
+                </LinearLayout>
+            </ScrollView>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:id="@+id/multiplayer_local_lobby_addPlayer"
+                android:layout_below="@+id/multiplayer_local_lobby_scrollView"
+                android:layout_alignParentRight="true"
+                android:textSize="@dimen/textSizeMedium"
+                android:minHeight="@dimen/info_button_minWidth"
+                android:minWidth="@dimen/info_button_minWidth"
+                android:maxHeight="@dimen/info_button_minWidth"
+                android:maxWidth="@dimen/info_button_minWidth"
+                android:textStyle="bold" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:id="@+id/multiplayer_local_lobby_removePlayer"
+                android:layout_alignTop="@+id/multiplayer_local_lobby_addPlayer"
+                android:layout_toLeftOf="@+id/multiplayer_local_lobby_addPlayer"
+                android:textSize="@dimen/textSizeMedium"
+                android:minWidth="@dimen/info_button_minWidth"
+                android:minHeight="@dimen/info_button_minWidth"
+                android:maxWidth="@dimen/info_button_minWidth"
+                android:maxHeight="@dimen/info_button_minWidth"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </ScrollView>
 
     <Button
         android:layout_width="wrap_content"
@@ -62,56 +125,5 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true" />
-
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/multiplayer_local_lobby_scrollView"
-        android:layout_below="@+id/textView9"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentRight="true">
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:id="@+id/multiplayer_local_lobby_scrollView_playerList"
-            android:layout_height="match_parent">
-
-            <include
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                layout="@layout/new_player_element" />
-        </LinearLayout>
-    </ScrollView>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="+"
-        android:id="@+id/multiplayer_local_lobby_addPlayer"
-        android:layout_below="@+id/multiplayer_local_lobby_scrollView_playerList"
-        android:layout_alignParentRight="true"
-        android:textSize="@dimen/textSizeMedium"
-        android:minHeight="@dimen/info_button_minWidth"
-        android:minWidth="@dimen/info_button_minWidth"
-        android:maxHeight="@dimen/info_button_minWidth"
-        android:maxWidth="@dimen/info_button_minWidth"
-        android:textStyle="bold" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="-"
-        android:id="@+id/multiplayer_local_lobby_removePlayer"
-        android:layout_alignTop="@+id/multiplayer_local_lobby_addPlayer"
-        android:layout_toLeftOf="@+id/multiplayer_local_lobby_addPlayer"
-        android:textSize="@dimen/textSizeMedium"
-        android:minWidth="@dimen/info_button_minWidth"
-        android:minHeight="@dimen/info_button_minWidth"
-        android:maxWidth="@dimen/info_button_minWidth"
-        android:maxHeight="@dimen/info_button_minWidth"
-        android:textStyle="bold" />
 
 </RelativeLayout>

@@ -854,7 +854,6 @@ public class DatabaseManager extends Thread
      */
     public Word getRandomWord(Singleplayer.GameMode gameMode)
     {
-
         if(!this.isOnline())
         {
             return this.od.getRandomWord();
