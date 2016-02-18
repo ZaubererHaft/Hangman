@@ -170,12 +170,21 @@
 
     <string name="options_checkForUpdate">Get latest version</string>
     <string name="update_error_general">Update failed!</string>
-    <string name="update_info_success">Update successful!</string>
+
     <string name="update_info_alreadyLatest">You are using already the latest version!</string>
+
+    <string name="update_info_newVersion">A new version is out!</string>
+    <string name="update_info_newVersion_nowTo">Go to Settings -> get latest version!</string>
+
     <string name="update_info_downloadStarted">Your download has started!</string>
     <string name="update_info_downloadStartedt">Your download has started!</string>
     <string name="about_info">Developed by: FMG Trainee year 2013</string>
     <string name="update_info_downloadNotice">Your download has started!
         If there is an error opening the apk, please try installing the app manually.
         You will find the apk in the downloads directory.</string>
+    <string name="about_info2">Music by: Frederic Felsen</string>
+    <string name="about_info3">Further help from: Lucas Feierabend</string>
+    <string name="update_info_success_title">Download finished!</string>
+    <string name="update_info_success_description">Your download has finished. Click here to install the new version!</string>
+    <string name="update_info_success">Update succesful!</string>
 </resources>

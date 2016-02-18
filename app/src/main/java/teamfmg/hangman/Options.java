@@ -76,7 +76,7 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
                 if(this.db.isOnline())
                 {
                     Updater u = new Updater(this);
-                    u.checkForUpdates();
+                    u.checkForUpdatesAndDownload();
                 }
                 break;
             default:

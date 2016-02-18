@@ -172,6 +172,12 @@
     <string name="string_score">Score</string>
     <string name="about_info">Entwickelt von: FMG Auszubildende zum Fachinformatiker Jahrgang 2013</string>
     <string name="update_info_downloadNotice">Der Download hat begonnen und läuft im Hintergrund. Dies kann einige Zeit dauern. Falls es einen Installationsfehler mit der .apk gibt, versuche die Datei manuell zu installieren. Sie wird im Downloads-Ordner gespeichert.</string>
+    <string name="about_info2">Musik von: Frederic Felsen</string>
+    <string name="about_info3">Weitere Hilfe von: Lucas Feierabend</string>
+    <string name="update_info_success_description">Download abgeschlossen. Klicke, um die neuste Version zu installieren!</string>
+    <string name="update_info_success_title">Download abgeschlossen!</string>
+    <string name="update_info_newVersion">Neue Version verfügbar!</string>
+    <string name="update_info_newVersion_nowTo">Gehe zu Optionen -> Neuste Version laden!</string>
 
 
 </resources>

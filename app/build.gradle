@@ -16,7 +16,7 @@ android {
         applicationId 'teamfmg.hangman'
         minSdkVersion 8
         targetSdkVersion 23
-        versionCode 2
+        versionCode 3
         versionName "1.0"
         signingConfig signingConfigs.config
     }

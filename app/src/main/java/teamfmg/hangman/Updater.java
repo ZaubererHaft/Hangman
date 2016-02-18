@@ -1,25 +1,23 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Environment;
-import android.util.Log;
+import android.os.Looper;
+import android.os.Message;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 /**
  * Updater class.
@@ -34,6 +32,11 @@ public final class Updater extends Thread
     private Activity context;
 
     /**
+     * Time to timeout connection (in ms).
+     */
+    private static final int TIMEOUT = 5000;
+
+    /**
      * Creates a new updater class.
      * @param a Activity context.
      */
@@ -42,12 +45,14 @@ public final class Updater extends Thread
         this.context = a;
     }
 
+
     /**
-     * Checks fo an update of hangman.
+     * Checks whether a update is necessary or not.
+     * @return Boolean
      */
-    public void checkForUpdates()
+    public boolean updatePossible()
     {
-        int clientVersion = -2;
+        int clientVersion = -1;
         int serverVersion = -1;
 
         try
@@ -59,22 +64,27 @@ public final class Updater extends Thread
         {
             e.printStackTrace();
             Logger.write(this.context.getString(R.string.update_error_general), this.context);
-            return;
         }
 
         Logger.logOnly("Client version is: " +clientVersion);
         Logger.logOnly("Server version is: " +serverVersion);
 
-        /*
-         * Compare versions and start download.
-         */
-        if(serverVersion != clientVersion)
+        return serverVersion != clientVersion;
+    }
+
+    /**
+     * Checks fo an update of hangman and start the download.
+     */
+    public void checkForUpdatesAndDownload()
+    {
+        if(this.updatePossible())
         {
-            AlertDialog.Builder d = new AlertDialog.Builder(context);
-            d.setTitle(this.context.getString(R.string.update_info_downloadStarted));
-            d.setMessage(this.context.getString(R.string.update_info_downloadNotice));
-            d.setPositiveButton("Ok", null);
-            d.create().show();
+            Logger.messageDialog
+            (
+                this.context.getString(R.string.update_info_downloadStarted),
+                "",
+                this.context
+            );
             this.start();
         }
         else
@@ -86,34 +96,40 @@ public final class Updater extends Thread
 
 
     /**
-     * Tries to update the current version.
+     * Tries to update the current version. <br />
+     * Changes: Now saving internal.
+     * @since 1.3
      */
     private void update()
     {
+        final String fileName = "app-Android2-release.apk";
+
         FileOutputStream fos = null;
-        URLConnection uconn = null;
+        URLConnection uconn;
         InputStream is = null;
-        //String PATH = a.getFilesDir().getPath();
-        File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        File file  = new File(context.getFilesDir().getPath());
+        //File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
         file.mkdirs();
-        File outputFile = new File(file, "app-Android2-release.apk");
+        File outputFile = new File(file, fileName);
 
         try
         {
+
             //Server URL
-            URL url = new URL("http://h2530840.stratoserver.net/app-Android2-release.apk");
+            URL url = new URL("http://h2530840.stratoserver.net/"+fileName);
 
             uconn = url.openConnection();
-            uconn.setReadTimeout(20000);
-            uconn.setConnectTimeout(20000);
+            uconn.setReadTimeout(TIMEOUT);
+            uconn.setConnectTimeout(TIMEOUT);
 
             if(outputFile.exists())
             {
                 outputFile.delete();
             }
 
-            fos = new FileOutputStream(outputFile);
+            fos = context.openFileOutput("/"+fileName,Activity.MODE_WORLD_READABLE);
+            //new FileOutputStream(outputFile, context.MODE_WORLD_READABLE);
             is = new BufferedInputStream(uconn.getInputStream());
 
             int fileLength = uconn.getContentLength();
@@ -144,10 +160,10 @@ public final class Updater extends Thread
         }
         catch (Exception e)
         {
-            e.printStackTrace();
             Logger.logOnlyError(e.getMessage());
-            Logger.write(this.context.getString(R.string.update_error_general), this.context);
         }
+
+
         finally
         {
             try
@@ -168,24 +184,53 @@ public final class Updater extends Thread
             }
         }
 
-        try {
+        try
+        {
             Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        }
+        catch (InterruptedException e)
+        {
+            Logger.logOnlyError(e.getMessage());
         }
 
         //Try open and start installer
         if(outputFile.exists())
         {
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            Uri uri = Uri.fromFile(new File(file.getPath() + "/app-Android2-debug.apk"));
+            Uri uri = Uri.fromFile(new File(file.getPath() + "/" + fileName));
             intent.setDataAndType(uri, "application/vnd.android.package-archive");
-            this.context.startActivity(intent);
 
+            /**
+             * Show notification for new versions.
+             */
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN)
+            {
+                Logger.showNotification
+                (
+                    this.context,
+                    intent,
+                    this.context.getString(R.string.update_info_success_title),
+                    this.context.getString(R.string.update_info_success_description),
+                    R.drawable.hangman_logo
+                );
+            }
+            else
+            {
+                //else start just the installer.
+                this.context.startActivity(intent);
+            }
         }
         else
         {
-            Logger.write(context.getString(R.string.update_error_general), this.context);
+            Logger.logOnlyError("Error updating!");
+
+            this.context.runOnUiThread(new Runnable() {
+                @Override
+                public void run()
+                {
+                    Logger.write(context.getString(R.string.update_error_general), context);
+                }
+            });
         }
 
     }

@@ -70,15 +70,23 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
             Logger.logOnly("No userdata entered yet!");
         }
 
-        Logger.showNotification("", this.getBaseContext());
+        Updater u = new Updater(this);
+
+        if(u.updatePossible())
+        {
+            Logger.messageDialog
+            (
+                this.getString(R.string.update_info_newVersion),
+                this.getString(R.string.update_info_newVersion_nowTo),
+                this
+            );
+        }
 
     }
 
     @Override
     public void onClick(View v)
     {
-
-
         int id = v.getId();
         final int offset = 50;
 

@@ -52,13 +52,12 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/label_achievements"
             android:layout_alignRight="@+id/achievements_close"
-            android:id="@+id/relativeLayout">
+            android:id="@+id/ach_subLayout">
 
             <include
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 layout="@layout/achievement"
-                android:layout_below="@+id/achievements_close"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true"
                 android:id="@+id/achievement_include" />
