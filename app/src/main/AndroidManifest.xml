@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="teamfmg.hangman" >
+    package="teamfmg.hangman">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -14,6 +13,9 @@
 
     <application
         android:allowBackup="true"
+
+        android:versionCode="3"
+
         android:exported="true"
         android:icon="@mipmap/hangman_logo"
         android:label="@string/app_name"
@@ -75,7 +77,7 @@
             android:name=".AccountMenu"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Achievements"
+            android:name=".AchievementsMenu"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ChangePassword"

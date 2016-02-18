@@ -31,6 +31,8 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
     private EditText username, password;
 
     private static User currentUser;
+    DatabaseManager db = DatabaseManager.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,9 +40,17 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_menu);
 
+        db.setActivity(this);
+
         (this.findViewById(R.id.button_login)).setOnClickListener(this);
         (this.findViewById(R.id.button_register)).setOnClickListener(this);
         (this.findViewById(R.id.button_exit)).setOnClickListener(this);
+
+        if(!db.isOnline())
+        {
+            (this.findViewById(R.id.button_register)).setEnabled(false);
+        }
+
 
         this.username   = (EditText)this.findViewById(R.id.textField_welcome_username);
         this.password   = (EditText)this.findViewById(R.id.textField_welcome_password);
@@ -59,14 +69,24 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
         {
             Logger.logOnly("No userdata entered yet!");
         }
+
+        Updater u = new Updater(this);
+
+        if(u.updatePossible())
+        {
+            Logger.messageDialog
+            (
+                this.getString(R.string.update_info_newVersion),
+                this.getString(R.string.update_info_newVersion_nowTo),
+                this
+            );
+        }
+
     }
 
     @Override
     public void onClick(View v)
     {
-        DatabaseManager db = DatabaseManager.getInstance();
-        db.setActivity(this);
-
         int id = v.getId();
         final int offset = 50;
 
@@ -78,8 +98,11 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
         //register button
         else if(id == R.id.button_register)
         {
-            //start register menu and closes this app
-            this.startActivity(new Intent(this,RegisterMenu.class));
+            if(this.db.isOnline())
+            {
+                //start register menu and closes this app
+                this.startActivity(new Intent(this, RegisterMenu.class));
+            }
         }
 
         //login Button

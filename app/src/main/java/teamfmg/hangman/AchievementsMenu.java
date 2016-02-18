@@ -3,27 +3,24 @@ package teamfmg.hangman;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 /**
- * Achievements menu.<br />
+ * AchievementsMenu menu.<br />
  * Created by Ludwig 19.01.2016.
  * @since 1.0
  */
-public class Achievements extends Activity implements IApplyableSettings, View.OnClickListener
+public class AchievementsMenu extends Activity implements IApplyableSettings, View.OnClickListener
 {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_achievements);
 
         this.findViewById(R.id.achievements_close).setOnClickListener(this);
-
-
 
         this.changeBackground();
     }

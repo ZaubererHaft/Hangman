@@ -38,6 +38,10 @@
     <string name="label_hint_register_password">At least 8 signs</string>
     <string name="label_register_hint_repeatpassword">Repeat your password</string>
 
+    <string name="error_changePW_oldPasswordWrong">The old password is not correct!</string>
+    <string name="error_changePW">Error changing passwords!</string>
+    <string name="changePW_success">Password changed!</string>
+
     <string name="hint_settings_changed">Settings changed!</string>
 
     <string name="button_play">Play</string>
@@ -132,7 +136,7 @@
     <string name="account_logout">Logout</string>
     <string name="label_achievements">Achievements</string>
     <string name="Account_label_logged_in">Logged in as:</string>
-    <string name="label_current_User" translatable="false">NULL</string>
+    <string name="label_current_User">NULL</string>
     <string name="changePassword_button">Change Password</string>
 
     <string name="text_header_multiplayer">Multiplayer</string>
@@ -147,7 +151,7 @@
     <string name="message_singleplayerMenu_info_CustomMode">Statistics are Disabled. You can choose the categories in Options -> Categorys.</string>
     <string name="message_singleplayerMenu_info_HardcoreMode">This Mode will be really hard. The Hangman does not reset after solving a word. Solve as many Letters and Words to raise your Score! Reach the best Highscore to lead the scoreboard!</string>
     <string name="message_singleplayerMenu_info_SpeedMode">(COMING SOON) Fight against the Time. You start with 120 Seconds and gain 5 more for each correct letter, but loose 20 for reaching an full Hangman. If You solve an Word your score rises!</string>
-    <string name="string_score" translatable="false">Score</string>
+    <string name="string_score">Score</string>
     <string name="error_reload_categories">An error with the database occurred. Please check your internet connection</string>
     <string name="string_newHighscore">NEW HIGHSCORE!</string>
     <string name="string_yourNewHighscore">New Highscore: </string>
@@ -166,6 +170,28 @@
     <string name="text_header_multiplayer_local">Multiplayer Local</string>
     <string name="multiplayer_local_lobby_players">Players:</string>
     <string name="multiplayer_local_lobby_button_play">Play</string>
+    <string name="Label_changePW_new">New Password</string>
+    <string name="label_changePW_old">Old Password</string>
+    <string name="header_changePW">Change password</string>
+    <string name="label_changePW_change">Change password</string>
 
+    <string name="options_checkForUpdate">Get latest version</string>
+    <string name="update_error_general">Update failed!</string>
 
+    <string name="update_info_alreadyLatest">You are using already the latest version!</string>
+
+    <string name="update_info_newVersion">A new version is out!</string>
+    <string name="update_info_newVersion_nowTo">Go to Settings -> get latest version!</string>
+
+    <string name="update_info_downloadStarted">Your download has started!</string>
+    <string name="update_info_downloadStartedt">Your download has started!</string>
+    <string name="about_info">Developed by: FMG Trainee year 2013</string>
+    <string name="update_info_downloadNotice">Your download has started!
+        If there is an error opening the apk, please try installing the app manually.
+        You will find the apk in the downloads directory.</string>
+    <string name="about_info2">Music by: Frederic Felsen</string>
+    <string name="about_info3">Further help from: Lucas Feierabend</string>
+    <string name="update_info_success_title">Download finished!</string>
+    <string name="update_info_success_description">Your download has finished. Click here to install the new version!</string>
+    <string name="update_info_success">Update succesful!</string>
 </resources>

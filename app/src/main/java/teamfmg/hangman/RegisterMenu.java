@@ -7,6 +7,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
+
+import java.sql.SQLException;
+
 /**
  * Hangman register menu.<br />
  * Created by Ludwig 09.11.2015.
@@ -140,13 +144,13 @@ public class RegisterMenu extends Activity implements View.OnClickListener, IApp
             this.db.addUser
             (
                 new User
-                (
-                    enteredUsername,
-                    //encryption
-                    Caeser.encrypt(enteredPassword, Settings.encryptOffset),
-                    enteredMail, -1
-                )
-            );
+                    (
+                        enteredUsername,
+                        //encryption
+                        Caeser.encrypt(enteredPassword, Settings.encryptOffset),
+                        enteredMail, -1
+                    )
+                );
             Logger.write(this.getResources().getString(R.string.info_register_succeed), this, offset);
             return null;
         }

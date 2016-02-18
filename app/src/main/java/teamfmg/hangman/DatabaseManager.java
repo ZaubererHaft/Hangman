@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Looper;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -471,10 +472,9 @@ public class DatabaseManager extends Thread
      * @param newPW The new password.
      * @since 1.1
      */
-    public void changePassword(String newPW)
+    public void changePassword(String newPW) throws SQLException
     {
-        this.useCommand("UPDATE users SET password = " +
-                Caeser.encrypt(newPW, Settings.encryptOffset) + " WHERE username = '" +
+        this.useCommand("UPDATE users SET password = '" +newPW+"' WHERE username = '" +
                 LoginMenu.getCurrentUser().getName() + "';", true);
 
         this.od.changePW(newPW);
@@ -1071,7 +1071,7 @@ public class DatabaseManager extends Thread
      * @since 1.1
      * @author Ludwig
      */
-    class OfflineDatabase extends SQLiteOpenHelper
+    private class OfflineDatabase extends SQLiteOpenHelper
     {
         /**
          * Version of the database.
@@ -1146,9 +1146,7 @@ public class DatabaseManager extends Thread
         public void changePW(String newPW)
         {
             SQLiteDatabase db = this.getWritableDatabase();
-            db.execSQL("UPDATE users SET password = " +
-                    Caeser.encrypt(newPW, Settings.encryptOffset) + " WHERE username = '" +
-                    LoginMenu.getCurrentUser().getName() + "';");
+            db.execSQL("UPDATE users SET password = '"+newPW+"';");
             db.close();
         }
 

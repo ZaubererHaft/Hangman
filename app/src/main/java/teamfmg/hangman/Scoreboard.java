@@ -1,20 +1,25 @@
 package teamfmg.hangman;
 
-import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
-
+/**
+ * The Scoreboard menu for Hangman.<br />
+ * Created by Vincent 10.02.2016.
+ * @author Vincent
+ * @since 1.2
+ */
 @SuppressWarnings("deprecation")
-public class Scoreboard extends TabActivity implements View.OnClickListener{
+public class Scoreboard extends TabActivity implements View.OnClickListener
+{
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scoreboard);
 

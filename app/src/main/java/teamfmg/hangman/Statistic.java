@@ -7,17 +7,23 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+/**
+ * Hangman statistics menu.
+ * @author Vincent
+ * @since 1.1
+ */
 public class Statistic extends Activity implements IApplyableSettings, View.OnClickListener
 {
 
-    DatabaseManager db = DatabaseManager.getInstance();
+    private DatabaseManager db = DatabaseManager.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistic);
 
-        db.setActivity(this);
+        this.db.setActivity(this);
         String username = LoginMenu.getCurrentUser().getName();
 
         if (getIntent().hasExtra("othersStatistic")){
@@ -37,8 +43,6 @@ public class Statistic extends Activity implements IApplyableSettings, View.OnCl
         Integer scoreStandardMode       = val[7];
         Integer highscoreHardcore       = val[5];
         Integer highscoreSpeedmode      = val[6];
-
-
 
 
         String[] texts=

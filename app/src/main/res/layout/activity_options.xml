@@ -94,11 +94,18 @@
         android:id="@+id/button_about"
         android:textSize="@dimen/textSizeMedium"
         android:minHeight="@dimen/button_height"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="113dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/options_checkForUpdate"
+        android:id="@+id/options_checkForUpdate"
+        android:textSize="@dimen/textSizeMedium"
+        android:minHeight="@dimen/button_height"
         android:layout_below="@+id/button_options_music"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true" />
 

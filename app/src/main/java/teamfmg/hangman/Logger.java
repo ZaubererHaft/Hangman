@@ -1,8 +1,17 @@
 package teamfmg.hangman;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
@@ -133,5 +142,39 @@ public final class Logger
 
 
         return true;
+    }
+
+    /**
+     * Showas a notifcation.
+     * @param a From wich activity to show.
+     * @param target Here you are landing when clicking on notification.
+     * @param title Title of the notification
+     * @param description Description of the notification
+     * @param iconID ID of the drawable
+     */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public static void showNotification(Activity a, Intent target, String title, String description, int iconID)
+    {
+                NotificationCompat.Builder mBuilder =
+                        new NotificationCompat.Builder(a)
+                                .setSmallIcon(iconID)
+                                .setContentTitle(title)
+                                .setContentText(description);
+
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(a);
+
+
+                stackBuilder.addParentStack(a.getClass());
+                stackBuilder.addNextIntent(target);
+                PendingIntent resultPendingIntent =
+                        stackBuilder.getPendingIntent(
+                                0,
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                        );
+                mBuilder.setContentIntent(resultPendingIntent);
+                NotificationManager mNotificationManager =
+                        (NotificationManager) a.getSystemService(Context.NOTIFICATION_SERVICE);
+        // mId allows you to update the notification later on.
+                mNotificationManager.notify(1, mBuilder.build());
     }
 }

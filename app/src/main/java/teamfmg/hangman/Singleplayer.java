@@ -530,7 +530,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
             return;
         }
 
-        if(!isLoading)
+        if(!this.isLoading)
         {
             Button b = (Button) v;
             b.setEnabled(false);

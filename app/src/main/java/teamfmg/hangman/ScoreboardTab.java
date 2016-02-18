@@ -14,7 +14,7 @@ import java.io.BufferedReader;
 import java.util.List;
 
 /**
- * The Options menu for Hangman.<br />
+ * The Scoreboard menu for Hangman.<br />
  * Created by Vincent 10.02.2016.
  * @author Vincent
  * @since 1.2
