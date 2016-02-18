@@ -2,12 +2,8 @@ package teamfmg.hangman;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
@@ -142,6 +138,7 @@ public final class Logger
 
     public static void showNotification(String eventtext, Context ctx) {
 
+        /*
         // intent triggered, you can add other intent for other actions
         Intent intent = new Intent(ctx, LoginMenu.class);
         PendingIntent pIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
@@ -164,6 +161,7 @@ public final class Logger
                     .addAction(0, "Remind", pIntent)
 
                     .build();
+
         }
 
         NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(ctx.NOTIFICATION_SERVICE);
@@ -172,5 +170,6 @@ public final class Logger
         // myNotification.flags |= Notification.FLAG_AUTO_CANCEL;
 
         notificationManager.notify(0, mNotification);
+        */
     }
 }
