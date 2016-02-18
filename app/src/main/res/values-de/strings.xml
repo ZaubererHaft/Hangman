@@ -178,6 +178,13 @@
     <string name="update_info_success_title">Download abgeschlossen!</string>
     <string name="update_info_newVersion">Neue Version verfügbar!</string>
     <string name="update_info_newVersion_nowTo">Gehe zu Optionen -> Neuste Version laden!</string>
+    <string name="multiplayerMenu_button_bluetooth">Bluetooth</string>
+    <string name="multiplayerMenu_button_local">Local</string>
+    <string name="multiplayerMenu_button_wifi">WiFi</string>
+    <string name="multiplayer_local_lobby_button_play">Play</string>
+    <string name="multiplayer_local_lobby_players">Spieler:</string>
+    <string name="text_header_multiplayer_local">Multiplayer Lokal</string>
+    <string name="error_no_currentUser">Fehler beim Laden des Users. Bitte neu einloggen!</string>
 
 
 </resources>
