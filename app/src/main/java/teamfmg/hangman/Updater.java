@@ -104,6 +104,7 @@ public final class Updater extends Thread
     {
         final String fileName = "app-Android2-release.apk";
 
+        int fileLength = 0;
         FileOutputStream fos = null;
         URLConnection uconn;
         InputStream is = null;
@@ -132,7 +133,7 @@ public final class Updater extends Thread
             //new FileOutputStream(outputFile, context.MODE_WORLD_READABLE);
             is = new BufferedInputStream(uconn.getInputStream());
 
-            int fileLength = uconn.getContentLength();
+            fileLength = uconn.getContentLength();
             Logger.logOnly("You are downloading: "+fileLength);
 
             byte data[] = new byte[8192];
@@ -194,7 +195,7 @@ public final class Updater extends Thread
         }
 
         //Try open and start installer
-        if(outputFile.exists())
+        if(outputFile.exists() && outputFile.length() == fileLength)
         {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             Uri uri = Uri.fromFile(new File(file.getPath() + "/" + fileName));
