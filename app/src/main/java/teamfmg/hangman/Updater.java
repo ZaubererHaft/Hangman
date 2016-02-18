@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Looper;
-import android.os.Message;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,9 +13,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
-
 /**
  * Updater class.
  * Created by Ludwig on 2/17/16.
