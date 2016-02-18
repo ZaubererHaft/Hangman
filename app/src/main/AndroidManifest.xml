@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="teamfmg.hangman" >
+    package="teamfmg.hangman">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -84,7 +83,7 @@
             android:name=".AccountMenu"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Achievements"
+            android:name=".AchievementsMenu"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ChangePassword"

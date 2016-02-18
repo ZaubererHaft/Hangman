@@ -91,7 +91,7 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
             case R.id.account_achievments:
                 if(db.isOnline())
                 {
-                    i = new Intent(this, Achievements.class);
+                    i = new Intent(this, AchievementsMenu.class);
                     this.startActivity(i);
                 }
 

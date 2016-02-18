@@ -1069,7 +1069,7 @@ public class DatabaseManager extends Thread
      * @since 1.1
      * @author Ludwig
      */
-    class OfflineDatabase extends SQLiteOpenHelper
+    private class OfflineDatabase extends SQLiteOpenHelper
     {
         /**
          * Version of the database.

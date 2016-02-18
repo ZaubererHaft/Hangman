@@ -2,7 +2,6 @@ package teamfmg.hangman;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.view.View;
@@ -70,6 +69,8 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
         {
             Logger.logOnly("No userdata entered yet!");
         }
+
+        Logger.showNotification("", this.getBaseContext());
 
     }
 

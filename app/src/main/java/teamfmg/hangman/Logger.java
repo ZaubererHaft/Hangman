@@ -2,7 +2,12 @@ package teamfmg.hangman;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
@@ -133,5 +138,39 @@ public final class Logger
 
 
         return true;
+    }
+
+    public static void showNotification(String eventtext, Context ctx) {
+
+        // intent triggered, you can add other intent for other actions
+        Intent intent = new Intent(ctx, LoginMenu.class);
+        PendingIntent pIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
+
+        // this is it, we'll build the notification!
+        // in the addAction method, if you don't want any icon, just set the first param to 0
+        Notification mNotification = null;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
+        {
+            mNotification = new Notification.Builder(ctx)
+
+                    .setContentTitle("New Post!")
+                    .setContentText("Here's an awesome update for you!")
+                    //.setSmallIcon(R.drawable.ninja)
+                    .setContentIntent(pIntent)
+                    //.setSound(soundUri)
+
+                    //.addAction(R.drawable.ninja, "View", pIntent)
+                    .addAction(0, "Remind", pIntent)
+
+                    .build();
+        }
+
+        NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(ctx.NOTIFICATION_SERVICE);
+
+        // If you want to hide the notification after it was selected, do the code below
+        // myNotification.flags |= Notification.FLAG_AUTO_CANCEL;
+
+        notificationManager.notify(0, mNotification);
     }
 }

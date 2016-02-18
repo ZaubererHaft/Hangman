@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="teamfmg.hangman.Achievements"
+    tools:context=".AchievementsMenu"
     android:id="@+id/relLayout_Achievements"
     android:background="@drawable/green">
 
@@ -39,13 +39,30 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/achievements_close"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="@dimen/marginToHeader"
-        android:id="@+id/achievements_subLayout">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView2"
+        android:layout_below="@+id/label_achievements"
+        android:layout_alignRight="@+id/achievements_close"
+        android:layout_marginTop="@dimen/marginForSpace">
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/label_achievements"
+            android:layout_alignRight="@+id/achievements_close"
+            android:id="@+id/relativeLayout">
+
+            <include
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                layout="@layout/achievement"
+                android:layout_below="@+id/achievements_close"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:id="@+id/achievement_include" />
+        </RelativeLayout>
+    </ScrollView>
+
 </RelativeLayout>
