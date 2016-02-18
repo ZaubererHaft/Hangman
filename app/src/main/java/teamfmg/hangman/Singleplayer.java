@@ -22,15 +22,15 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     /**
      * the current shown picture of Hangman
      */
-    private int currentBuildOfHangman;
+    protected int currentBuildOfHangman;
     /**
      * Current word to guess.
      */
-    private String currentWord;
+    protected String currentWord;
     /**
      * The object of the currend word to guess
      */
-    private Word currentWordObject;
+    protected Word currentWordObject;
     /**
      * Label to show the text.
      */
@@ -42,7 +42,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     /**
      * Handles database connection.
      */
-    private DatabaseManager db = DatabaseManager.getInstance();
+    protected DatabaseManager db = DatabaseManager.getInstance();
     /**
      * Full size of hangman.
      */
@@ -62,7 +62,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     /**
      * Enum for the available GameModes
      */
-    public enum GameMode {STANDARD, CUSTOM, HARDCORE, SPEED}
+    public enum GameMode {STANDARD, CUSTOM, HARDCORE, SPEED, LOCALMULTIPLAYER}
     /**
      * The choosen Gamemode
      */
@@ -70,7 +70,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     /**
      * the current score in Speed and Hardcore mode
      */
-    private int score;
+    protected int score;
     /**
      * the name of the Package
      */
@@ -118,6 +118,12 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
                 break;
             case SPEED:
                 headerText = this.getResources().getString(R.string.button_singleplayerMenu_SpeedMode);
+                break;
+            case LOCALMULTIPLAYER:
+                headerText = this.getResources().getString(R.string.text_header_multiplayer_local);
+                //In Local singleplayer the gamemode will be an Hardcore Mode.
+                gameMode = GameMode.HARDCORE;
+                break;
         }
         header.setText(headerText);
 
@@ -180,7 +186,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * @param word asked word
      * @since 0.5
      */
-    private void newWord(String word)
+    protected void newWord(String word)
     {
         this.wordPieces = new String[word.length()];
 
@@ -232,7 +238,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * Show Game Result and resets the Game
      * @since 0.5
      */
-    private void finishGame(boolean won)
+    protected void finishGame(boolean won)
     {
         String titleOfDialog;
 
@@ -313,7 +319,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * Resets all buttons to Enabled(true).
      * @since 0.5
      */
-    private void resetButtons()
+    protected void resetButtons()
     {
         //Reset Buttons in row one
         LinearLayout layoutRowOne = (LinearLayout) this.findViewById(R.id.linLayout_rowOne);
@@ -415,7 +421,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * Loads the next hangman picture.
      * @since 0.7
      */
-    private void loadNextImg()
+    protected void loadNextImg()
     {
         if(!this.isLoading)
         {
@@ -450,7 +456,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         }
     }
 
-    private void setCurrentScoreOnLable()
+    protected void setCurrentScoreOnLable()
     {
         if (gameMode == GameMode.CUSTOM || gameMode == GameMode.STANDARD){
             scoreLabel.setText("");
@@ -463,7 +469,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * Resets the Round
      * @since 0.5
      */
-    private void resetGame()
+    protected void resetGame()
     {
         if (this.gameMode != GameMode.HARDCORE)
         this.setHangman(0);
@@ -490,7 +496,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * resets the Hangman. No Part is build
      * @since 0.5
      */
-    private void setHangman(int buildOfHangman)
+    protected void setHangman(int buildOfHangman)
     {
         try
         {

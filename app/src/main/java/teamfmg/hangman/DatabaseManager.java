@@ -854,7 +854,6 @@ public class DatabaseManager extends Thread
      */
     public Word getRandomWord(Singleplayer.GameMode gameMode)
     {
-
         if(!this.isOnline())
         {
             return this.od.getRandomWord();
@@ -877,10 +876,14 @@ public class DatabaseManager extends Thread
                 query = query + " OR category LIKE '" + categories.get(i) + "'";
             }
 
-            query += " UNION SELECT word,'ownwords' AS category, description " +
-                    "FROM  userwords " +
-                    "INNER JOIN customwords ON customwords.wordID = userwords.wordID " +
-                    "WHERE '" + LoginMenu.getCurrentUser().getId() + "' = userID";
+            //Ugly if
+            if (categories.contains("Eigene Wörter") || categories.contains("Own Words"))
+            {
+                query += " UNION SELECT word,'ownwords' AS category, description " +
+                        "FROM  userwords " +
+                        "INNER JOIN customwords ON customwords.wordID = userwords.wordID " +
+                        "WHERE '" + LoginMenu.getCurrentUser().getId() + "' = userID";
+            }
 
         }
         query += " ORDER BY RAND() LIMIT 1;";
@@ -968,7 +971,6 @@ public class DatabaseManager extends Thread
      */
     public User getUser(String name) throws NullPointerException
     {
-
         //Use offline mode
         if(!this.isOnline())
         {

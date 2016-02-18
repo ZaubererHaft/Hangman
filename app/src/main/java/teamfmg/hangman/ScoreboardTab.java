@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
 import java.util.List;
 
 /**
@@ -58,6 +59,9 @@ public class ScoreboardTab extends Activity implements View.OnClickListener, IAp
             case 2:
                 header.setText(R.string.button_singleplayerMenu_SpeedMode);
                 this.scorelist = this.db.getSpeedModeScoreboard();
+                break;
+            case 3:
+                header.setText(R.string.text_header_multiplayer_local);
                 break;
         }
 
