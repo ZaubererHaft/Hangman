@@ -128,7 +128,7 @@ public final class Updater extends Thread
                 outputFile.delete();
             }
 
-            fos = context.openFileOutput("/"+fileName,Activity.MODE_WORLD_READABLE);
+            fos = context.openFileOutput(fileName,Activity.MODE_WORLD_READABLE);
             //new FileOutputStream(outputFile, context.MODE_WORLD_READABLE);
             is = new BufferedInputStream(uconn.getInputStream());
 
