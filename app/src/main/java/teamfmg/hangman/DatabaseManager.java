@@ -225,6 +225,12 @@ public class DatabaseManager extends Thread
         this.activity = a;
     }
 
+    //TODO: Implement
+    public boolean exists(String mail)
+    {
+        return false;
+    }
+
     /**
      * This connects to the online database.
      * @since 1.1

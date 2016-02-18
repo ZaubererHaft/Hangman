@@ -40,7 +40,7 @@
         android:layout_alignParentRight="true" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/multiplayerMenu_button_bluetooth"
         android:id="@+id/multiplayerMenu_button_bluetooth"
@@ -48,10 +48,13 @@
         android:layout_alignParentLeft="true"
         android:layout_alignRight="@+id/multiplayer_close"
         android:textSize="@dimen/textSizeMedium"
-        android:minHeight="@dimen/button_height" />
+        android:minHeight="@dimen/button_height"
+        android:layout_marginTop="@dimen/marginToHeader"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/multiplayerMenu_button_wifi"
         android:id="@+id/multiplayerMenu_button_wifi"
@@ -59,10 +62,12 @@
         android:layout_alignParentLeft="true"
         android:layout_alignRight="@+id/multiplayer_close"
         android:textSize="@dimen/textSizeMedium"
-        android:minHeight="@dimen/button_height" />
+        android:minHeight="@dimen/button_height"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/multiplayerMenu_button_local"
         android:id="@+id/multiplayerMenu_button_local"
