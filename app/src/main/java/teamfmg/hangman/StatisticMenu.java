@@ -12,7 +12,7 @@ import android.widget.TextView;
  * @author Vincent
  * @since 1.1
  */
-public class Statistic extends Activity implements IApplyableSettings, View.OnClickListener
+public class StatisticMenu extends Activity implements IApplyableSettings, View.OnClickListener
 {
 
     private DatabaseManager db = DatabaseManager.getInstance();

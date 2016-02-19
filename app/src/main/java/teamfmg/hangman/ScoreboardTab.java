@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
 import java.util.List;
 
 /**
@@ -142,7 +141,7 @@ public class ScoreboardTab extends Activity implements View.OnClickListener, IAp
             break;
             
             default:
-                Intent i = new Intent(this, Statistic.class);
+                Intent i = new Intent(this, StatisticMenu.class);
                 i.putExtra("othersStatistic",
                         ((TextView)v.findViewById(R.id.scoreboardElement_Username)).getText());
                 this.startActivity(i);

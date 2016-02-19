@@ -263,6 +263,8 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         //Special Hardcore Mode
         if (!won && gameMode == GameMode.HARDCORE)
         {
+            Statistics s = new Statistics();
+
             if (score > db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE,
                     LoginMenu.getCurrentUser().getName()))
             {
@@ -270,8 +272,8 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
                         this.getResources().getString(R.string.string_yourNewHighscore) + score + "\n"
                                 + this.getResources().getString(R.string.string_yourOldHighscore)
                         + db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, LoginMenu.getCurrentUser().getName()), this);
-                db.updateStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, score);
 
+                s.scoreHardcore = score;
 
             }
             else
@@ -284,6 +286,8 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
             score = 0;
             setCurrentScoreOnLable();
             setHangman(0);
+
+            this.db.raiseStatistic(s, gameMode, null);
         }
 
         //Special Hardcore Mode
@@ -306,21 +310,37 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         //Special Standard Mode
         if (gameMode == GameMode.STANDARD)
         {
+            Statistics s = new Statistics();
+
             if (won)
             {
-                db.raiseStatistic(DatabaseManager.Attribute.WINS, 1);
+                //db.raiseStatistic(DatabaseManager.Attribute.WINS, 1);
+                s.wins = 1;
             }
             else
             {
-                db.raiseStatistic(DatabaseManager.Attribute.LOSES, 1);
+                //db.raiseStatistic(DatabaseManager.Attribute.LOSES, 1);
+                s.losses = 1;
             }
             if (this.currentBuildOfHangman == 0)
             {
-                db.raiseStatistic(DatabaseManager.Attribute.PERFECTS, 1);
+                //db.raiseStatistic(DatabaseManager.Attribute.PERFECTS, 1);
+                s.perfects = 1;
             }
 
-            db.raiseStatistic(DatabaseManager.Attribute.WRONG_LETTER, wrongLetters);
-            db.raiseStatistic(DatabaseManager.Attribute.CORRECT_LETTER, correctLetters);
+            //db.raiseStatistic(DatabaseManager.Attribute.WRONG_LETTER, wrongLetters);
+            s.wrongLetters = this.wrongLetters;
+            //db.raiseStatistic(DatabaseManager.Attribute.CORRECT_LETTER, correctLetters);
+            s.correctLetters = this.correctLetters;
+
+            Integer lucker = null;
+
+            if (won && this.currentBuildOfHangman == this.fullHangman -1)
+            {
+                lucker = 14;
+            }
+
+            this.db.raiseStatistic(s, gameMode, lucker);
         }
 
         this.resetGame();

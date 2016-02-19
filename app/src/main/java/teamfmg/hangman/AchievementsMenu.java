@@ -90,7 +90,7 @@ public class AchievementsMenu extends Activity implements IApplyableSettings, Vi
                 break;
 
             case R.id.account_statistic:
-                i = new Intent(this, Statistic.class);
+                i = new Intent(this, StatisticMenu.class);
                 this.startActivity(i);
                 break;
         }

@@ -231,7 +231,7 @@ public class OfflineMode extends SQLiteOpenHelper
 
     /**
      * Adds an value to the current value in the Database
-     * @param attribut The type of Statistic
+     * @param attribut The type of StatisticMenu
      * @param amount Value which will be added
      */
     public void raiseScore (Attribute attribut, int amount){
@@ -245,7 +245,7 @@ public class OfflineMode extends SQLiteOpenHelper
 
     /**
      * Creates an Select for the DB for the Statistics
-     * @param attribut The type of Statistic
+     * @param attribut The type of StatisticMenu
      * @return Value of the attribut for the current User
      */
     public int getCurrentStatistic (Attribute attribut)

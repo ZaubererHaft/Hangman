@@ -3,6 +3,7 @@ package teamfmg.hangman;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,11 +11,12 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Looper;
-
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -230,13 +232,12 @@ public class DatabaseManager extends Thread
 
     /**
      * Sets an achievemnt DONE for a player.
-     * @param userID ID
-     * @param achievementID ID
+     * @param achievements AString with userIDs and achID.
      */
-    public void setAchievement(int userID, int achievementID)
+    public void setAchievement(String achievements)
     {
         String query = "INSERT INTO userachievements (userID, achievementID) " +
-                "VALUES("+userID+","+achievementID+");";
+                "VALUES "+achievements+";";
         this.useCommand(query, true);
     }
 
@@ -604,7 +605,7 @@ public class DatabaseManager extends Thread
      */
     public void changePassword(String newPW) throws SQLException
     {
-        this.useCommand("UPDATE users SET password = '" +newPW+"' WHERE username = '" +
+        this.useCommand("UPDATE users SET password = '" + newPW + "' WHERE username = '" +
                 LoginMenu.getCurrentUser().getName() + "';", true);
 
         this.od.changePW(newPW);
@@ -612,27 +613,44 @@ public class DatabaseManager extends Thread
 
     /**
      * Adds an value to the current value in the Database
-     * @param attribut The type of Statistic
-     * @param amount Value which will be added
+     * @param statistics The values to rise
      * @since 1.1
      */
-    public void raiseStatistic(Attribute attribut, int amount){
+    public void raiseStatistic(Statistics statistics, Singleplayer.GameMode mode, Integer forcedAchievemet)
+    {
 
-        String attributName = getAttributName(attribut);
+        Integer[] addStats = statistics.asList();
 
-        int[] oldStats = this.getAllStatistics(LoginMenu.getCurrentUser().getName());
+        String query =
+                "UPDATE users SET " +
+                "wins = wins + "+addStats[0]+","+
+                "perfects = perfects + "+addStats[1]+","+
+                "loses = loses + "+addStats[2]+","+
+                "correctLetters = correctLetters + "+addStats[3]+","+
+                "wrongLetters = wrongLetters+ "+addStats[4]+","+
+                "highscoreHardcore = highscoreHardcore + "+addStats[5]+","+
+                "highscoreSpeedmode = highscoreSpeedmode + "+addStats[6]+ " "+
+                "WHERE username LIKE '" + LoginMenu.getCurrentUser().getName() + "';";
 
-        String cmd = "UPDATE " + TABLE_USERS_NAME + " SET " + attributName + " = " + attributName + " + "
-                + amount + " WHERE username LIKE '" + LoginMenu.getCurrentUser().getName() + "';";
+        this.useCommand(query, true);
 
-        useCommand(cmd, true);
+        this.checkForAchievements(mode, forcedAchievemet);
 
+
+    }
+
+    /**
+     * This checks for new Achievements...
+     * @param mode to Check
+     */
+    private synchronized void checkForAchievements(Singleplayer.GameMode mode, Integer forcedAchievement)
+    {
         int[] updatedStats = this.getAllStatistics(LoginMenu.getCurrentUser().getName());
 
-        //wins, perfects, loses, correctLetters, wrongLetters, " +
-        //"highscoreHardcore, highscoreSpeedmode
+        //how the statistics are set up
+        //wins, perfects, loses, correctLetters, wrongLetters,highscoreHardcore, highscoreSpeedmode
 
-        int userID = -1;
+        int userID;
 
         if(LoginMenu.getCurrentUser() != null)
         {
@@ -643,22 +661,28 @@ public class DatabaseManager extends Thread
             return;
         }
 
+        //all possible achievements
         ArrayList<Integer> achs = this.getAchievements(userID);
-
-        FileReader fr = null;
-        BufferedReader br = null;
         ArrayList<Integer[]> conditions = new ArrayList<>();
+
+        BufferedReader br = null;
+        InputStream is = null;
+
+        boolean newAchievement = false;
 
         try
         {
             /**
              * Default achievements.
              */
-            fr = new FileReader("ach_default.txt");
-            br = new BufferedReader(fr);
+            is = this.activity.getResources().openRawResource(R.raw.ach_default);
+            br = new BufferedReader(new InputStreamReader(is));
 
             String line;
 
+            /**
+             * Format achievements *.txt
+             */
             while ((line = br.readLine()) != null)
             {
                 String[] arg = line.split(";");
@@ -672,52 +696,121 @@ public class DatabaseManager extends Thread
                 conditions.add(cons);
             }
 
+            String statsToAdd = "";
+
+            /**
+             * Format a string with all achievements to add.
+             */
+            for (int i = 0; i < conditions.size(); i++)
+            {
+                if (updatedStats[conditions.get(i)[0]] >= conditions.get(i)[1] &&
+                        !achs.contains(conditions.get(i)[2]))
+                {
+                    //this.setAchievement(userID, conditions.get(i)[2]);
+                    statsToAdd += "("+userID +", "+conditions.get(i)[2] + "),";
+                    newAchievement = true;
+                }
+            }
+
+            final int firstTimeHardcore = 7;
+
+            /**
+             * Mode specific stats.
+             */
+            switch (mode)
+            {
+                case HARDCORE:
+                    if(!achs.contains(firstTimeHardcore))
+                    {
+                        statsToAdd += "("+userID+", "+firstTimeHardcore+"),";
+                        newAchievement = true;
+                    }
+                break;
+            }
+
+            /**
+             * Special achievements.
+             */
+            if(forcedAchievement != null)
+            {
+                if(!achs.contains(forcedAchievement))
+                {
+                    statsToAdd += "("+userID+", "+forcedAchievement+"),";
+                    newAchievement = true;
+                }
+            }
+
+            //remove signs
+            if(statsToAdd.endsWith(","))
+            {
+                statsToAdd = statsToAdd.substring(0,statsToAdd.length() -1 );
+            }
+
+            this.setAchievement(statsToAdd);
+
+
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
-
-
-        switch (attribut)
+        finally
         {
-            case WINS:
-            case LOSES:
-            case PERFECTS:
-            case HIGHSCORE_HARDCORE:
-
-
-                if(updatedStats[0] >= 10 && !achs.contains(1))
+            try
+            {
+                if(is != null)
                 {
-                    this.setAchievement(userID,1);
-                    Logger.write(this.activity.getString(R.string.info_achievement),this.activity);
+                    is.close();
                 }
-
-                if(updatedStats[0] >= 50 && !achs.contains(2))
+                if(br != null)
                 {
-                    this.setAchievement(userID,2);
-                    Logger.write(this.activity.getString(R.string.info_achievement),this.activity);
+                    br.close();
                 }
-
-            break;
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
         }
 
+        /**
+         * Inform user...
+         */
+        if(newAchievement)
+        {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+            {
+                Intent intent = new Intent(activity.getBaseContext(), AchievementsMenu.class);
+                Logger.showNotification
+                (
+                    this.activity,
+                    intent,
+                    this.activity.getString(R.string.info_achievement),
+                    this.activity.getString(R.string.info_achievement),
+                    R.drawable.hangman_logo
+                );
+            }
+            else
+            {
+                this.activity.runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        Logger.write
+                        (
+                            activity.getString(R.string.info_achievement),
+                            activity
+                        );
+                    }
+                });
+            }
+        }
+        else
+        {
+            Logger.logOnly("No new achievement!");
+        }
     }
-
-    /**
-     * Update a statistic value.
-     * @param attribut Attribut.
-     * @param value Value.
-     */
-    public void updateStatistic(Attribute attribut, int value){
-        String attributName = getAttributName(attribut);
-
-        String cmd = "UPDATE " + TABLE_USERS_NAME + " SET " + attributName + " = " + value +
-                " WHERE username LIKE '" + LoginMenu.getCurrentUser().getName() + "';";
-
-        useCommand(cmd, true);
-    }
-
 
     /**
      * Gets all statistics sorted in an array.
@@ -767,7 +860,7 @@ public class DatabaseManager extends Thread
 
     /**
      * Creates an Select for the DB for the Statistics
-     * @param attribut The type of Statistic
+     * @param attribut The type of StatisticMenu
      * @return Value of the attribut for the current User
      * @since 1.1
      */
@@ -1255,8 +1348,9 @@ public class DatabaseManager extends Thread
         return -1;
     }
 
+
     /**
-     * TODO: Implement.
+     * Synch the databases.
      */
     public void synchDatabases()
     {
