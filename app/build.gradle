@@ -5,11 +5,10 @@ android {
         config {
             keyAlias 'key'
             keyPassword '12345678'
+            storeFile file('/home/consult/Desktop/AndroidKey.jks')
             storePassword '12345678'
-            storeFile file('C:/Users/Ludwig/Documents/AndroidKey.jks')
         }
     }
-
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
     defaultConfig {
@@ -46,7 +45,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
-
 }
 
 dependencies {

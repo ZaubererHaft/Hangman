@@ -40,13 +40,13 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_menu);
 
-        db.setActivity(this);
+        this.db.setActivity(this);
 
         (this.findViewById(R.id.button_login)).setOnClickListener(this);
         (this.findViewById(R.id.button_register)).setOnClickListener(this);
         (this.findViewById(R.id.button_exit)).setOnClickListener(this);
 
-        if(!db.isOnline())
+        if(!this.db.isOnline())
         {
             (this.findViewById(R.id.button_register)).setEnabled(false);
         }
@@ -72,7 +72,7 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
 
         Updater u = new Updater(this);
 
-        if(u.updatePossible())
+        if(this.db.isOnline() && u.updatePossible())
         {
             Logger.messageDialog
             (

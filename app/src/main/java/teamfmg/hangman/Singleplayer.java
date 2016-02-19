@@ -242,12 +242,18 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     {
         String titleOfDialog;
 
+
         if (this.currentBuildOfHangman == 0)
+        {
             titleOfDialog = getResources().getString(R.string.string_perfect);
+        }
         else if (won)
+        {
             titleOfDialog = getResources().getString(R.string.string_win);
-        else
-        titleOfDialog = getResources().getString(R.string.string_lose);
+        }
+        else {
+            titleOfDialog = getResources().getString(R.string.string_lose);
+        }
 
         Logger.popupDialogGameResult(this.currentWordObject.getWord(),
                 this.currentWordObject.getDescription(),
@@ -257,14 +263,19 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         //Special Hardcore Mode
         if (!won && gameMode == GameMode.HARDCORE)
         {
-            if (score > db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, LoginMenu.getCurrentUser().getName())){
+            if (score > db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE,
+                    LoginMenu.getCurrentUser().getName()))
+            {
                 Logger.messageDialog(this.getResources().getString(R.string.string_newHighscore),
                         this.getResources().getString(R.string.string_yourNewHighscore) + score + "\n"
                                 + this.getResources().getString(R.string.string_yourOldHighscore)
                         + db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, LoginMenu.getCurrentUser().getName()), this);
                 db.updateStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, score);
+
+
             }
-            else{
+            else
+            {
                 Logger.messageDialog(this.getResources().getString(R.string.string_lose),
                         this.getResources().getString(R.string.string_yourCurrentScore) + score + "\n"
                                 + this.getResources().getString(R.string.string_yourHighscore)

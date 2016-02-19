@@ -185,6 +185,7 @@
     <string name="multiplayer_local_lobby_players">Spieler:</string>
     <string name="text_header_multiplayer_local">Multiplayer Lokal</string>
     <string name="error_no_currentUser">Fehler beim Laden des Users. Bitte neu einloggen!</string>
+    <string name="error_register_mailAlreadyExists">Diese E-Mail ist schon regisriert!</string>
 
 
 </resources>

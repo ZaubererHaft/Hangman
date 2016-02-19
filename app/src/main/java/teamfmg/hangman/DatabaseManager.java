@@ -12,6 +12,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Looper;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -225,10 +228,131 @@ public class DatabaseManager extends Thread
         this.activity = a;
     }
 
-    //TODO: Implement
+    /**
+     * Sets an achievemnt DONE for a player.
+     * @param userID ID
+     * @param achievementID ID
+     */
+    public void setAchievement(int userID, int achievementID)
+    {
+        String query = "INSERT INTO userachievements (userID, achievementID) " +
+                "VALUES("+userID+","+achievementID+");";
+        this.useCommand(query, true);
+    }
+
+    /**
+     * Checks whether a mal exists in the DB,
+     * @param mail mail to check {@link String}
+     * @return Boolean.
+     * @since 1.2
+     */
     public boolean exists(String mail)
     {
+
+        String command = "SELECT mail FROM users WHERE mail LIKE '"+mail+"';";
+
+        this.useCommand(command, false);
+
+        try
+        {        //add all words to the list
+            if (this.res != null && this.res.next())
+            {
+                return true;
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            Logger.write(e, this.activity);
+        }
+        finally
+        {
+            this.closeConnection();
+        }
+
         return false;
+    }
+
+    /**
+     * Gets all possible achievements.
+     * @return ArrayList.
+     * @since 1.2
+     */
+    public ArrayList<Achievement> getAchievements()
+    {
+        String command ="SELECT * FROM achievements";
+
+        ArrayList<Achievement> achievements = new ArrayList<>();
+
+        this.useCommand(command, false);
+
+        try
+        {        //add all words to the list
+            if (this.res != null)
+            {
+                while (this.res.next())
+                {
+                    Achievement a = new Achievement
+                    (
+                        this.res.getInt(1),
+                        this.res.getString(2),
+                        this.res.getString(3)
+                    );
+                    // Add word
+                    achievements.add(a);
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            Logger.write(e, this.activity);
+        }
+        finally
+        {
+            this.closeConnection();
+        }
+
+        return achievements;
+    }
+
+    /**
+     * Get achievements of a specific user
+     * @param userID userID to check.
+     * @return integer
+     * @since 1.2
+     */
+    public ArrayList<Integer> getAchievements(int userID)
+    {
+        String command =
+                "SELECT * FROM userachievements WHERE userID LIKE '"+userID+"';";
+
+        ArrayList<Integer> achievements = new ArrayList<>();
+
+        this.useCommand(command, false);
+
+        try
+        {        //add all words to the list
+            if (this.res != null)
+            {
+                while (this.res.next())
+                {
+                    // Add word
+                    achievements.add(this.res.getInt(2));
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            Logger.write(e, this.activity);
+        }
+        finally
+        {
+            this.closeConnection();
+        }
+
+        return achievements;
     }
 
     /**
@@ -496,10 +620,87 @@ public class DatabaseManager extends Thread
 
         String attributName = getAttributName(attribut);
 
+        int[] oldStats = this.getAllStatistics(LoginMenu.getCurrentUser().getName());
+
         String cmd = "UPDATE " + TABLE_USERS_NAME + " SET " + attributName + " = " + attributName + " + "
                 + amount + " WHERE username LIKE '" + LoginMenu.getCurrentUser().getName() + "';";
 
         useCommand(cmd, true);
+
+        int[] updatedStats = this.getAllStatistics(LoginMenu.getCurrentUser().getName());
+
+        //wins, perfects, loses, correctLetters, wrongLetters, " +
+        //"highscoreHardcore, highscoreSpeedmode
+
+        int userID = -1;
+
+        if(LoginMenu.getCurrentUser() != null)
+        {
+            userID = LoginMenu.getCurrentUser().getId();
+        }
+        else
+        {
+            return;
+        }
+
+        ArrayList<Integer> achs = this.getAchievements(userID);
+
+        FileReader fr = null;
+        BufferedReader br = null;
+        ArrayList<Integer[]> conditions = new ArrayList<>();
+
+        try
+        {
+            /**
+             * Default achievements.
+             */
+            fr = new FileReader("ach_default.txt");
+            br = new BufferedReader(fr);
+
+            String line;
+
+            while ((line = br.readLine()) != null)
+            {
+                String[] arg = line.split(";");
+                Integer[] cons = new Integer[3];
+
+                //read conditions and add them
+                cons[0] = Integer.parseInt(arg[0]);
+                cons[1] = Integer.parseInt(arg[1]);
+                cons[2] = Integer.parseInt(arg[2]);
+
+                conditions.add(cons);
+            }
+
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+
+        switch (attribut)
+        {
+            case WINS:
+            case LOSES:
+            case PERFECTS:
+            case HIGHSCORE_HARDCORE:
+
+
+                if(updatedStats[0] >= 10 && !achs.contains(1))
+                {
+                    this.setAchievement(userID,1);
+                    Logger.write(this.activity.getString(R.string.info_achievement),this.activity);
+                }
+
+                if(updatedStats[0] >= 50 && !achs.contains(2))
+                {
+                    this.setAchievement(userID,2);
+                    Logger.write(this.activity.getString(R.string.info_achievement),this.activity);
+                }
+
+            break;
+        }
 
     }
 

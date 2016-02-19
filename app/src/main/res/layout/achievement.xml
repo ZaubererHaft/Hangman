@@ -1,31 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:id="@+id/ach_relLayout">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView4"
+        android:id="@+id/ach_image"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:background="@drawable/ach_1_e" />
+        android:background="@drawable/ach_1_e"
+        android:src="@drawable/ach_1_e"
+        android:layout_marginTop="@dimen/marginForSpace" />
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/imageView4"
-        android:layout_alignBottom="@+id/imageView4"
+        android:layout_toRightOf="@+id/ach_image"
+        android:layout_alignBottom="@+id/ach_image"
         android:gravity="center_vertical"
-        android:layout_marginLeft="@dimen/marginForSpace">
+        android:layout_marginLeft="@dimen/marginForSpace"
+        android:id="@+id/ach_linLayout">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Header"
-            android:id="@+id/textView11"
+            android:id="@+id/ach_header"
             android:textColor="@color/color_white"
             android:textSize="@dimen/textSizeMedium" />
 
@@ -34,7 +38,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Description"
-            android:id="@+id/textView12"
+            android:id="@+id/ach_desc"
             android:textColor="@color/color_white"
             android:textSize="@dimen/textSizeSmall" />
     </LinearLayout>

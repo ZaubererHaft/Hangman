@@ -7,10 +7,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
-
-import java.sql.SQLException;
-
 /**
  * Hangman register menu.<br />
  * Created by Ludwig 09.11.2015.
@@ -137,6 +133,11 @@ public class RegisterMenu extends Activity implements View.OnClickListener, IApp
         if(!enteredPassword.equals(repeatedPassword))
         {
             return this.getResources().getString(R.string.error_register_wrongRepeatedPassword);
+        }
+
+        if(this.db.exists(enteredMail))
+        {
+            return this.getString(R.string.error_register_mailAlreadyExists);
         }
 
         if(this.db.isOnline())

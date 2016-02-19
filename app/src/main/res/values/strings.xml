@@ -32,6 +32,8 @@
     <string name="error_login_wrongPassword">Wrong Password!</string>
     <string name="error_register_wrongRepeatedPassword">The passwords do not match!</string>
     <string name="error_register_offline">Your phone needs to be online to register!</string>
+    <string name="error_register_mailAlreadyExists">This e-mail is already registered!</string>
+
     <string name="button_not_registered">Not registered?</string>
     <string name="label_repeat_password">Repeat password</string>
     <string name="label_register_hint_mail">yourmail@example.com</string>
@@ -193,5 +195,7 @@
     <string name="about_info3">Further help from: Lucas Feierabend</string>
     <string name="update_info_success_title">Download finished!</string>
     <string name="update_info_success_description">Your download has finished. Click here to install the new version!</string>
-    <string name="update_info_success">Update succesful!</string>
+    <string name="update_info_success">Update successful!</string>
+
+    <string name="info_achievement">New achievement unlocked!</string>
 </resources>

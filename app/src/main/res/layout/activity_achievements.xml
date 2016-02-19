@@ -47,21 +47,11 @@
         android:layout_alignRight="@+id/achievements_close"
         android:layout_marginTop="@dimen/marginForSpace">
 
-        <RelativeLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/label_achievements"
-            android:layout_alignRight="@+id/achievements_close"
-            android:id="@+id/ach_subLayout">
-
-            <include
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                layout="@layout/achievement"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
-                android:id="@+id/achievement_include" />
-        </RelativeLayout>
+            android:id="@+id/ach_subLayout"></LinearLayout>
     </ScrollView>
 
 </RelativeLayout>
