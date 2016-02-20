@@ -148,7 +148,7 @@ public class RegisterMenu extends Activity implements View.OnClickListener, IApp
                     (
                         enteredUsername,
                         //encryption
-                        Caeser.encrypt(enteredPassword, Settings.encryptOffset),
+                        Caeser.encrypt(enteredPassword),
                         enteredMail, -1
                     )
                 );

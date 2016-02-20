@@ -1468,7 +1468,7 @@ public class DatabaseManager extends Thread
                     cursor.moveToFirst();
                     return cursor.getInt(0);
                 }
-                catch (CursorIndexOutOfBoundsException ex)
+                catch (IllegalStateException | CursorIndexOutOfBoundsException ex)
                 {
                     return -2;
                 }
@@ -1535,7 +1535,8 @@ public class DatabaseManager extends Thread
                         {
                             res2 = statement.executeQuery(query);
                         }
-                        catch (SQLException e) {
+                        catch (SQLException e)
+                        {
                             e.printStackTrace();
                         }
                     }
@@ -1634,10 +1635,11 @@ public class DatabaseManager extends Thread
                 db.insert(TABLE_WORDS, null, val);
                 db.close();
             }
-            catch(SQLiteException ex)
+            catch(IllegalStateException | SQLiteException ex)
             {
                 Logger.logOnlyError(ex.getMessage());
             }
+
         }
 
 

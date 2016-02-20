@@ -43,8 +43,8 @@ public class ChangePassword extends Activity implements View.OnClickListener, IA
                 EditText confirmPw = (EditText)this.findViewById(R.id.changePasswort_confirmPW);
                 String confirmPW = confirmPw.getText().toString();
 
+                oldPW = Caeser.encrypt(oldPW);
                 String oldUserPW = db.getUser(LoginMenu.getCurrentUser().getName()).getPassword();
-                oldPW = Caeser.encrypt(oldPW, Settings.encryptOffset);
 
                 if (oldPW.equals(oldUserPW))
                 {
@@ -58,7 +58,7 @@ public class ChangePassword extends Activity implements View.OnClickListener, IA
                     {
                         try
                         {
-                            db.changePassword(Caeser.encrypt(newPW,Settings.encryptOffset));
+                            db.changePassword(Caeser.encrypt(newPW));
                             Logger.write(this.getString(R.string.changePW_success), this);
                             this.finish();
                         }

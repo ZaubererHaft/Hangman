@@ -46,7 +46,7 @@ public class AchievementsMenu extends Activity implements IApplyableSettings, Vi
         ArrayList<Integer> userAchs = db.getAchievements(LoginMenu.getCurrentUser().getId());
 
         /**
-         * For al possible achievements...
+         * For all possible achievements...
          */
         for (int i = 0; i < achs.size(); i++)
         {
@@ -57,14 +57,18 @@ public class AchievementsMenu extends Activity implements IApplyableSettings, Vi
             //Change icon if user has achievement.
             if(userAchs.contains(ach.getId()))
             {
-                imageID = R.drawable.ach_1;
+                imageID = this.getResources().getIdentifier("a_" + ach.getId(), "drawable",
+                        this.getPackageName());
+
+                this.addInclude(achs.get(i).getHeader(),achs.get(i).getDescription(),imageID);
             }
             else
             {
-                imageID = R.drawable.ach_1_e;
+                imageID = R.drawable.a_00;
+                this.addInclude(achs.get(i).getHeader(),"???",imageID);
             }
 
-            this.addInclude(achs.get(i).getHeader(),achs.get(i).getDescription(),imageID);
+
         }
     }
 

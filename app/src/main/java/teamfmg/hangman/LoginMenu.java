@@ -1,10 +1,14 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -31,8 +35,8 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
     private EditText username, password;
 
     private static User currentUser;
-    DatabaseManager db = DatabaseManager.getInstance();
-
+    private DatabaseManager db = DatabaseManager.getInstance();
+    private boolean compareOffline;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -63,7 +67,28 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
         try
         {
             this.username.setText(Settings.getLastUsername());
-            this.password.setText(Settings.getLastPassword());
+            String text = Settings.getLastPassword();
+
+            if(text != null && text.length() > 0)
+            {
+                this.compareOffline = true;
+                this.password.setText("DUMMYBOY");
+            }
+
+            /*if(this.username.getText().toString().length() > 0)
+            {
+                this.password.requestFocus();
+
+                this.password.postDelayed(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        keyboard.showSoftInput(password, 0);
+                    }
+                }, 50);
+            }*/
         }
         catch (NullPointerException ex)
         {
@@ -81,7 +106,15 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
                 this
             );
         }
-
+        this.password.setOnFocusChangeListener(new View.OnFocusChangeListener()
+        {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus)
+            {
+                password.setText("");
+                compareOffline = false;
+            }
+        });
     }
 
     @Override
@@ -114,8 +147,7 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
             //encrypts the entered password to compare it with the password in the db
             String enteredPassword = Caeser.encrypt
             (
-                this.password.getText().toString(),
-                Settings.encryptOffset
+                this.password.getText().toString()
             );
 
             try
@@ -147,6 +179,11 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
 
                 }
 
+                if (this.compareOffline)
+                {
+                    enteredPassword = Settings.getLastPassword();
+                }
+
                 //compare passwords if there was a user...
                 if(user.getPassword().equals(enteredPassword))
                 {
@@ -158,6 +195,8 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
                     {
                         Settings.save(this);
                     }
+
+
 
                     //adds a user to the offline db
                     db.addOfflineUser(user);
@@ -175,7 +214,7 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
                     Logger.write(this.getResources().getString(R.string.info_login_succeed)
                             , this, offset);
 
-                    //closing menu
+                     //closing menu
                     this.finish();
                     this.startActivity(new Intent(this, MainMenu.class));
                 }

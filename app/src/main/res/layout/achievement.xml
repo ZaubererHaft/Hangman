@@ -9,8 +9,7 @@
         android:id="@+id/ach_image"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:background="@drawable/ach_1_e"
-        android:src="@drawable/ach_1_e"
+        android:src="@drawable/a_00"
         android:layout_marginTop="@dimen/marginForSpace" />
 
     <LinearLayout

@@ -90,14 +90,14 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
             break;
 
             case R.id.account_statistic:
-                if(db.isOnline()) {
+                if(this.db.isOnline()) {
                     i = new Intent(this, StatisticMenu.class);
                     this.startActivity(i);
                 }
             break;
 
             case R.id.account_achievments:
-                if(db.isOnline())
+                if(this.db.isOnline())
                 {
                     i = new Intent(this, AchievementsMenu.class);
                     this.startActivity(i);

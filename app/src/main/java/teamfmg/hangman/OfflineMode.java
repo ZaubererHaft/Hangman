@@ -61,13 +61,6 @@ public class OfflineMode extends SQLiteOpenHelper
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
         this.context = context;
-
-        //Test user TODO: Remove
-        if(this.getUser("Admin") == null)
-        {
-            this.addUser(new User("Admin",Caeser.encrypt("a",Settings.encryptOffset),
-                    "admin@hangman.com",-1));
-        }
     }
 
     /**
