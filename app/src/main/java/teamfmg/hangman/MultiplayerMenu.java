@@ -21,6 +21,10 @@ public class MultiplayerMenu extends Activity implements IApplyableSettings, Vie
         this.findViewById(R.id.multiplayerMenu_button_wifi).setOnClickListener(this);
         this.findViewById(R.id.multiplayerMenu_button_bluetooth).setOnClickListener(this);
         this.findViewById(R.id.multiplayerMenu_button_local).setOnClickListener(this);
+
+        //Updating the lastOnline Time
+        DatabaseManager db = DatabaseManager.getInstance();
+        db.updateLastOnline();
     }
 
     @Override

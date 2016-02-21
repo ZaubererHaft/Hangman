@@ -36,6 +36,10 @@ public class MainMenu extends Activity implements View.OnClickListener, IApplyab
         multiplayer.setOnClickListener(this);
         account.setOnClickListener(this);
 
+        //Updating the lastOnline Time
+        DatabaseManager db = DatabaseManager.getInstance();
+        db.updateLastOnline();
+
         this.changeBackground();
 
     }

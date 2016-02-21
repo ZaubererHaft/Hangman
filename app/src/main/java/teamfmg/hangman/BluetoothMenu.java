@@ -35,6 +35,9 @@ public class BluetoothMenu extends Activity implements IApplyableSettings, View.
         linearLayout = (LinearLayout) findViewById(R.id.bluetoothLinearLayoutForBoundedBluetoothDevices);
         deviceButtons = new ArrayList<Button>();
 
+        //Updating the lastOnline Time
+        DatabaseManager db = DatabaseManager.getInstance();
+        db.updateLastOnline();
 
         //ClickListener
         findViewById(R.id.bluetooth_close).setOnClickListener(this);

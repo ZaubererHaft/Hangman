@@ -23,7 +23,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -864,6 +868,33 @@ public class DatabaseManager extends Thread
         return i;
     }
 
+    public String getLastOnline(String name){
+        String date;
+
+        String cmd = "SELECT lastOnline FROM users WHERE username LIKE '"
+                + name +"';";
+
+        this.useCommand(cmd, false);
+
+        try
+        {
+            if(this.res != null && this.res.next())
+            {
+               return date = this.res.getString(1);
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.write(ex,this.activity);
+            ex.printStackTrace();
+        }
+        finally
+        {
+            this.closeConnection();
+            return null;
+        }
+    }
+
 
     /**
      * Creates an Select for the DB for the Statistics
@@ -1227,6 +1258,21 @@ public class DatabaseManager extends Thread
         return result;
     }
 
+    public void updateLastOnline()
+    {
+        if (!this.isOnline())
+        {
+            return;
+        }
+
+        GregorianCalendar now = new GregorianCalendar();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+        String date = df.format(now.getTime());
+        String query = "UPDATE users SET lastOnline = '" + date + "' WHERE username LIKE '" + LoginMenu.getCurrentUser().getName() + "';";
+
+        useCommand(query, true);
+    }
 
     /**
      * Return a List of Categorys (no duplicates)

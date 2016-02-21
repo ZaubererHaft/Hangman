@@ -36,6 +36,9 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
 
         db.setActivity(this);
 
+        //Updating the lastOnline Time
+        db.updateLastOnline();
+
         if(!db.isOnline())
         {
             this.findViewById(R.id.button_ownWords).setEnabled(false);

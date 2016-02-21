@@ -200,4 +200,6 @@
     <string name="info_achievement">New achievement unlocked!</string>
     <string name="error_offline_general">You need to be online to use this function!</string>
     <string name="about_info4">Graphics by: M. Kratzl</string>
+    <string name="update_info_success">Update succesful!</string>
+    <string name="label_statistic_lastOnline">Last online:</string>
 </resources>

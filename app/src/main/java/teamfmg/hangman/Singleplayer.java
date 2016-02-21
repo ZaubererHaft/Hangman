@@ -132,6 +132,9 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         score = 0;
         setCurrentScoreOnLable();
         this.changeBackground();
+
+        //Updating the lastOnline Time
+        db.updateLastOnline();
     }
 
     /**
@@ -342,6 +345,9 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
             this.db.raiseStatistic(s, gameMode, lucker);
         }
+
+        //Updating the lastOnline Time
+        db.updateLastOnline();
 
         this.resetGame();
     }

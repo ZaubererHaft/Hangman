@@ -75,6 +75,9 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
             );
         }
 
+        //Updating the lastOnline Time
+        db.updateLastOnline();
+
         this.wordText.requestFocus();
     }
 

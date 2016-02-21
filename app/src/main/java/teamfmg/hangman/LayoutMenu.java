@@ -33,6 +33,10 @@ public class LayoutMenu extends Activity implements View.OnClickListener,IApplya
 
         closeButton.setOnClickListener(this);
 
+        //Updating the lastOnline Time
+        DatabaseManager db = DatabaseManager.getInstance();
+        db.updateLastOnline();
+
         this.createSpinner();
         this.chooseActiveElementFromSettings();
         this.changeBackground();

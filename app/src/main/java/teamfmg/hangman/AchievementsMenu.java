@@ -30,6 +30,10 @@ public class AchievementsMenu extends Activity implements IApplyableSettings, Vi
 
         this.changeBackground();
 
+        //Updating the lastOnline Time
+        DatabaseManager db = DatabaseManager.getInstance();
+        db.updateLastOnline();
+
         this.addAchievements();
 
     }

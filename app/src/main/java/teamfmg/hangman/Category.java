@@ -62,6 +62,9 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
 
         this.changeBackground();
 
+        //Updating the lastOnline Time
+        db.updateLastOnline();
+
         //Init
         checkBox_all           = (CheckBox)    this.findViewById(R.id.checkBox_cat_all);
         ScrollView scrollView           = (ScrollView)  this.findViewById(R.id.scrollView_cats);

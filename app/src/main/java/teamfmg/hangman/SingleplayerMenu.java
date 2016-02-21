@@ -45,6 +45,9 @@ public class SingleplayerMenu extends Activity implements IApplyableSettings, Vi
         }
 
         this.db.setActivity(this);
+
+        //Updating the lastOnline Time
+        db.updateLastOnline();
     }
 
     @Override

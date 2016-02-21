@@ -50,6 +50,10 @@ public class Scoreboard extends TabActivity implements View.OnClickListener
         tab3.setContent(i3);
         tabHost.addTab(tab3);
 
+        //Updating the lastOnline Time
+        DatabaseManager db = DatabaseManager.getInstance();
+        db.updateLastOnline();
+
 
         /** Add the tabs  to the TabHost to display. */
 

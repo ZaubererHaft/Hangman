@@ -26,6 +26,9 @@ public class StatisticMenu extends Activity implements IApplyableSettings, View.
         this.db.setActivity(this);
         String username = LoginMenu.getCurrentUser(this).getName();
 
+        //Updating the lastOnline Time
+        db.updateLastOnline();
+
         if (getIntent().hasExtra("othersStatistic")){
             Bundle extra = getIntent().getExtras();
             TextView header = (TextView)findViewById(R.id.label_statistic_header);
@@ -43,6 +46,7 @@ public class StatisticMenu extends Activity implements IApplyableSettings, View.
         Integer scoreStandardMode       = val[7];
         Integer highscoreHardcore       = val[5];
         Integer highscoreSpeedmode      = val[6];
+        String lastLogin = db.getLastOnline(username);
 
 
         String[] texts=
@@ -89,6 +93,9 @@ public class StatisticMenu extends Activity implements IApplyableSettings, View.
 
         TextView highscoreSpeedModeAmount = (TextView)this.findViewById(R.id.label_statistic_scoreSpeedMode_amount);
         highscoreSpeedModeAmount.setText(highscoreSpeedmode.toString());
+
+        TextView lastOnlineTime = (TextView)this.findViewById(R.id.label_statistic_lastOnline_time);
+        highscoreSpeedModeAmount.setText(lastLogin);
 
         this.changeBackground();
 

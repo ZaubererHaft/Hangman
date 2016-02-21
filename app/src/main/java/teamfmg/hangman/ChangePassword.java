@@ -15,6 +15,7 @@ import java.sql.SQLException;
  */
 public class ChangePassword extends Activity implements View.OnClickListener, IApplyableSettings
 {
+    private DatabaseManager db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -22,8 +23,13 @@ public class ChangePassword extends Activity implements View.OnClickListener, IA
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
 
+        this.db =  DatabaseManager.getInstance();
+
         this.changeBackground();
         this.findViewById(R.id.changePassword_button).setOnClickListener(this);
+
+        //Updating the lastOnline Time
+        db.updateLastOnline();
     }
 
     @Override

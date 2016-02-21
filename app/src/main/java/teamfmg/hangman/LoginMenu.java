@@ -174,6 +174,9 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
                     setCurrentUser(user);
                     Settings.saveCurrentUser(this,user);
 
+                    //Updating the lastOnline Time
+                    this.db.updateLastOnline();
+
                     //load categories
                     ArrayList<String>  list = db.getCategories();
                     Settings.setCategories(list);

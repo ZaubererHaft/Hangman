@@ -26,6 +26,10 @@ public class About extends Activity implements IApplyableSettings, View.OnClickL
         this.closeButton.setOnClickListener(this);
 
         this.changeBackground();
+
+        //Updating the lastOnline Time
+        DatabaseManager db = DatabaseManager.getInstance();
+        db.updateLastOnline();
     }
 
     @Override

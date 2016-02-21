@@ -32,6 +32,9 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
         db.setActivity(this);
         this.changeBackground();
 
+        //Updating the lastOnline Time
+        db.updateLastOnline();
+
         //Catch nullpointer
         if (LoginMenu.getCurrentUser(this) == null)
         {

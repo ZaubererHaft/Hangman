@@ -35,6 +35,10 @@ public class multiplayer_local_lobby extends Activity implements IApplyableSetti
         this.findViewById(R.id.multiplayer_local_lobby_removePlayer).setOnClickListener(this);
         this.findViewById(R.id.button_multiplayer_local_lobby_exit).setOnClickListener(this);
         this.findViewById(R.id.multiplayer_local_lobby_button_play).setOnClickListener(this);
+
+        //Updating the lastOnline Time
+        DatabaseManager db = DatabaseManager.getInstance();
+        db.updateLastOnline();
     }
 
     /**
