@@ -24,6 +24,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -868,11 +869,16 @@ public class DatabaseManager extends Thread
         return i;
     }
 
-    public String getLastOnline(String name){
-        String date;
+    /**
+     * Gets the last Time an User was online
+     * @param name User
+     * @return Date the user was last time online
+     */
+    public Date getLastOnline(String name){
+        String string = null;
 
-        String cmd = "SELECT lastOnline FROM users WHERE username LIKE '"
-                + name +"';";
+        //Database command
+        String cmd = "SELECT lastOnline FROM users WHERE username LIKE '" + name +"';";
 
         this.useCommand(cmd, false);
 
@@ -880,19 +886,36 @@ public class DatabaseManager extends Thread
         {
             if(this.res != null && this.res.next())
             {
-               return date = this.res.getString(1);
+               string = this.res.getString(1);
             }
         }
         catch (SQLException ex)
         {
             Logger.write(ex,this.activity);
             ex.printStackTrace();
+            return null;
         }
         finally
         {
             this.closeConnection();
+
+        }
+
+        //converting in an DateFormat
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date lastLogin = null;
+
+        try
+        {
+            lastLogin = format.parse(string);
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
             return null;
         }
+
+        return lastLogin;
     }
 
 
@@ -1258,6 +1281,9 @@ public class DatabaseManager extends Thread
         return result;
     }
 
+    /**
+     * Updating the Value of the lastOnline time in the database
+     */
     public void updateLastOnline()
     {
         if (!this.isOnline())
@@ -1265,11 +1291,14 @@ public class DatabaseManager extends Thread
             return;
         }
 
+        //get current time
         GregorianCalendar now = new GregorianCalendar();
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        //Creating the time format which is used in database
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         String date = df.format(now.getTime());
-        String query = "UPDATE users SET lastOnline = '" + date + "' WHERE username LIKE '" + LoginMenu.getCurrentUser().getName() + "';";
+        //update the Database
+        String query = "UPDATE users SET lastOnline = '" + date + "' WHERE username LIKE '" + LoginMenu.getCurrentUser(activity).getName() + "';";
 
         useCommand(query, true);
     }

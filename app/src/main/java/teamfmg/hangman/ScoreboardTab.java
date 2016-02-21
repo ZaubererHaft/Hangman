@@ -73,15 +73,19 @@ public class ScoreboardTab extends Activity implements View.OnClickListener, IAp
      */
     private void initScorelist()
     {
+        TimeHelper timeHelper = new TimeHelper();
         for (int i = 0; i < scorelist.size(); i++)
         {
+            //TODO Eventuelles einbauen eines Datenvolumen-Sparmoduses
+            boolean isOnline = timeHelper.lastOnline(scorelist.get(i)[0]).equals("Jetzt");
+
             if (scorelist.get(i)[0].equals(LoginMenu.getCurrentUser(this).getName()))
             {
-                addInclude(i+1, scorelist.get(i)[0], scorelist.get(i)[1], true);
+                addInclude(i+1, scorelist.get(i)[0], scorelist.get(i)[1], true, isOnline);
             }
             else
             {
-                addInclude(i+1, scorelist.get(i)[0], scorelist.get(i)[1], false);
+                addInclude(i+1, scorelist.get(i)[0], scorelist.get(i)[1], false, isOnline);
             }
         }
     }
@@ -90,7 +94,7 @@ public class ScoreboardTab extends Activity implements View.OnClickListener, IAp
      * Adds an include.
      * @since 1.2
      */
-    private void addInclude(int rank, String name, String score, Boolean bold)
+    private void addInclude(int rank, String name, String score, Boolean bold, Boolean isOnline)
     {
         LinearLayout parent = (LinearLayout)this.findViewById(R.id.linearLayout_scoreboard_tab);
 
@@ -98,22 +102,30 @@ public class ScoreboardTab extends Activity implements View.OnClickListener, IAp
 
         View child = inflater.inflate(R.layout.new_scoreboard_element, null, false);
 
-        ((TextView)child.findViewById(R.id.scoreboardElement_Rank)).setText(String.valueOf(rank));
-        ((TextView)child.findViewById(R.id.scoreboardElement_Username)).setText(name);
-        ((TextView)child.findViewById(R.id.scoreboardElement_Score)).setText(score);
+        TextView viewRank = (TextView)child.findViewById(R.id.scoreboardElement_Rank);
+        TextView viewName = (TextView)child.findViewById(R.id.scoreboardElement_Username);
+        TextView viewScore = (TextView)child.findViewById(R.id.scoreboardElement_Score);
+
+        viewRank.setText(String.valueOf(rank));
+        viewName.setText(name);
+        viewScore.setText(score);
 
 
         if (bold)
         {
-            ((TextView)child.findViewById(R.id.scoreboardElement_Rank)).
-                    setTypeface(((TextView) child.findViewById(
-                            R.id.scoreboardElement_Rank)).getTypeface(), Typeface.BOLD);
-            ((TextView)child.findViewById(R.id.scoreboardElement_Username)).
-                    setTypeface(((TextView) child.findViewById(
-                            R.id.scoreboardElement_Username)).getTypeface(), Typeface.BOLD);
-            ((TextView)child.findViewById(R.id.scoreboardElement_Score)).
-                    setTypeface(((TextView) child.findViewById(
-                            R.id.scoreboardElement_Score)).getTypeface(), Typeface.BOLD);
+            viewRank.setTypeface(((TextView) child.findViewById(
+                    R.id.scoreboardElement_Rank)).getTypeface(), Typeface.BOLD);
+            viewName.setTypeface(((TextView) child.findViewById(
+                    R.id.scoreboardElement_Username)).getTypeface(), Typeface.BOLD);
+            viewScore.setTypeface(((TextView) child.findViewById(
+                    R.id.scoreboardElement_Score)).getTypeface(), Typeface.BOLD);
+        }
+        if (isOnline)
+        {
+            viewRank.setTextColor(this.getResources().getColor(R.color.color_Green));
+            viewName.setTextColor(this.getResources().getColor(R.color.color_Green));
+            viewScore.setTextColor(this.getResources().getColor(R.color.color_Green));
+
         }
 
 

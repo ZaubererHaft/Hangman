@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.sql.Time;
+import java.util.Date;
+
 /**
  * Hangman statistics menu.
  * @author Vincent
@@ -46,7 +49,9 @@ public class StatisticMenu extends Activity implements IApplyableSettings, View.
         Integer scoreStandardMode       = val[7];
         Integer highscoreHardcore       = val[5];
         Integer highscoreSpeedmode      = val[6];
-        String lastLogin = db.getLastOnline(username);
+
+        TimeHelper timeHelper = new TimeHelper();
+        String lastLogin = timeHelper.lastOnline(username);
 
 
         String[] texts=
@@ -95,7 +100,7 @@ public class StatisticMenu extends Activity implements IApplyableSettings, View.
         highscoreSpeedModeAmount.setText(highscoreSpeedmode.toString());
 
         TextView lastOnlineTime = (TextView)this.findViewById(R.id.label_statistic_lastOnline_time);
-        highscoreSpeedModeAmount.setText(lastLogin);
+        lastOnlineTime.setText(lastLogin);
 
         this.changeBackground();
 
