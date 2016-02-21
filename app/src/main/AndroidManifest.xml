@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="teamfmg.hangman">
+    package="teamfmg.hangman" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -13,15 +13,13 @@
 
     <application
         android:allowBackup="true"
-
-        android:versionCode="3"
-
         android:exported="true"
         android:icon="@mipmap/hangman_logo"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:screenOrientation="portrait"
-        android:theme="@android:style/Theme.Light.NoTitleBar" >
+        android:theme="@android:style/Theme.Light.NoTitleBar"
+        android:versionCode="3" >
         <activity
             android:name=".LoginMenu"
             android:label="@string/app_name"
@@ -104,7 +102,11 @@
         <activity
             android:name=".multiplayer_local_lobby"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name=".MultiplayerBluetooth"
+            android:label="@string/title_activity_multiplayer_bluetooth" >
         </activity>
     </application>
 

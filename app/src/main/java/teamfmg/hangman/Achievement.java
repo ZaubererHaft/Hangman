@@ -19,6 +19,9 @@ public class Achievement
      */
     private String description;
 
+    public static final int STARTHARDCORE = 14;
+    public static final int SYSTEMINTEGRATOR = 21;
+    public static final int DEVELOPER = 22;
     /**
      * Generates a new Achievement.
      * @param id ID to set.

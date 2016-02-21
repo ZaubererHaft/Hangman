@@ -40,12 +40,12 @@ public class MultiplayerMenu extends Activity implements IApplyableSettings, Vie
                 this.finish();
                 break;
 
-            /*
-            case R.id.button_bluetooth:
-                i = new Intent(this, BluetoothMenu.class);
+
+            case R.id.multiplayerMenu_button_bluetooth:
+                i = new Intent(this, MultiplayerBluetooth.class);
                 this.startActivity(i);
                 break;
-            */
+
 
             case R.id.multiplayerMenu_button_local:
                 i = new Intent(this, multiplayer_local_lobby.class);

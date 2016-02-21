@@ -620,7 +620,7 @@ public class DatabaseManager extends Thread
      * @param statistics The values to rise
      * @since 1.1
      */
-    public void raiseStatistic(Statistics statistics, Singleplayer.GameMode mode, Integer forcedAchievemet)
+    public void raiseStatistic(Statistics statistics, Singleplayer.GameMode mode, ArrayList<Integer>  forcedAchievemet)
     {
 
         Integer[] addStats = statistics.asList();
@@ -647,7 +647,7 @@ public class DatabaseManager extends Thread
      * This checks for new Achievements...
      * @param mode to Check
      */
-    private synchronized void checkForAchievements(Singleplayer.GameMode mode, Integer forcedAchievement)
+    private synchronized void checkForAchievements(Singleplayer.GameMode mode, ArrayList<Integer> forcedAchievement)
     {
         int[] updatedStats = this.getAllStatistics(LoginMenu.getCurrentUser(activity).getName());
 
@@ -735,13 +735,18 @@ public class DatabaseManager extends Thread
             /**
              * Special achievements.
              */
-            if(forcedAchievement != null)
+            if(forcedAchievement != null && forcedAchievement.size() > 0)
             {
-                if(!achs.contains(forcedAchievement))
+
+                for (int i = 0; i < forcedAchievement.size(); i++)
                 {
-                    statsToAdd += "("+userID+", "+forcedAchievement+"),";
-                    newAchievement = true;
+                    if(!achs.contains(forcedAchievement.get(i)))
+                    {
+                        statsToAdd += "("+userID+", "+forcedAchievement.get(i)+"),";
+                        newAchievement = true;
+                    }
                 }
+
             }
 
             //remove signs

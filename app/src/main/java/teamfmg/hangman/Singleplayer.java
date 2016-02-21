@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 
 /**
  * The Hangman single player.
@@ -84,8 +86,9 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      */
     final int resetingInHardcore = 3;
 
-    TextView scoreLabel;
+    protected TextView scoreLabel;
 
+    private int winsInRow, lossesInRow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -316,11 +319,15 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
             {
                 //db.raiseStatistic(DatabaseManager.Attribute.WINS, 1);
                 s.wins = 1;
+                ++this.winsInRow;
+                lossesInRow = 0;
             }
             else
             {
                 //db.raiseStatistic(DatabaseManager.Attribute.LOSES, 1);
                 s.losses = 1;
+                ++this.lossesInRow;
+                winsInRow = 0;
             }
             if (this.currentBuildOfHangman == 0)
             {
@@ -333,14 +340,26 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
             //db.raiseStatistic(DatabaseManager.Attribute.CORRECT_LETTER, correctLetters);
             s.correctLetters = this.correctLetters;
 
-            Integer lucker = null;
+            ArrayList<Integer> fa = new ArrayList<>();
 
-            if (won && this.currentBuildOfHangman == this.fullHangman -1)
+            if (won)
             {
-                lucker = 14;
+                if(this.currentBuildOfHangman == this.fullHangman - 1)
+                {
+                    fa.add(Achievement.STARTHARDCORE);
+                }
             }
 
-            this.db.raiseStatistic(s, gameMode, lucker);
+            if(winsInRow == 10)
+            {
+                fa.add(Achievement.DEVELOPER);
+            }
+            if(lossesInRow == 10)
+            {
+                fa.add(Achievement.SYSTEMINTEGRATOR);
+            }
+
+            this.db.raiseStatistic(s, gameMode, fa);
         }
 
         this.resetGame();

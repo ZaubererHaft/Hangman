@@ -200,4 +200,8 @@
     <string name="info_achievement">New achievement unlocked!</string>
     <string name="error_offline_general">You need to be online to use this function!</string>
     <string name="about_info4">Graphics by: M. Kratzl</string>
+    <string name="title_activity_multiplayer_bluetooth">MultiplayerBluetooth</string>
+    <string name="bluetooth_scan">Scan for devices</string>
+    <string name="bluetooth_connect">Connect</string>
+    <string name="bluetooth_hostGame">Host</string>
 </resources>
