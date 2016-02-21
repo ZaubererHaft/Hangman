@@ -1,10 +1,6 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.res.Configuration;
-import android.graphics.Point;
-import android.view.Display;
 import android.widget.RelativeLayout;
 
 import java.io.BufferedReader;
@@ -33,10 +29,6 @@ public final class Settings
      * Color theme of the game.
      */
     private static Theme theme = Theme.GREEN;
-    /**
-     * The key for encryption.
-     */
-    public static final int encryptOffset = 6;
     /**
      * The user the player has logged in with.
      */
@@ -81,18 +73,6 @@ public final class Settings
     }
 
     /**
-     * Detects whether program is running on a large screen.
-     * @param context Activity context.
-     * @return boolean
-     */
-    public static boolean isTablet(Context context)
-    {
-        return (context.getResources().getConfiguration().screenLayout
-                & Configuration.SCREENLAYOUT_SIZE_MASK)
-                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
-    }
-
-    /**
      * Gets the color theme of the game.
      * @return Theme (enum).
      * @since 0.3
@@ -132,21 +112,6 @@ public final class Settings
         Settings.currentUser = currentUser;
     }
 
-    /**
-     * Returns the screenSize of an activity.
-     * @param a the activity.
-     * @deprecated
-     * @return Point.
-     * @since 0.2
-     */
-    public static Point getScreenSize(Activity a)
-    {
-        Display display = a.getWindowManager().getDefaultDisplay();
-        int width = display.getWidth();
-        int height = display.getHeight();
-
-        return new Point(width,height);
-    }
 
     /**
      * Sets the color depending on the settings.
@@ -184,13 +149,13 @@ public final class Settings
         try
         {
             pWriter = new PrintWriter(new BufferedWriter(new FileWriter(file),8192));
-            pWriter.println(theme.ordinal());
-            pWriter.println(getCurrentUser().getName());
-            pWriter.println(getCurrentUser().getPassword());
+            pWriter.println(Settings.theme.ordinal());
+            pWriter.println(Settings.getCurrentUser().getName());
+            pWriter.println(Settings.getCurrentUser().getPassword());
 
-            for (int i = 0; i < categories.size(); i++)
+            for (int i = 0; i < Settings.categories.size(); i++)
             {
-                pWriter.println(categories.get(i));
+                pWriter.println(Settings.categories.get(i));
             }
 
             Logger.logOnly("Settings saved!");
@@ -207,6 +172,84 @@ public final class Settings
                 pWriter.close();
             }
         }
+    }
+
+
+    /**
+     * Saves a user local.
+     * @param a Context.
+     * @param u User.
+     */
+    public static void saveCurrentUser(Activity a, User u)
+    {
+        File file = new File(Settings.getPath(a) + "/curUser.ini");
+        PrintWriter pWriter = null;
+
+        try
+        {
+            pWriter = new PrintWriter(new BufferedWriter(new FileWriter(file),8192));
+            pWriter.print(u.getName());
+        }
+        catch (IOException ex)
+        {
+            Logger.logOnly(ex.getMessage());
+        }
+        finally
+        {
+            if (pWriter != null)
+            {
+                pWriter.flush();
+                pWriter.close();
+            }
+        }
+    }
+
+
+    /**
+     * Loads a user local.
+     * @return user.
+     */
+    public static User loadCurrentUser(Activity a)
+    {
+        try
+        {
+            File file = new File(Settings.getPath(a) + "/curUser.ini");
+
+            //if the file doesn't exits, abort.
+            if(!file.exists())
+            {
+                return null;
+            }
+
+            FileReader fr;
+            fr =  new FileReader(Settings.getPath(a)+"/curUser.ini");
+            BufferedReader br = new BufferedReader(fr,8192);
+
+            User u = new User
+            (
+                br.readLine(),
+                "",
+                "",
+                -1
+            );
+
+
+            Logger.logOnly("User loaded!");
+            fr.close();
+            br.close();
+
+            return u;
+        }
+        catch (IOException ex)
+        {
+            Logger.logOnly(ex.getMessage());
+        }
+        catch (NumberFormatException ex)
+        {
+            Logger.logOnlyError(ex.getMessage());
+        }
+
+        return null;
     }
 
     /**
@@ -230,7 +273,7 @@ public final class Settings
         try
         {
             File file = new File(Settings.getPath(a) + "/settings.ini");
-            categories = new ArrayList<>();
+            Settings.categories = new ArrayList<>();
 
             //if the file doesn't exits, just create one.
             if(!file.exists())
@@ -248,8 +291,8 @@ public final class Settings
             Settings.indexToColor(Integer.valueOf(color));
 
             //Gets the last logged in user
-            lastUsername = br.readLine();
-            lastPassword =  br.readLine();
+            Settings.lastUsername = br.readLine();
+            Settings.lastPassword =  br.readLine();
 
             String cat;
 
@@ -261,7 +304,7 @@ public final class Settings
                 {
                     break;
                 }
-                categories.add(cat);
+                Settings.categories.add(cat);
             }
 
             Logger.logOnly("Settings loaded!");
@@ -269,7 +312,7 @@ public final class Settings
             br.close();
 
             //sort list
-            Collections.sort(categories);
+            Collections.sort(Settings.categories);
 
         }
         catch (IOException ex)
@@ -293,46 +336,19 @@ public final class Settings
         switch (i)
         {
             case 0:
-                theme = Theme.BLUE;
+                Settings.theme = Theme.BLUE;
                 break;
             case 1:
-                theme = Theme.GREEN;
+                Settings.theme = Theme.GREEN;
                 break;
             case 2:
-                theme = Theme.ORANGE;
+                Settings.theme = Theme.ORANGE;
                 break;
             case 3:
-                theme = Theme.PURPLE;
+                Settings.theme = Theme.PURPLE;
                 break;
             default:
                 Logger.logOnly("Couldn't index to color!");
-        }
-    }
-    /**
-     * Sets the color of the settings by a string.
-     * @param s String.
-     * @since 0.3
-     * @deprecated
-     */
-    private static void stringToColor(String s)
-    {
-
-        switch (s)
-        {
-            case "BLUE":
-                theme = Theme.BLUE;
-                break;
-            case "GREEN":
-                theme = Theme.GREEN;
-                break;
-            case "ORANGE":
-                theme = Theme.ORANGE;
-                break;
-            case "PURPLE":
-                theme = Theme.PURPLE;
-                break;
-            default:
-                Logger.logOnly("Couldn't string to color!");
         }
     }
     /**

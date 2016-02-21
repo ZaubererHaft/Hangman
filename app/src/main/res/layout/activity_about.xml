@@ -46,7 +46,8 @@
         android:layout_below="@+id/label_about_header"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="@dimen/marginToHeader"
-        android:textColor="@color/color_white" />
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/textSizeMedium" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -57,7 +58,8 @@
         android:textColor="@color/color_white"
         android:layout_below="@+id/textView8"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="@dimen/marginForSpace" />
+        android:layout_marginTop="@dimen/marginForSpace"
+        android:textSize="@dimen/textSizeMedium" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -66,6 +68,19 @@
         android:text="@string/about_info3"
         android:id="@+id/textView10"
         android:textColor="@color/color_white"
+        android:textSize="@dimen/textSizeMedium"
+        android:layout_below="@+id/textView11"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="@dimen/marginForSpace" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/about_info4"
+        android:id="@+id/textView11"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/textSizeMedium"
         android:layout_below="@+id/textView9"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="@dimen/marginForSpace" />

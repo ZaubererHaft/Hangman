@@ -24,7 +24,7 @@ public class StatisticMenu extends Activity implements IApplyableSettings, View.
         setContentView(R.layout.activity_statistic);
 
         this.db.setActivity(this);
-        String username = LoginMenu.getCurrentUser().getName();
+        String username = LoginMenu.getCurrentUser(this).getName();
 
         if (getIntent().hasExtra("othersStatistic")){
             Bundle extra = getIntent().getExtras();

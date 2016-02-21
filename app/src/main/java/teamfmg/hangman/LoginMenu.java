@@ -1,14 +1,10 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -22,13 +18,6 @@ import java.util.ArrayList;
  */
 public class LoginMenu extends Activity implements View.OnClickListener, IApplyableSettings
 {
-
-
-    //DONE: (1) Fix max Length of the text fields
-    //DONE: (2) Only allow letters and numbers in username
-    //DONE: (3) Continue Button Needs to work
-    //DONE: (4) implement color chosen from settings
-
     /**
      * Text fields.
      */
@@ -63,37 +52,7 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
         this.password.setOnClickListener(this);
 
         this.changeBackground();
-
-        try
-        {
-            this.username.setText(Settings.getLastUsername());
-            String text = Settings.getLastPassword();
-
-            if(text != null && text.length() > 0)
-            {
-                this.compareOffline = true;
-                this.password.setText("DUMMYBOY");
-            }
-
-            /*if(this.username.getText().toString().length() > 0)
-            {
-                this.password.requestFocus();
-
-                this.password.postDelayed(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        keyboard.showSoftInput(password, 0);
-                    }
-                }, 50);
-            }*/
-        }
-        catch (NullPointerException ex)
-        {
-            Logger.logOnly("No userdata entered yet!");
-        }
+        this.writeUserData();
 
         Updater u = new Updater(this);
 
@@ -115,6 +74,18 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
                 compareOffline = false;
             }
         });
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        if(!this.db.isOnline())
+        {
+            (this.findViewById(R.id.button_register)).setEnabled(false);
+        }
+
     }
 
     @Override
@@ -196,13 +167,12 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
                         Settings.save(this);
                     }
 
-
-
                     //adds a user to the offline db
-                    db.addOfflineUser(user);
+                    this.db.addOfflineUser(user);
 
                     //sets the current user
                     setCurrentUser(user);
+                    Settings.saveCurrentUser(this,user);
 
                     //load categories
                     ArrayList<String>  list = db.getCategories();
@@ -235,7 +205,19 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
         }
     }
 
-    public static User getCurrentUser() {
+    public static User getCurrentUser(Activity a)
+    {
+        //try reloading the user from disc...
+        if(LoginMenu.currentUser == null)
+        {
+            currentUser = Settings.loadCurrentUser(a);
+
+            DatabaseManager db = DatabaseManager.getInstance();
+            db.setActivity(a);
+
+            currentUser = db.getUser(currentUser.getName());
+        }
+
         return currentUser;
     }
 
@@ -248,6 +230,26 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
     {
         super.onDestroy();
         System.gc();
+    }
+
+    private void writeUserData()
+    {
+        try
+        {
+            this.username.setText(Settings.getLastUsername());
+            String text = Settings.getLastPassword();
+
+            if (text != null && text.length() > 0)
+            {
+                this.compareOffline = true;
+                this.password.setText("DUMMYBOY");
+            }
+        }
+        catch (NullPointerException ex)
+        {
+            Logger.logOnly("No userdata entered yet!");
+        }
+
     }
 
     @Override

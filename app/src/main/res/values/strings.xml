@@ -191,11 +191,13 @@
     <string name="update_info_downloadNotice">Your download has started!
         If there is an error opening the apk, please try installing the app manually.
         You will find the apk in the downloads directory.</string>
-    <string name="about_info2">Music by: Frederic Felsen</string>
-    <string name="about_info3">Further help from: Lucas Feierabend</string>
+    <string name="about_info2">Music by: F. Felsen</string>
+    <string name="about_info3">Further help from: L. Feierabend</string>
     <string name="update_info_success_title">Download finished!</string>
     <string name="update_info_success_description">Your download has finished. Click here to install the new version!</string>
     <string name="update_info_success">Update successful!</string>
 
     <string name="info_achievement">New achievement unlocked!</string>
+    <string name="error_offline_general">You need to be online to use this function!</string>
+    <string name="about_info4">Graphics by: M. Kratzl</string>
 </resources>

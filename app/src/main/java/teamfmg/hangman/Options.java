@@ -90,6 +90,12 @@ public class Options extends Activity implements View.OnClickListener, IApplyabl
     {
         super.onResume();
         this.changeBackground();
+
+        if(!db.isOnline())
+        {
+            this.findViewById(R.id.button_ownWords).setEnabled(false);
+            this.findViewById(R.id.options_checkForUpdate).setEnabled(false);
+        }
     }
 
     @Override

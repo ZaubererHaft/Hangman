@@ -33,7 +33,7 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
         this.changeBackground();
 
         //Catch nullpointer
-        if (LoginMenu.getCurrentUser() == null)
+        if (LoginMenu.getCurrentUser(this) == null)
         {
             Logger.logOnlyError(this.getResources().getText(R.string.error_no_currentUser));
             Logger.write(this.getResources().getText(R.string.error_no_currentUser), this);
@@ -48,7 +48,7 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
         this.findViewById(R.id.account_logout).setOnClickListener(this);
         this.findViewById(R.id.button_accountMenu_Scoreboard).setOnClickListener(this);
 
-        ((TextView)this.findViewById(R.id.label_current_User)).setText(LoginMenu.getCurrentUser().getName());
+        ((TextView)this.findViewById(R.id.label_current_User)).setText(LoginMenu.getCurrentUser(this).getName());
 
         if(!db.isOnline())
         {
@@ -65,6 +65,20 @@ public class AccountMenu extends Activity implements IApplyableSettings, View.On
         Settings.load(this);
         RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_Account);
         Settings.setColor(rl);
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        if(!db.isOnline())
+        {
+            this.findViewById(R.id.account_statistic).setEnabled(false);
+            this.findViewById(R.id.account_achievments).setEnabled(false);
+            this.findViewById(R.id.account_change_pw).setEnabled(false);
+            this.findViewById(R.id.button_accountMenu_Scoreboard).setEnabled(false);
+        }
     }
 
     @Override

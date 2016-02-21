@@ -266,12 +266,12 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
             Statistics s = new Statistics();
 
             if (score > db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE,
-                    LoginMenu.getCurrentUser().getName()))
+                    LoginMenu.getCurrentUser(this).getName()))
             {
                 Logger.messageDialog(this.getResources().getString(R.string.string_newHighscore),
                         this.getResources().getString(R.string.string_yourNewHighscore) + score + "\n"
                                 + this.getResources().getString(R.string.string_yourOldHighscore)
-                        + db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, LoginMenu.getCurrentUser().getName()), this);
+                        + db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, LoginMenu.getCurrentUser(this).getName()), this);
 
                 s.scoreHardcore = score;
 
@@ -281,7 +281,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
                 Logger.messageDialog(this.getResources().getString(R.string.string_lose),
                         this.getResources().getString(R.string.string_yourCurrentScore) + score + "\n"
                                 + this.getResources().getString(R.string.string_yourHighscore)
-                        + db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, LoginMenu.getCurrentUser().getName()), this);
+                        + db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, LoginMenu.getCurrentUser(this).getName()), this);
             }
             score = 0;
             setCurrentScoreOnLable();
@@ -479,6 +479,10 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
                     {
                         Logger.logOnlyError(ex.getMessage());
                     }
+                    catch(Exception ex)
+                    {
+                        Logger.logOnlyError(ex.getMessage());
+                    }
 
                     isLoading = false;
                 }
@@ -502,7 +506,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      */
     protected void resetGame()
     {
-        if (this.gameMode != GameMode.HARDCORE)
+        if (gameMode != GameMode.HARDCORE)
         this.setHangman(0);
 
         this.currentWordObject = this.db.getRandomWord(gameMode);

@@ -63,7 +63,7 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
         this.wordText = (TextView)findViewById(R.id.ownWords_word);
         this.descriptionText = (TextView)findViewById(R.id.ownWords_description);
 
-        this.words = db.getCustomWords(LoginMenu.getCurrentUser());
+        this.words = db.getCustomWords(LoginMenu.getCurrentUser(this));
 
         //Add custom layout for each word
         for (int i = 0; i < this.words.size(); i++)
@@ -127,6 +127,12 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
         //Add a word
         else if (v.getId() == R.id.newWord_Done)
         {
+            if(!db.isOnline())
+            {
+                Logger.write(this.getString(R.string.error_offline_general),this);
+                return;
+            }
+
             Word w = new Word
             (
                 this.wordText.getText().toString(),
@@ -144,8 +150,7 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
             if(this.db.addWord(w))
             {
                 this.addInclude(w.getWord(), w.getDescription());
-            };
-
+            }
 
 
             //clear the text fields

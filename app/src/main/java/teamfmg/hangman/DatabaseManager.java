@@ -13,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Looper;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -263,8 +264,9 @@ public class DatabaseManager extends Thread
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
-            Logger.write(e, this.activity);
+            //e.printStackTrace();
+            //Logger.write(e, this.activity);
+            Logger.logOnlyError(e.getMessage());
         }
         finally
         {
@@ -306,8 +308,9 @@ public class DatabaseManager extends Thread
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
-            Logger.write(e, this.activity);
+            //e.printStackTrace();
+            //Logger.write(e, this.activity);
+            Logger.logOnlyError(e.getMessage());
         }
         finally
         {
@@ -345,8 +348,8 @@ public class DatabaseManager extends Thread
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
-            Logger.write(e, this.activity);
+            Logger.logOnlyError(e.getMessage());
+            //Logger.write(e, this.activity);
         }
         finally
         {
@@ -406,8 +409,9 @@ public class DatabaseManager extends Thread
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
-            Logger.write(e,this.activity);
+            //e.printStackTrace();
+            //Logger.write(e,this.activity);
+            Logger.logOnlyError(e.getMessage());
         }
     }
 
@@ -420,7 +424,7 @@ public class DatabaseManager extends Thread
     {
         String query = "DELETE FROM userwords WHERE " +
             "(SELECT wordID FROM customwords WHERE word LIKE '" + wordname + "') LIKE wordID " +
-            "AND " +LoginMenu.getCurrentUser().getId()+" LIKE userID;" ;
+            "AND " +LoginMenu.getCurrentUser(activity).getId()+" LIKE userID;" ;
 
 
         this.useCommand(query, true);
@@ -463,8 +467,8 @@ public class DatabaseManager extends Thread
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
-            Logger.write(e, this.activity);
+            Logger.logOnlyError(e.getMessage());
+            //Logger.write(e, this.activity);
         }
         finally
         {
@@ -606,7 +610,7 @@ public class DatabaseManager extends Thread
     public void changePassword(String newPW) throws SQLException
     {
         this.useCommand("UPDATE users SET password = '" + newPW + "' WHERE username = '" +
-                LoginMenu.getCurrentUser().getName() + "';", true);
+                LoginMenu.getCurrentUser(activity).getName() + "';", true);
 
         this.od.changePW(newPW);
     }
@@ -630,7 +634,7 @@ public class DatabaseManager extends Thread
                 "wrongLetters = wrongLetters+ "+addStats[4]+","+
                 "highscoreHardcore = highscoreHardcore + "+addStats[5]+","+
                 "highscoreSpeedmode = highscoreSpeedmode + "+addStats[6]+ " "+
-                "WHERE username LIKE '" + LoginMenu.getCurrentUser().getName() + "';";
+                "WHERE username LIKE '" + LoginMenu.getCurrentUser(activity).getName() + "';";
 
         this.useCommand(query, true);
 
@@ -645,16 +649,16 @@ public class DatabaseManager extends Thread
      */
     private synchronized void checkForAchievements(Singleplayer.GameMode mode, Integer forcedAchievement)
     {
-        int[] updatedStats = this.getAllStatistics(LoginMenu.getCurrentUser().getName());
+        int[] updatedStats = this.getAllStatistics(LoginMenu.getCurrentUser(activity).getName());
 
         //how the statistics are set up
         //wins, perfects, loses, correctLetters, wrongLetters,highscoreHardcore, highscoreSpeedmode
 
         int userID;
 
-        if(LoginMenu.getCurrentUser() != null)
+        if(LoginMenu.getCurrentUser(activity) != null)
         {
-            userID = LoginMenu.getCurrentUser().getId();
+            userID = LoginMenu.getCurrentUser(activity).getId();
         }
         else
         {
@@ -746,8 +750,10 @@ public class DatabaseManager extends Thread
                 statsToAdd = statsToAdd.substring(0,statsToAdd.length() -1 );
             }
 
-            this.setAchievement(statsToAdd);
-
+            if(statsToAdd.length() > 0 )
+            {
+                this.setAchievement(statsToAdd);
+            }
 
         }
         catch (Exception e)
@@ -846,8 +852,9 @@ public class DatabaseManager extends Thread
         }
         catch (SQLException ex)
         {
-            Logger.write(ex,this.activity);
-            ex.printStackTrace();
+            //Logger.write(ex,this.activity);
+            //ex.printStackTrace();
+            Logger.logOnlyError(ex.getMessage());
         }
         finally
         {
@@ -893,8 +900,9 @@ public class DatabaseManager extends Thread
         }
         catch (SQLException ex)
         {
-            Logger.write(ex,this.activity);
-            ex.printStackTrace();
+            //Logger.write(ex,this.activity);
+            //ex.printStackTrace();
+            Logger.logOnlyError(ex.getMessage());
         }
         finally
         {
@@ -972,8 +980,9 @@ public class DatabaseManager extends Thread
         }
         catch (SQLException ex)
         {
-            Logger.write(ex,this.activity);
-            ex.printStackTrace();
+            //Logger.write(ex,this.activity);
+            //ex.printStackTrace();
+            Logger.logOnlyError(ex.getMessage());
         }
         finally
         {
@@ -1034,7 +1043,7 @@ public class DatabaseManager extends Thread
 
             String cmd2 = "INSERT INTO userwords VALUES ( ("+
                     "SELECT wordID FROM customwords WHERE word LIKE '"+w.getWord()+"'),('"+
-                    LoginMenu.getCurrentUser().getId()+"'),'"+w.getDescription()+"');";
+                    LoginMenu.getCurrentUser(activity).getId()+"'),'"+w.getDescription()+"');";
 
             if(!exists(w))
             {
@@ -1063,8 +1072,9 @@ public class DatabaseManager extends Thread
         }
         catch(SQLiteException ex)
         {
-            ex.printStackTrace();
-            Logger.write(ex, this.activity);
+            //ex.printStackTrace();
+            //Logger.write(ex, this.activity);
+            Logger.logOnlyError(ex.getMessage());
         }
         finally
         {
@@ -1089,7 +1099,7 @@ public class DatabaseManager extends Thread
         //Bsp: SELECT * FROM words WHERE word LIKE "test" AND category LIKE "testCategory";
         String query = "SELECT * FROM userwords WHERE (SELECT wordID FROM customwords WHERE word " +
                 "LIKE '" + word.getWord() + "') LIKE wordID " +
-                "AND "+LoginMenu.getCurrentUser().getId()+" LIKE userID;" ;
+                "AND "+LoginMenu.getCurrentUser(activity).getId()+" LIKE userID;" ;
 
         this.useCommand(query, false);
 
@@ -1100,8 +1110,9 @@ public class DatabaseManager extends Thread
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
-            Logger.write(e, this.activity);
+            //e.printStackTrace();
+            //Logger.write(e, this.activity);
+            Logger.logOnlyError(e.getMessage());
         }
         finally
         {
@@ -1137,8 +1148,9 @@ public class DatabaseManager extends Thread
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
-            Logger.write(e, this.activity);
+            //e.printStackTrace();
+            //Logger.write(e, this.activity);
+            Logger.logOnlyError(e.getMessage());
         }
         finally
         {
@@ -1182,7 +1194,7 @@ public class DatabaseManager extends Thread
                 query += " UNION SELECT word,'ownwords' AS category, description " +
                         "FROM  userwords " +
                         "INNER JOIN customwords ON customwords.wordID = userwords.wordID " +
-                        "WHERE '" + LoginMenu.getCurrentUser().getId() + "' = userID";
+                        "WHERE '" + LoginMenu.getCurrentUser(activity).getId() + "' = userID";
             }
 
         }
@@ -1203,8 +1215,9 @@ public class DatabaseManager extends Thread
         }
         catch (SQLException e)
         {
-            Logger.write(e, this.activity);
-            e.printStackTrace();
+            //Logger.write(e, this.activity);
+            //e.printStackTrace();
+            Logger.logOnlyError(e.getMessage());
         }
         finally
         {
@@ -1232,7 +1245,7 @@ public class DatabaseManager extends Thread
         String query = "SELECT DISTINCT category FROM " + TABLE_WORDS;
 
         query += " UNION SELECT '"+activity.getString(R.string.categoryName_ownWord)+"' " +
-                "FROM userwords WHERE userID = '"+LoginMenu.getCurrentUser().getId()+"';";
+                "FROM userwords WHERE userID = '"+LoginMenu.getCurrentUser(activity).getId()+"';";
 
         this.useCommand(query, false);
 
@@ -1251,8 +1264,9 @@ public class DatabaseManager extends Thread
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
-            Logger.write(e, this.activity);
+            //e.printStackTrace();
+            //Logger.write(e, this.activity);
+            Logger.logOnlyError(e.getMessage());
         }
         finally
         {
@@ -1305,8 +1319,9 @@ public class DatabaseManager extends Thread
         }
         catch (SQLException ex)
         {
-            Logger.write(ex, this.activity);
-            ex.printStackTrace();
+            //Logger.write(ex, this.activity);
+            //ex.printStackTrace();
+            Logger.logOnlyError(ex.getMessage());
             return null;
         }
         finally
@@ -1337,8 +1352,9 @@ public class DatabaseManager extends Thread
         }
         catch (SQLException ex)
         {
-            Logger.write(ex, this.activity);
-            ex.printStackTrace();
+            //Logger.write(ex, this.activity);
+            Logger.logOnlyError(ex.getMessage());
+            //ex.printStackTrace();
         }
         finally
         {
@@ -1576,7 +1592,7 @@ public class DatabaseManager extends Thread
                          * Load user.
                          */
                         query = "SELECT * FROM users WHERE username LIKE '"+
-                                LoginMenu.getCurrentUser().getName()+"';";
+                                LoginMenu.getCurrentUser(activity).getName()+"';";
                         DatabaseManager.this.useCommand(query, false);
 
                         if (DatabaseManager.this.res != null)

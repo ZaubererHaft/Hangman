@@ -43,7 +43,7 @@ public class AchievementsMenu extends Activity implements IApplyableSettings, Vi
         db.setActivity(this);
 
         ArrayList<Achievement> achs = db.getAchievements();
-        ArrayList<Integer> userAchs = db.getAchievements(LoginMenu.getCurrentUser().getId());
+        ArrayList<Integer> userAchs = db.getAchievements(LoginMenu.getCurrentUser(this).getId());
 
         /**
          * For all possible achievements...

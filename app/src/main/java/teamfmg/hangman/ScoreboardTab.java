@@ -75,7 +75,7 @@ public class ScoreboardTab extends Activity implements View.OnClickListener, IAp
     {
         for (int i = 0; i < scorelist.size(); i++)
         {
-            if (scorelist.get(i)[0].equals(LoginMenu.getCurrentUser().getName()))
+            if (scorelist.get(i)[0].equals(LoginMenu.getCurrentUser(this).getName()))
             {
                 addInclude(i+1, scorelist.get(i)[0], scorelist.get(i)[1], true);
             }

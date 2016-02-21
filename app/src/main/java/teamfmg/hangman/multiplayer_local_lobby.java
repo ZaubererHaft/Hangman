@@ -65,7 +65,7 @@ public class multiplayer_local_lobby extends Activity implements IApplyableSetti
 
         if (idInclude == 1)
         {
-            ((EditText)child.findViewById(R.id.new_player_element_textField_playerName)).setText(LoginMenu.getCurrentUser().getName());
+            ((EditText)child.findViewById(R.id.new_player_element_textField_playerName)).setText(LoginMenu.getCurrentUser(this).getName());
             child.findViewById(R.id.new_player_element_textField_playerName).setEnabled(false);
         }
 

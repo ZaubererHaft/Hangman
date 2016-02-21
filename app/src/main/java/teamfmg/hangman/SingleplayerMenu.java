@@ -48,6 +48,19 @@ public class SingleplayerMenu extends Activity implements IApplyableSettings, Vi
     }
 
     @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        if (!db.isOnline())
+        {
+            findViewById(R.id.button_singleplayerMenu_StandardMode).setEnabled(false);
+            findViewById(R.id.button_singleplayerMenu_HardcoreMode).setEnabled(false);
+            findViewById(R.id.button_singleplayerMenu_SpeedMode).setEnabled(false);
+        }
+    }
+
+    @Override
     public void changeBackground()
     {
         Settings.load(this);

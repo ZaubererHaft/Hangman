@@ -35,6 +35,13 @@ public class ChangePassword extends Activity implements View.OnClickListener, IA
 
         if (v.getId() == R.id.changePassword_button)
         {
+
+                if(!db.isOnline())
+                {
+                    Logger.write(this.getString(R.string.error_offline_general),this);
+                    return;
+                }
+
                 String oldPW = ((EditText)this.findViewById(R.id.changePasswort_oldPW)).getText().toString();
 
                 EditText newPw = (EditText)this.findViewById(R.id.changePasswort_newPW);
@@ -44,7 +51,7 @@ public class ChangePassword extends Activity implements View.OnClickListener, IA
                 String confirmPW = confirmPw.getText().toString();
 
                 oldPW = Caeser.encrypt(oldPW);
-                String oldUserPW = db.getUser(LoginMenu.getCurrentUser().getName()).getPassword();
+                String oldUserPW = db.getUser(LoginMenu.getCurrentUser(this).getName()).getPassword();
 
                 if (oldPW.equals(oldUserPW))
                 {
@@ -76,7 +83,7 @@ public class ChangePassword extends Activity implements View.OnClickListener, IA
                 else
                 {
                     Logger.write(this.getResources().
-                            getString(R.string.error_changePW_oldPasswordWrong),this);
+                            getString(R.string.error_changePW_oldPasswordWrong), this);
                 }
 
         }
