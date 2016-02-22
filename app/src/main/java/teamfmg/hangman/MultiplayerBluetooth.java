@@ -16,7 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.ToggleButton;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MultiplayerBluetooth extends Activity implements IApplyableSettings, View.OnClickListener
 {
@@ -24,9 +24,16 @@ public class MultiplayerBluetooth extends Activity implements IApplyableSettings
     private BluetoothAdapter adapter;
     private static final int REQUEST_ENABLE_BT = 1;
     private BroadcastReceiver receiver = null;
-    private final ArrayList<BluetoothDevice> devices = new ArrayList<>();
+    //private final ArrayList<BluetoothDevice> devices = new ArrayList<>();
     private static final int VISIBLETIME = 300;
     private BluetoothDevice bondedDevice;
+
+    //rivate ArrayList <BluetoothDevice> devices = new ArrayList<>();
+
+    private HashMap<Button, BluetoothDevice> devices = new HashMap<>();
+
+    private int id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -45,8 +52,7 @@ public class MultiplayerBluetooth extends Activity implements IApplyableSettings
         }
         else
         {
-            Logger.messageDialog("NO_BLUETOOTH","NO_BLUETOOTH",this);
-            this.finish();
+            Logger.messageDialog("NO_BLUETOOTH", "NO_BLUETOOTH", this);
         }
     }
 
@@ -81,18 +87,20 @@ public class MultiplayerBluetooth extends Activity implements IApplyableSettings
     /**
      * Lists all devices to the GUI
      */
-    private void listDevices()
+    private Button addDeviceToLayout(BluetoothDevice device)
     {
-        LinearLayout ll = (LinearLayout)this.findViewById(R.id.subLayout_bluetooth);
-        LayoutInflater inflater = (LayoutInflater)this.getSystemService(LAYOUT_INFLATER_SERVICE);
+        LinearLayout ll = (LinearLayout) this.findViewById(R.id.subLayout_bluetooth);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
 
-        for (BluetoothDevice d:devices)
-        {
-            View child = inflater.inflate(R.layout.device, null, false);
-            ((Button)child.findViewById(R.id.device_button)).setText(d.getAddress());
-            child.findViewById(R.id.device_button).setOnClickListener(this);
-            ll.addView(child);
-        }
+        View child = inflater.inflate(R.layout.device, null, false);
+
+        Button b = ((Button) child.findViewById(R.id.device_button));
+
+        b.setText(device.getName());
+        b.setOnClickListener(this);
+        ll.addView(child);
+
+        return b;
 
     }
 
@@ -113,13 +121,13 @@ public class MultiplayerBluetooth extends Activity implements IApplyableSettings
 
                 if (BluetoothDevice.ACTION_FOUND.equals(action))
                 {
-                    // Get the BluetoothDevice object from the Intent
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                    // Add the name and address to an array adapter to show in a ListView
-                    devices.add(device);
+
+                    Button b = addDeviceToLayout(device);
+                    devices.put(b, device);
+
                 }
 
-                listDevices();
             }
         };
 
@@ -153,29 +161,43 @@ public class MultiplayerBluetooth extends Activity implements IApplyableSettings
     /**
      * Bonds to a bluetooth device.
      * @param btDevice Device to bound.
+
      * @throws Exception
      */
-    public void createBond(BluetoothDevice btDevice) throws Exception
+    public boolean createBond(BluetoothDevice btDevice) throws Exception
     {
         Logger.logOnly("Bonding to device: "+btDevice.getAddress());
         Class class1 = Class.forName("android.bluetooth.BluetoothDevice");
         Method createBondMethod = class1.getMethod("createBond");
         Boolean returnValue = (Boolean) createBondMethod.invoke(btDevice);
         Logger.logOnly("Bonding was " + returnValue);
+        return returnValue;
     }
 
     /**
      * Removes the connection to a device.
      * @param btDevice
+     * @return succesfully bonded
      * @throws Exception
      */
-    public void removeBond(BluetoothDevice btDevice) throws Exception
+    public boolean removeBond(BluetoothDevice btDevice) throws Exception
     {
         Logger.logOnly("Unbond from device: "+btDevice.getAddress());
         Class btClass = Class.forName("android.bluetooth.BluetoothDevice");
         Method removeBondMethod = btClass.getMethod("removeBond");
         Boolean returnValue = (Boolean) removeBondMethod.invoke(btDevice);
         Logger.logOnly("Remove bonding was " + returnValue);
+        return returnValue;
+    }
+
+    /**
+     * Rmoves all entries from the screen.
+     */
+    public void clearScreen()
+    {
+        this.devices = new HashMap<>();
+        LinearLayout ll = (LinearLayout) this.findViewById(R.id.subLayout_bluetooth);
+        ll.removeAllViews();
     }
 
     @Override
@@ -189,15 +211,19 @@ public class MultiplayerBluetooth extends Activity implements IApplyableSettings
         {
             this.makeDeviceVisible();
 
-            BluetoothServer bs = new BluetoothServer(this.adapter);
+            //BluetoothServer bs = new BluetoothServer(this.adapter);
+            Bluetooth bs = new Bluetooth(this);
+            bs.send("Hallo");
 
         }
         if(v.getId() == R.id.bluetooth_scan)
         {
+
             ToggleButton tb = (ToggleButton) this.findViewById(R.id.bluetooth_scan);
 
             if(tb.isChecked())
             {
+                this.clearScreen();
                 this.startDiscovery();
             }
             else
@@ -218,8 +244,9 @@ public class MultiplayerBluetooth extends Activity implements IApplyableSettings
             {
                 try
                 {
-                    this.removeBond(bondedDevice);
+                    boolean b = this.removeBond(bondedDevice);
                     this.bondedDevice = null;
+
                 }
                 catch (Exception e)
                 {
@@ -227,27 +254,30 @@ public class MultiplayerBluetooth extends Activity implements IApplyableSettings
                 }
             }
 
-            Button b = (Button)this.findViewById(R.id.device_button);
-
-            /**
-             * Connect to new device
-             */
-            for (BluetoothDevice d: devices)
+            try
             {
-                if(d.getAddress().equals(b.getText().toString()))
+                boolean b = this.createBond(this.devices.get(v));
+                this.bondedDevice = this.devices.get(v);
+                //BluetoothClient bc = new BluetoothClient(this.bondedDevice, adapter);
+                Bluetooth bs = new Bluetooth(this);
+
+                if(b)
                 {
-                    try
-                    {
-                        this.createBond(d);
-                        this.bondedDevice = d;
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                    break;
+                    Logger.write("Successfully bonded!", this);
+
                 }
+                else
+                {
+                    Logger.write("Error while bonding!", this);
+                }
+
+
             }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
         }
     }
 

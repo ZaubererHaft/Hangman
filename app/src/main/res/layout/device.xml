@@ -14,6 +14,5 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:textSize="@dimen/textSizeMedium"
-        android:minHeight="@dimen/button_height"
-        android:layout_marginTop="@dimen/marginToHeader" />
+        android:minHeight="@dimen/button_height" />
 </RelativeLayout>

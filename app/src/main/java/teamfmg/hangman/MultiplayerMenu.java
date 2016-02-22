@@ -8,7 +8,6 @@ import android.widget.RelativeLayout;
 
 public class MultiplayerMenu extends Activity implements IApplyableSettings, View.OnClickListener {
 
-    private Bluetooth bt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

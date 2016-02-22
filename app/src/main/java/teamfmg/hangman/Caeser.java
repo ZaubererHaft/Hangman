@@ -36,6 +36,10 @@ public class Caeser
         {
             ex.printStackTrace();
         }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
+        }
 
         return null;
         /*if(offset > 127 || offset < 1)

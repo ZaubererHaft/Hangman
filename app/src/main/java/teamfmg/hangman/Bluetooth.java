@@ -5,18 +5,9 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Build;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -25,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.logging.Handler;
 
 /**
  * Created by Vincent on 27.01.2016.
@@ -52,35 +42,22 @@ public class Bluetooth extends Thread{
     public Bluetooth(Context context)
     {
         this.context = (Activity)context;
-        activateBluetooth();
-    }
-
-    /**
-     * Start the BluetoothAdapter
-     */
-    private void activateBluetooth()
-    {
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        bluetoothAdapter.enable();
-
-        while (!bluetoothAdapter.isEnabled()){
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        uuid = UUID.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
-        this.start();
     }
 
     /**
      */
-    public void send(Object object) throws IOException
+    public void send(Object object)
     {
         if(out != null)
         {
-            out.writeObject("Hello from the Ather Side!");
+            try
+            {
+
+                out.writeObject("Hello from the other Side!");
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -129,21 +106,6 @@ public class Bluetooth extends Thread{
         }
     }
 
-
-    public List<BluetoothDevice> listBoundedDevices(){
-
-        List<BluetoothDevice> list = new ArrayList<BluetoothDevice>();
-        // get paired devices
-        pairedDevices = bluetoothAdapter.getBondedDevices();
-
-
-        // put it's one to the list
-        for(BluetoothDevice device : pairedDevices)
-        {
-            list.add(device);
-        }
-        return list;
-    }
 
     public void closeConnection(){
         try

@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'key'
             keyPassword '12345678'
-            storeFile file('C:/Users/Ludwig/Documents/AndroidKey.jks')
+            storeFile file('/home/consult/Desktop/AndroidKey.jks')
             storePassword '12345678'
         }
     }

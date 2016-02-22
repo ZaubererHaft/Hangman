@@ -85,9 +85,6 @@
             android:name=".MultiplayerMenu"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".BluetoothMenu"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".SingleplayerMenu"
             android:screenOrientation="portrait" />
         <activity
