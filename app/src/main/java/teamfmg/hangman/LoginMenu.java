@@ -172,7 +172,7 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
 
                     //sets the current user
                     setCurrentUser(user);
-                    Settings.saveCurrentUser(this,user);
+                    Settings.saveCurrentUser(this, user);
 
                     //Updating the lastOnline Time
                     this.db.updateLastOnline();

@@ -52,7 +52,7 @@ public class TimeHelper
         }
         else if (minutesAgo < 1440) //in the last 24 hours
         {
-            text = "Vor " + minutesAgo%60 + "Stunden";
+            text = "Vor " + (int)(minutesAgo/60) + " Stunden";
         }
         else if (minutesAgo < 2880) //in the last 2 days
         {
@@ -60,7 +60,7 @@ public class TimeHelper
         }
         else //Longer then 2 days
         {
-            text = "Vor " + minutesAgo%1440 + " Tage";
+            text = "Vor " + (int)(minutesAgo/1440) + " Tage";
         }
 
         return text;
