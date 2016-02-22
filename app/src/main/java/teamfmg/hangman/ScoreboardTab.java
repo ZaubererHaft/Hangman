@@ -73,11 +73,9 @@ public class ScoreboardTab extends Activity implements View.OnClickListener, IAp
      */
     private void initScorelist()
     {
-        TimeHelper timeHelper = new TimeHelper();
         for (int i = 0; i < scorelist.size(); i++)
         {
-            //TODO Eventuelles einbauen eines Datenvolumen-Sparmoduses
-            boolean isOnline = timeHelper.lastOnline(scorelist.get(i)[0]).equals("Jetzt");
+            boolean isOnline = TimeHelper.lastOnlineByDate(scorelist.get(i)[2]).equals("Jetzt");
 
             if (scorelist.get(i)[0].equals(LoginMenu.getCurrentUser(this).getName()))
             {

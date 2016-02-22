@@ -50,8 +50,7 @@ public class StatisticMenu extends Activity implements IApplyableSettings, View.
         Integer highscoreHardcore       = val[5];
         Integer highscoreSpeedmode      = val[6];
 
-        TimeHelper timeHelper = new TimeHelper();
-        String lastLogin = timeHelper.lastOnline(username);
+        String lastLogin = TimeHelper.lastOnlineByUsername(username);
 
 
         String[] texts=

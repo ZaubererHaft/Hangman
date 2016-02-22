@@ -1,13 +1,19 @@
 package teamfmg.hangman;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * Created by Vincent on 21.02.2016.
  */
-public class TimeHelper
+public final class TimeHelper
 {
-    private static DatabaseManager db = DatabaseManager.getInstance();
+    private final static DatabaseManager db = DatabaseManager.getInstance();
+
+
+    private TimeHelper(){}
 
     /**
      * Calculate the difference between 2 Times
@@ -15,7 +21,7 @@ public class TimeHelper
      * @param laterTime the later Time
      * @return Amound of minutes the time differences
      */
-    private int timeDiffMins(Date earliearTime, Date laterTime)
+    private static int timeDiffMins(Date earliearTime, Date laterTime)
     {
         int mins;
 
@@ -30,15 +36,65 @@ public class TimeHelper
      * Last online State as String
      * @param username the user
      * @return an formated String, perfect for StatisticMenu
-     * //TODO Entfernen der Hardcoded Strings
      */
-    public String lastOnline(String username)
+    public static String lastOnlineByUsername(String username)
     {
         int minutesAgo = timeDiffMins(db.getLastOnline(username), new Date());
 
+        String text = setLastOnlineText(minutesAgo);
+
+        return text;
+    }
+
+    /**
+     * Last online State as String
+     * @param date the date
+     * @return an formated String, perfect for StatisticMenu
+     */
+    public static String lastOnlineByDate(String date)
+    {
+        int minutesAgo = timeDiffMins(stringToDate(date), new Date());
+
+        String text = setLastOnlineText(minutesAgo);
+
+        return text;
+    }
+
+    /**
+     * Convert a String in an Date
+     * @param dateString sting in an "yyyy-MM-dd HH:mm:ss" Format
+     * @return A Date
+     */
+    public static Date stringToDate(String dateString)
+    {
+        //converting in an DateFormat
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date lastLogin = null;
+
+        try
+        {
+            lastLogin = format.parse(dateString);
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+
+        return lastLogin;
+    }
+
+    /**
+     * Last online State as String
+     * @param minutesAgo the minutes the lastOnline were
+     * @return an formated String, perfect for StatisticMenu
+     * TODO: Entfernen der Hardcoded Strings
+     */
+    private static String setLastOnlineText(int minutesAgo){
+
         String text;
 
-        if (minutesAgo <= 3) //in the last 3 minutes
+        if (minutesAgo <= 1) //in the last minute
         {
             text = "Jetzt";
         }

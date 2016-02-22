@@ -902,18 +902,7 @@ public class DatabaseManager extends Thread
         }
 
         //converting in an DateFormat
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date lastLogin = null;
-
-        try
-        {
-            lastLogin = format.parse(string);
-        }
-        catch (ParseException e)
-        {
-            e.printStackTrace();
-            return null;
-        }
+        Date lastLogin = TimeHelper.stringToDate(string);
 
         return lastLogin;
     }
@@ -1007,11 +996,11 @@ public class DatabaseManager extends Thread
         if (colomnName.equals("highscoreStandard"))
         {
             query = "SELECT username, ((wins + (perfects * 4) - loses)*10 + correctLetters - wrongletters) " +
-                    "AS 'score' FROM  users ORDER BY score DESC";
+                    "AS 'score', lastOnline FROM  users ORDER BY score DESC";
         }
         else
         {
-            query = "SELECT username, " + colomnName + " FROM users ORDER BY " + colomnName + " DESC;";
+            query = "SELECT username, " + colomnName + ", lastOnline FROM users ORDER BY " + colomnName + " DESC;";
         }
 
         this.useCommand(query, false);
@@ -1024,9 +1013,10 @@ public class DatabaseManager extends Thread
             {
                 while (this.res.next())
                 {
-                    String[] innerList = new String[2];
+                    String[] innerList = new String[3];
                     innerList[0] = this.res.getString(1);
                     innerList[1] = ((Integer)this.res.getInt(2)).toString();
+                    innerList[2] = this.res.getString(3);
                     list.add(innerList);
                 }
                 return list;
