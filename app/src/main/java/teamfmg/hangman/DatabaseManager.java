@@ -233,7 +233,13 @@ public class DatabaseManager extends Thread
         if(!this.isAlive()) {
             this.start();
         }
+
         this.activity = a;
+
+        if (this.od == null)
+        {
+            this.od = new OfflineDatabase();
+        }
     }
 
     /**

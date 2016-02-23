@@ -18,5 +18,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/new_player_element_textField_playerName"
         android:layout_toRightOf="@+id/new_player_element_playerXY"
-        android:layout_marginLeft="@dimen/marginForSpace" />
+        android:layout_marginLeft="@dimen/marginForSpace"
+        android:singleLine="true" />
 </RelativeLayout>

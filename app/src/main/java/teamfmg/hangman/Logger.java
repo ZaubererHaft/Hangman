@@ -100,6 +100,7 @@ public final class Logger
         {
             d.setMessage(frame.getResources().getString(R.string.string_Word) + ": " + word + "\n" +
                     frame.getResources().getString(R.string.string_Category) + ": " + Category.convertCategoryName(category, frame.getResources()) + "\n");
+
         }
         else
         {
@@ -120,6 +121,7 @@ public final class Logger
         d.setPositiveButton("Ok", null);
         d.create().show();
     }
+
 
     //Currently no funktion
     public static boolean yesNoDialog (String message, Activity activity){
