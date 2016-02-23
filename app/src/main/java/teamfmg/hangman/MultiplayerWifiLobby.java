@@ -12,6 +12,7 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
     private Button startButton;
     private DatabaseManager db = DatabaseManager.getInstance();
     public static MultiplayerGame multiplayerGame = null;
+    public static OnlineGamePlayer onlineGamePlayer = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

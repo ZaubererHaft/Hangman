@@ -6,7 +6,7 @@ package teamfmg.hangman;
 public class OnlineGamePlayer {
 
     public enum PlayerState{
-        UNKNOWN, JOINED, READY, PLAYING, FINISHED, LEFTED
+        UNKNOWN, JOINED, LEADER, READY, PLAYING, FINISHED, LEFTED
     }
 
     private PlayerState playerState;

@@ -101,9 +101,12 @@ public class MultiplayerWifiMenu extends Activity implements IApplyableSettings,
     public void onClick(View v) {
 
         Intent i;
+        OnlineGamePlayer newPlayer;
+
         switch (v.getId()){
             case R.id.mpWifiMenu_button_createLobby:
 
+                //creating an new OnlineGame
                 long id = System.currentTimeMillis()*10000 + LoginMenu.getCurrentUser(this).getId();
                 String gameName = LoginMenu.getCurrentUser(this).getName() + "s Game";
 
@@ -113,13 +116,37 @@ public class MultiplayerWifiMenu extends Activity implements IApplyableSettings,
                 MultiplayerWifiLobby.multiplayerGame = newGame;
 
                 db.createOnlineGame(newGame);
+
+                //creating an new OnlineGamePlayer
+                newPlayer = new OnlineGamePlayer(newGame.getId(), LoginMenu.getCurrentUser(this).getId(),
+                        0, OnlineGamePlayer.PlayerState.LEADER);
+
+                MultiplayerWifiLobby.onlineGamePlayer = newPlayer;
+
+                db.createOnlineGamePlayer(newPlayer);
+
+                //start activity
                 i = new Intent(this, MultiplayerWifiLobby.class);
+
                 i.putExtra("createLobby", true);
+
                 this.startActivity(i);
+
                 break;
+
+
             case R.id.mpWifiMenu_exit:
                 this.finish();
                 break;
+
+            default:
+                //creating an new OnlineGamePlayer
+                newPlayer = new OnlineGamePlayer(Long.parseLong(((TextView)v.findViewById(R.id.mpGameElement_id)).getText().toString()), LoginMenu.getCurrentUser(this).getId(),
+                        0, OnlineGamePlayer.PlayerState.JOINED);
+
+                MultiplayerWifiLobby.onlineGamePlayer = newPlayer;
+
+                db.createOnlineGamePlayer(newPlayer);
         }
     }
 }
