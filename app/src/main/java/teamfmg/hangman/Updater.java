@@ -276,6 +276,15 @@ public final class Updater extends Thread
                     Logger.write(context.getString(R.string.update_error_general), context);
                 }
             });
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN)
+            {
+                mBuilder.setContentText(context.getString(R.string.update_error_general)).
+                        setProgress(0, 0, false);
+
+                mNotifyManager.notify(id, mBuilder.build());
+
+            }
         }
 
     }
