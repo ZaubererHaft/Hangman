@@ -201,4 +201,7 @@
     <string name="error_offline_general">You need to be online to use this function!</string>
     <string name="about_info4">Graphics by: M. Kratzl</string>
     <string name="label_statistic_lastOnline">Online:</string>
+    <string name="mpWifiMenu_button_createLobby">Create Lobby</string>
+    <string name="mpWifiMenu_label_gamesAvailable">Games Avaiable:</string>
+    <string name="mpWifiMenu_header">Multiplayer</string>
 </resources>
