@@ -10,17 +10,18 @@ public class MultiplayerGame
     }
 
     private GameState gameState;
-    private int id, maxPlayers, currPlayers, leaderID;
-    private String gameName, password;
+    private int maxPlayers, currPlayers;
+    private long id;
+    private String gameName, password, leaderName;
 
-    public MultiplayerGame(int id, String gameName, String password, int maxPlayers, int leaderID, GameState gameState)
+    public MultiplayerGame(long id, String gameName, String password, int maxPlayers, String leaderName, GameState gameState)
     {
         this.id = id;
         this.gameName = gameName;
         this.password = password;
         this.maxPlayers = maxPlayers;
         this.currPlayers = 0;
-        this.leaderID = leaderID;
+        this.leaderName = leaderName;
         this.gameState = gameState;
     }
 
@@ -32,7 +33,7 @@ public class MultiplayerGame
         this.gameState = gameState;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -56,12 +57,12 @@ public class MultiplayerGame
         this.currPlayers = currPlayers;
     }
 
-    public int getLeaderID() {
-        return leaderID;
+    public String getLeaderName() {
+        return leaderName;
     }
 
-    public void setLeaderID(int leaderID) {
-        this.leaderID = leaderID;
+    public void setLeaderName(int leaderID) {
+        this.leaderName = leaderName;
     }
 
     public String getGameName() {

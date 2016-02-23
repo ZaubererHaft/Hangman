@@ -80,10 +80,6 @@
             android:id="@+id/mpWifiMenu_scrollView"
             android:layout_height="match_parent">
 
-            <include
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                layout="@layout/new_mpgame_element" />
         </LinearLayout>
     </ScrollView>
 

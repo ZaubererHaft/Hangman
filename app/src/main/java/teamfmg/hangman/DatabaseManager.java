@@ -1401,23 +1401,45 @@ public class DatabaseManager extends Thread
         }
     }
 
+    /**
+     * Gets all Multiplayergames
+     * @param gameState show all Multiplayergames with this gameState
+     * @return List of muiltiplayerGames
+     */
     public List<MultiplayerGame> getAllMultiplayergames(MultiplayerGame.GameState gameState)
     {
-        String command = "SELECT id, gamename, password, maxplayers, leaderID, state FROM onlineGames " +
+        String command = "SELECT onlineGames.id, onlineGames.gamename, onlineGames.password, " +
+                "onlineGames.maxplayers, users.username, onlineGames.state " +
+                "FROM onlineGames JOIN users ON leaderID = users._id " +
                 "WHERE state LIKE '" + gameState.name() + "';";
         return getAllMultiplayerGames(command);
     }
-
+    /**
+     * Gets all Multiplayergames
+     * @param username show all Multiplayergames inwhich this user is
+     * @return List of muiltiplayerGames
+     */
     public List<MultiplayerGame> getAllMultiplayergames(String username)
     {
         return null;
     }
 
+    /**
+     * Gets all Multiplayergames
+     * @param gameState show all Multiplayergames with this gameState
+     * @param username show all Multiplayergames inwhich this user is
+     * @return List of muiltiplayerGames
+     */
     public List<MultiplayerGame> getAllMultiplayergames(String username, MultiplayerGame.GameState gameState)
     {
         return null;
     }
 
+    /**
+     * the Real funktion of getAllMultiplayergames
+     * @param command SQL Commant wich gives the correct result
+     * @return List of muiltiplayerGames
+     */
     private List<MultiplayerGame> getAllMultiplayerGames(String command){
 
         useCommand(command, false);
@@ -1430,8 +1452,8 @@ public class DatabaseManager extends Thread
             {
                 while (this.res.next())
                 {
-                    MultiplayerGame m = new MultiplayerGame(res.getInt(1), res.getString(2), res.getString(3),
-                            res.getInt(4), res.getInt(5), MultiplayerGame.GameState.valueOf(res.getString(6)));
+                    MultiplayerGame m = new MultiplayerGame(res.getLong(1), res.getString(2), res.getString(3),
+                            res.getInt(4), res.getString(5), MultiplayerGame.GameState.valueOf(res.getString(6)));
 
                     list.add(m);
                 }
@@ -1449,6 +1471,55 @@ public class DatabaseManager extends Thread
         return list;
     }
 
+    /**
+     * Creating an new OnlineGame in DB
+     * @param multiplayerGame the Game wich gets createt
+     */
+    public void createOnlineGame(MultiplayerGame multiplayerGame){
+        String command = "INSERT INTO onlineGames (id, gamename, password, maxplayers, leaderID, state) " +
+                "VALUES ('" +
+                multiplayerGame.getId() + "','" +
+                multiplayerGame.getGameName() + "','" +
+                multiplayerGame.getPassword() + "','" +
+                multiplayerGame.getMaxPlayers() + "','" +
+                this.getUser(multiplayerGame.getLeaderName()).getId() + "','" +
+                multiplayerGame.getGameState() + "');";
+        useCommand(command, true);
+    }
+
+    public void updateOnlineGame(MultiplayerGame multiplayerGame){
+        String command = "UPDATE onlineGames SET" +
+                " gamename = '" + multiplayerGame.getGameName() +
+                "', password = '" + multiplayerGame.getPassword() +
+                "', maxplayers = '" + multiplayerGame.getMaxPlayers() +
+                "', leaderID = '" + this.getUser(multiplayerGame.getLeaderName()).getId() +
+                "', state = '" + multiplayerGame.getGameState() +
+                "' WHERE id LIKE '" + multiplayerGame.getId() + "';";
+
+        useCommand(command, true);
+    }
+
+    public void createOnlineGamePlayer(OnlineGamePlayer player)
+    {
+        String command = "INSERT INTO onlineGame_players (onlineGameID, userID, score, state) " +
+                "VALUES ('" +
+                player.getOnlineGameID() + "','" +
+                player.getUserID() + "','" +
+                player.getScore() + "','" +
+                player.getPlayerState() + "');";
+        useCommand(command, true);
+    }
+
+    public void updateOnlineGamePlayer(OnlineGamePlayer player)
+    {
+        String command = "UPDATE onlineGame_players SET" +
+                " score = '" + player.getScore() +
+                "', state = '" + player.getPlayerState() +
+                "' WHERE onlineGameID LIKE '" + player.getOnlineGameID() + "' AND" +
+                " userID LIKE '" + player.getUserID() + "';";
+
+        useCommand(command, true);
+    }
 
     /**
      * Gets the amount of words.

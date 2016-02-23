@@ -38,4 +38,16 @@
         android:textColor="@color/color_white"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="id"
+        android:id="@+id/mpGameElement_id"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/mpGameElement_gameName"
+        android:layout_toRightOf="@+id/mpGameElement_leaderName"
+        android:textSize="0dp"
+        android:visibility="invisible" />
 </RelativeLayout>

@@ -26,6 +26,10 @@ public class MultiplayerWifiMenu extends Activity implements IApplyableSettings,
         setContentView(R.layout.activity_multiplayer_wifi_menu);
         this.changeBackground();
 
+        //set onClicklistener
+        findViewById(R.id.mpWifiMenu_button_createLobby).setOnClickListener(this);
+        findViewById(R.id.mpWifiMenu_exit).setOnClickListener(this);
+
         updateGames();
     }
 
@@ -37,11 +41,12 @@ public class MultiplayerWifiMenu extends Activity implements IApplyableSettings,
     {
         multiplayerGameList = db.getAllMultiplayergames(MultiplayerGame.GameState.SEARCH4PLAYERS);
         for (int i = 0; i < multiplayerGameList.size(); i++){
-            addInclude(multiplayerGameList.get(i).getGameName(), multiplayerGameList.get(i).getLeaderID(), multiplayerGameList.get(i).getRoomPlayers());
+            addInclude(multiplayerGameList.get(i).getGameName(), multiplayerGameList.get(i).getLeaderName(),
+                    multiplayerGameList.get(i).getRoomPlayers(), multiplayerGameList.get(i).getId());
         }
     }
 
-    private void addInclude(String gameName, String leaderName, String playerAmount)
+    private void addInclude(String gameName, String leaderName, String playerAmount, long id)
     {
         LinearLayout parent = (LinearLayout)this.findViewById(R.id.mpWifiMenu_scrollView);
 
@@ -52,10 +57,13 @@ public class MultiplayerWifiMenu extends Activity implements IApplyableSettings,
         TextView viewGameName = (TextView)child.findViewById(R.id.mpGameElement_gameName);
         TextView viewLeaderName = (TextView)child.findViewById(R.id.mpGameElement_leaderName);
         TextView viewPlayerAmount = (TextView)child.findViewById(R.id.mpGameElement_playerAmount);
+        TextView viewID = (TextView)child.findViewById(R.id.mpGameElement_id);
+
 
         viewGameName.setText(gameName);
         viewLeaderName.setText(leaderName);
         viewPlayerAmount.setText(playerAmount);
+        viewID.setText(id + "");
 
         /*
         if (isLeader)
@@ -85,7 +93,7 @@ public class MultiplayerWifiMenu extends Activity implements IApplyableSettings,
     @Override
     public void changeBackground() {
         Settings.load(this);
-        RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_mpWifiLobby);
+        RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_mpWifiMenu);
         Settings.setColor(rl);
     }
 
@@ -95,8 +103,22 @@ public class MultiplayerWifiMenu extends Activity implements IApplyableSettings,
         Intent i;
         switch (v.getId()){
             case R.id.mpWifiMenu_button_createLobby:
+
+                long id = System.currentTimeMillis()*10000 + LoginMenu.getCurrentUser(this).getId();
+                String gameName = LoginMenu.getCurrentUser(this).getName() + "s Game";
+
+                MultiplayerGame newGame = new MultiplayerGame(id, gameName, "", 2, LoginMenu.getCurrentUser(this).getName(),
+                        MultiplayerGame.GameState.CREATING);
+
+                MultiplayerWifiLobby.multiplayerGame = newGame;
+
+                db.createOnlineGame(newGame);
                 i = new Intent(this, MultiplayerWifiLobby.class);
+                i.putExtra("createLobby", true);
                 this.startActivity(i);
+                break;
+            case R.id.mpWifiMenu_exit:
+                this.finish();
                 break;
         }
     }
