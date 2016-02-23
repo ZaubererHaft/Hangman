@@ -38,9 +38,12 @@ public class MainMenu extends Activity implements View.OnClickListener, IApplyab
 
         //Updating the lastOnline Time
         DatabaseManager db = DatabaseManager.getInstance();
+        db.setActivity(this);
         db.updateLastOnline();
 
         this.changeBackground();
+
+        MusicPlayer.playNext(R.raw.track01,this);
 
     }
 

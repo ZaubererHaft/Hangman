@@ -48,7 +48,7 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
     /**
      * This handles the database connection.
      */
-    private DatabaseManager db;
+    private DatabaseManager db = DatabaseManager.getInstance();
     /**
      * The checkbox to select all elements.
      */
@@ -63,6 +63,7 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
         this.changeBackground();
 
         //Updating the lastOnline Time
+        db.setActivity(this);
         db.updateLastOnline();
 
         //Init

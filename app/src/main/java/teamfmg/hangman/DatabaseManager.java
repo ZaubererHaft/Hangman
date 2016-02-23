@@ -12,19 +12,19 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.os.Looper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -104,7 +104,6 @@ public class DatabaseManager extends Thread
     @Override
     public void run()
     {
-        Looper.prepare();
 
         while (!isInterrupted())
         {
@@ -113,7 +112,7 @@ public class DatabaseManager extends Thread
              */
             if(!this.isOnline())
             {
-                Logger.logOnlyError("Connection lost - try reconnection!");
+                Logger.logOnlyWarning("Connection lost - try reconnection!");
 
                 /**
                  * Shut down old connection
@@ -169,27 +168,6 @@ public class DatabaseManager extends Thread
      */
     public boolean isOnline()
     {
-        /*if (this.hasNetworkConnection())
-        {
-            try
-            {
-                HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.google.com").openConnection());
-                urlc.setRequestProperty("User-Agent", "Test");
-                urlc.setRequestProperty("Connection", "close");
-                urlc.setConnectTimeout((int)CONNECTING_TIME);
-                urlc.connect();
-                return (urlc.getResponseCode() == 200);
-            }
-            catch (IOException e)
-            {
-                Logger.logOnlyError(e.getMessage());
-            }
-        }
-        else
-        {
-            return false;
-        }*/
-
         return hasNetworkConnection();
     }
 
@@ -205,8 +183,41 @@ public class DatabaseManager extends Thread
                 (ConnectivityManager)activity.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+        NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        /**
+         * Ping host if we are using wifi.
+         */
+        if (wifi.isConnected())
+        {
+            return ping(CONNECTING_URL);
+        }
+
         return activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
+    }
+
+    /**
+     * Pings t a host.
+     * @param host String.
+     * @return Boolean if it is accessible.
+     */
+    public boolean ping(String host)
+    {
+        try
+        {
+            URL url = new URL(host);
+            HttpURLConnection urlConnect = (HttpURLConnection) url.openConnection();
+            urlConnect.setConnectTimeout((int)CONNECTING_TIME);
+            urlConnect.getContent();
+            return true;
+        }
+        catch (IOException | NullPointerException e)
+        {
+            Logger.logOnlyWarning(e.getMessage());
+        }
+        return false;
     }
 
     /**
@@ -908,9 +919,7 @@ public class DatabaseManager extends Thread
         }
 
         //converting in an DateFormat
-        Date lastLogin = TimeHelper.stringToDate(string);
-
-        return lastLogin;
+        return TimeHelper.stringToDate(string);
     }
 
 

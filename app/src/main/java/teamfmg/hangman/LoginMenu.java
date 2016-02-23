@@ -74,6 +74,7 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
                 compareOffline = false;
             }
         });
+
     }
 
     @Override

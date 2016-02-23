@@ -9,7 +9,6 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -179,4 +178,6 @@ public final class Logger
         // mId allows you to update the notification later on.
                 mNotificationManager.notify(1, mBuilder.build());
     }
+
+
 }

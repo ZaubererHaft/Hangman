@@ -1,6 +1,6 @@
 package teamfmg.hangman;
 
-import android.content.Context;
+import android.app.Activity;
 import android.media.MediaPlayer;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,11 +21,10 @@ public class MusicPlayer implements AdapterView.OnItemSelectedListener
 
     }
 
-    public static void playNext(Context context, MusicType type)
+    public static void playNext(int id, Activity context)
     {
-        //TODO: Add Musik
-        // mp = MediaPlayer.create(context, R.raw.intro);
-        //mp.start();
+        mp = MediaPlayer.create(context, id);
+        mp.start();
     }
 
     @Override
