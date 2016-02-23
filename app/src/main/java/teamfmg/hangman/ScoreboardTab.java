@@ -29,6 +29,11 @@ public class ScoreboardTab extends Activity implements View.OnClickListener, IAp
      * Instance to the Database.
      */
     private DatabaseManager db = DatabaseManager.getInstance();
+    /**
+     * the shownScoreboard
+     */
+    private int shownScoreboard;
+
 
 
     @Override
@@ -37,7 +42,6 @@ public class ScoreboardTab extends Activity implements View.OnClickListener, IAp
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scoreboard_tab);
 
-        int shownScoreboard;
 
         changeBackground();
         Bundle extra = getIntent().getExtras();
@@ -61,6 +65,7 @@ public class ScoreboardTab extends Activity implements View.OnClickListener, IAp
                 break;
             case 3:
                 header.setText(R.string.text_header_multiplayer_local);
+                this.scorelist = MultiplayerLocal.scoreboard;
                 break;
         }
 
@@ -75,9 +80,14 @@ public class ScoreboardTab extends Activity implements View.OnClickListener, IAp
     {
         for (int i = 0; i < scorelist.size(); i++)
         {
-            boolean isOnline = TimeHelper.lastOnlineByDate(scorelist.get(i)[2]).equals("Jetzt");
+            boolean isOnline = false;
 
-            if (scorelist.get(i)[0].equals(LoginMenu.getCurrentUser(this).getName()))
+            if (shownScoreboard != 3)
+            {
+                isOnline = TimeHelper.lastOnlineByDate(scorelist.get(i)[2]).equals("Jetzt");
+            }
+
+            if (scorelist.get(i)[0].equals(LoginMenu.getCurrentUser(this).getName()) && shownScoreboard != 3)
             {
                 addInclude(i+1, scorelist.get(i)[0], scorelist.get(i)[1], true, isOnline);
             }
@@ -127,8 +137,10 @@ public class ScoreboardTab extends Activity implements View.OnClickListener, IAp
         }
 
 
-
-        child.setOnClickListener(this);
+        if(shownScoreboard != 3)
+        {
+            child.setOnClickListener(this);
+        }
 
         parent.addView(child);
     }
