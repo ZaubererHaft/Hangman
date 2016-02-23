@@ -5,9 +5,16 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.TreeMap;
 
 /**
  * Created by consult on 17.02.2016.
@@ -19,6 +26,7 @@ public class MultiplayerLocal extends Singleplayer {
     private int currentPlayer = 0;
     private int currentWordPosition = 0;
     public static String[] usernames;
+    public static List<String[]> scoreboard;
 
     /**
      * Local multiplayer with custom Amount of Players, wich all plays in Singleplayer Hardcore Mode.
@@ -62,7 +70,31 @@ public class MultiplayerLocal extends Singleplayer {
 
     private List<String[]> hashMapToListOfArrayLists (HashMap<String, Integer> hashMap)
     {
-        return null;
+        List<String[]> listOfArrayLists = new ArrayList<>();
+
+        int highestScore = -1;
+        String highestUser = null;
+
+
+        for (int i = 0; i < hashMap.size(); i++)
+        {
+            for (int j = 0; j < hashMap.size(); j++)
+            {
+                if (hashMap.get(usernames[j]) > highestScore)
+                {
+                    highestScore = hashMap.get(usernames[j]);
+                    highestUser = usernames[j];
+                }
+            }
+            String[] s = new String[2];
+            s[0] = highestUser;
+            s[1] = "" + highestScore;
+            listOfArrayLists.add(s);
+            highestScore = -1;
+            hashMap.put(highestUser, -1);
+        }
+
+        return listOfArrayLists;
     }
 
     /**
@@ -74,10 +106,10 @@ public class MultiplayerLocal extends Singleplayer {
         //Every Player has finished
         if (this.currentPlayer == this.userList.size())
         {
-            //TODO Ergebnis zeigen
             Intent i = new Intent(this, ScoreboardTab.class);
             i.putExtra("shownScoreboard", 3);
-            //i.putExtra("playerList", ()hashMapToListOfArrayLists(userList));
+            scoreboard = new ArrayList<>();
+            scoreboard = hashMapToListOfArrayLists(userList);
             this.startActivity(i);
 
 
