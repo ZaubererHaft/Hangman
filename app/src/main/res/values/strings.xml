@@ -204,4 +204,6 @@
     <string name="mpWifiMenu_button_createLobby">Create Lobby</string>
     <string name="mpWifiMenu_label_gamesAvailable">Games Avaiable:</string>
     <string name="mpWifiMenu_header">Multiplayer</string>
+    <string name="mpWifiLobby_button_settings">Settings</string>
+    <string name="mpWifiLobby_label_players">Players:</string>
 </resources>

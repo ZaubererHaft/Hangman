@@ -1401,6 +1401,55 @@ public class DatabaseManager extends Thread
         }
     }
 
+    public List<MultiplayerGame> getAllMultiplayergames(MultiplayerGame.GameState gameState)
+    {
+        String command = "SELECT id, gamename, password, maxplayers, leaderID, state FROM onlineGames " +
+                "WHERE state LIKE '" + gameState.name() + "';";
+        return getAllMultiplayerGames(command);
+    }
+
+    public List<MultiplayerGame> getAllMultiplayergames(String username)
+    {
+        return null;
+    }
+
+    public List<MultiplayerGame> getAllMultiplayergames(String username, MultiplayerGame.GameState gameState)
+    {
+        return null;
+    }
+
+    private List<MultiplayerGame> getAllMultiplayerGames(String command){
+
+        useCommand(command, false);
+
+        List<MultiplayerGame> list = new ArrayList<>();
+
+        try
+        {
+            if(this.res != null)
+            {
+                while (this.res.next())
+                {
+                    MultiplayerGame m = new MultiplayerGame(res.getInt(1), res.getString(2), res.getString(3),
+                            res.getInt(4), res.getInt(5), MultiplayerGame.GameState.valueOf(res.getString(6)));
+
+                    list.add(m);
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.logOnlyError(ex.getMessage());
+        }
+        finally
+        {
+            this.closeConnection();
+        }
+
+        return list;
+    }
+
+
     /**
      * Gets the amount of words.
      * @return Integer.

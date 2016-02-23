@@ -70,5 +70,21 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="false"
         android:layout_above="@+id/mpWifiMenu_button_createLobby"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/marginForSpace"
+        android:fillViewport="false">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:id="@+id/mpWifiMenu_scrollView"
+            android:layout_height="match_parent">
+
+            <include
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                layout="@layout/new_mpgame_element" />
+        </LinearLayout>
+    </ScrollView>
+
 </RelativeLayout>

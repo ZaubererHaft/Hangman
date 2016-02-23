@@ -51,6 +51,11 @@ public class MultiplayerMenu extends Activity implements IApplyableSettings, Vie
                 break;
             */
 
+            case R.id.multiplayerMenu_button_wifi:
+                i = new Intent(this, MultiplayerWifiMenu.class);
+                this.startActivity(i);
+                break;
+
             case R.id.multiplayerMenu_button_local:
                 i = new Intent(this, multiplayer_local_lobby.class);
                 this.startActivity(i);
