@@ -15,7 +15,7 @@ import java.util.List;
 public class MultiplayerWifiMenu extends Activity implements IApplyableSettings, View.OnClickListener{
 
 
-
+    private LinearLayout parent;
     private DatabaseManager db = DatabaseManager.getInstance();
     private List<MultiplayerGame> multiplayerGameList;
 
@@ -29,6 +29,7 @@ public class MultiplayerWifiMenu extends Activity implements IApplyableSettings,
         //set onClicklistener
         findViewById(R.id.mpWifiMenu_button_createLobby).setOnClickListener(this);
         findViewById(R.id.mpWifiMenu_exit).setOnClickListener(this);
+        findViewById(R.id.mpWifiMenu_button_reload).setOnClickListener(this);
 
         updateGames();
     }
@@ -39,6 +40,9 @@ public class MultiplayerWifiMenu extends Activity implements IApplyableSettings,
      */
     private void updateGames()
     {
+        parent = (LinearLayout)this.findViewById(R.id.mpWifiMenu_scrollView);
+        parent.removeAllViews();
+
         multiplayerGameList = db.getAllMultiplayergames(MultiplayerGame.GameState.SEARCH4PLAYERS);
         for (int i = 0; i < multiplayerGameList.size(); i++){
             addInclude(multiplayerGameList.get(i).getGameName(), multiplayerGameList.get(i).getLeaderName(),
@@ -48,8 +52,6 @@ public class MultiplayerWifiMenu extends Activity implements IApplyableSettings,
 
     private void addInclude(String gameName, String leaderName, String playerAmount, long id)
     {
-        LinearLayout parent = (LinearLayout)this.findViewById(R.id.mpWifiMenu_scrollView);
-
         LayoutInflater inflater = (LayoutInflater)this.getSystemService(LAYOUT_INFLATER_SERVICE);
 
         View child = inflater.inflate(R.layout.new_mpgame_element, null, false);
@@ -137,6 +139,10 @@ public class MultiplayerWifiMenu extends Activity implements IApplyableSettings,
 
             case R.id.mpWifiMenu_exit:
                 this.finish();
+                break;
+
+            case R.id.mpWifiMenu_button_reload:
+                this.updateGames();
                 break;
 
             default:

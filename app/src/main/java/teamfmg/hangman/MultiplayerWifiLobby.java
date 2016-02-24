@@ -81,6 +81,7 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
                 }
 
                 break;
+
             case R.id.mpWifiLobby_button_settings:
                 //TODO Einstellungmenü
                 break;

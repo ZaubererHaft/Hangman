@@ -83,4 +83,16 @@
         </LinearLayout>
     </ScrollView>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mpWifiMenu_button_reload"
+        android:id="@+id/mpWifiMenu_button_reload"
+        android:textSize="@dimen/textSizeMedium"
+        android:minHeight="@dimen/button_height"
+        android:layout_above="@+id/mpWifiMenu_button_createLobby"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>
