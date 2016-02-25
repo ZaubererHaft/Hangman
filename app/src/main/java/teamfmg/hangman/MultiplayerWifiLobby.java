@@ -21,12 +21,15 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
     public static OnlineGamePlayer onlineGamePlayer = null;
     private LinearLayout parent;
     private int count = 0;
-    private UpdaterPlayerList updaterPlayerList;
+    private static boolean doUpdate;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiplayer_wifi_lobby);
+        changeBackground();
+        db.setActivity(this);
 
         Bundle extra = this.getIntent().getExtras();
 
@@ -51,45 +54,16 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
         findViewById(R.id.mpWifiLobby_button_settings).setOnClickListener(this);
         findViewById(R.id.mpWifiLobby_exit).setOnClickListener(this);
         startButton.setOnClickListener(this);
+
+
+        updatePlayers();
+
     }
 
-    @Override
-    public void changeBackground() {
-        Settings.load(this);
-        RelativeLayout rl = (RelativeLayout) this.findViewById(R.id.relLayout_mpWifiLobby);
-        Settings.setColor(rl);
-    }
+    private void updatePlayers()
+    {
 
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-            case R.id.mpWifiLobby_exit:
-                this.finish();
-                break;
-            case R.id.mpWifiLobby_button_startGame:
-                if (multiplayerGame.getGameState() == MultiplayerGame.GameState.CREATING) {
-                    startButton.setText("Start");
-                    multiplayerGame.setGameState(MultiplayerGame.GameState.SEARCH4PLAYERS);
-                    db.updateOnlineGame(multiplayerGame);
-                } else if (multiplayerGame.getGameState() == MultiplayerGame.GameState.SEARCH4PLAYERS) {
-                    multiplayerGame.setGameState(MultiplayerGame.GameState.INGAME);
-                    db.updateOnlineGame(multiplayerGame);
-                    //TODO start Game
-                } else {
-                    //TODO Bereit setzen, Button Deaktivieren, status dauerhaft überprüfen
-                }
-
-                break;
-
-            case R.id.mpWifiLobby_button_settings:
-                //TODO Einstellungmenü
-                break;
-        }
-    }
-
-    protected void updatePlayers() {
-        parent = (LinearLayout) this.findViewById(R.id.mpWifiLobby_scrollView);
+        parent = (LinearLayout) findViewById(R.id.mpWifiLobby_scrollView);
         parent.removeAllViews();
         count = 0;
 
@@ -142,54 +116,83 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
 
         multiplayerGame.setGameState(MultiplayerGame.GameState.FINISHED);
         db.updateOnlineGame(multiplayerGame);
-        updaterPlayerList.interrupt();
+        doUpdate = false;
     }
 
+    /*
     @Override
     protected void onResume() {
         super.onResume();
 
-            multiplayerGame.setGameState(MultiplayerGame.GameState.CREATING);
-            db.updateOnlineGame(multiplayerGame);
-            startButton.setText("Search for Players");
+        multiplayerGame.setGameState(MultiplayerGame.GameState.CREATING);
+        db.updateOnlineGame(multiplayerGame);
+        startButton.setText("Search for Players");
 
-
-        if (updaterPlayerList == null)
-        {
-            updaterPlayerList = new UpdaterPlayerList();
-        }
-
-        if (updaterPlayerList.isInterrupted())
-        {
-            updaterPlayerList.run();
-        }
     }
 
-    private class UpdaterPlayerList extends Thread {
+    /*
+    private static void updaterPlayerList() {
 
-        MultiplayerWifiLobby lobby;
+        doUpdate = true;
+        Thread t = new Thread(new Runnable() {
 
-        public UpdaterPlayerList()
-        {
-            lobby = new MultiplayerWifiLobby();
-        }
+            @Override
+            public void run() {
 
-        @Override
-        public void run() {
+                MultiplayerWifiLobby lobby = new MultiplayerWifiLobby();
 
-            while (!isInterrupted())
-            {
-                try
+                while (doUpdate)
                 {
-                    Thread.sleep(2000);
-                }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
+                    try
+                    {
+                        Thread.sleep(2000);
+                    }
+                    catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
 
-                lobby.updatePlayers();
+                    lobby.updatePlayers();
+                }
             }
+        });
+
+        t.run();
+    }
+    */
+
+    @Override
+    public void changeBackground() {
+        Settings.load(this);
+        RelativeLayout rl = (RelativeLayout) this.findViewById(R.id.relLayout_mpWifiLobby);
+        Settings.setColor(rl);
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.mpWifiLobby_exit:
+                this.finish();
+                break;
+            case R.id.mpWifiLobby_button_startGame:
+                if (multiplayerGame.getGameState() == MultiplayerGame.GameState.CREATING) {
+                    startButton.setText("Start");
+                    multiplayerGame.setGameState(MultiplayerGame.GameState.SEARCH4PLAYERS);
+                    db.updateOnlineGame(multiplayerGame);
+                } else if (multiplayerGame.getGameState() == MultiplayerGame.GameState.SEARCH4PLAYERS) {
+                    multiplayerGame.setGameState(MultiplayerGame.GameState.INGAME);
+                    db.updateOnlineGame(multiplayerGame);
+                    //TODO start Game
+                } else {
+                    //TODO Bereit setzen, Button Deaktivieren, status dauerhaft überprüfen
+                }
+
+                break;
+
+            case R.id.mpWifiLobby_button_settings:
+                //TODO Einstellungmenü
+                break;
         }
     }
 }
