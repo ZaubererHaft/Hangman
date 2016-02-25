@@ -148,11 +148,14 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
     @Override
     protected void onResume() {
         super.onResume();
-        multiplayerGame.setGameState(MultiplayerGame.GameState.CREATING);
-        db.updateOnlineGame(multiplayerGame);
-        startButton.setText("Search for Players");
 
-        if (updaterPlayerList == null){
+            multiplayerGame.setGameState(MultiplayerGame.GameState.CREATING);
+            db.updateOnlineGame(multiplayerGame);
+            startButton.setText("Search for Players");
+
+
+        if (updaterPlayerList == null)
+        {
             updaterPlayerList = new UpdaterPlayerList();
         }
 

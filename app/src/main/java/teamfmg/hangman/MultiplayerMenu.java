@@ -24,6 +24,7 @@ public class MultiplayerMenu extends Activity implements IApplyableSettings, Vie
 
         //Updating the lastOnline Time
         DatabaseManager db = DatabaseManager.getInstance();
+        db.setActivity(this);
         db.updateLastOnline();
     }
 

@@ -1472,6 +1472,8 @@ public class DatabaseManager extends Thread
                 "FROM onlineGames JOIN users ON leaderID = users._id " +
                 "WHERE onlineGames.id = " + onlineGameID + ";";
 
+        useCommand(command, false);
+
         try
         {
             if(this.res != null && this.res.next())
