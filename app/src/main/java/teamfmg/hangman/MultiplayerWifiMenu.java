@@ -67,26 +67,6 @@ public class MultiplayerWifiMenu extends Activity implements IApplyableSettings,
         viewPlayerAmount.setText(playerAmount);
         viewID.setText(id + "");
 
-        /*
-        if (isLeader)
-        {
-            viewRank.setTypeface(((TextView) child.findViewById(
-                    R.id.scoreboardElement_Rank)).getTypeface(), Typeface.BOLD);
-            viewName.setTypeface(((TextView) child.findViewById(
-                    R.id.scoreboardElement_Username)).getTypeface(), Typeface.BOLD);
-            viewScore.setTypeface(((TextView) child.findViewById(
-                    R.id.scoreboardElement_Score)).getTypeface(), Typeface.BOLD);
-        }
-        if (ifReady)
-        {
-            viewRank.setTextColor(this.getResources().getColor(R.color.color_Green));
-            viewName.setTextColor(this.getResources().getColor(R.color.color_Green));
-            viewScore.setTextColor(this.getResources().getColor(R.color.color_Green));
-
-        }
-        */
-
-
         child.setOnClickListener(this);
 
         parent.addView(child);
@@ -146,13 +126,28 @@ public class MultiplayerWifiMenu extends Activity implements IApplyableSettings,
                 break;
 
             default:
+                long idSelectedGame = Long.parseLong(((TextView)v.findViewById(R.id.mpGameElement_id)).getText().toString());
                 //creating an new OnlineGamePlayer
-                newPlayer = new OnlineGamePlayer(Long.parseLong(((TextView)v.findViewById(R.id.mpGameElement_id)).getText().toString()), LoginMenu.getCurrentUser(this).getId(),
-                        0, OnlineGamePlayer.PlayerState.JOINED);
+                if (db.onlineGameIsFree(idSelectedGame))
+                {
+                    newPlayer = new OnlineGamePlayer(idSelectedGame, LoginMenu.getCurrentUser(this).getId(),
+                            0, OnlineGamePlayer.PlayerState.JOINED);
 
-                MultiplayerWifiLobby.onlineGamePlayer = newPlayer;
+                    MultiplayerWifiLobby.onlineGamePlayer = newPlayer;
 
-                db.createOnlineGamePlayer(newPlayer);
+                    db.createOnlineGamePlayer(newPlayer);
+
+                    MultiplayerWifiLobby.multiplayerGame = db.getMultiplayergame(idSelectedGame);
+                    //start activity
+                    i = new Intent(this, MultiplayerWifiLobby.class);
+
+                    this.startActivity(i);
+                }
+                else
+                {
+                    Logger.write("Game is full or not avaiable!", this);
+                }
+
         }
     }
 }

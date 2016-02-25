@@ -56,7 +56,15 @@
         android:layout_alignParentLeft="true"
         android:layout_above="@+id/mpWifiLobby_button_settings"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/mpWifiLobby_label_players" />
+        android:layout_below="@+id/mpWifiLobby_label_players"
+        android:fillViewport="false" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/mpWifiLobby_scrollView"></LinearLayout>
+    </ScrollView>
 
     <Button
         android:layout_width="wrap_content"

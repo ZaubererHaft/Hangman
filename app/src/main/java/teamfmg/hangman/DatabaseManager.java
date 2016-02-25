@@ -1356,6 +1356,7 @@ public class DatabaseManager extends Thread
      */
     public User getUser(String name) throws NullPointerException
     {
+
         //Use offline mode
         if(!this.isOnline())
         {
@@ -1367,10 +1368,34 @@ public class DatabaseManager extends Thread
 
         }
 
-        String query = "SELECT username, password, mail, _id FROM " + TABLE_USERS_NAME +
+        String command = "SELECT username, password, mail, _id FROM " + TABLE_USERS_NAME +
                 " WHERE username LIKE '" + name + "';";
+        return getUserFunction(command);
+    }
+
+    /**
+     * Gets a user by their id
+     * @param id ID of the user.
+     * @return A User Object.
+     * @throws NullPointerException Exception, if no user was found.
+     * @since 1.2
+     */
+    public User getUser(int id) throws NullPointerException
+    {
+        String command = "SELECT username, password, mail, _id FROM " + TABLE_USERS_NAME +
+                " WHERE _id = " + id + ";";
+        return getUserFunction(command);
+    }
 
 
+    /**
+     * Gets a user by their name
+     * @return A User Object.
+     * @throws NullPointerException Exception, if no user was found.
+     * @since 0.1
+     */
+    private User getUserFunction(String query) throws NullPointerException
+    {
         this.useCommand(query, false);
 
         try
@@ -1402,6 +1427,73 @@ public class DatabaseManager extends Thread
     }
 
     /**
+     * Gets all MultiplayergamePLAYERs
+     * @param onlineGameID show all MultiplayergamePLAYERs with this gameid
+     * @return List of muiltiplayerGames
+     */
+    public List<OnlineGamePlayer> getAllMultiplayergamePlayers(long onlineGameID)
+    {
+        String command = "SELECT onlineGameID , userID, score, state " +
+                "FROM onlineGame_players WHERE onlineGameID = " + onlineGameID + ";";
+
+        useCommand(command, false);
+
+        List<OnlineGamePlayer> list = new ArrayList<>();
+
+        try
+        {
+            if(this.res != null && this.res.next())
+            {
+                while (this.res.next())
+                {
+                    OnlineGamePlayer p = new OnlineGamePlayer(res.getLong(1), res.getInt(2), res.getInt(3),
+                            OnlineGamePlayer.PlayerState.valueOf(res.getString(4)));
+
+                    list.add(p);
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.logOnlyError(ex.getMessage());
+        }
+        finally
+        {
+            this.closeConnection();
+        }
+
+        return list;
+    }
+
+    public MultiplayerGame getMultiplayergame(long onlineGameID){
+
+        String command = "SELECT onlineGames.id, onlineGames.gamename, onlineGames.password, " +
+                "onlineGames.maxplayers, users.username, onlineGames.state " +
+                "FROM onlineGames JOIN users ON leaderID = users._id " +
+                "WHERE onlineGames.id = " + onlineGameID + ";";
+
+        try
+        {
+            if(this.res != null && this.res.next())
+            {
+                return new MultiplayerGame(res.getLong(1), res.getString(2), res.getString(3),
+                        res.getInt(4), res.getString(5), MultiplayerGame.GameState.valueOf(res.getString(6)));
+
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.logOnlyError(ex.getMessage());
+        }
+        finally
+        {
+            this.closeConnection();
+        }
+
+        return null;
+    }
+
+    /**
      * Gets all Multiplayergames
      * @param gameState show all Multiplayergames with this gameState
      * @return List of muiltiplayerGames
@@ -1414,6 +1506,7 @@ public class DatabaseManager extends Thread
                 "WHERE state LIKE '" + gameState.name() + "';";
         return getAllMultiplayerGames(command);
     }
+
     /**
      * Gets all Multiplayergames
      * @param username show all Multiplayergames inwhich this user is
@@ -1519,6 +1612,38 @@ public class DatabaseManager extends Thread
                 " userID LIKE '" + player.getUserID() + "';";
 
         useCommand(command, true);
+    }
+
+    public boolean onlineGameIsFree(long onlineGameId)
+    {
+        String query = "SELECT (onlineGames.maxplayers - COUNT(onlineGame_players.onlineGameID)) FROM" +
+                " onlineGames JOIN onlineGame_players ON onlineGames.id = onlineGame_players.onlineGameID " +
+                "WHERE onlineGame_players.onlineGameID = " + onlineGameId +";";
+        this.useCommand(query, false);
+
+        try
+        {
+            if (this.res != null && this.res.next())
+            {
+                return this.res.getInt(1) > 0;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch (SQLException ex)
+        {
+            //Logger.write(ex, this.activity);
+            Logger.logOnlyError(ex.getMessage());
+            //ex.printStackTrace();
+        }
+        finally
+        {
+            this.closeConnection();
+        }
+
+        return false;
     }
 
     /**
