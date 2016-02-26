@@ -189,6 +189,7 @@
     <string name="info_achievement">Neues Achievement freigeschalten!</string>
     <string name="about_info4">Grafiken von: M. Kratzl</string>
     <string name="error_offline_general">Du benötigst eine Internetverbindung, um diese funtion zu nutzen!</string>
+    <string name="label_statistic_lastOnline">Online:</string>
 
 
 </resources>

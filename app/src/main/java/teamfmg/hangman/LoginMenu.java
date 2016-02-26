@@ -74,6 +74,7 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
                 compareOffline = false;
             }
         });
+
     }
 
     @Override
@@ -153,6 +154,15 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
                 if (this.compareOffline)
                 {
                     enteredPassword = Settings.getLastPassword();
+                }
+
+                if (user.getPassword() == null)
+                {
+                    currentUser = user;
+                    Intent i = new Intent(this, ChangePassword.class);
+                    i.putExtra("hasToChangePW", true);
+                    this.startActivity(i);
+                    return;
                 }
 
                 //compare passwords if there was a user...

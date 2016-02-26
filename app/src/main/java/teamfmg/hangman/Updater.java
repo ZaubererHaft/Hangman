@@ -1,9 +1,15 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.support.v4.app.NotificationCompat;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -38,7 +44,6 @@ public final class Updater extends Thread
     {
         this.context = a;
     }
-
 
     /**
      * Checks whether a update is necessary or not.
@@ -108,6 +113,20 @@ public final class Updater extends Thread
         file.mkdirs();
         File outputFile = new File(file, fileName);
 
+        /**
+         * Notification stuff.
+         */
+        final NotificationManager mNotifyManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        final NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.hangman_logo)
+                        .setContentTitle(context.getString(R.string.update_info_downloadStarted))
+                        .setContentText(context.getString(R.string.update_info_downloadStarted));
+        int id = 1;
+
+
         try
         {
 
@@ -135,6 +154,13 @@ public final class Updater extends Thread
             int bytesRead;
             int newProgress = 0, oldProgress;
 
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN)
+            {
+                mBuilder.setProgress(100, newProgress, false);
+                // Displays the progress bar for the first time.
+                mNotifyManager.notify(id, mBuilder.build());
+            }
+
             //writes the data to the memory
             while ((bytesRead = is.read(data)) > 0)
             {
@@ -142,12 +168,20 @@ public final class Updater extends Thread
                 // publishing the progress....
                 if (fileLength > 0)
                 {
+
                     oldProgress = newProgress;
                     newProgress =  (total * 100 / fileLength);
 
                     if(oldProgress != newProgress)
                     {
                         Logger.logOnly(newProgress+"% downloaded!");
+
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN)
+                        {
+                            mBuilder.setProgress(100, newProgress, false);
+                            // Displays the progress bar for the first time.
+                            mNotifyManager.notify(id, mBuilder.build());
+                        }
                     }
                 }
                 fos.write(data, 0, bytesRead);
@@ -200,14 +234,31 @@ public final class Updater extends Thread
              */
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN)
             {
-                Logger.showNotification
+                /*Logger.showNotification
                 (
                     this.context,
                     intent,
                     this.context.getString(R.string.update_info_success_title),
                     this.context.getString(R.string.update_info_success_description),
                     R.drawable.hangman_logo
-                );
+                );*/
+                mBuilder.setContentText(context.getString(R.string.update_info_success_title)).
+                        setProgress(0, 0, false);
+
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+
+                stackBuilder.addParentStack(context.getClass());
+                stackBuilder.addNextIntent(intent);
+                PendingIntent resultPendingIntent =
+                        stackBuilder.getPendingIntent(
+                                0,
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                        );
+
+                mBuilder.setContentIntent(resultPendingIntent);
+
+                mNotifyManager.notify(id, mBuilder.build());
+
             }
             else
             {
@@ -221,11 +272,19 @@ public final class Updater extends Thread
 
             this.context.runOnUiThread(new Runnable() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     Logger.write(context.getString(R.string.update_error_general), context);
                 }
             });
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN)
+            {
+                mBuilder.setContentText(context.getString(R.string.update_error_general)).
+                        setProgress(0, 0, false);
+
+                mNotifyManager.notify(id, mBuilder.build());
+
+            }
         }
 
     }

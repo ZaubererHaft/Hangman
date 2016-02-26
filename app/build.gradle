@@ -6,7 +6,7 @@ android {
             keyAlias 'key'
             keyPassword '12345678'
             storePassword '12345678'
-            storeFile file('C:/Users/consult/Documents/AndroidKey.jks')
+            storeFile file('C:/Users/Ludwig/Documents/AndroidKey.jks')
         }
     }
 
@@ -17,7 +17,7 @@ android {
         minSdkVersion 8
         targetSdkVersion 23
         versionCode 4
-        versionName "1.0"
+        versionName "1.1"
         signingConfig signingConfigs.config
     }
     buildTypes {

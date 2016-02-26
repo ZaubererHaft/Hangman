@@ -16,12 +16,24 @@ import java.sql.SQLException;
 public class ChangePassword extends Activity implements View.OnClickListener, IApplyableSettings
 {
     private DatabaseManager db;
+    private Boolean hasToChangePW;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
+        Bundle extra = this.getIntent().getExtras();
+
+        hasToChangePW = false;
+        if (extra != null)
+        {
+            hasToChangePW = extra.getBoolean("hasToChangePW");
+        }
+        if (hasToChangePW)
+        {
+            this.findViewById(R.id.changePasswort_oldPW).setEnabled(false);
+        }
 
         this.db =  DatabaseManager.getInstance();
 
@@ -57,9 +69,12 @@ public class ChangePassword extends Activity implements View.OnClickListener, IA
                 String confirmPW = confirmPw.getText().toString();
 
                 oldPW = Caeser.encrypt(oldPW);
+
                 String oldUserPW = db.getUser(LoginMenu.getCurrentUser(this).getName()).getPassword();
 
-                if (oldPW.equals(oldUserPW))
+
+
+                if (hasToChangePW || oldPW.equals(oldUserPW))
                 {
                     if(newPW.length() < 8)
                     {
