@@ -1442,7 +1442,7 @@ public class DatabaseManager extends Thread
 
         try
         {
-            if(this.res != null && this.res.next())
+            if(this.res != null)
             {
                 while (this.res.next())
                 {
@@ -1602,6 +1602,15 @@ public class DatabaseManager extends Thread
                 player.getUserID() + "','" +
                 player.getScore() + "','" +
                 player.getPlayerState() + "');";
+        useCommand(command, true);
+    }
+
+    public void deleteOnlineGamePlayer(OnlineGamePlayer player)
+    {
+        String command = "DELETE FROM onlineGame_players " +
+                "WHERE onlineGameID = " + player.getOnlineGameID() +
+                " AND userID = " + player.getUserID() + ";";
+
         useCommand(command, true);
     }
 

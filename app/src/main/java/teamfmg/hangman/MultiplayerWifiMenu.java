@@ -46,7 +46,8 @@ public class MultiplayerWifiMenu extends Activity implements IApplyableSettings,
         multiplayerGameList = db.getAllMultiplayergames(MultiplayerGame.GameState.SEARCH4PLAYERS);
         for (int i = 0; i < multiplayerGameList.size(); i++){
             addInclude(multiplayerGameList.get(i).getGameName(), multiplayerGameList.get(i).getLeaderName(),
-                    multiplayerGameList.get(i).getRoomPlayers(), multiplayerGameList.get(i).getId());
+                    multiplayerGameList.get(i).getRoomPlayers(multiplayerGameList.get(i).getId()),
+                    multiplayerGameList.get(i).getId());
         }
     }
 

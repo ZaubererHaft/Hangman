@@ -13,6 +13,7 @@ public class MultiplayerGame
     private int maxPlayers, currPlayers;
     private long id;
     private String gameName, password, leaderName;
+    private DatabaseManager db = DatabaseManager.getInstance();
 
     public MultiplayerGame(long id, String gameName, String password, int maxPlayers, String leaderName, GameState gameState)
     {
@@ -49,7 +50,8 @@ public class MultiplayerGame
         this.maxPlayers = maxPlayers;
     }
 
-    public int getCurrPlayers() {
+    public int getCurrPlayers(long gameID) {
+        this.setCurrPlayers(db.getAllMultiplayergamePlayers(gameID).size());
         return currPlayers;
     }
 
@@ -80,7 +82,7 @@ public class MultiplayerGame
     public void setPassword(String password) {
         this.password = password;
     }
-    public String getRoomPlayers(){
-        return currPlayers + "/" + maxPlayers;
+    public String getRoomPlayers(long gameID){
+        return getCurrPlayers(gameID) + "/" + maxPlayers;
     }
 }

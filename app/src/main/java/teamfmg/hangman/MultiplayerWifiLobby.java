@@ -14,7 +14,7 @@ import java.util.List;
 
 public class MultiplayerWifiLobby extends Activity implements IApplyableSettings, View.OnClickListener {
 
-    private boolean isCreator;
+    private boolean isLeader;
     private Button startButton;
     private DatabaseManager db = DatabaseManager.getInstance();
     public static MultiplayerGame multiplayerGame = null;
@@ -22,29 +22,35 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
     private LinearLayout parent;
     private int count = 0;
     private static boolean doUpdate;
+    private boolean isOnCreate;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiplayer_wifi_lobby);
         changeBackground();
         db.setActivity(this);
+        isOnCreate = true;
 
         Bundle extra = this.getIntent().getExtras();
 
         startButton = (Button) this.findViewById(R.id.mpWifiLobby_button_startGame);
 
 
-        if (extra != null) {
-            isCreator = extra.getBoolean("createLobby");
-        } else {
-            isCreator = false;
+        if (extra != null)
+        {
+            isLeader = extra.getBoolean("createLobby");
+        }
+        else
+        {
+            isLeader = false;
         }
 
-        if (isCreator && multiplayerGame.getGameState() == MultiplayerGame.GameState.CREATING) {
+        if (isLeader && multiplayerGame.getGameState() == MultiplayerGame.GameState.CREATING) {
             startButton.setText("Search for Players");
-        } else if (isCreator && multiplayerGame.getGameState() == MultiplayerGame.GameState.SEARCH4PLAYERS) {
+        } else if (isLeader && multiplayerGame.getGameState() == MultiplayerGame.GameState.SEARCH4PLAYERS) {
             startButton.setText("Start");
         } else {
             startButton.setText("Ready");
@@ -56,22 +62,31 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
         startButton.setOnClickListener(this);
 
 
-        updatePlayers();
+        updaterPlayerList();
+    }
+
+    private void checkGameState(){
 
     }
 
     private void updatePlayers()
     {
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run()
+            {
+                parent = (LinearLayout) findViewById(R.id.mpWifiLobby_scrollView);
+                parent.removeAllViews();
+                count = 0;
 
-        parent = (LinearLayout) findViewById(R.id.mpWifiLobby_scrollView);
-        parent.removeAllViews();
-        count = 0;
+                List<OnlineGamePlayer> onlineGamePlayers = db.getAllMultiplayergamePlayers(multiplayerGame.getId());
 
-        List<OnlineGamePlayer> onlineGamePlayers = db.getAllMultiplayergamePlayers(multiplayerGame.getId());
-
-        for (int i = 0; i < onlineGamePlayers.size(); i++) {
-            addInclude(onlineGamePlayers.get(i));
-        }
+                for (int i = 0; i < onlineGamePlayers.size(); i++)
+                {
+                    addInclude(onlineGamePlayers.get(i));
+                }
+            }
+        });
     }
 
     private void addInclude(OnlineGamePlayer onlineGamePlayer) {
@@ -114,24 +129,47 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
     protected void onPause() {
         super.onPause();
 
-        multiplayerGame.setGameState(MultiplayerGame.GameState.FINISHED);
-        db.updateOnlineGame(multiplayerGame);
+        if (isLeader){
+            multiplayerGame.setGameState(MultiplayerGame.GameState.FINISHED);
+            db.updateOnlineGame(multiplayerGame);
+        }
         doUpdate = false;
+        db.deleteOnlineGamePlayer(onlineGamePlayer);
     }
 
-    /*
     @Override
-    protected void onResume() {
+    protected void onDestroy() {
+        super.onDestroy();
+        db.deleteOnlineGamePlayer(onlineGamePlayer);
+    }
+
+    @Override
+    protected void onResume()
+    {
         super.onResume();
+
+        if (isOnCreate)
+        {
+            isOnCreate = false;
+            return;
+        }
 
         multiplayerGame.setGameState(MultiplayerGame.GameState.CREATING);
         db.updateOnlineGame(multiplayerGame);
         startButton.setText("Search for Players");
 
+        if (db.onlineGameIsFree(multiplayerGame.getId()))
+        {
+            db.createOnlineGamePlayer(onlineGamePlayer);
+        }
+        else
+        {
+            this.finish();
+        }
     }
 
-    /*
-    private static void updaterPlayerList() {
+
+    private void updaterPlayerList() {
 
         doUpdate = true;
         Thread t = new Thread(new Runnable() {
@@ -139,10 +177,10 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
             @Override
             public void run() {
 
-                MultiplayerWifiLobby lobby = new MultiplayerWifiLobby();
-
                 while (doUpdate)
                 {
+                    updatePlayers();
+
                     try
                     {
                         Thread.sleep(2000);
@@ -151,15 +189,13 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
                     {
                         e.printStackTrace();
                     }
-
-                    lobby.updatePlayers();
                 }
             }
         });
 
-        t.run();
+        t.start();
     }
-    */
+
 
     @Override
     public void changeBackground() {
@@ -176,16 +212,18 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
                 this.finish();
                 break;
             case R.id.mpWifiLobby_button_startGame:
-                if (multiplayerGame.getGameState() == MultiplayerGame.GameState.CREATING) {
+                if (multiplayerGame.getGameState() == MultiplayerGame.GameState.CREATING && isLeader) {
                     startButton.setText("Start");
                     multiplayerGame.setGameState(MultiplayerGame.GameState.SEARCH4PLAYERS);
                     db.updateOnlineGame(multiplayerGame);
-                } else if (multiplayerGame.getGameState() == MultiplayerGame.GameState.SEARCH4PLAYERS) {
+                } else if (multiplayerGame.getGameState() == MultiplayerGame.GameState.SEARCH4PLAYERS && isLeader) {
                     multiplayerGame.setGameState(MultiplayerGame.GameState.INGAME);
                     db.updateOnlineGame(multiplayerGame);
                     //TODO start Game
                 } else {
-                    //TODO Bereit setzen, Button Deaktivieren, status dauerhaft überprüfen
+                    startButton.setEnabled(false);
+                    onlineGamePlayer.setPlayerState(OnlineGamePlayer.PlayerState.READY);
+                    db.updateOnlineGamePlayer(onlineGamePlayer);
                 }
 
                 break;
