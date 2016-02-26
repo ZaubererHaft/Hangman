@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-public class MultiplayerMenu extends Activity implements IApplyableSettings, View.OnClickListener {
+public class MultiplayerMenu extends Activity implements IApplyableSettings, View.OnClickListener
+{
 
     private Bluetooth bt;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiplayer_menu);
         changeBackground();
@@ -28,9 +30,10 @@ public class MultiplayerMenu extends Activity implements IApplyableSettings, Vie
     }
 
     @Override
-    public void changeBackground() {
+    public void changeBackground()
+    {
         Settings.load(this);
-        RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_multiplayerMenu);
+        RelativeLayout rl = (RelativeLayout) this.findViewById(R.id.relLayout_multiplayerMenu);
         Settings.setColor(rl);
     }
 
@@ -39,7 +42,8 @@ public class MultiplayerMenu extends Activity implements IApplyableSettings, Vie
     {
         Intent i;
 
-        switch (v.getId()){
+        switch (v.getId())
+        {
             case R.id.multiplayer_close:
                 this.finish();
                 break;
