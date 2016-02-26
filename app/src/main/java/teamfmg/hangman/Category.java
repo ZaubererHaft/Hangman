@@ -62,6 +62,7 @@ public class Category extends Activity implements IApplyableSettings, View.OnCli
 
         this.changeBackground();
 
+        db.setActivity(this);
         //Updating the lastOnline Time
         db.setActivity(this);
         db.updateLastOnline();
