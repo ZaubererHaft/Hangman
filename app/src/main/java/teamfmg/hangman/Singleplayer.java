@@ -84,7 +84,9 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      */
     final int resetingInHardcore = 3;
 
-    TextView scoreLabel;
+    private TextView scoreLabel;
+
+    private long multiplayerGameID = 0;
 
 
     @Override
@@ -125,6 +127,17 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
                 gameMode = GameMode.HARDCORE;
                 break;
         }
+
+        //Gets extras (Currently only in MultiplayerWifi mode)
+        Bundle extra = this.getIntent().getExtras();
+        if (extra != null)
+        {
+            //Set multiplayerGameID
+            multiplayerGameID = extra.getLong("multiplayerGameID");
+            //Set headerText
+            headerText = extra.getString("multiplayerGameName");
+        }
+
         header.setText(headerText);
 
         this.resetGame();

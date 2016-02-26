@@ -469,7 +469,8 @@ public class DatabaseManager extends Thread
                     (
                             this.res.getString(1),
                             "ownWord",
-                            this.res.getString(2)
+                            this.res.getString(2),
+                            0
                     );
                     // Add word
                     words.add(w);
@@ -1277,9 +1278,55 @@ public class DatabaseManager extends Thread
         return result;
     }
 
-    /**
-     * Updating the Value of the lastOnline time in the database
-     */
+    public Word getWordInMultiplayer(int positionWord, long onlineGameID){
+
+        String command = "SELECT word, category, description, id " +
+                "FROM onlineGame_words JOIN words ON onlineGame_words.wordID = words.id " +
+                "WHERE onlineGameID = " + onlineGameID + " AND position = " + positionWord + ";";
+
+        //execute queries.
+        this.useCommand(command, false);
+
+        Word result = null;
+
+        try
+        {   //add all words to the list
+            if (this.res != null && this.res.next())
+            {
+                result = new Word(this.res.getString(1), this.res.getString(2), this.res.getString(3), this.res.getInt(4));
+            }
+        }
+        catch (SQLException e)
+        {
+            //Logger.write(e, this.activity);
+            //e.printStackTrace();
+            Logger.logOnlyError(e.getMessage());
+        }
+        finally
+        {
+            this.closeConnection();
+        }
+
+        if (result != null)
+        {
+            return result;
+        }
+
+        result = getRandomWord(Singleplayer.GameMode.HARDCORE);
+
+        return result;
+    }
+
+    public void addWordInMultiplayer(int positionWord, Word w ,long onlineGameID)
+    {
+        String command = "INSERT INTO onlineGame_words VALUES (" + onlineGameID + ", '"+ w.getId() + ", " + positionWord + "');";
+    }
+
+
+
+        /**
+         * Updating the Value of the lastOnline time in the database
+         */
     public void updateLastOnline()
     {
         if (!this.isOnline())

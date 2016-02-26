@@ -11,6 +11,7 @@ public class Word
      * Variables (Strings).
      */
     private String word, category, description;
+    private int id;
 
     /**
      * Instantiates a new word.
@@ -18,11 +19,12 @@ public class Word
      * @param category String
      * @param description String.
      */
-    public Word(String word, String category, String description)
+    public Word(String word, String category, String description, int id)
     {
         this.setWord(word);
         this.setCategory(category);
         this.setDescription(description);
+        this.setId(id);
     }
 
     /**
@@ -72,4 +74,12 @@ public class Word
      * @param description String
      */
     public void setDescription(String description) { this.description = description;}
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

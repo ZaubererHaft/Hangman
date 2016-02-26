@@ -1,6 +1,7 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -65,11 +66,7 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
         updaterPlayerList();
     }
 
-    private void checkGameState(){
-
-    }
-
-    private void updatePlayers()
+    private void updateLayout()
     {
         this.runOnUiThread(new Runnable() {
             @Override
@@ -81,12 +78,42 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
 
                 List<OnlineGamePlayer> onlineGamePlayers = db.getAllMultiplayergamePlayers(multiplayerGame.getId());
 
+                boolean allReady = true;
+
                 for (int i = 0; i < onlineGamePlayers.size(); i++)
                 {
+                    if (onlineGamePlayers.get(i).getPlayerState() != OnlineGamePlayer.PlayerState.READY &&
+                            onlineGamePlayers.get(i).getPlayerState() != OnlineGamePlayer.PlayerState.LEADER )
+                    {
+                        allReady = false;
+                    }
+
                     addInclude(onlineGamePlayers.get(i));
+                }
+
+                if (startButton.getText().toString().equals("Start") && !allReady)
+                {
+                    startButton.setEnabled(false);
+                }
+                else if (isLeader)
+                {
+                    startButton.setEnabled(true);
+                }
+
+                if (multiplayerGame.getGameState() == MultiplayerGame.GameState.INGAME)
+                {
+                    startMultiplayerGame();
                 }
             }
         });
+    }
+
+    private void startMultiplayerGame(){
+        Intent i = new Intent(this, Singleplayer.class);
+        Singleplayer.gameMode = Singleplayer.GameMode.HARDCORE;
+        i.putExtra("multiplayerGameID", multiplayerGame.getId());
+        i.putExtra("multiplayerGameName", multiplayerGame.getGameName());
+        this.startActivity(i);
     }
 
     private void addInclude(OnlineGamePlayer onlineGamePlayer) {
@@ -179,7 +206,7 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
 
                 while (doUpdate)
                 {
-                    updatePlayers();
+                    updateLayout();
 
                     try
                     {
@@ -216,6 +243,7 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
                     startButton.setText("Start");
                     multiplayerGame.setGameState(MultiplayerGame.GameState.SEARCH4PLAYERS);
                     db.updateOnlineGame(multiplayerGame);
+                    startButton.setEnabled(false);
                 } else if (multiplayerGame.getGameState() == MultiplayerGame.GameState.SEARCH4PLAYERS && isLeader) {
                     multiplayerGame.setGameState(MultiplayerGame.GameState.INGAME);
                     db.updateOnlineGame(multiplayerGame);
