@@ -84,7 +84,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      */
     final int resetingInHardcore = 3;
 
-    private TextView scoreLabel;
+    protected TextView scoreLabel;
 
     private long multiplayerGameID = 0;
 

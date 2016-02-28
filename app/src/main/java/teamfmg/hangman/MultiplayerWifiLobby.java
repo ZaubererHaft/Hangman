@@ -156,18 +156,18 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
     protected void onPause() {
         super.onPause();
 
-        if (isLeader){
-            multiplayerGame.setGameState(MultiplayerGame.GameState.FINISHED);
-            db.updateOnlineGame(multiplayerGame);
-        }
         doUpdate = false;
-        db.deleteOnlineGamePlayer(onlineGamePlayer);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         db.deleteOnlineGamePlayer(onlineGamePlayer);
+
+        if (isLeader){
+            multiplayerGame.setGameState(MultiplayerGame.GameState.FINISHED);
+            db.updateOnlineGame(multiplayerGame);
+        }
     }
 
     @Override
