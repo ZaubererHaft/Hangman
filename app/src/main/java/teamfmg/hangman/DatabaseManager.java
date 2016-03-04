@@ -1490,7 +1490,7 @@ public class DatabaseManager extends Thread
     public List<OnlineGamePlayer> getAllMultiplayergamePlayers(long onlineGameID)
     {
         String command = "SELECT onlineGameID , userID, score, state " +
-                "FROM onlineGame_players WHERE onlineGameID = " + onlineGameID + ";";
+                "FROM onlineGame_players WHERE onlineGameID = " + onlineGameID + " ORDER BY score DESC;";
 
         useCommand(command, false);
 

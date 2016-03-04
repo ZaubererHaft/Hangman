@@ -276,12 +276,12 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
             titleOfDialog = getResources().getString(R.string.string_lose);
         }
 
-        /*
+
         Logger.popupDialogGameResult(this.currentWordObject.getWord(),
                 this.currentWordObject.getDescription(),
                 this.currentWordObject.getCategory(),
                 titleOfDialog, this);
-*/
+
         //Special Hardcore Mode
         if (!won && gameMode == GameMode.HARDCORE)
         {
@@ -629,5 +629,10 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     {
         super.onDestroy();
         System.gc();
+
+        if (multiplayerGameID != 0){
+            MultiplayerWifiLobby.onlineGamePlayer.setPlayerState(OnlineGamePlayer.PlayerState.LEFTED);
+            this.db.updateOnlineGamePlayer(MultiplayerWifiLobby.onlineGamePlayer);
+        }
     }
 }

@@ -199,6 +199,7 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
             isOnCreate = false;
             return;
         }
+        updaterPlayerList();
 
         multiplayerGame.setGameState(MultiplayerGame.GameState.CREATING);
         db.updateOnlineGame(multiplayerGame);
@@ -244,7 +245,8 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
 
 
     @Override
-    public void changeBackground() {
+    public void changeBackground()
+    {
         Settings.load(this);
         RelativeLayout rl = (RelativeLayout) this.findViewById(R.id.relLayout_mpWifiLobby);
         Settings.setColor(rl);
@@ -266,7 +268,6 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
                 } else if (multiplayerGame.getGameState() == MultiplayerGame.GameState.SEARCH4PLAYERS && isLeader) {
                     multiplayerGame.setGameState(MultiplayerGame.GameState.INGAME);
                     db.updateOnlineGame(multiplayerGame);
-                    //TODO start Game
                 } else {
                     startButton.setEnabled(false);
                     onlineGamePlayer.setPlayerState(OnlineGamePlayer.PlayerState.READY);
@@ -276,7 +277,8 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
                 break;
 
             case R.id.mpWifiLobby_button_settings:
-                //TODO Einstellungmenü
+                Intent i = new Intent(this, multiplayerSettings.class);
+                this.startActivity(i);
                 break;
         }
     }
