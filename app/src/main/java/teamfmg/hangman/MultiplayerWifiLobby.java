@@ -24,6 +24,7 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
     private int count = 0;
     private static boolean doUpdate;
     private boolean isOnCreate;
+    private boolean gameIsStarting = false;
 
 
     @Override
@@ -49,11 +50,16 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
             isLeader = false;
         }
 
-        if (isLeader && multiplayerGame.getGameState() == MultiplayerGame.GameState.CREATING) {
+        if (isLeader && multiplayerGame.getGameState() == MultiplayerGame.GameState.CREATING)
+        {
             startButton.setText("Search for Players");
-        } else if (isLeader && multiplayerGame.getGameState() == MultiplayerGame.GameState.SEARCH4PLAYERS) {
+        }
+        else if (isLeader && multiplayerGame.getGameState() == MultiplayerGame.GameState.SEARCH4PLAYERS)
+        {
             startButton.setText("Start");
-        } else {
+        }
+        else
+        {
             startButton.setText("Ready");
         }
 
@@ -75,6 +81,13 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
                 parent = (LinearLayout) findViewById(R.id.mpWifiLobby_scrollView);
                 parent.removeAllViews();
                 count = 0;
+
+                //updates the game for non Leaders
+                if (!isLeader)
+                {
+                    multiplayerGame = db.getMultiplayergame(MultiplayerWifiLobby.multiplayerGame.getId());
+                }
+
 
                 List<OnlineGamePlayer> onlineGamePlayers = db.getAllMultiplayergamePlayers(multiplayerGame.getId());
 
@@ -114,6 +127,8 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
         i.putExtra("multiplayerGameID", multiplayerGame.getId());
         i.putExtra("multiplayerGameName", multiplayerGame.getGameName());
         this.startActivity(i);
+        gameIsStarting = true;
+        this.finish();
     }
 
     private void addInclude(OnlineGamePlayer onlineGamePlayer) {
@@ -162,9 +177,13 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        db.deleteOnlineGamePlayer(onlineGamePlayer);
 
-        if (isLeader){
+        if (!gameIsStarting)
+        {
+            db.deleteOnlineGamePlayer(onlineGamePlayer);
+        }
+
+        if (isLeader && !gameIsStarting){
             multiplayerGame.setGameState(MultiplayerGame.GameState.FINISHED);
             db.updateOnlineGame(multiplayerGame);
         }

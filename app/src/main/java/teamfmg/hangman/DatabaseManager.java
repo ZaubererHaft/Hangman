@@ -1278,6 +1278,62 @@ public class DatabaseManager extends Thread
     }
 
     /**
+     * Gets the next word from the onlineGame database.
+     * @return word
+     * @since 1.3
+     */
+    public Word getNextWordFromOnlineGame(long onlineGameID, int position)
+    {
+
+        String query = "SELECT onlineGame_words.word, onlineGame_words.category, words.description, onlineGame_words.position " +
+                "FROM onlineGame_words " +
+                "JOIN words ON onlineGame_words.word = words.word " +
+                "WHERE onlineGame_words.onlineGameID = " + onlineGameID + " " +
+                "AND onlineGame_words.position = " + position + " " +
+                "AND onlineGame_words.category = words.category;";
+
+        //execute queries.
+        this.useCommand(query, false);
+
+        Word result = null;
+
+        try
+        {   //add all words to the list
+            if (this.res != null && this.res.next())
+            {
+                result = new Word(this.res.getString(1), this.res.getString(2), this.res.getString(3),
+                        this.res.getInt(4));
+            }
+        }
+        catch (SQLException e)
+        {
+            //Logger.write(e, this.activity);
+            //e.printStackTrace();
+            Logger.logOnlyError(e.getMessage());
+        }
+        finally
+        {
+            this.closeConnection();
+        }
+
+        if (result == null)
+        {
+            this.addNewWordToOnlineGame(onlineGameID, position);
+            return getNextWordFromOnlineGame(onlineGameID, position);
+        }
+        return result;
+    }
+
+    private void addNewWordToOnlineGame(long onlineGameID, int position)
+    {
+        Word randomWord = getRandomWord(Singleplayer.GameMode.STANDARD);
+        String command = "INSERT INTO onlineGame_words (onlineGameID, word, category, position)" +
+                "VALUES (" + onlineGameID + ", '" + randomWord.getWord() + "', '"
+                + randomWord.getCategory() + "', " + position + ");";
+        useCommand(command, true);
+    }
+
+    /**
      * Updating the Value of the lastOnline time in the database
      */
     public void updateLastOnline()
@@ -1896,7 +1952,8 @@ public class DatabaseManager extends Thread
                                     (
                                         res2.getString(1),
                                         res2.getString(2),
-                                        res2.getString(3)
+                                        res2.getString(3),
+                                        res2.getInt(4)
                                     )
                                 );
                             }
@@ -2088,7 +2145,7 @@ public class DatabaseManager extends Thread
             {
                 int rand = (int)(Math.random() * cursor.getCount());
                 cursor.move(rand);
-                result = new Word(cursor.getString(0), cursor.getString(1), cursor.getString(2));
+                result = new Word(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3));
 
                 try
                 {

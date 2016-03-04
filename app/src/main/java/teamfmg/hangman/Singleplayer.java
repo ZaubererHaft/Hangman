@@ -1,6 +1,7 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -88,6 +89,9 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
     private long multiplayerGameID = 0;
 
+    private int wordPosition = 0;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -133,10 +137,14 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         if (extra != null)
         {
             //Set multiplayerGameID
-            multiplayerGameID = extra.getLong("multiplayerGameID");
+            this.multiplayerGameID = extra.getLong("multiplayerGameID");
             //Set headerText
             headerText = extra.getString("multiplayerGameName");
+            //Update the player
+            MultiplayerWifiLobby.onlineGamePlayer.setPlayerState(OnlineGamePlayer.PlayerState.PLAYING);
+            db.updateOnlineGamePlayer(MultiplayerWifiLobby.onlineGamePlayer);
         }
+
 
         header.setText(headerText);
 
@@ -145,9 +153,6 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         score = 0;
         setCurrentScoreOnLable();
         this.changeBackground();
-
-        //Updating the lastOnline Time
-        db.updateLastOnline();
     }
 
     /**
@@ -271,39 +276,53 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
             titleOfDialog = getResources().getString(R.string.string_lose);
         }
 
+        /*
         Logger.popupDialogGameResult(this.currentWordObject.getWord(),
                 this.currentWordObject.getDescription(),
                 this.currentWordObject.getCategory(),
                 titleOfDialog, this);
-
+*/
         //Special Hardcore Mode
         if (!won && gameMode == GameMode.HARDCORE)
         {
-            Statistics s = new Statistics();
-
-            if (score > db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE,
-                    LoginMenu.getCurrentUser(this).getName()))
+            if (multiplayerGameID != 0)
             {
-                Logger.messageDialog(this.getResources().getString(R.string.string_newHighscore),
-                        this.getResources().getString(R.string.string_yourNewHighscore) + score + "\n"
-                                + this.getResources().getString(R.string.string_yourOldHighscore)
-                        + db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, LoginMenu.getCurrentUser(this).getName()), this);
-
-                s.scoreHardcore = score;
-
+                MultiplayerWifiLobby.onlineGamePlayer.setScore(score);
+                MultiplayerWifiLobby.onlineGamePlayer.setPlayerState(OnlineGamePlayer.PlayerState.FINISHED);
+                db.updateOnlineGamePlayer(MultiplayerWifiLobby.onlineGamePlayer);
+                Intent i = new Intent(this, ScoreboardTab.class);
+                i.putExtra("shownScoreboard", 4);
+                this.startActivity(i);
+                this.finish();
             }
             else
             {
-                Logger.messageDialog(this.getResources().getString(R.string.string_lose),
-                        this.getResources().getString(R.string.string_yourCurrentScore) + score + "\n"
-                                + this.getResources().getString(R.string.string_yourHighscore)
-                        + db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, LoginMenu.getCurrentUser(this).getName()), this);
-            }
-            score = 0;
-            setCurrentScoreOnLable();
-            setHangman(0);
+                Statistics s = new Statistics();
 
-            this.db.raiseStatistic(s, gameMode, null);
+                if (score > db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE,
+                        LoginMenu.getCurrentUser(this).getName()))
+                {
+                    Logger.messageDialog(this.getResources().getString(R.string.string_newHighscore),
+                            this.getResources().getString(R.string.string_yourNewHighscore) + score + "\n"
+                                    + this.getResources().getString(R.string.string_yourOldHighscore)
+                                    + db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, LoginMenu.getCurrentUser(this).getName()), this);
+
+                    s.scoreHardcore = score;
+
+                }
+                else
+                {
+                    Logger.messageDialog(this.getResources().getString(R.string.string_lose),
+                            this.getResources().getString(R.string.string_yourCurrentScore) + score + "\n"
+                                    + this.getResources().getString(R.string.string_yourHighscore)
+                                    + db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, LoginMenu.getCurrentUser(this).getName()), this);
+                }
+                score = 0;
+                setCurrentScoreOnLable();
+                setHangman(0);
+
+                this.db.raiseStatistic(s, gameMode, null);
+            }
         }
 
         //Special Hardcore Mode
@@ -311,6 +330,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         {
             score = score + 10;
             setCurrentScoreOnLable();
+
             if (currentBuildOfHangman > resetingInHardcore)
             {
                 currentBuildOfHangman = currentBuildOfHangman - resetingInHardcore;
@@ -525,10 +545,22 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      */
     protected void resetGame()
     {
+        //Updating the lastOnline Time
+        db.updateLastOnline();
+
         if (gameMode != GameMode.HARDCORE)
         this.setHangman(0);
 
-        this.currentWordObject = this.db.getRandomWord(gameMode);
+        if (this.multiplayerGameID == 0)
+        {
+            this.currentWordObject = this.db.getRandomWord(gameMode);
+        }
+        else
+        {
+            this.wordPosition++;
+            this.currentWordObject = this.db.getNextWordFromOnlineGame(multiplayerGameID, wordPosition);
+        }
+
         this.wrongLetters = 0;
         this.correctLetters = 0;
 
