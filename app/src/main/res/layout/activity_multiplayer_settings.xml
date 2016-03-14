@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="teamfmg.hangman.multiplayerSettings"
+    android:id="@+id/relLayout_multiplayerSettings"
+    android:background="@drawable/orange">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/mpSettings_label_header"
+        android:id="@+id/mpSettings_label_header"
+        android:textSize="@dimen/textSizeBig"
+        android:textColor="@color/color_white"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_x"
+        android:id="@+id/mpSettings_close"
+        android:textStyle="bold"
+        android:textColor="@color/color_white"
+        android:onClick="onClick"
+        android:capitalize="characters"
+        android:background="@null"
+        android:gravity="center_vertical|center_horizontal"
+        android:minWidth="@dimen/textSizeDouble"
+        android:textSize="@dimen/textSizeBig"
+        android:minHeight="@dimen/textSizeDouble"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/mpSettings_label_gameName"
+        android:id="@+id/mpSettings_label_gameName"
+        android:layout_below="@+id/mpSettings_close"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="@dimen/marginToHeader"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/textSizeMedium" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mpSettings_editText_gameName"
+        android:layout_below="@+id/mpSettings_label_gameName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/mpSettings_label_gamePW"
+        android:id="@+id/mpSettings_label_gamePW"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/textSizeMedium"
+        android:layout_below="@+id/mpSettings_editText_gameName"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="@dimen/marginForSpace" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/mpSettings_editText_gamePW"
+        android:layout_below="@+id/mpSettings_label_gamePW"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mpSettings_button_apply"
+        android:id="@+id/mpSettings_button_apply"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:textSize="@dimen/textSizeMedium"
+        android:minHeight="@dimen/button_height" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/mpSettings_label_gameMaxPlayers"
+        android:id="@+id/mpSettings_label_gameMaxPlayers"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/textSizeMedium"
+        android:layout_below="@+id/mpSettings_editText_gamePW"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="@dimen/marginForSpace" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberSigned"
+        android:ems="10"
+        android:id="@+id/mpSettings_editText_gameMaxPlayers"
+        android:layout_below="@+id/mpSettings_label_gameMaxPlayers"
+        android:layout_alignParentLeft="true"
+        android:maxLength="2" />
+
+</RelativeLayout>

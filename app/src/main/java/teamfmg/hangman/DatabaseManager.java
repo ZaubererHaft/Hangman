@@ -1289,6 +1289,62 @@ public class DatabaseManager extends Thread
     }
 
     /**
+     * Gets the next word from the onlineGame database.
+     * @return word
+     * @since 1.3
+     */
+    public Word getNextWordFromOnlineGame(long onlineGameID, int position)
+    {
+
+        String query = "SELECT onlineGame_words.word, onlineGame_words.category, words.description, onlineGame_words.position " +
+                "FROM onlineGame_words " +
+                "JOIN words ON onlineGame_words.word = words.word " +
+                "WHERE onlineGame_words.onlineGameID = " + onlineGameID + " " +
+                "AND onlineGame_words.position = " + position + " " +
+                "AND onlineGame_words.category = words.category;";
+
+        //execute queries.
+        this.useCommand(query, false);
+
+        Word result = null;
+
+        try
+        {   //add all words to the list
+            if (this.res != null && this.res.next())
+            {
+                result = new Word(this.res.getString(1), this.res.getString(2), this.res.getString(3),
+                        this.res.getInt(4));
+            }
+        }
+        catch (SQLException e)
+        {
+            //Logger.write(e, this.activity);
+            //e.printStackTrace();
+            Logger.logOnlyError(e.getMessage());
+        }
+        finally
+        {
+            this.closeConnection();
+        }
+
+        if (result == null)
+        {
+            this.addNewWordToOnlineGame(onlineGameID, position);
+            return getNextWordFromOnlineGame(onlineGameID, position);
+        }
+        return result;
+    }
+
+    private void addNewWordToOnlineGame(long onlineGameID, int position)
+    {
+        Word randomWord = getRandomWord(Singleplayer.GameMode.STANDARD);
+        String command = "INSERT INTO onlineGame_words (onlineGameID, word, category, position)" +
+                "VALUES (" + onlineGameID + ", '" + randomWord.getWord() + "', '"
+                + randomWord.getCategory() + "', " + position + ");";
+        useCommand(command, true);
+    }
+
+    /**
      * Updating the Value of the lastOnline time in the database
      */
     public void updateLastOnline()
@@ -1367,6 +1423,7 @@ public class DatabaseManager extends Thread
      */
     public User getUser(String name) throws NullPointerException
     {
+
         //Use offline mode
         if(!this.isOnline())
         {
@@ -1378,10 +1435,34 @@ public class DatabaseManager extends Thread
 
         }
 
-        String query = "SELECT username, password, mail, _id FROM " + TABLE_USERS_NAME +
+        String command = "SELECT username, password, mail, _id FROM " + TABLE_USERS_NAME +
                 " WHERE username LIKE '" + name + "';";
+        return getUserFunction(command);
+    }
+
+    /**
+     * Gets a user by their id
+     * @param id ID of the user.
+     * @return A User Object.
+     * @throws NullPointerException Exception, if no user was found.
+     * @since 1.2
+     */
+    public User getUser(int id) throws NullPointerException
+    {
+        String command = "SELECT username, password, mail, _id FROM " + TABLE_USERS_NAME +
+                " WHERE _id = " + id + ";";
+        return getUserFunction(command);
+    }
 
 
+    /**
+     * Gets a user by their name
+     * @return A User Object.
+     * @throws NullPointerException Exception, if no user was found.
+     * @since 0.1
+     */
+    private User getUserFunction(String query) throws NullPointerException
+    {
         this.useCommand(query, false);
 
         try
@@ -1410,6 +1491,237 @@ public class DatabaseManager extends Thread
         {
             this.closeConnection();
         }
+    }
+
+    /**
+     * Gets all MultiplayergamePLAYERs
+     * @param onlineGameID show all MultiplayergamePLAYERs with this gameid
+     * @return List of muiltiplayerGames
+     */
+    public List<OnlineGamePlayer> getAllMultiplayergamePlayers(long onlineGameID)
+    {
+        String command = "SELECT onlineGameID , userID, score, state " +
+                "FROM onlineGame_players WHERE onlineGameID = " + onlineGameID + " ORDER BY score DESC;";
+
+        useCommand(command, false);
+
+        List<OnlineGamePlayer> list = new ArrayList<>();
+
+        try
+        {
+            if(this.res != null)
+            {
+                while (this.res.next())
+                {
+                    OnlineGamePlayer p = new OnlineGamePlayer(res.getLong(1), res.getInt(2), res.getInt(3),
+                            OnlineGamePlayer.PlayerState.valueOf(res.getString(4)));
+
+                    list.add(p);
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.logOnlyError(ex.getMessage());
+        }
+        finally
+        {
+            this.closeConnection();
+        }
+
+        return list;
+    }
+
+    public MultiplayerGame getMultiplayergame(long onlineGameID){
+
+        String command = "SELECT onlineGames.id, onlineGames.gamename, onlineGames.password, " +
+                "onlineGames.maxplayers, users.username, onlineGames.state " +
+                "FROM onlineGames JOIN users ON leaderID = users._id " +
+                "WHERE onlineGames.id = " + onlineGameID + ";";
+
+        useCommand(command, false);
+
+        try
+        {
+            if(this.res != null && this.res.next())
+            {
+                return new MultiplayerGame(res.getLong(1), res.getString(2), res.getString(3),
+                        res.getInt(4), res.getString(5), MultiplayerGame.GameState.valueOf(res.getString(6)));
+
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.logOnlyError(ex.getMessage());
+        }
+        finally
+        {
+            this.closeConnection();
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets all Multiplayergames
+     * @param gameState show all Multiplayergames with this gameState
+     * @return List of muiltiplayerGames
+     */
+    public List<MultiplayerGame> getAllMultiplayergames(MultiplayerGame.GameState gameState)
+    {
+        String command = "SELECT onlineGames.id, onlineGames.gamename, onlineGames.password, " +
+                "onlineGames.maxplayers, users.username, onlineGames.state " +
+                "FROM onlineGames JOIN users ON leaderID = users._id " +
+                "WHERE state LIKE '" + gameState.name() + "';";
+        return getAllMultiplayerGames(command);
+    }
+
+    /**
+     * Gets all Multiplayergames
+     * @param username show all Multiplayergames inwhich this user is
+     * @return List of muiltiplayerGames
+     */
+    public List<MultiplayerGame> getAllMultiplayergames(String username)
+    {
+        return null;
+    }
+
+    /**
+     * Gets all Multiplayergames
+     * @param gameState show all Multiplayergames with this gameState
+     * @param username show all Multiplayergames inwhich this user is
+     * @return List of muiltiplayerGames
+     */
+    public List<MultiplayerGame> getAllMultiplayergames(String username, MultiplayerGame.GameState gameState)
+    {
+        return null;
+    }
+
+    /**
+     * the Real funktion of getAllMultiplayergames
+     * @param command SQL Commant wich gives the correct result
+     * @return List of muiltiplayerGames
+     */
+    private List<MultiplayerGame> getAllMultiplayerGames(String command){
+
+        useCommand(command, false);
+
+        List<MultiplayerGame> list = new ArrayList<>();
+
+        try
+        {
+            if(this.res != null)
+            {
+                while (this.res.next())
+                {
+                    MultiplayerGame m = new MultiplayerGame(res.getLong(1), res.getString(2), res.getString(3),
+                            res.getInt(4), res.getString(5), MultiplayerGame.GameState.valueOf(res.getString(6)));
+
+                    list.add(m);
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.logOnlyError(ex.getMessage());
+        }
+        finally
+        {
+            this.closeConnection();
+        }
+
+        return list;
+    }
+
+    /**
+     * Creating an new OnlineGame in DB
+     * @param multiplayerGame the Game wich gets createt
+     */
+    public void createOnlineGame(MultiplayerGame multiplayerGame){
+        String command = "INSERT INTO onlineGames (id, gamename, password, maxplayers, leaderID, state) " +
+                "VALUES ('" +
+                multiplayerGame.getId() + "','" +
+                multiplayerGame.getGameName() + "','" +
+                multiplayerGame.getPassword() + "','" +
+                multiplayerGame.getMaxPlayers() + "','" +
+                this.getUser(multiplayerGame.getLeaderName()).getId() + "','" +
+                multiplayerGame.getGameState() + "');";
+        useCommand(command, true);
+    }
+
+    public void updateOnlineGame(MultiplayerGame multiplayerGame){
+        String command = "UPDATE onlineGames SET" +
+                " gamename = '" + multiplayerGame.getGameName() +
+                "', password = '" + multiplayerGame.getPassword() +
+                "', maxplayers = '" + multiplayerGame.getMaxPlayers() +
+                "', leaderID = '" + this.getUser(multiplayerGame.getLeaderName()).getId() +
+                "', state = '" + multiplayerGame.getGameState() +
+                "' WHERE id LIKE '" + multiplayerGame.getId() + "';";
+
+        useCommand(command, true);
+    }
+
+    public void createOnlineGamePlayer(OnlineGamePlayer player)
+    {
+        String command = "INSERT INTO onlineGame_players (onlineGameID, userID, score, state) " +
+                "VALUES ('" +
+                player.getOnlineGameID() + "','" +
+                player.getUserID() + "','" +
+                player.getScore() + "','" +
+                player.getPlayerState() + "');";
+        useCommand(command, true);
+    }
+
+    public void deleteOnlineGamePlayer(OnlineGamePlayer player)
+    {
+        String command = "DELETE FROM onlineGame_players " +
+                "WHERE onlineGameID = " + player.getOnlineGameID() +
+                " AND userID = " + player.getUserID() + ";";
+
+        useCommand(command, true);
+    }
+
+    public void updateOnlineGamePlayer(OnlineGamePlayer player)
+    {
+        String command = "UPDATE onlineGame_players SET" +
+                " score = '" + player.getScore() +
+                "', state = '" + player.getPlayerState() +
+                "' WHERE onlineGameID LIKE '" + player.getOnlineGameID() + "' AND" +
+                " userID LIKE '" + player.getUserID() + "';";
+
+        useCommand(command, true);
+    }
+
+    public boolean onlineGameIsFree(long onlineGameId)
+    {
+        String query = "SELECT (onlineGames.maxplayers - COUNT(onlineGame_players.onlineGameID)) FROM" +
+                " onlineGames JOIN onlineGame_players ON onlineGames.id = onlineGame_players.onlineGameID " +
+                "WHERE onlineGame_players.onlineGameID = " + onlineGameId +";";
+        this.useCommand(query, false);
+
+        try
+        {
+            if (this.res != null && this.res.next())
+            {
+                return this.res.getInt(1) > 0;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch (SQLException ex)
+        {
+            //Logger.write(ex, this.activity);
+            Logger.logOnlyError(ex.getMessage());
+            //ex.printStackTrace();
+        }
+        finally
+        {
+            this.closeConnection();
+        }
+
+        return false;
     }
 
     /**
@@ -1651,7 +1963,8 @@ public class DatabaseManager extends Thread
                                     (
                                         res2.getString(1),
                                         res2.getString(2),
-                                        res2.getString(3)
+                                        res2.getString(3),
+                                        res2.getInt(4)
                                     )
                                 );
                             }
@@ -1843,7 +2156,7 @@ public class DatabaseManager extends Thread
             {
                 int rand = (int)(Math.random() * cursor.getCount());
                 cursor.move(rand);
-                result = new Word(cursor.getString(0), cursor.getString(1), cursor.getString(2));
+                result = new Word(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3));
 
                 try
                 {

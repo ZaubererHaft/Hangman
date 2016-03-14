@@ -222,6 +222,7 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
     {
         //try reloading the user from disc...
         if (LoginMenu.currentUser == null)
+        if(LoginMenu.currentUser == null && a != null)
         {
             currentUser = Settings.loadCurrentUser(a);
 

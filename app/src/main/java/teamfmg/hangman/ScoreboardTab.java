@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,6 +34,10 @@ public class ScoreboardTab extends Activity implements View.OnClickListener, IAp
      * the shownScoreboard
      */
     private int shownScoreboard;
+
+    private boolean doUpdate;
+
+    private LinearLayout parent;
 
 
 
@@ -67,9 +72,56 @@ public class ScoreboardTab extends Activity implements View.OnClickListener, IAp
                 header.setText(R.string.text_header_multiplayer_local);
                 this.scorelist = MultiplayerLocal.scoreboard;
                 break;
+            case 4:
+                header.setText(MultiplayerWifiLobby.multiplayerGame.getGameName());
+                updateScoreboard();
+                updaterScoreboard();
+                break;
         }
 
         initScorelist();
+    }
+
+    /**
+     * Only for wifi multiplayer game
+     * gets the scor of each player and convert it for the scorelist
+     */
+    private void updateScoreboard()
+    {
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                List<OnlineGamePlayer> onlineGamePlayers = new ArrayList<>();
+                onlineGamePlayers = db.getAllMultiplayergamePlayers(MultiplayerWifiLobby.multiplayerGame.getId());
+
+                List<String[]> list = new ArrayList<>();
+
+                boolean hasToUpdate = false;
+
+                for (int i = 0; i < onlineGamePlayers.size(); i++) {
+                    String[] innerList = new String[2];
+                    innerList[0] = db.getUser(onlineGamePlayers.get(i).getUserID()).getName();
+                    if (onlineGamePlayers.get(i).getPlayerState() == OnlineGamePlayer.PlayerState.PLAYING) {
+                        innerList[1] = onlineGamePlayers.get(i).getPlayerState().name();
+                    } else {
+                        innerList[1] = "" + onlineGamePlayers.get(i).getScore();
+                        hasToUpdate = true;
+                    }
+                    list.add(innerList);
+                }
+
+                doUpdate = hasToUpdate;
+
+                if (!hasToUpdate){
+                    MultiplayerWifiLobby.multiplayerGame.setGameState(MultiplayerGame.GameState.FINISHED);
+                    db.updateOnlineGame(MultiplayerWifiLobby.multiplayerGame);
+                }
+
+                scorelist = list;
+                initScorelist();
+            }
+        });
     }
 
     /**
@@ -78,16 +130,19 @@ public class ScoreboardTab extends Activity implements View.OnClickListener, IAp
      */
     private void initScorelist()
     {
+        parent = (LinearLayout)this.findViewById(R.id.linearLayout_scoreboard_tab);
+        parent.removeAllViews();
+
         for (int i = 0; i < scorelist.size(); i++)
         {
             boolean isOnline = false;
 
-            if (shownScoreboard != 3)
+            if (shownScoreboard != 3 && shownScoreboard != 4)
             {
                 isOnline = TimeHelper.lastOnlineByDate(scorelist.get(i)[2]).equals("Jetzt");
             }
 
-            if (scorelist.get(i)[0].equals(LoginMenu.getCurrentUser(this).getName()) && shownScoreboard != 3)
+            if (scorelist.get(i)[0].equals(LoginMenu.getCurrentUser(this).getName()) && shownScoreboard != 3 && shownScoreboard != 4)
             {
                 addInclude(i+1, scorelist.get(i)[0], scorelist.get(i)[1], true, isOnline);
             }
@@ -104,7 +159,7 @@ public class ScoreboardTab extends Activity implements View.OnClickListener, IAp
      */
     private void addInclude(int rank, String name, String score, Boolean bold, Boolean isOnline)
     {
-        LinearLayout parent = (LinearLayout)this.findViewById(R.id.linearLayout_scoreboard_tab);
+
 
         LayoutInflater inflater = (LayoutInflater)this.getSystemService(LAYOUT_INFLATER_SERVICE);
 
@@ -169,5 +224,38 @@ public class ScoreboardTab extends Activity implements View.OnClickListener, IAp
                 this.startActivity(i);
             break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        doUpdate = false;
+    }
+
+    private void updaterScoreboard() {
+
+        doUpdate = true;
+        Thread t = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+
+                while (doUpdate)
+                {
+                    updateScoreboard();
+
+                    try
+                    {
+                        Thread.sleep(10000);
+                    }
+                    catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        t.start();
     }
 }

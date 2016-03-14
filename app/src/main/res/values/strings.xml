@@ -200,4 +200,15 @@
     <string name="error_offline_general">You need to be online to use this function!</string>
     <string name="about_info4">Graphics by: M. Kratzl</string>
     <string name="label_statistic_lastOnline">Online:</string>
+    <string name="mpWifiMenu_button_createLobby">Create Lobby</string>
+    <string name="mpWifiMenu_label_gamesAvailable">Games Avaiable:</string>
+    <string name="mpWifiMenu_header">Multiplayer</string>
+    <string name="mpWifiLobby_button_settings">Settings</string>
+    <string name="mpWifiLobby_label_players">Players:</string>
+    <string name="mpWifiMenu_button_reload">Reload List</string>
+    <string name="mpSettings_label_header">Multiplayer - Settings</string>
+    <string name="mpSettings_label_gameName">Game Name:</string>
+    <string name="mpSettings_label_gamePW">Game Password (Currently no funktion):</string>
+    <string name="mpSettings_button_apply">Apply</string>
+    <string name="mpSettings_label_gameMaxPlayers">Maximal Players:</string>
 </resources>

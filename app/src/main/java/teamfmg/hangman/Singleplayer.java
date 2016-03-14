@@ -1,6 +1,7 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -11,17 +12,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 
 /**
  * The Hangman single player.
- *
- * @author Vincent
  * @since 0.5
+ * @author Vincent
  */
-public class Singleplayer extends Activity implements View.OnClickListener, IApplyableSettings
-{
+public class Singleplayer extends Activity implements View.OnClickListener, IApplyableSettings{
 
     /**
      * the current shown picture of Hangman
@@ -63,15 +60,10 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      * Temp value for database connect;
      */
     private int wrongLetters, correctLetters;
-
     /**
      * Enum for the available GameModes
      */
-    public enum GameMode
-    {
-        STANDARD, CUSTOM, HARDCORE, SPEED, LOCALMULTIPLAYER
-    }
-
+    public enum GameMode {STANDARD, CUSTOM, HARDCORE, SPEED, LOCALMULTIPLAYER}
     /**
      * The choosen Gamemode
      */
@@ -93,7 +85,12 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
      */
     final int resetingInHardcore = 3;
 
-    TextView scoreLabel;
+    protected TextView scoreLabel;
+
+    private long multiplayerGameID = 0;
+
+    private int wordPosition = 0;
+
 
 
     @Override
@@ -110,7 +107,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         res = this.getResources();
 
         this.label = (TextView) findViewById(R.id.text_askedWord);
-        TextView header = (TextView) findViewById(R.id.label_singleplayer_header);
+        TextView header = (TextView)findViewById(R.id.label_singleplayer_header);
         scoreLabel = (TextView) findViewById(R.id.label_singleplayer_score);
 
         String headerText = null;
@@ -134,21 +131,32 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
                 gameMode = GameMode.HARDCORE;
                 break;
         }
+
+        //Gets extras (Currently only in MultiplayerWifi mode)
+        Bundle extra = this.getIntent().getExtras();
+        if (extra != null)
+        {
+            //Set multiplayerGameID
+            this.multiplayerGameID = extra.getLong("multiplayerGameID");
+            //Set headerText
+            headerText = extra.getString("multiplayerGameName");
+            //Update the player
+            MultiplayerWifiLobby.onlineGamePlayer.setPlayerState(OnlineGamePlayer.PlayerState.PLAYING);
+            db.updateOnlineGamePlayer(MultiplayerWifiLobby.onlineGamePlayer);
+        }
+
+
         header.setText(headerText);
 
-        setHangman(0);
         this.resetGame();
+        setHangman(0);
         score = 0;
         setCurrentScoreOnLable();
         this.changeBackground();
-
-        //Updating the lastOnline Time
-        db.updateLastOnline();
     }
 
     /**
      * Check the word for the pressed letter
-     *
      * @param letter which is clicked
      */
     private void checkLetter(String letter)
@@ -159,17 +167,17 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         {
             char sign = this.currentWord.charAt(i);
 
-            if (sign == 'Ü' && letter.equals("U"))
+            if(sign == 'Ü' && letter.equals("U"))
             {
                 this.wordPieces[i] = "Ü";
                 isFalseWord = false;
             }
-            else if (sign == 'Ä' && letter.equals("A"))
+            else if(sign == 'Ä' && letter.equals("A"))
             {
                 this.wordPieces[i] = "Ä";
                 isFalseWord = false;
             }
-            else if (sign == 'Ö' && letter.equals("O"))
+            else if(sign == 'Ö' && letter.equals("O"))
             {
                 this.wordPieces[i] = "Ö";
                 isFalseWord = false;
@@ -196,7 +204,6 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
     /**
      * loads a new word
-     *
      * @param word asked word
      * @since 0.5
      */
@@ -229,7 +236,6 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
     /**
      * Updates the label(text) under the Hangman.
-     *
      * @since 0.5
      */
     private void updateLabel()
@@ -249,14 +255,14 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     }
 
     /**
-     * Finish the game. Show Game Result and resets the Game
-     *
+     * Finish the game.
+     * Show Game Result and resets the Game
      * @since 0.5
      */
     protected void finishGame(boolean won)
     {
         String titleOfDialog;
-        Settings.deleteLastWord(this);
+
 
         if (this.currentBuildOfHangman == 0)
         {
@@ -266,10 +272,10 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         {
             titleOfDialog = getResources().getString(R.string.string_win);
         }
-        else
-        {
+        else {
             titleOfDialog = getResources().getString(R.string.string_lose);
         }
+
 
         Logger.popupDialogGameResult(this.currentWordObject.getWord(),
                 this.currentWordObject.getDescription(),
@@ -279,31 +285,44 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         //Special Hardcore Mode
         if (!won && gameMode == GameMode.HARDCORE)
         {
-            Statistics s = new Statistics();
-
-            if (score > db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE,
-                    LoginMenu.getCurrentUser(this).getName()))
+            if (multiplayerGameID != 0)
             {
-                Logger.messageDialog(this.getResources().getString(R.string.string_newHighscore),
-                        this.getResources().getString(R.string.string_yourNewHighscore) + score + "\n"
-                                + this.getResources().getString(R.string.string_yourOldHighscore)
-                                + db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, LoginMenu.getCurrentUser(this).getName()), this);
-
-                s.scoreHardcore = score;
-
+                MultiplayerWifiLobby.onlineGamePlayer.setScore(score);
+                MultiplayerWifiLobby.onlineGamePlayer.setPlayerState(OnlineGamePlayer.PlayerState.FINISHED);
+                db.updateOnlineGamePlayer(MultiplayerWifiLobby.onlineGamePlayer);
+                Intent i = new Intent(this, ScoreboardTab.class);
+                i.putExtra("shownScoreboard", 4);
+                this.startActivity(i);
+                this.finish();
             }
             else
             {
-                Logger.messageDialog(this.getResources().getString(R.string.string_lose),
-                        this.getResources().getString(R.string.string_yourCurrentScore) + score + "\n"
-                                + this.getResources().getString(R.string.string_yourHighscore)
-                                + db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, LoginMenu.getCurrentUser(this).getName()), this);
-            }
-            score = 0;
-            setCurrentScoreOnLable();
-            setHangman(0);
+                Statistics s = new Statistics();
 
-            this.db.raiseStatistic(s, gameMode, null);
+                if (score > db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE,
+                        LoginMenu.getCurrentUser(this).getName()))
+                {
+                    Logger.messageDialog(this.getResources().getString(R.string.string_newHighscore),
+                            this.getResources().getString(R.string.string_yourNewHighscore) + score + "\n"
+                                    + this.getResources().getString(R.string.string_yourOldHighscore)
+                                    + db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, LoginMenu.getCurrentUser(this).getName()), this);
+
+                    s.scoreHardcore = score;
+
+                }
+                else
+                {
+                    Logger.messageDialog(this.getResources().getString(R.string.string_lose),
+                            this.getResources().getString(R.string.string_yourCurrentScore) + score + "\n"
+                                    + this.getResources().getString(R.string.string_yourHighscore)
+                                    + db.getCurrentStatistic(DatabaseManager.Attribute.HIGHSCORE_HARDCORE, LoginMenu.getCurrentUser(this).getName()), this);
+                }
+                score = 0;
+                setCurrentScoreOnLable();
+                setHangman(0);
+
+                this.db.raiseStatistic(s, gameMode, null);
+            }
         }
 
         //Special Hardcore Mode
@@ -311,6 +330,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         {
             score = score + 10;
             setCurrentScoreOnLable();
+
             if (currentBuildOfHangman > resetingInHardcore)
             {
                 currentBuildOfHangman = currentBuildOfHangman - resetingInHardcore;
@@ -351,7 +371,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
             Integer lucker = null;
 
-            if (won && this.currentBuildOfHangman == this.fullHangman - 1)
+            if (won && this.currentBuildOfHangman == this.fullHangman -1)
             {
                 lucker = 14;
             }
@@ -367,7 +387,6 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
     /**
      * Resets all buttons to Enabled(true).
-     *
      * @since 0.5
      */
     protected void resetButtons()
@@ -388,11 +407,10 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
     /**
      * Resets all buttons in a layout. (Sets them enabled)
-     *
      * @param ll layout.
      * @since 0.7
      */
-    private void resetButtonRow(LinearLayout ll)
+    private void resetButtonRow (LinearLayout ll)
     {
         for (int i = 0; i < ll.getChildCount(); i++)
         {
@@ -407,7 +425,6 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
     /**
      * Inits all Buttons on the Keyboard.
-     *
      * @since 0.5
      */
     private void initButtons()
@@ -427,14 +444,12 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
     /**
      * Inits all buttons in a layout.
-     *
      * @param ll Layout.
      * @since 0.7
      */
     private void initButtonInRow(LinearLayout ll)
     {
-        for (int i = 0; i < ll.getChildCount(); i++)
-        {
+        for (int i = 0; i < ll.getChildCount(); i++){
             View v = ll.getChildAt(i);
             if (v instanceof Button)
             {
@@ -446,7 +461,6 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
     /**
      * Builds the next Part of the Hangman.
-     *
      * @since 0.5
      */
     private void buildHangman()
@@ -462,7 +476,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
         {
             this.currentBuildOfHangman++;
         }
-        if (this.currentBuildOfHangman < this.fullHangman)
+        if(this.currentBuildOfHangman < this.fullHangman)
         {
             ((ImageView) findViewById(R.id.image_hangman)).setImageDrawable(this.nextDrawable);
             this.loadNextImg();
@@ -475,12 +489,11 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
     /**
      * Loads the next hangman picture.
-     *
      * @since 0.7
      */
     protected void loadNextImg()
     {
-        if (!this.isLoading)
+        if(!this.isLoading)
         {
             Thread t = new Thread(new Runnable()
             {
@@ -501,7 +514,11 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
                         nextDrawable = res.getDrawable(id);
                         Logger.logOnly("Done! Loaded hm_" + i);
                     }
-                    catch (Exception | OutOfMemoryError ex)
+                    catch (OutOfMemoryError ex)
+                    {
+                        Logger.logOnlyError(ex.getMessage());
+                    }
+                    catch(Exception ex)
                     {
                         Logger.logOnlyError(ex.getMessage());
                     }
@@ -515,8 +532,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
     protected void setCurrentScoreOnLable()
     {
-        if (gameMode == GameMode.CUSTOM || gameMode == GameMode.STANDARD)
-        {
+        if (gameMode == GameMode.CUSTOM || gameMode == GameMode.STANDARD){
             scoreLabel.setText("");
             return;
         }
@@ -525,118 +541,45 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
     /**
      * Resets the Round
-     *
      * @since 0.5
      */
     protected void resetGame()
     {
+        //Updating the lastOnline Time
+        db.updateLastOnline();
+
         if (gameMode != GameMode.HARDCORE)
-        {
-            this.setHangman(0);
-        }
+        this.setHangman(0);
 
-
-        ArrayList<String> lastWord = Settings.loadLastWord(this);
-
-        /**
-         * is there already a word or do we have to load a new one?
-         */
-        if (lastWord == null || lastWord.size() == 0)
+        if (this.multiplayerGameID == 0)
         {
             this.currentWordObject = this.db.getRandomWord(gameMode);
-            this.resetButtons();
-            this.loadNextImg();
-            this.currentWord = currentWordObject.getWord();
         }
         else
         {
-            this.loadLastWord(lastWord);
+            this.wordPosition++;
+            this.currentWordObject = this.db.getNextWordFromOnlineGame(multiplayerGameID, wordPosition);
         }
-
 
         this.wrongLetters = 0;
         this.correctLetters = 0;
 
-        if (this.currentWordObject == null)
+        if(this.currentWordObject == null)
         {
-            Logger.write(this.getResources().getText(R.string.error_reload_categories), this);
+            Logger.write(this.getResources().getText(R.string.error_reload_categories) ,this);
             this.finish();
             return;
         }
 
-
-        this.currentWord = this.currentWord.toUpperCase();
-
-        this.newWord(this.currentWord);
-    }
-
-    public void loadLastWord(ArrayList<String> lastWord)
-    {
-        this.currentWordObject = new Word
-                (
-                        lastWord.get(0), lastWord.get(1), lastWord.get(2)
-                );
         this.currentWord = currentWordObject.getWord();
-        lastWord.remove(0);
-        lastWord.remove(0);
-        lastWord.remove(0);
-
-        Object[] elements = lastWord.toArray();
-        this.wordPieces = new String[elements.length];
-
-        int rightLetters = 0;
-
-        for (int i = 0; i < elements.length; i++)
-        {
-
-            String val = elements[i].toString();
-            String buttonVal = null;
-            this.wordPieces[i] = val;
-
-            if(val.equals("Ä"))
-            {
-                buttonVal = "A";
-            }
-            else if(val.equals("Ö"))
-            {
-                buttonVal = "O";
-            }
-            else if(val.equals("Ü"))
-            {
-                buttonVal = "U";
-            }
-            else if(val.equals("ß"))
-            {
-                buttonVal = "S";
-            }
-            else if(val.equals("_ "))
-            {
-                continue;
-            }
-            else if(val.equals("-"))
-            {
-                continue;
-            }
-            else
-            {
-                buttonVal =val;
-            }
-
-            int id = res.getIdentifier("button_"+buttonVal, "id", this.getPackageName());
-            rightLetters++;
-
-            (this.findViewById(id)).setEnabled(false);
-
-        }
-
-        this.updateLabel();
-        this.setHangman(rightLetters);
+        this.currentWord = this.currentWord.toUpperCase();
+        this.resetButtons();
+        this.newWord(this.currentWord);
         this.loadNextImg();
     }
 
     /**
      * resets the Hangman. No Part is build
-     *
      * @since 0.5
      */
     protected void setHangman(int buildOfHangman)
@@ -648,7 +591,7 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
             iv.setImageResource(id);
             this.currentBuildOfHangman = buildOfHangman;
         }
-        catch (OutOfMemoryError ex)
+        catch(OutOfMemoryError ex)
         {
             Logger.logOnlyError(ex);
         }
@@ -656,24 +599,24 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
 
 
     @Override
-    public void changeBackground()
+    public void changeBackground() 
     {
         Settings.load(this);
-        RelativeLayout rl = (RelativeLayout) this.findViewById(R.id.relLayout_singleplayer);
+        RelativeLayout rl         = (RelativeLayout)this.findViewById(R.id.relLayout_singleplayer);
         Settings.setColor(rl);
     }
 
     @Override
-    public void onClick(View v)
+    public void onClick(View v) 
     {
 
-        if (v.getId() == this.findViewById(R.id.singleplayer_back).getId())
+        if(v.getId() == this.findViewById(R.id.singleplayer_back).getId())
         {
             this.finish();
             return;
         }
 
-        if (!this.isLoading)
+        if(!this.isLoading)
         {
             Button b = (Button) v;
             b.setEnabled(false);
@@ -685,9 +628,11 @@ public class Singleplayer extends Activity implements View.OnClickListener, IApp
     protected void onDestroy()
     {
         super.onDestroy();
-
-        Settings.saveWord(this.currentWordObject,this.wordPieces,this);
-
         System.gc();
+
+        if (multiplayerGameID != 0){
+            MultiplayerWifiLobby.onlineGamePlayer.setPlayerState(OnlineGamePlayer.PlayerState.LEFTED);
+            this.db.updateOnlineGamePlayer(MultiplayerWifiLobby.onlineGamePlayer);
+        }
     }
 }

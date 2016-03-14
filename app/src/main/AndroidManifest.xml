@@ -13,19 +13,17 @@
 
     <application
         android:allowBackup="true"
-
-        android:versionCode="3"
-
         android:exported="true"
         android:icon="@mipmap/hangman_logo"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:screenOrientation="portrait"
-        android:theme="@android:style/Theme.Light.NoTitleBar" >
+        android:theme="@android:style/Theme.Light.NoTitleBar"
+        android:versionCode="3">
         <activity
             android:name=".LoginMenu"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -104,7 +102,16 @@
         <activity
             android:name=".multiplayer_local_lobby"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".MultiplayerWifiMenu"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MultiplayerWifiLobby"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".multiplayerSettings"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

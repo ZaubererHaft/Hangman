@@ -140,7 +140,8 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
             (
                 this.wordText.getText().toString(),
                 this.categoryName,
-                this.descriptionText.getText().toString()
+                this.descriptionText.getText().toString(),
+                0
             );
 
             if(w.getWord().length() < minWordLength)
@@ -171,7 +172,8 @@ public class OwnWordsMenu extends Activity implements View.OnClickListener, IApp
             (
                 ((TextView)parent.findViewById(R.id.element_word)).getText().toString(),
                 this.categoryName,
-                ((TextView)parent.findViewById(R.id.element_description)).getText().toString()
+                ((TextView)parent.findViewById(R.id.element_description)).getText().toString(),
+                0
             );
 
             //remove word from database, list and view group
