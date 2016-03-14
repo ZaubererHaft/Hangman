@@ -186,13 +186,15 @@ public class DatabaseManager extends Thread
 
         NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
+        
+        //TODO: // FIXME: 2/26/16 
         /**
          * Ping host if we are using wifi.
          */
-        if (wifi.isConnected())
+        /*if (wifi.isConnected())
         {
             return ping(CONNECTING_URL);
-        }
+        }*/
 
         return activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();

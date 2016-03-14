@@ -12,8 +12,8 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 
 /**
- * The Login menu for Hangman.<br />
- * Created by Ludwig 09.11.2015.
+ * The Login menu for Hangman.<br /> Created by Ludwig 09.11.2015.
+ *
  * @since 0.1
  */
 public class LoginMenu extends Activity implements View.OnClickListener, IApplyableSettings
@@ -39,14 +39,14 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
         (this.findViewById(R.id.button_register)).setOnClickListener(this);
         (this.findViewById(R.id.button_exit)).setOnClickListener(this);
 
-        if(!this.db.isOnline())
+        if (!this.db.isOnline())
         {
             (this.findViewById(R.id.button_register)).setEnabled(false);
         }
 
 
-        this.username   = (EditText)this.findViewById(R.id.textField_welcome_username);
-        this.password   = (EditText)this.findViewById(R.id.textField_welcome_password);
+        this.username = (EditText) this.findViewById(R.id.textField_welcome_username);
+        this.password = (EditText) this.findViewById(R.id.textField_welcome_password);
 
         this.username.setOnClickListener(this);
         this.password.setOnClickListener(this);
@@ -56,14 +56,14 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
 
         Updater u = new Updater(this);
 
-        if(this.db.isOnline() && u.updatePossible())
+        if (this.db.isOnline() && u.updatePossible())
         {
             Logger.messageDialog
-            (
-                this.getString(R.string.update_info_newVersion),
-                this.getString(R.string.update_info_newVersion_nowTo),
-                this
-            );
+                    (
+                            this.getString(R.string.update_info_newVersion),
+                            this.getString(R.string.update_info_newVersion_nowTo),
+                            this
+                    );
         }
         this.password.setOnFocusChangeListener(new View.OnFocusChangeListener()
         {
@@ -82,7 +82,7 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
     {
         super.onResume();
 
-        if(!this.db.isOnline())
+        if (!this.db.isOnline())
         {
             (this.findViewById(R.id.button_register)).setEnabled(false);
         }
@@ -96,14 +96,14 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
         final int offset = 50;
 
         //exit button
-        if(id == R.id.button_exit)
+        if (id == R.id.button_exit)
         {
             System.exit(0);
         }
         //register button
-        else if(id == R.id.button_register)
+        else if (id == R.id.button_register)
         {
-            if(this.db.isOnline())
+            if (this.db.isOnline())
             {
                 //start register menu and closes this app
                 this.startActivity(new Intent(this, RegisterMenu.class));
@@ -111,16 +111,16 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
         }
 
         //login Button
-        else if(id == R.id.button_login)
+        else if (id == R.id.button_login)
         {
             //gets the entered data
             String enteredName = this.username.getText().toString();
 
             //encrypts the entered password to compare it with the password in the db
             String enteredPassword = Caeser.encrypt
-            (
-                this.password.getText().toString()
-            );
+                    (
+                            this.password.getText().toString()
+                    );
 
             try
             {
@@ -128,10 +128,10 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
                 User user = db.getUser(enteredName);
 
                 //no user found...
-                if(user == null)
+                if (user == null)
                 {
                     //online mode
-                    if(db.isOnline())
+                    if (db.isOnline())
                     {
 
                         Logger.write(this.getResources().getString(R.string.error_login_wrongUsername)
@@ -166,13 +166,13 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
                 }
 
                 //compare passwords if there was a user...
-                if(user.getPassword().equals(enteredPassword))
+                if (user.getPassword().equals(enteredPassword))
                 {
-                    CheckBox c = (CheckBox)this.findViewById(R.id.login_saveLoginData);
+                    CheckBox c = (CheckBox) this.findViewById(R.id.login_saveLoginData);
                     Settings.setCurrentUser(user);
 
                     //save login data
-                    if(c.isChecked())
+                    if (c.isChecked())
                     {
                         Settings.save(this);
                     }
@@ -188,7 +188,7 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
                     this.db.updateLastOnline();
 
                     //load categories
-                    ArrayList<String>  list = db.getCategories();
+                    ArrayList<String> list = db.getCategories();
                     Settings.setCategories(list);
 
                     db.synchDatabases();
@@ -197,7 +197,7 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
                     Logger.write(this.getResources().getString(R.string.info_login_succeed)
                             , this, offset);
 
-                     //closing menu
+                    //closing menu
                     this.finish();
                     this.startActivity(new Intent(this, MainMenu.class));
                 }
@@ -205,7 +205,7 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
                 else
                 {
                     Logger.write(this.getResources().getString(R.string.error_login_wrongPassword)
-                            ,this,offset);
+                            , this, offset);
                 }
             }
             //Error with the Database
@@ -221,7 +221,7 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
     public static User getCurrentUser(Activity a)
     {
         //try reloading the user from disc...
-        if(LoginMenu.currentUser == null)
+        if (LoginMenu.currentUser == null)
         {
             currentUser = Settings.loadCurrentUser(a);
 
@@ -234,7 +234,8 @@ public class LoginMenu extends Activity implements View.OnClickListener, IApplya
         return currentUser;
     }
 
-    public static void setCurrentUser(User currentUser) {
+    public static void setCurrentUser(User currentUser)
+    {
         LoginMenu.currentUser = currentUser;
     }
 

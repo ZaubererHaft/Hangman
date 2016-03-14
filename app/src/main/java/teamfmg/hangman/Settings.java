@@ -174,6 +174,136 @@ public final class Settings
         }
     }
 
+    /**
+     * Delets the file with the last word.
+     * @param a Context.
+     */
+    public static void deleteLastWord(Activity a)
+    {
+        try
+        {
+            File file = new File(Settings.getPath(a) + "/lastWord.txt");
+
+            if(file.exists())
+            {
+                file.delete();
+            }
+        }
+        catch (Exception e)
+        {
+            Logger.logOnlyError(e.getMessage());
+        }
+    }
+
+
+    /**
+     * Loads a word an its guessed letters.<br />
+     * Position 1: Word<br />
+     * Position 2: Category<br />
+     * Position 3: Description <br />
+     * Position 4 - end: Letters already guessed.<br />
+     * @param a Context.
+     * @return ArrayList
+     */
+    public static ArrayList<String> loadLastWord(Activity a)
+    {
+        try
+        {
+            File file = new File(Settings.getPath(a) + "/lastWord.txt");
+
+            //if the file doesn't exits, abort.
+            if(!file.exists())
+            {
+                Logger.logOnlyWarning("Tried loading last word but there is none!");
+                return null;
+            }
+
+            FileReader fr;
+            fr =  new FileReader(Settings.getPath(a)+"/lastWord.txt");
+            BufferedReader br = new BufferedReader(fr,8192);
+
+
+            ArrayList<String> ret = new ArrayList<>();
+
+            ret.add(br.readLine());
+            ret.add(br.readLine());
+            ret.add(br.readLine());
+
+            while(true)
+            {
+                String cat  = br.readLine();;
+
+                if(cat == null)
+                {
+                    break;
+                }
+                else
+                {
+                    ret.add(cat);
+                }
+            }
+
+            Logger.logOnly("Last word loaded! " + ret.get(0));
+
+            fr.close();
+            br.close();
+
+            return ret;
+        }
+        catch (IOException ex)
+        {
+            Logger.logOnly(ex.getMessage());
+        }
+        catch (NumberFormatException ex)
+        {
+            Logger.logOnlyError(ex.getMessage());
+        }
+
+        return null;
+    }
+
+    /**
+     * Saves a word to a txt.
+     * @param word Word to save.
+     * @param letters Letters to save.
+     * @param a Context.
+     */
+    public static void saveWord(Word word, String[] letters, Activity a)
+    {
+        File file = new File(Settings.getPath(a) + "/lastWord.txt");
+        PrintWriter pWriter = null;
+
+        try
+        {
+            pWriter = new PrintWriter(new BufferedWriter(new FileWriter(file),8192));
+            pWriter.println(word.getWord());
+            pWriter.println(word.getCategory());
+            pWriter.println(word.getDescription());
+
+            for (int i = 0; i < letters.length; i++)
+            {
+                pWriter.println(letters[i]);
+            }
+
+            Logger.logOnly("Word saved!: " + word.getWord());
+
+        }
+        catch (IOException ex)
+        {
+            Logger.logOnly(ex.getMessage());
+        }
+        finally
+        {
+            if (pWriter != null)
+            {
+                pWriter.flush();
+                pWriter.close();
+            }
+        }
+    }
+
+
+
 
     /**
      * Saves a user local.
@@ -203,6 +333,7 @@ public final class Settings
             }
         }
     }
+
 
 
     /**
