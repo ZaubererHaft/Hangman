@@ -21,8 +21,18 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
     public static MultiplayerGame multiplayerGame = null;
     public static OnlineGamePlayer onlineGamePlayer = null;
     private LinearLayout parent;
+    /**
+     * Count for childs
+     */
     private int count = 0;
+    /**
+     * boolean to stop the thread
+     */
     private static boolean doUpdate;
+    /**
+     * boolean if is onCreate
+     * needed because android lifecycle -> onResume always used
+     */
     private boolean isOnCreate;
     private boolean gameIsStarting = false;
 
@@ -32,34 +42,46 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiplayer_wifi_lobby);
+
+        //changing Backround
         changeBackground();
+
+        //set Activity for db
         db.setActivity(this);
+
+        //say that activity isOnCreate
         isOnCreate = true;
 
+        //gets the extras
         Bundle extra = this.getIntent().getExtras();
 
+        //inits the customButton
         startButton = (Button) this.findViewById(R.id.mpWifiLobby_button_startGame);
 
 
         if (extra != null)
         {
+            //sets the activity for leaders
             isLeader = extra.getBoolean("createLobby");
         }
         else
         {
             isLeader = false;
         }
-
+        
         if (isLeader && multiplayerGame.getGameState() == MultiplayerGame.GameState.CREATING)
         {
+            //updating buttons
             startButton.setText("Search for Players");
         }
         else if (isLeader && multiplayerGame.getGameState() == MultiplayerGame.GameState.SEARCH4PLAYERS)
         {
+            //updating buttons
             startButton.setText("Start");
         }
         else
         {
+            //updating Buttons
             startButton.setText("Ready");
         }
 
@@ -68,7 +90,7 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
         findViewById(R.id.mpWifiLobby_exit).setOnClickListener(this);
         startButton.setOnClickListener(this);
 
-
+        //updating the Playerlist
         updaterPlayerList();
     }
 
@@ -78,7 +100,10 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
             @Override
             public void run()
             {
+                //init parent View
                 parent = (LinearLayout) findViewById(R.id.mpWifiLobby_scrollView);
+
+                //clear parent View
                 parent.removeAllViews();
                 count = 0;
 
@@ -89,10 +114,13 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
                 }
 
 
+                //List with all Players
                 List<OnlineGamePlayer> onlineGamePlayers = db.getAllMultiplayergamePlayers(multiplayerGame.getId());
 
                 boolean allReady = true;
 
+                //Add Player to the View and
+                //Checking if every player is ready or leader
                 for (int i = 0; i < onlineGamePlayers.size(); i++)
                 {
                     if (onlineGamePlayers.get(i).getPlayerState() != OnlineGamePlayer.PlayerState.READY &&
@@ -104,6 +132,7 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
                     addInclude(onlineGamePlayers.get(i));
                 }
 
+                //updating the customButton for the Leader
                 if (startButton.getText().toString().equals("Start") && !allReady)
                 {
                     startButton.setEnabled(false);
@@ -113,15 +142,34 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
                     startButton.setEnabled(true);
                 }
 
+                //disable the settings button
+                if (multiplayerGame.getGameState() == MultiplayerGame.GameState.SEARCH4PLAYERS)
+                {
+                    findViewById(R.id.mpWifiLobby_button_settings).setEnabled(false);
+                }
+
+                //starts the multiplayergame if gamestate = INGAME
                 if (multiplayerGame.getGameState() == MultiplayerGame.GameState.INGAME)
                 {
                     startMultiplayerGame();
+                }
+
+                //close Lobby if finished
+                if (multiplayerGame.getGameState() == MultiplayerGame.GameState.FINISHED)
+                {
+                    finish();
                 }
             }
         });
     }
 
-    private void startMultiplayerGame(){
+    /**
+     * starting the "real" Game
+     */
+    private void startMultiplayerGame()
+    {
+        //Starting singleplayer class
+        //with some extras
         Intent i = new Intent(this, Singleplayer.class);
         Singleplayer.gameMode = Singleplayer.GameMode.HARDCORE;
         i.putExtra("multiplayerGameID", multiplayerGame.getId());
@@ -131,6 +179,10 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
         this.finish();
     }
 
+    /**
+     * adding child views to the scrollview
+     * @param onlineGamePlayer
+     */
     private void addInclude(OnlineGamePlayer onlineGamePlayer) {
         count++;
 
@@ -138,16 +190,19 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
 
         View child = inflater.inflate(R.layout.new_scoreboard_element, null, false);
 
+        //inits child view elements
         TextView viewPosition = (TextView) child.findViewById(R.id.scoreboardElement_Rank);
         TextView viewName = (TextView) child.findViewById(R.id.scoreboardElement_Username);
         TextView viewState = (TextView) child.findViewById(R.id.scoreboardElement_Score);
 
+        //sets the text of the child view elements
         viewPosition.setText(String.valueOf(count));
         viewName.setText(db.getUser(onlineGamePlayer.getUserID()).getName());
         viewState.setText(onlineGamePlayer.getPlayerState().name());
 
-
-        if (onlineGamePlayer.getPlayerState() == OnlineGamePlayer.PlayerState.LEADER) {
+        //shows the leader in Bold
+        if (onlineGamePlayer.getPlayerState() == OnlineGamePlayer.PlayerState.LEADER)
+        {
             viewPosition.setTypeface(((TextView) child.findViewById(
                     R.id.scoreboardElement_Rank)).getTypeface(), Typeface.BOLD);
             viewName.setTypeface(((TextView) child.findViewById(
@@ -155,6 +210,8 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
             viewState.setTypeface(((TextView) child.findViewById(
                     R.id.scoreboardElement_Score)).getTypeface(), Typeface.BOLD);
         }
+
+        //Shows the ready players in green
         if (onlineGamePlayer.getPlayerState() == OnlineGamePlayer.PlayerState.READY) {
             viewPosition.setTextColor(this.getResources().getColor(R.color.color_Green));
             viewName.setTextColor(this.getResources().getColor(R.color.color_Green));
@@ -162,8 +219,10 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
 
         }
 
+        //set Clicklistener
         child.setOnClickListener(this);
 
+        //add child to parent
         parent.addView(child);
     }
 
@@ -171,6 +230,7 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
     protected void onPause() {
         super.onPause();
 
+        //stops the autoUpdate
         doUpdate = false;
     }
 
