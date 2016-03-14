@@ -337,7 +337,7 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
                 break;
 
             case R.id.mpWifiLobby_button_settings:
-                Intent i = new Intent(this, multiplayerSettings.class);
+                Intent i = new Intent(this, MultiplayerSettings.class);
                 this.startActivity(i);
                 break;
         }

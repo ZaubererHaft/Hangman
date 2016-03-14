@@ -1,14 +1,12 @@
 package teamfmg.hangman;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-public class multiplayerSettings extends Activity implements IApplyableSettings, View.OnClickListener {
+public class MultiplayerSettings extends Activity implements IApplyableSettings, View.OnClickListener {
 
     private DatabaseManager db = DatabaseManager.getInstance();
     private EditText editPassword, editMaxPlayers, editName;
@@ -28,12 +26,14 @@ public class multiplayerSettings extends Activity implements IApplyableSettings,
 
         this.editName.setText(MultiplayerWifiLobby.multiplayerGame.getGameName());
         this.editMaxPlayers.setText(MultiplayerWifiLobby.multiplayerGame.getMaxPlayers() + "");
+
+        this.changeBackground();
     }
 
     @Override
     public void changeBackground() {
         Settings.load(this);
-        RelativeLayout rl = (RelativeLayout) this.findViewById(R.id.relLayout_mpWifiLobby);
+        RelativeLayout rl = (RelativeLayout) this.findViewById(R.id.relLayout_multiplayerSettings);
         Settings.setColor(rl);
     }
 

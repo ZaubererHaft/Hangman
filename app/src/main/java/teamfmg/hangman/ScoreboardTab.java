@@ -133,6 +133,7 @@ public class ScoreboardTab extends Activity implements View.OnClickListener, IAp
         parent = (LinearLayout)this.findViewById(R.id.linearLayout_scoreboard_tab);
         parent.removeAllViews();
 
+
         for (int i = 0; i < scorelist.size(); i++)
         {
             boolean isOnline = false;

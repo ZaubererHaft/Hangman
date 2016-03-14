@@ -14,7 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class multiplayer_local_lobby extends Activity implements IApplyableSettings, View.OnClickListener{
+public class Multiplayer_local_lobby extends Activity implements IApplyableSettings, View.OnClickListener{
 
     private int idInclude = 0;
     private List<View> playerViewsList;

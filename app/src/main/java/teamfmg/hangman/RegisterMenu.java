@@ -153,6 +153,7 @@ public class RegisterMenu extends Activity implements View.OnClickListener, IApp
                     )
                 );
             Logger.write(this.getResources().getString(R.string.info_register_succeed), this, offset);
+
             return null;
         }
         else
