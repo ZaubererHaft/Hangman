@@ -100,7 +100,7 @@
             android:name=".MultiplayerLocal"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".multiplayer_local_lobby"
+            android:name=".Multiplayer_local_lobby"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
@@ -110,7 +110,7 @@
             android:name=".MultiplayerWifiLobby"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".multiplayerSettings"
+            android:name=".MultiplayerSettings"
             android:screenOrientation="portrait" >
         </activity>
     </application>
