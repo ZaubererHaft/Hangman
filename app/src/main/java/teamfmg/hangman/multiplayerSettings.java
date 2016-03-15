@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
-public class MultiplayerSettings extends Activity implements IApplyableSettings, View.OnClickListener {
+public class multiplayerSettings extends Activity implements IApplyableSettings, View.OnClickListener {
 
     private DatabaseManager db = DatabaseManager.getInstance();
     private EditText editPassword, editMaxPlayers, editName;
@@ -52,7 +52,21 @@ public class MultiplayerSettings extends Activity implements IApplyableSettings,
                 }
                 if (editMaxPlayers.getText() != null && editMaxPlayers.length() != 0)
                 {
-                    MultiplayerWifiLobby.multiplayerGame.setMaxPlayers(Integer.parseInt(this.editMaxPlayers.getText().toString()));
+                    try
+                    {
+                        if (Integer.parseInt(this.editMaxPlayers.getText().toString()) < 2)
+                        {
+                            Logger.write(this.getResources().getText(R.string.mpSettings_error_maxPlayersAmount), this);
+                        }
+                        else
+                        {
+                            MultiplayerWifiLobby.multiplayerGame.setMaxPlayers(Integer.parseInt(this.editMaxPlayers.getText().toString()));
+                        }
+                    }
+                    catch (NumberFormatException ex)
+                    {
+                        Logger.write(this.getResources().getText(R.string.mpSettings_error_maxPlayersNoValidNumber), this);
+                    }
                 }
 
                 this.db.updateOnlineGame(MultiplayerWifiLobby.multiplayerGame);

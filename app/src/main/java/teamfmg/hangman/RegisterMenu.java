@@ -100,7 +100,7 @@ public class RegisterMenu extends Activity implements View.OnClickListener, IApp
     private String register()
     {
         //check username
-        String enteredUsername = this.username.getText().toString().toLowerCase();
+        String enteredUsername = this.username.getText().toString();
         if(enteredUsername.length() == 0)
         {
             return this.getResources().getString(R.string.error_register_emptyUsername);
@@ -125,7 +125,7 @@ public class RegisterMenu extends Activity implements View.OnClickListener, IApp
         String repeatedPassword = this.repeatedPassword.getText().toString();
 
         //Password too short or bad format
-        if(enteredPassword.length() < 8)
+        if(enteredPassword.length() < 6)
         {
             return this.getResources().getString(R.string.error_register_passwordShort);
         }

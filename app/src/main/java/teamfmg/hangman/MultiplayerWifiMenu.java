@@ -150,4 +150,10 @@ public class MultiplayerWifiMenu extends Activity implements IApplyableSettings,
 
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateGames();
+    }
 }

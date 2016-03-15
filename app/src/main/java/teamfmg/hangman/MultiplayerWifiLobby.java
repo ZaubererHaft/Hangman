@@ -265,6 +265,7 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
         db.updateOnlineGame(multiplayerGame);
         startButton.setText("Search for Players");
 
+        /*
         if (db.onlineGameIsFree(multiplayerGame.getId()))
         {
             db.createOnlineGamePlayer(onlineGamePlayer);
@@ -273,6 +274,7 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
         {
             this.finish();
         }
+        */
     }
 
 
@@ -337,7 +339,7 @@ public class MultiplayerWifiLobby extends Activity implements IApplyableSettings
                 break;
 
             case R.id.mpWifiLobby_button_settings:
-                Intent i = new Intent(this, MultiplayerSettings.class);
+                Intent i = new Intent(this, multiplayerSettings.class);
                 this.startActivity(i);
                 break;
         }

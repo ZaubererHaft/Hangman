@@ -37,7 +37,7 @@
     <string name="button_not_registered">Not registered?</string>
     <string name="label_repeat_password">Repeat password</string>
     <string name="label_register_hint_mail">yourmail@example.com</string>
-    <string name="label_hint_register_password">At least 8 signs</string>
+    <string name="label_hint_register_password">At least 6 signs</string>
     <string name="label_register_hint_repeatpassword">Repeat your password</string>
 
     <string name="error_changePW_oldPasswordWrong">The old password is not correct!</string>
@@ -211,4 +211,6 @@
     <string name="mpSettings_label_gamePW">Game Password (Currently no funktion):</string>
     <string name="mpSettings_button_apply">Apply</string>
     <string name="mpSettings_label_gameMaxPlayers">Maximal Players:</string>
+    <string name="mpSettings_error_maxPlayersAmount">Maximal Players Amount has to be larger then 1</string>
+    <string name="mpSettings_error_maxPlayersNoValidNumber">Maximal Players Amount has to be larger then 1</string>
 </resources>

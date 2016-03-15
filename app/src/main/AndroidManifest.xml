@@ -110,7 +110,7 @@
             android:name=".MultiplayerWifiLobby"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MultiplayerSettings"
+            android:name=".multiplayerSettings"
             android:screenOrientation="portrait" >
         </activity>
     </application>
