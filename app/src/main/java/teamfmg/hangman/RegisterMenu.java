@@ -152,6 +152,13 @@ public class RegisterMenu extends Activity implements View.OnClickListener, IApp
                         enteredMail, -1
                     )
                 );
+
+            //Updating the lastOnline Time
+            LoginMenu.setCurrentUser(db.getUser(enteredUsername));
+            db.updateLastOnline();
+            LoginMenu.setCurrentUser(null);
+
+
             Logger.write(this.getResources().getString(R.string.info_register_succeed), this, offset);
 
             return null;
